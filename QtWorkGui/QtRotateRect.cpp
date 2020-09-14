@@ -14,14 +14,14 @@ QtRotateRect::QtRotateRect(QRect parent, double rotatAngel, QPoint drPoint, QPoi
 {
 	double radius{ sqrt(width() * width() + height() * height()) / 2 };
 	double constAngel{ asin((height() / 2) / radius) };
-	upLeftAngel_X = static_cast<double>(this->x() + width() / 2 - (sin((90 - rotationAngle) * 3.14 / 180 - constAngel) * radius) );
-	upLeftAngel_Y = static_cast<double>(this->y() + height() / 2 - (cos((90 - rotationAngle) * 3.14 / 180 - constAngel) * radius));
-	upRigAngel_X = static_cast<double>((this->width() * sin((90 - rotationAngle) * 3.14 / 180.0)) + upLeftAngel_X );
-	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * 3.14 / 180.0)) );
-	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (this->height() * cos((90 - rotationAngle) * 3.14 / 180.0)));
-	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (this->height() * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_X = static_cast<double>(downLeftAngel_X + (this->width() * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * 3.14 / 180.0)));
+	upLeftAngel_X = static_cast<double>(this->x() + width() / 2 - (sin((90 - rotationAngle) * pi / 180 - constAngel) * radius) );
+	upLeftAngel_Y = static_cast<double>(this->y() + height() / 2 - (cos((90 - rotationAngle) * pi / 180 - constAngel) * radius));
+	upRigAngel_X = static_cast<double>((this->width() * sin((90 - rotationAngle) * pi / 180.0)) + upLeftAngel_X );
+	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * pi / 180.0)) );
+	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (this->height() * cos((90 - rotationAngle) * pi / 180.0)));
+	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (this->height() * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_X = static_cast<double>(downLeftAngel_X + (this->width() * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * pi / 180.0)));
 }
 
 QtRotateRect::QtRotateRect(int upLeft_X, int upLeft_Y, int width, int height, double rotAngel):
@@ -38,12 +38,12 @@ QtRotateRect::QtRotateRect(int upLeft_X, int upLeft_Y, int width, int height, do
 	downRigAngel_X(0),
 	downRigAngel_Y(0)
 {
-	upRigAngel_X = static_cast<double>((width * sin((90 - rotationAngle) * 3.14 / 180.0)) + upLeftAngel_X);
-	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (width * cos((90 - rotationAngle) * 3.14 / 180.0)));
-	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (height * cos((90 - rotationAngle) * 3.14 / 180.0)));
-	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (height * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_X = static_cast<double>(downLeftAngel_X + (width * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (width * cos((90 - rotationAngle) * 3.14 / 180.0)));
+	upRigAngel_X = static_cast<double>((width * sin((90 - rotationAngle) * pi / 180.0)) + upLeftAngel_X);
+	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (width * cos((90 - rotationAngle) * pi / 180.0)));
+	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (height * cos((90 - rotationAngle) * pi / 180.0)));
+	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (height * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_X = static_cast<double>(downLeftAngel_X + (width * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (width * cos((90 - rotationAngle) * pi / 180.0)));
 }
 
 QtRotateRect::~QtRotateRect()
@@ -54,6 +54,7 @@ QtRotateRect::~QtRotateRect()
 
 void QtRotateRect::setRotateAngel(double newAngel)
 {
+	double buferAngel{ rotationAngle };
 	if (newAngel >= 360 )
 		rotationAngle = 0;
 	else 
@@ -63,12 +64,18 @@ void QtRotateRect::setRotateAngel(double newAngel)
 	}
 	else
 		rotationAngle = newAngel;
-	upRigAngel_X = static_cast<double>((width() * sin((90 - rotationAngle) * 3.14 / 180.0)) + upLeftAngel_X);
-	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (width() * cos((90 - rotationAngle) * 3.14 / 180.0)));
-	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (height() * cos((90 - rotationAngle) * 3.14 / 180.0)));
-	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (height() * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_X = static_cast<double>(downLeftAngel_X + (width() * sin((90 - rotationAngle) * 3.14 / 180.0)));
-	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (width() * cos((90 - rotationAngle) * 3.14 / 180.0)));
+	double radius{ sqrt(width() * width() + height() * height()) / 2 };
+	double constAngel{ asin((height() / 2) / radius) };
+	double buferCor{ upLeftAngel_X - (width() / 2 - (sin((90 - buferAngel) * pi / 180 - constAngel) * radius)) };
+	upLeftAngel_X = static_cast<double>(buferCor + width() / 2 - (sin((90 - rotationAngle) * pi / 180 - constAngel) * radius));
+	buferCor = upLeftAngel_Y - (height() / 2 - (cos((90 - buferAngel) * pi / 180 - constAngel) * radius));
+	upLeftAngel_Y = static_cast<double>(buferCor + height() / 2 - (cos((90 - rotationAngle) * 3.14 / 180 - constAngel) * radius));
+	upRigAngel_X = static_cast<double>((this->width() * sin((90 - rotationAngle) * pi / 180.0)) + upLeftAngel_X);
+	upRigAngel_Y = static_cast<double>(upLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * pi / 180.0)));
+	downLeftAngel_X = static_cast<double>(upLeftAngel_X - (this->height() * cos((90 - rotationAngle) * pi / 180.0)));
+	downLeftAngel_Y = static_cast<double>(upLeftAngel_Y + (this->height() * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_X = static_cast<double>(downLeftAngel_X + (this->width() * sin((90 - rotationAngle) * pi / 180.0)));
+	downRigAngel_Y = static_cast<double>(downLeftAngel_Y + (this->width() * cos((90 - rotationAngle) * pi / 180.0)));
 }
 
 double QtRotateRect::getRotateAngel(bool inRad )

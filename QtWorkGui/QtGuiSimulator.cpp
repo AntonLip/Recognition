@@ -8,6 +8,7 @@ QtGuiSimulator::QtGuiSimulator(QWidget *parent)
 	connect(ui.pushButtn_Save, SIGNAL(clicked()), ui.widget_DisplayImg, SLOT(slot_saveImg()));
 	connect(ui.pushButton_SetupSimltr, SIGNAL(clicked()), this, SLOT(slot_openSetupSimulator()));
 	connect(ui.widget_DisplayImg, SIGNAL(changeActivProcesArea(int)), this, SLOT(slot_changeActivProcArea(int)));
+	connect(ui.pushButton_SensorSimltr, SIGNAL(clicked()), this, SLOT(slot_openSensorSim()));
 	//connect(ui.comboBox_program, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_SetActivObj(int)));
 	connect(ui.pushButtn_Detail, SIGNAL(clicked()), this, SLOT(slot_openProgramDetail()));
 	//connect(this, SIGNAL(dataToProgramDeyls(ProcessedObj*)), Programdetail, SLOT(slot_dataFromGuiSimulator(ProcessedObj*)));
@@ -122,4 +123,27 @@ void QtGuiSimulator::slot_changeActivProcArea(int newActiv)
 		}
 	}
 	ui.widget_DisplayImg->updateImg();
+}
+
+void QtGuiSimulator::slot_openSensorSim()
+{
+	SensorSimulator = new QtGUISensorSim();
+	QString qstr_bufer{ QFileDialog::getOpenFileName(this, "Images", "D:/", tr("Images files (*.png *.jpg *.bmp)")) };
+	cv::Mat img_bufer;
+	img_bufer = cv::imread(qstr_bufer.toStdString());
+	if (!img_bufer.empty())// checking that image has loaded 
+	{
+		loadObj[activLoadObj].addTestImg(qstr_bufer);
+		SensorSimulator->show();
+		connect(this, SIGNAL(dataToSensorSim(ProcessedObj&)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObj&)));
+		emit dataToSensorSim(loadObj[activLoadObj]);
+		//this->close();
+	}
+	else
+	{
+		QMessageBox::critical(nullptr, QObject::tr("Warning"), QObject::tr("Image not loaded")); //massage about error download
+	}
+	//SensorSimulator->show();
+	/*connect(this, SIGNAL(dataToSensorSim(ProcessedObj*)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObj*)));
+	emit dataToSensorSim(loadObj[activLoadObj]);*/
 }

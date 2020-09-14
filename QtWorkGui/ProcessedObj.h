@@ -18,6 +18,8 @@ protected:
 	bool brightnesCorrectSet;
 	//std::vector<QRect> rect_roi;
 	std::vector<QtProcessedArea> processAreas;
+	std::vector<QPixmap> testImgPixmap;
+	std::vector<cv::Mat> testImgMat;
 	bool imgIsNull;
 public:
 	ProcessedObj();
@@ -29,12 +31,16 @@ public:
 	QString getDirName();
 	void SetDirName(QString inputDirName);
 	QPixmap getPixmap();
+	QPixmap getTestPixmap(int number);
+	cv::Mat getTestMat(int number);
 	cv::Mat getMat();
 	void updateObj(QPixmap inputPixmap);
 	void SetObjParams(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, bool imgIsNull_);
 	void setProgramName(QString newName);
 	void setBrightnesCorrectArea(QRect *area);
 	void deletBrightnesCorrectArea();
+	void addTestImg(QString nameImg);
+	int getTestVecSize();
 	std::vector<QtProcessedArea>* getProcesArears();
 	bool brightnesCorrectAreaIsSet();
 	QRect* getBrightnesCorrectArea();

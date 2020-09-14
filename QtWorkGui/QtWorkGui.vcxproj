@@ -50,11 +50,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(SolutionDir)\..\Modules\OpenCV\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);C:\opencv\build\include;.\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);$(SolutionDir)\..\Modules\OpenCV\x64\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core2413d.lib;opencv_highgui2413d.lib;opencv_imgproc2413d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);C:\opencv\build\x64\vc12\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_calib3d2411d.lib;opencv_contrib2411d.lib;opencv_core2411d.lib;opencv_features2d2411d.lib;opencv_flann2411d.lib;opencv_gpu2411d.lib;opencv_highgui2411d.lib;opencv_imgproc2411d.lib;opencv_legacy2411d.lib;opencv_ml2411d.lib;opencv_nonfree2411d.lib;opencv_objdetect2411d.lib;opencv_ocl2411d.lib;opencv_photo2411d.lib;opencv_stitching2411d.lib;opencv_superres2411d.lib;opencv_ts2411d.lib;opencv_video2411d.lib;opencv_videostab2411d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -98,6 +98,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MyCircle.cpp" />
+    <ClCompile Include="QtAreaToProcessed.cpp" />
+    <ClCompile Include="QtGUISensorSim.cpp" />
     <ClCompile Include="QtMySliderWid.cpp" />
     <ClCompile Include="QtRotateRect.cpp" />
     <ClCompile Include="QtWidProcesArea.cpp" />
@@ -106,6 +108,7 @@
     <QtUic Include="QtAddToolGUI.ui" />
     <QtUic Include="QtGuiDisplay.ui" />
     <QtUic Include="QtGuiProgramDetails.ui" />
+    <QtUic Include="QtGUISensorSim.ui" />
     <QtUic Include="QtGuiSimulator.ui" />
     <QtUic Include="QtImgInScrolBar.ui" />
     <QtUic Include="QtImgWidgets.ui" />
@@ -137,6 +140,8 @@
   <ItemGroup>
     <ClInclude Include="MyCircle.h" />
     <ClInclude Include="ProcessedObj.h" />
+    <QtMoc Include="QtGUISensorSim.h" />
+    <QtMoc Include="QtAreaToProcessed.h" />
     <ClInclude Include="QtRotateRect.h" />
     <QtMoc Include="QtWidProcesArea.h" />
     <QtMoc Include="QtMySliderWid.h" />

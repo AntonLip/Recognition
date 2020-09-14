@@ -332,66 +332,69 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 				|| ((rotAngel >= 247.5 && rotAngel < 292.5) && y_labl > InOutput.getRigthY(x_labl)))
 			{
 				dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getLeftY(x_labl));
-				if (InOutput.getMax_X() - static_cast<int>(dx) >= this->getScaledImgSize()->width())
-				{
-					//dx = 0.0;
-				}
-				//else
-				//	InOutput.setX(InOutput.x() + static_cast<int>(dx));
-				//InOutput.setDrowPoint(QPoint(InOutput.getDrawPoint().x() + static_cast<int>(dx), InOutput.getDrawPoint().y()));
-				//InOutput.setDrowPoint(QPoint(-InOutput.width() / 2, InOutput.getDrawPoint().y()));
-				//InOutput.setTranslatePoint(QPoint(InOutput.x() + InOutput.width() / 2, InOutput.getTranslatePoint().y()));
 			}
 			else if ((x_labl < InOutput.getRigthX(y_labl) && ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
 					|| (x_labl > InOutput.getRigthX(y_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
 			{
 				dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getLeftX(y_labl));
-				//if (InOutput.getMax_X() - static_cast<int>(dx) >= this->getScaledImgSize()->width())
-				//{
-				//	//dx = 0.0;
-				//}
-				//else
-				//	InOutput.setX(InOutput.x() + static_cast<int>(dx));
-				//InOutput.setDrowPoint(QPoint(InOutput.getDrawPoint().x() + static_cast<int>(dx), InOutput.getDrawPoint().y()));
-				//InOutput.setDrowPoint(QPoint(-cos(InOutput.getRotateAngel(true))*InOutput.width() / 2, InOutput.y() - InOutput.getTranslatePoint().y());
-				//InOutput.setTranslatePoint(QPoint(InOutput.x() + cos(InOutput.getRotateAngel(true))*InOutput.width() / 2, InOutput.y() + cos(InOutput.getRotateAngel(true))*InOutput.height() / 2));
-				//InOutput.setDrowPoint(QPoint(-cos(InOutput.getRotateAngel(true)) * InOutput.width() / 2, InOutput.y() - InOutput.getTranslatePoint().y()));
 			}
 			else
 			{
 				InOutput.setX(InOutput.x() + InOutput.width() - 1);
-				//InOutput.setDrowPoint(QPoint((InOutput.x() - InOutput.getTranslatePoint().x()), (InOutput.y() - InOutput.getTranslatePoint().y())));
 			}
-			if (InOutput.getMax_X() + static_cast<int>(abs(dx)) >= this->getScaledImgSize()->width())
+			if (InOutput.getMax_X() - static_cast<int>((dx)) > this->getScaledImgSize()->width())
 			{
 				dx = (cos(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->width() - InOutput.getMax_X()));
 			}
-			else if (InOutput.getMax_Y() + static_cast<int>(abs(dx)) >= this->getScaledImgSize()->height())
+			if (InOutput.getMax_Y() - static_cast<int>((dx)) > this->getScaledImgSize()->height())
 			{
-
+				dx = (sin(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->height() - InOutput.getMax_Y()));
 			}
-			
+			if (InOutput.getMin_X() + static_cast<int>((dx)) < 0)
+			{
+				dx = (cos(InOutput.getRotateAngel(true)) * ( - InOutput.getMin_X()));
+			}
+			if (InOutput.getMin_Y() + static_cast<int>((dx)) < 0)
+			{
+				dx = (sin(InOutput.getRotateAngel(true)) * ( - InOutput.getMin_Y()));
+			}
 			InOutput.setX(InOutput.x() + static_cast<int>(dx));
 		}
 		else if (!up_or_left)
 		{
 			down_or_right = true;
+			double dw{ 0 };
 			if (((rotAngel >= 67.5 && rotAngel < 112.5) && y_labl > InOutput.getLeftY(x_labl))
 				|| ((rotAngel >= 247.5 && rotAngel < 292.5) && y_labl < InOutput.getLeftY(x_labl)))
 			{
-				double dw{ sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl)) };
-				InOutput.setWidth(InOutput.width() + static_cast<int>(dw));
+				dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
 			}
 			else if ((x_labl > InOutput.getLeftX(y_labl)&& ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
 				|| (x_labl < InOutput.getLeftX(y_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
 			{
-				double dw{ cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl)) };
-				InOutput.setWidth(InOutput.width() + static_cast<int>(dw));
+				dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
 			}
 			else
 			{
 				InOutput.setWidth(1);
 			}
+			if (InOutput.getMax_X() + static_cast<int>((dw)) > this->getScaledImgSize()->width())
+			{
+				dw = (cos(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->width() - InOutput.getMax_X()));
+			}
+			if (InOutput.getMax_Y() + static_cast<int>((dw)) > this->getScaledImgSize()->height())
+			{
+				dw = (sin(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->height() - InOutput.getMax_Y()));
+			}
+			if (InOutput.getMin_X() - static_cast<int>((dw)) < 0)
+			{
+				dw = (cos(InOutput.getRotateAngel(true)) * (-InOutput.getMin_X()));
+			}
+			if (InOutput.getMin_Y() - static_cast<int>((dw)) < 0)
+			{
+				dw = (sin(InOutput.getRotateAngel(true)) * (-InOutput.getMin_Y()));
+			}
+			InOutput.setWidth(InOutput.width() + static_cast<int>(dw));
 		}
 	}
 	else 
@@ -407,25 +410,40 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 			&& !down_or_right)
 		{
 			up_or_left = true;
+			double dy{ 0 };
 			if (((rotAngel >= 67.5 && rotAngel < 112.5) && x_labl > InOutput.getDownX(y_labl))
 				|| ((rotAngel >= 247.5 && rotAngel < 292.5) && x_labl < InOutput.getDownX(y_labl)))
 			{
-				double dy{ sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpX(y_labl)) };
-				InOutput.setY(InOutput.y() - static_cast<int>(dy));
-				//InOutput.setDrowPoint(QPoint(InOutput.getDrawPoint().x(), InOutput.getDrawPoint().y() - static_cast<int>(dy)));
+				dy = sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpX(y_labl));
 			}
 			else if ((y_labl < InOutput.getDownY(x_labl) && ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
 				|| (y_labl > InOutput.getDownY(x_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
 			{
-				double dy{ cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpY(x_labl)) };
-				InOutput.setY(InOutput.y() + static_cast<int>(dy));
-				//InOutput.setDrowPoint(QPoint(InOutput.getDrawPoint().x(), InOutput.getDrawPoint().y() + static_cast<int>(dy)));
+				dy = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpY(x_labl));
 			}
 			else
 			{
 				InOutput.setY(InOutput.y() + InOutput.height() - 1);
-				//InOutput.setDrowPoint(QPoint((InOutput.x() - InOutput.getTranslatePoint().x()), (InOutput.y() - InOutput.getTranslatePoint().y())));
 			}
+
+			if (InOutput.getMax_X() - static_cast<int>((dy)) > this->getScaledImgSize()->width())
+			{
+				dy = (cos(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->width() - InOutput.getMax_X()));
+			}
+			if (InOutput.getMax_Y() - static_cast<int>((dy)) > this->getScaledImgSize()->height())
+			{
+				dy = (sin(InOutput.getRotateAngel(true)) * (this->getScaledImgSize()->height() - InOutput.getMax_Y()));
+			}
+			if (InOutput.getMin_X() + static_cast<int>((dy)) < 0)
+			{
+				dy = (cos(InOutput.getRotateAngel(true)) * (-InOutput.getMin_X()));
+			}
+			if (InOutput.getMin_Y() + static_cast<int>((dy)) < 0)
+			{
+				dy = (sin(InOutput.getRotateAngel(true)) * (-InOutput.getMin_Y()));
+			}
+
+			InOutput.setY(InOutput.y() + static_cast<int>(dy));
 		}
 		else if (!up_or_left)
 		{

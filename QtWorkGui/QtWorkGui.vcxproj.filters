@@ -92,6 +92,12 @@
     <ClCompile Include="QtRotateRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QtGUISensorSim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtAreaToProcessed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="QtGuiDisplay.ui">
@@ -125,6 +131,9 @@
       <Filter>Resource Files</Filter>
     </QtUic>
     <QtUic Include="QtWidProcesArea.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtGUISensorSim.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -172,6 +181,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="QtWidProcesArea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtGUISensorSim.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtAreaToProcessed.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

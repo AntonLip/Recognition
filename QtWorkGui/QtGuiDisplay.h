@@ -4,6 +4,7 @@
 #include "ui_QtGuiDisplay.h"
 #include "qfiledialog.h"
 #include "myLabel.h"
+#include "QtAreaToProcessed.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -37,7 +38,7 @@ public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();
 	void setSizeScrollBar();
-	void setActivProcessObj(ProcessedObj *activObj);
+	void setActivProcessObj(ProcessedObj *activObj, bool master=true, int number=0);
 	void setEanbleActivededRoi(bool activ);
 	void setEnableWidtsGrouBox(bool enable);
 	void setActiv(bool activ);

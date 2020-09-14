@@ -61,6 +61,16 @@ QPixmap ProcessedObj::getPixmap()
 	return mainImgPixmap;
 }
 
+QPixmap ProcessedObj::getTestPixmap(int number)
+{
+	return testImgPixmap[number];
+}
+
+cv::Mat ProcessedObj::getTestMat(int number)
+{
+	return testImgMat[number];
+}
+
 cv::Mat ProcessedObj::getMat()
 {
 	return mainImgMat;
@@ -98,6 +108,17 @@ void ProcessedObj::deletBrightnesCorrectArea()
 	processAreas[0].setRect(&QtRotateRect(QR));
 	processAreas[0].setScalRect(&QtRotateRect(QR));
 	processAreas[0].setActiv(false);
+}
+
+void ProcessedObj::addTestImg(QString nameImg)
+{
+	testImgPixmap.push_back(QPixmap(nameImg));
+	testImgMat.push_back(cv::imread(nameImg.toStdString()));
+}
+
+int ProcessedObj::getTestVecSize()
+{
+	return testImgPixmap.size();
 }
 
 std::vector<QtProcessedArea>* ProcessedObj::getProcesArears()

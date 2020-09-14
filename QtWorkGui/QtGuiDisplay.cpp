@@ -4,6 +4,7 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	activProcessedObj = nullptr;
 	event_img = false;
 	change_roi = false;
 	activatedRoi = true;
@@ -153,42 +154,47 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 							this->setCursor(myCursor);
 						}
 						else
-						if ((!activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0))
+						if (!activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x, y) || !activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x,y)))
 						{
-							int point_X{ abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X()) / 2 )};
-							int point_Y{ abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y()) / 2 )};
-							if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 0 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 90)
+							int point_X{ 0 };
+							int point_Y{ 0 };
+							if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
 							{
-								point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
-								point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
-								point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+								point_X = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X()) / 2);
+								point_Y = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y()) / 2);
+								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 0 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 90)
+								{
+									point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
+									point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
+									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+								}
+								else
+								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 90 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 180)
+								{
+									point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
+									point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
+									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+								}
+								else
+								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 180 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 270)
+								{
+									point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
+									point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
+									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+								}
+								else
+								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 270 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 360)
+								{
+									point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
+									point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
+									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+								}
 							}
-							else
-							if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 90 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 180)
-							{
-								point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
-								point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
-								point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-							}
-							else
-							if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 180 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 270)
-							{
-								point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
-								point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
-								point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-							}
-							else
-							if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 270 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 360)
-							{
-								point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
-								point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
-								point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-							}
-							if (QtRotateRect(QRect(point_X, point_Y, 10, 10), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y))
+							if (QtRotateRect(QRect(point_X, point_Y, 10, 10), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
 							{
 								min_roi = i;
 								activ_roi = min_roi;
@@ -351,6 +357,11 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 				int x, y;
 				ui.label_for_TempImg->getDrPoint(x, y);
 				ui.label_for_TempImg->show_partImg(x, y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+				///
+				///
+				///////////funk(QtAreaToProcessed((activProcessedObj->getProcesArears()[0][activ_roi]));
+				///
+				///
 			}
 		}
 		if (event_img)
@@ -621,12 +632,24 @@ void QtGuiDisplay::slot_saveImg()
 	emit clic_pb();
 }
 
-void QtGuiDisplay::setActivProcessObj(ProcessedObj *activObj)
+void QtGuiDisplay::setActivProcessObj(ProcessedObj *activObj, bool master, int number)
 {
 	this->updateGeometry();
 	activProcessedObj = activObj;
 	ui.label_for_TempImg->setAlignment(Qt::AlignCenter);
-	ui.label_for_TempImg->set_myPixmap(activObj->getPixmap());
+	if (master)
+	{
+		ui.label_for_TempImg->set_myPixmap(activObj->getPixmap());
+	}
+	else
+	if (number < activObj->getTestVecSize())
+	{
+		ui.label_for_TempImg->set_myPixmap(activObj->getTestPixmap(number));
+	}
+	else
+	{
+		ui.label_for_TempImg->set_myPixmap(QPixmap("NoImg.png"));
+	}
 	this->slot_ZoomImg_AllLabl();
 	if (activProcessedObj->imgIsLoaded())
 	{

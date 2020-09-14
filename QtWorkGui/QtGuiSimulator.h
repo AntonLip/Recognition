@@ -12,6 +12,7 @@
 #include "ProcessedObj.h"
 #include "QtSetupSimulator.h"
 #include "QtGuiProgramDetails.h"
+#include "QtGUISensorSim.h"
 
 class QtGuiSimulator : public QMainWindow
 {
@@ -22,6 +23,7 @@ class QtGuiSimulator : public QMainWindow
 	QStandardItemModel *model;
 	QtGuiProgramDetails *Programdetail;
 	QtSetupSimulator* SetupSimulator;
+	QtGUISensorSim* SensorSimulator;
 public:
 	QtGuiSimulator(QWidget *parent = Q_NULLPTR);
 	~QtGuiSimulator();
@@ -36,7 +38,9 @@ private slots:
 	void slot_openSetupSimulator();
 	void slot_dataFromSetupSim(ProcessedObj* changedObj);
 	void slot_changeActivProcArea(int newActiv);
+	void slot_openSensorSim();
 signals:
 	void dataToProgramDeyls(ProcessedObj *objts);
 	void dataToSetingSim(ProcessedObj* objts);
+	void dataToSensorSim(ProcessedObj& objts);
 };
