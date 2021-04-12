@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 #include <qrect.h>
 #include <cmath>
@@ -18,10 +19,13 @@ class QtRotateRect : public QRect
 	double downRigAngel_Y;
 	
 public:
-	QtRotateRect(QRect parent = QRect(0, 0, 0, 0), double rotateAngl = 0.0, QPoint drPoint=QPoint(0,0), QPoint transltPont=QPoint(0,0));
+	QtRotateRect(QRect parent = QRect(0, 0, 0, 0), double rotateAngl = 0.0);
+	QtRotateRect(QRect parent, double rotateAngel, QPoint centerPoint);
 	QtRotateRect(int upLeft_x, int upLeft_Y, int width, int heigth, double ratAngel);
 	~QtRotateRect();
-	void setRotateAngel(double newAngel);
+	void setRotateAngel(double newAngel, QPoint* center_start=nullptr);
+	int setRotateAngel(double newAngel, QSize *limitSize, QPoint* center_start = nullptr);
+	int resetAngel(QSize* limitSize);
 	double getRotateAngel(bool inRad=false);
 	void setDrowPoint(QPoint drPoint);
 	QPoint getDrawPoint();
@@ -42,17 +46,27 @@ public:
 	int getMin_X();
 	int getMax_Y();
 	int getMin_Y();
+	int getTopAngel();
+	int getLowAngel();
+	int getLeftAngel();
+	int getRigthAngel();
+	int setX(int newX, QSize* limitSize);
 	void setX(int newX);
+	int setY(int newY, QSize* limitSize);
 	void setY(int newY);
+	int setWidth(int newWidth, QSize* limitSize);
 	void setWidth(int newWidth);
+	int setHeight(int newHeigth, QSize* limitSize);
 	void setHeight(int newHeigth);
-	int getUpY(int x);
+	int getUpY(int x,int y=0);
 	int getDownY(int x);
-	int getUpX(int y);
+	int getUpX(int y,int x=0);
 	int getDownX(int y);
 	int getLeftX(int y);
 	int getRigthX(int y);
 	int getRigthY(int x);
 	int getLeftY(int x);
+	QPointF getEdgePoint(int typePoint);
+	QRect getRotateRectSize();
+	QPoint getUpLeftPoint();
 };
-

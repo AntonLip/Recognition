@@ -98,6 +98,12 @@
     <ClCompile Include="QtAreaToProcessed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CountoursProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtConterProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="QtGuiDisplay.ui">
@@ -189,6 +195,9 @@
     <QtMoc Include="QtAreaToProcessed.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="QtConterProcessing.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProcessedObj.h">
@@ -198,6 +207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QtRotateRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CountoursProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

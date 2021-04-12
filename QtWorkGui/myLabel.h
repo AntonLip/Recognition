@@ -6,7 +6,7 @@
 #include <cmath>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include <iostream>
 
 #include "ProcessedObj.h"
@@ -37,6 +37,10 @@ class myLabel :
 	int first_x_labl, first_y_labl;
 	int f_x_pixMap, f_y_pixMap;
 	int x_pixMap, y_pixMap;
+	int imageFormat;//0-original, 1-gray, 2-RGB 
+	double outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX); 
+	double outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus); 
+	
 	Q_OBJECT
 public:
 	explicit myLabel(QWidget *parent = 0);
@@ -57,6 +61,7 @@ public:
 	void show_roi(std::vector<QRect> &Input);
 	void draw_rect(QtRotateRect* Input, QPen color=QPen(Qt::red, 1, Qt::DashLine));
 	void draw_circle(QPoint* centerPoint, int radius, QPen color = QPen(Qt::red, 1, Qt::DashLine));
+	void draw_picture(cv::Mat drawPicture, QRect limitRect);
 	void show_roi(std::vector<QRect> &Input, std::vector<int> rect, int circle);
 	void show_partImg(int dx, int dy, int width, int height);
 	void show_partImg();
@@ -81,6 +86,7 @@ public:
 	int s_x_pixMap, s_y_pixMap;
 	int ref_x, ref_y;
 	void toImgCoordinate(int &inOutX, int &inOutY, bool isContains=true);
+	void formatImage(int formatType = 0); //0-original, 1-gray, 2-RGB 
 	~myLabel();
 signals:
 	void mousePressed();
@@ -90,3 +96,4 @@ signals:
 	void mouseRelease();
 };
 
+double round(double InputNumber, int const accuracy);

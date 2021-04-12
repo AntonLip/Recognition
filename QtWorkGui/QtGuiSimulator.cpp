@@ -1,5 +1,10 @@
 #include "QtGuiSimulator.h"
 
+void QtGuiSimulator::readVideo(cv::Mat *newFrameMat, QPixmap *newFramePixmap)
+{
+	loadObj[activLoadObj].SetObjParams("", "", *newFrameMat, *newFramePixmap, false);
+}
+
 QtGuiSimulator::QtGuiSimulator(QWidget *parent)
 	: QMainWindow(parent)
 {

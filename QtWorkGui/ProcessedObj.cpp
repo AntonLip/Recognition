@@ -12,6 +12,11 @@ ProcessedObj::~ProcessedObj()
 {
 }
 
+cv::Mat ProcessedObj::getROI(QRect ROICoordinate)
+{
+	return cv::Mat(mainImgMat, cv::Rect(ROICoordinate.x(), ROICoordinate.y(), ROICoordinate.width(), ROICoordinate.height()));
+}
+
 ProcessedObj::ProcessedObj(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap)
 {
 	brightnesCorrectSet = false;
@@ -34,6 +39,19 @@ ProcessedObj::ProcessedObj(QString inputFileName, QString inputDirName, QString 
 	mainImgMat = inputMat;
 	mainImgPixmap = inputPixmap;
 	brightnesCorrectSet = false;
+}
+
+ProcessedObj::ProcessedObj(const ProcessedObj& dep):
+	 programName(dep.programName),
+fileName(dep.fileName),
+dirName(dep.dirName),
+mainImgPixmap(dep.mainImgPixmap),
+mainImgMat(dep.mainImgMat),
+brightnesCorrectSet(dep.brightnesCorrectSet),
+processAreas(dep.processAreas),
+testImgPixmap(dep.testImgPixmap),
+testImgMat(dep.testImgMat)
+{
 }
 
 QString ProcessedObj::getFileName()

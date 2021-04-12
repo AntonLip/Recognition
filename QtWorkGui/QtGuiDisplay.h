@@ -8,7 +8,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include <cmath>
 
 class QtGuiDisplay : public QWidget
@@ -30,10 +30,12 @@ class QtGuiDisplay : public QWidget
 	bool changesProcesedArears;
 	bool changeActivArea;
 	void resizeEvent(QResizeEvent* event);
-	bool addNewBrigthnesRect;
+	//bool addNewBrigthnesRect;
 	double activ_scaled;
 	double hor_scaled;
 	double vert_scaled;
+	bool setObj;
+	bool isProcessingActiv;
 public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();
@@ -51,10 +53,12 @@ public:
 	void add_circle();
 	void changeAreaType(int newType, QtProcessedArea &InOutArea);
 	QRect getLabelRect();
-	
+	void changeImgFormat(int formatType);
 	//void mouseReleaseEvent(QMouseEvent* evnt);
 	bool isActiv();
 	bool getChageActivArea();
+	bool ProcessedIsActiv();
+	void updateProcessObj(ProcessedObj* activObj);
 private:
 	Ui::QtGuiDisplay ui;
 
@@ -74,9 +78,11 @@ public slots:
 	void slot_reNameImg(QString newFileName);
 	void slot_brighAreaDel();
 	void updateImg();
+	void slot_resetAngel(int activRect);
+	void slot_changeProcssActiv(int isActiv); //0-disenable 1-enable
 signals:
 	void brightnesCorrectRectSet(bool isSet);
 	void clic_pb();
 	void changeActivProcesArea(int newActiv);
-
+	void angelIsReset(int isReset);
 };

@@ -145,6 +145,16 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <item>
+         <property name="text">
+          <string>Window</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Process</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="0" column="5">

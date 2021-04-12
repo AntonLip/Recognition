@@ -45,6 +45,10 @@ QtSetupSimulator::QtSetupSimulator(QWidget *parent)
 	connect(ui.PButn_canelAddProces, SIGNAL(clicked()), this, SLOT(slot_closeAddTool()));
 	connect(ui.widget_slider, SIGNAL(changeRange()), this, SLOT(slot_changeTresh()));
 	connect(ui.lineEdit_procesUserName, SIGNAL(textChanged(QString)), this, SLOT(slot_changeUserNameArea(QString)));
+	connect(ui.PButn_angelRest, SIGNAL(clicked()), this, SLOT(slot_resetAngelRect()));
+	connect(this, SIGNAL(resetRectAngel(int)), ui.widget_getMasterImg, SLOT(slot_resetAngel(int)));
+	connect(ui.stackWid_steps, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
+	connect(ui.tabWid_setMasterImg, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 
@@ -85,19 +89,32 @@ void QtSetupSimulator::slot_chengeAreaType()
 	{
 		if (ui.RButn_rect->isChecked())
 		{
-			masterObjct.getProcesArears()[0][activProcesArea].setAreaType(0);
-			ui.widget_getMasterImg->changeAreaType(0, masterObjct.getProcesArears()[0][activProcesArea]);
+			if (masterObjct.getProcesArears()[0][activProcesArea].getAreaType() != 0)
+			{
+				masterObjct.getProcesArears()[0][activProcesArea].setAreaType(0);
+				ui.widget_getMasterImg->changeAreaType(0, masterObjct.getProcesArears()[0][activProcesArea]);
+				ui.widget_getMasterImg->updateImg();
+			}
+			ui.PButn_angelRest->setEnabled(true);
 		}
 		else if (ui.RButn_circle->isChecked())
 		{
-			masterObjct.getProcesArears()[0][activProcesArea].setAreaType(1);
-			ui.widget_getMasterImg->changeAreaType(1, masterObjct.getProcesArears()[0][activProcesArea]);
+			if (masterObjct.getProcesArears()[0][activProcesArea].getAreaType() != 1)
+			{
+				masterObjct.getProcesArears()[0][activProcesArea].setAreaType(1);
+				ui.widget_getMasterImg->changeAreaType(1, masterObjct.getProcesArears()[0][activProcesArea]);
+				ui.widget_getMasterImg->updateImg();
+			}
+			ui.PButn_angelRest->setEnabled(false);
 		}
 		else if (ui.RButn_entire->isChecked())
 		{
-			masterObjct.getProcesArears()[0][activProcesArea].setAreaType(2);
-		}
-		ui.widget_getMasterImg->updateImg();
+			if (masterObjct.getProcesArears()[0][activProcesArea].getAreaType() != 2)
+			{
+				masterObjct.getProcesArears()[0][activProcesArea].setAreaType(2);
+				ui.widget_getMasterImg->updateImg();
+			}
+		}	
 	}
 }
 
@@ -177,6 +194,30 @@ void QtSetupSimulator::slot_copyProceArea()
 	widProcAreaList.push_back(widProcArea);
 	ui.widget_getMasterImg->updateImg();
 }
+
+void QtSetupSimulator::slot_changeWidSteps(int step)
+{
+	if (ui.stackWid_steps->currentIndex() != 1 || ui.tabWid_setMasterImg->currentIndex() != 1)
+	{
+		masterObjct.getProcesArears()[0][0].setActiv(false);
+		masterObjct.getProcesArears()[0][0].setDraw(false);
+		ui.widget_getMasterImg->changeImgFormat(0);
+		ui.widget_getMasterImg->updateImg();
+	}
+	else if (ui.stackWid_steps->currentIndex() == 1 && ui.tabWid_setMasterImg->currentIndex() == 1)
+	{
+		masterObjct.getProcesArears()[0][0].setActiv(true);
+		masterObjct.getProcesArears()[0][0].setDraw(true);
+		ui.widget_getMasterImg->changeImgFormat(1);
+		ui.widget_getMasterImg->updateImg();
+	}
+}
+
+void QtSetupSimulator::slot_resetAngelRect()
+{
+	emit resetRectAngel(activProcesArea);
+}
+
 
 void QtSetupSimulator::setGUIWid(int newActivStep)
 {
@@ -472,6 +513,7 @@ void QtSetupSimulator::slot_dataFromDialog(bool answer)
 		{
 			brighCoreectDel = false;
 			ui.pushButton_delCorect->setEnabled(false);
+			ui.pushButton_setCorect->setEnabled(true);
 			emit brightnesCorrectAreaDel();
 		}
 		if (closeAddWindow && !editProcesArea)
@@ -568,11 +610,13 @@ void QtSetupSimulator::slot_dataFromDialog(bool answer)
 			}
 		}
 	}
-	
 }
 
 void QtSetupSimulator::slot_dataFromAddTool(int procesedType, int areaType)
 {	
+	addTool->close();
+	delete addTool;
+	addTool = nullptr;
 	ui.stackWid_customTools->setCurrentIndex(1);
 	ui.widget_getMasterImg->setChangeActivArea(false);
 	ui.widget_getMasterImg->setChangesProcessedArears(true);
@@ -590,7 +634,7 @@ void QtSetupSimulator::slot_dataFromAddTool(int procesedType, int areaType)
 	}
 	ui.RButn_rect->setChecked(true);
 	ui.RButn_entire_2->setChecked(true);
-	ui.widget_getMasterImg->updateImg();
+	//ui.widget_getMasterImg->updateImg();
 	ui.pushButton_step1->setEnabled(false);
 	ui.pushButton_step2->setEnabled(false);
 	ui.pushButton_step3->setEnabled(false);
@@ -602,13 +646,16 @@ void QtSetupSimulator::slot_dataFromAddTool(int procesedType, int areaType)
 
 void QtSetupSimulator::slot_setBrightnesCorrectArea()
 {
-	ui.widget_getMasterImg->addBrightnesCorrectRect(true);
-	ui.pushButton_setCorect->setChecked(true);
+	ui.widget_getMasterImg->add_rect(0);
+	ui.pushButton_delCorect->setEnabled(true);
+	ui.pushButton_setCorect->setEnabled(false);
+	//ui.widget_getMasterImg->addBrightnesCorrectRect(true);
+	//ui.pushButton_setCorect->setChecked(true);
 }
 
 void QtSetupSimulator::slot_BrightnesCorrectIsSet(bool isSet)
 {
-	if (isSet)
+	/*if (isSet)
 	{
 		ui.pushButton_delCorect->setEnabled(true);
 		ui.pushButton_setCorect->setChecked(false);
@@ -616,7 +663,7 @@ void QtSetupSimulator::slot_BrightnesCorrectIsSet(bool isSet)
 	else
 	{
 		ui.pushButton_delCorect->setEnabled(false);
-	}
+	}*/
 }
 
 void QtSetupSimulator::slot_pushDelBrighArea()
@@ -762,6 +809,8 @@ void QtSetupSimulator::slot_pushNext()
 		dialog = new QtMyDialog("Are you sure you want to make changes?", this);
 		dialog->show(); 
 		connect(dialog, SIGNAL(answer(bool)), this, SLOT(slot_dataFromDialog(bool)));
+		int i;
+		i = 0;
 	}
 	else 
 	{

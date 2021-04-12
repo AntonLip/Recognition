@@ -6,7 +6,7 @@
 #include "qlistview.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
 #include "qstandarditemmodel.h"
 
 #include "ProcessedObj.h"
@@ -24,6 +24,7 @@ class QtGuiSimulator : public QMainWindow
 	QtGuiProgramDetails *Programdetail;
 	QtSetupSimulator* SetupSimulator;
 	QtGUISensorSim* SensorSimulator;
+	void readVideo(cv::Mat *newFrameMat, QPixmap *newFramePixmap);
 public:
 	QtGuiSimulator(QWidget *parent = Q_NULLPTR);
 	~QtGuiSimulator();

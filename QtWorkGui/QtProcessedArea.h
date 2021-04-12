@@ -4,6 +4,8 @@
 #include <qrect.h>
 #include "MyCircle.h"
 #include "QtRotateRect.h"
+#include "CountoursProcessing.h"
+#include "qimage.h"
 
 class QtProcessedArea : public QObject
 {
@@ -21,14 +23,18 @@ class QtProcessedArea : public QObject
 	int doubleTreshF;
 	int doubleTreshS;
 	bool singlTresActiv;
+	bool qw;
+	CountoursProcessing *counterProc;
 public:
 	QtProcessedArea(QObject *parent=Q_NULLPTR );
 	QtProcessedArea(int processedType, int areaType, QtRotateRect newRect, QObject* parent = Q_NULLPTR);
 	QtProcessedArea(int processedType, int areaType, MyCircle newCircle, QObject* parent = Q_NULLPTR);
 	QtProcessedArea(const QtProcessedArea& drop);
 	~QtProcessedArea();
+	void createMaster(cv::Mat const *inputImg);
 	void setRect(QtRotateRect* newRect);
 	void setScalRect(QtRotateRect* newRect);
+	cv::Mat getDrawImage(cv::Mat const* inputImg);
 	void setCircle(MyCircle* newCircle);
 	void setScalCircle(MyCircle* newCirkle);
 	void setAreaType(int newType);
@@ -57,5 +63,8 @@ public:
 	MyCircle* getScalCircle();
 	void getCircleParm(int& radius, QPoint& center);
 	void getScalCircleParam(int& radius, QPoint& center);
+	void setProcessing(int typeProcessing = 0);
 	QtProcessedArea& operator=(const QtProcessedArea& drop);
+	QRect getOriginalLimitRect();
+	QRect getScaledLimitRect();
 };

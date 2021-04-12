@@ -10,7 +10,9 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	activatedRoi = true;
 	changeActivArea = false;
 	activ_roi = -2;
-	addNewBrigthnesRect = false;
+	setObj = false;
+	isProcessingActiv = false;
+	//addNewBrigthnesRect = false;
 	changesProcesedArears = false;
 	ui.horSB_forTempImg->hide();
 	ui.verSB_forTempImg->hide();
@@ -29,6 +31,8 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	connect(ui.label_for_TempImg, SIGNAL(mouseRelease()), this, SLOT(slot_mouseRelease()));
 	connect(ui.label_for_TempImg, SIGNAL(mouseLeft()), this, SLOT(slot_mouseLeft()));
 	connect(ui.label_for_TempImg, SIGNAL(mouseLeftMouveRoi(int)), this, SLOT(slot_mouseLeft(int)));
+	connect(ui.comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_changeProcssActiv(int)));
+
 }
 
 QtGuiDisplay::~QtGuiDisplay()
@@ -97,36 +101,36 @@ void QtGuiDisplay::slot_mouvePixmap()
 
 void QtGuiDisplay::slot_mouseCurrentPos()
 {
-	if (addNewBrigthnesRect)
-	{	
-		//int dr_x, dr_y;
-		//ui.label_for_TempImg->getDrPoint(dr_x, dr_y);
-		//QPoint imgPoint(*(ui.label_for_TempImg->getImgPoint()));
-		//if (imgPoint.x() >= ui.label_for_TempImg->width() - 1)
-		//{
-		//	ui.horSB_forTempImg->setSliderPosition(dr_x + 1);
-		//}
-		//else if (imgPoint.x() <= 0)
-		//{
-		//	ui.horSB_forTempImg->setSliderPosition(dr_x - 1);
-		//}
-		//if (imgPoint.y() >= ui.label_for_TempImg->height() - 1)
-		//{
-		//	ui.verSB_forTempImg->setSliderPosition(dr_y + 1);
-		//}
-		//else if (imgPoint.y() <= 0)
-		//{
-		//	ui.verSB_forTempImg->setSliderPosition(dr_y - 1);
-		//}
-		QRect bufer;
-		ui.label_for_TempImg->add_rect(bufer, QPen(Qt::green,1,Qt::DashLine));
-		//int x, y;
-		//ui.label_for_TempImg->getDrPoint(x, y);
-		//ui.label_for_TempImg->show_partImg(x, y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
-		activProcessedObj->setBrightnesCorrectArea(&bufer);
-	}
-	else
-	{
+	//if (addNewBrigthnesRect)
+	//{	
+	//	//int dr_x, dr_y;
+	//	//ui.label_for_TempImg->getDrPoint(dr_x, dr_y);
+	//	//QPoint imgPoint(*(ui.label_for_TempImg->getImgPoint()));
+	//	//if (imgPoint.x() >= ui.label_for_TempImg->width() - 1)
+	//	//{
+	//	//	ui.horSB_forTempImg->setSliderPosition(dr_x + 1);
+	//	//}
+	//	//else if (imgPoint.x() <= 0)
+	//	//{
+	//	//	ui.horSB_forTempImg->setSliderPosition(dr_x - 1);
+	//	//}
+	//	//if (imgPoint.y() >= ui.label_for_TempImg->height() - 1)
+	//	//{
+	//	//	ui.verSB_forTempImg->setSliderPosition(dr_y + 1);
+	//	//}
+	//	//else if (imgPoint.y() <= 0)
+	//	//{
+	//	//	ui.verSB_forTempImg->setSliderPosition(dr_y - 1);
+	//	//}
+	//	QRect bufer;
+	//	ui.label_for_TempImg->add_rect(bufer, QPen(Qt::green,1,Qt::DashLine));
+	//	//int x, y;
+	//	//ui.label_for_TempImg->getDrPoint(x, y);
+	//	//ui.label_for_TempImg->show_partImg(x, y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+	//	activProcessedObj->setBrightnesCorrectArea(&bufer);
+	//}
+	//else
+	//{
 		if (activProcessedObj->getProcesArears()->size() > 0 && changesProcesedArears)
 		{
 			if (!change_roi)
@@ -223,7 +227,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 									//	min_roi = i;
 									//}
 									activ_roi = min_roi;
-									if (((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5))
+									if (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5))
 										myCursor.setShape(Qt::SizeVerCursor);
 									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
 										myCursor.setShape(Qt::SizeHorCursor);
@@ -246,7 +250,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 									min_roi = i;
 									//}
 									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
 										myCursor.setShape(Qt::SizeHorCursor);
 									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
 										myCursor.setShape(Qt::SizeVerCursor);
@@ -269,7 +273,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 									min_roi = i;
 									//}
 									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
 										myCursor.setShape(Qt::SizeFDiagCursor);
 									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
 										myCursor.setShape(Qt::SizeBDiagCursor);
@@ -292,7 +296,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 									min_roi = i;
 									//}
 									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel < 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
 										myCursor.setShape(Qt::SizeBDiagCursor);
 									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
 										myCursor.setShape(Qt::SizeFDiagCursor);
@@ -334,7 +338,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 					if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0) 
 					{
 						ui.label_for_TempImg->resize_rect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
-						ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getMax_X()));
+						//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getMin_Y()));
 					}
 					else if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 1)
 					{
@@ -353,6 +357,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 					//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getRotateAngel()));
 				}
 				processedAreaScale(activProcessedObj->getProcesArears()[0][activ_roi], true);
+				//activProcessedObj->getProcesArears()[0][activ_roi].createMaster(&(activProcessedObj->getROI(activProcessedObj->getProcesArears()[0][activ_roi].getRect()->getRotateRectSize())));
 				draw_proceseArears();
 				int x, y;
 				ui.label_for_TempImg->getDrPoint(x, y);
@@ -371,7 +376,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 			ui.horSB_forTempImg->setSliderPosition(dr_x);
 			ui.verSB_forTempImg->setSliderPosition(dr_y);
 		}
-	}
+	//}
 }
 
 void QtGuiDisplay::slot_mousePressed()
@@ -447,7 +452,8 @@ void QtGuiDisplay::slot_mousePressed()
 
 void QtGuiDisplay::slot_mouseLeft()
 {
-	if (addNewBrigthnesRect || change_roi)
+	//if (addNewBrigthnesRect || change_roi)
+	if ( change_roi)
 	{
 		int dr_x, dr_y;
 		ui.label_for_TempImg->getDrPoint(dr_x, dr_y);
@@ -508,12 +514,12 @@ void QtGuiDisplay::slot_mouseLeft(int direct)
 
 void QtGuiDisplay::slot_mouseRelease()
 {
-	if (addNewBrigthnesRect && activProcessedObj->brightnesCorrectAreaIsSet())
+	/*if (addNewBrigthnesRect && activProcessedObj->brightnesCorrectAreaIsSet())
 	{
 		addNewBrigthnesRect = false;
 		processedAreaScale(activProcessedObj->getProcesArears()[0][0],true);
 		emit brightnesCorrectRectSet(true);
-	}
+	}*/
 	event_img = false;
 	change_roi = false;
 	//ui.label_forMainImg->show_roi(roi);
@@ -541,10 +547,10 @@ void QtGuiDisplay::slot_ZoomImg_In()
 	ui.verSB_forTempImg->setValue(dr_y);
 	if (!ui.pushButt_AllLabl->isEnabled())
 		ui.pushButt_AllLabl->setEnabled(true);
-	int i{ 0 };
+	/*int i{ 0 };
 	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;
-	for (; i < activProcessedObj->getProcesArears()->size(); ++i)
+		i = 1;*/
+	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 	{
 		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 	}
@@ -577,10 +583,10 @@ void QtGuiDisplay::slot_ZoomImg_Out()
 	ui.verSB_forTempImg->setValue(dr_y);
 	if (!ui.pushButt_AllLabl->isEnabled())
 		ui.pushButt_AllLabl->setEnabled(true);
-	int i{ 0 };
+	/*int i{ 0 };
 	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;
-	for (; i < activProcessedObj->getProcesArears()->size(); ++i)
+		i = 1;*/
+	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 	{
 		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 	}
@@ -607,10 +613,10 @@ void QtGuiDisplay::slot_ZoomImg_AllLabl()
 	else
 		ui.pushButt_ZoomDeduce->setEnabled(false);
 	ui.pushButt_AllLabl->setEnabled(false);
-	int i{ 0 };
+	/*int i{ 0 };
 	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;
-	for (; i < activProcessedObj->getProcesArears()->size(); ++i)
+		i = 1;*/
+	for (int i{0}; i < activProcessedObj->getProcesArears()->size(); ++i)
 	{
 		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 	}
@@ -754,7 +760,7 @@ void QtGuiDisplay::setChangeActivArea(bool isChange)
 
 void QtGuiDisplay::addBrightnesCorrectRect(bool isAdd)
 {
-	addNewBrigthnesRect = isAdd;
+	//addNewBrigthnesRect = isAdd;
 }
 
 void QtGuiDisplay::setChangesProcessedArears(bool isChang)
@@ -764,7 +770,8 @@ void QtGuiDisplay::setChangesProcessedArears(bool isChang)
 
 void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOriginalScal)
 {
-	QRect bufer{0,0,0,0};
+	QtRotateRect bufer{};
+	QtRotateRect buferScal{};
 	int buferSize{0};
 	if (toOriginalScal)
 	{
@@ -772,6 +779,8 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 		{
 			bufer = *InOutArea.getScalRect();
 			double mul{ static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width()) };
+			double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1) * mul};
+			double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) * mul};
 			buferSize = static_cast<int>(ceil(bufer.width() * mul));
 			bufer.setX(bufer.x() * mul);
 			bufer.setWidth(buferSize);
@@ -780,7 +789,7 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 			buferSize = static_cast<int>(ceil(bufer.height() * mul));
 			bufer.setY(bufer.y() * mul);
 			bufer.setHeight(buferSize);
-			InOutArea.setRect(&QtRotateRect(bufer, InOutArea.getScalRect()->getRotateAngel(), QPoint(-bufer.width() / 2, -bufer.height() / 2), QPoint(bufer.x() + bufer.width() / 2, bufer.y() + bufer.height() / 2)));
+			InOutArea.setRect(&QtRotateRect(QRect(bufer.x(), bufer.y(), bufer.width(), bufer.height()), InOutArea.getScalRect()->getRotateAngel(), QPoint(point_X, point_Y)));
 		}
 		else if (InOutArea.getAreaType() == 1)
 		{
@@ -794,18 +803,21 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 	else
 	{
 		bufer = *InOutArea.getRect();
+		buferScal = *InOutArea.getScalRect();
 		if (ui.pushButt_AllLabl->isEnabled())
 		{
 			if (InOutArea.getAreaType() == 0)
 			{
+				double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1)* activ_scaled / 100 };
+				double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) * activ_scaled / 100};
 				buferSize = static_cast<int>(ceil(bufer.width() * activ_scaled / 100));
 				bufer.setX(bufer.x() * activ_scaled / 100);
-				bufer.setWidth(buferSize);;
+				bufer.setWidth(buferSize);
 
 				buferSize = static_cast<int>(ceil(bufer.height() * activ_scaled / 100));
 				bufer.setY(bufer.y() * activ_scaled / 100);
 				bufer.setHeight(buferSize);
-				InOutArea.setScalRect(&QtRotateRect(bufer, InOutArea.getRect()->getRotateAngel(), QPoint(-bufer.width() / 2, -bufer.height() / 2), QPoint(bufer.x() + bufer.width() / 2, bufer.y() + bufer.height() / 2)));
+				InOutArea.setScalRect(&QtRotateRect(QRect(bufer.x(), bufer.y(), bufer.width(), bufer.height()), InOutArea.getScalRect()->getRotateAngel(), QPoint(point_X, point_Y)));
 			}
 			else if (InOutArea.getAreaType() == 1)
 			{
@@ -819,6 +831,9 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 		{
 			if (InOutArea.getAreaType() == 0)
 			{
+				double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1) };
+				double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) };
+
 				hor_scaled = static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width());
 				int buferSize{ static_cast<int>(ceil(bufer.width() / hor_scaled)) };
 				bufer.setX(bufer.x() / hor_scaled);
@@ -828,7 +843,9 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 				buferSize = static_cast<int>(ceil(bufer.height() / vert_scaled));
 				bufer.setY(bufer.y() / vert_scaled);
 				bufer.setHeight(buferSize);
-				InOutArea.setScalRect(&QtRotateRect(bufer, InOutArea.getRect()->getRotateAngel(), QPoint(-bufer.width() / 2, -bufer.height() / 2), QPoint(bufer.x() + bufer.width() / 2, bufer.y() + bufer.height() / 2)));
+
+				bufer.setRotateAngel(InOutArea.getRect()->getRotateAngel(), &QPoint(point_X / hor_scaled, point_Y / vert_scaled));
+				InOutArea.setScalRect(&bufer);
 			}
 			else if (InOutArea.getAreaType() == 1)
 			{
@@ -855,6 +872,10 @@ void QtGuiDisplay::draw_proceseArears()
 			QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
 			if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() == 0)
 				penBufer.setColor(Qt::green);
+			if (isProcessingActiv && (activProcessedObj->getProcesArears()[0])[i].getProcesseedType() != 0)
+			{
+				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][i].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].getScaledLimitRect());
+			}
 			if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
 			{
 				ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getScalRect(), penBufer);
@@ -900,8 +921,20 @@ void QtGuiDisplay::add_rect(int procesType)
 	int x{ ui.label_for_TempImg->size().width() / 2 };
 	int y{ ui.label_for_TempImg->size().height() / 2 };
 	ui.label_for_TempImg->toImgCoordinate(x, y);
-	activProcessedObj->getProcesArears()[0].push_back(QtProcessedArea(procesType, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h))));
+	if (procesType == 0)
+	{
+		activProcessedObj->getProcesArears()[0][0] = QtProcessedArea(0, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)));
+	}
+	else
+	{
+		activProcessedObj->getProcesArears()[0].push_back((QtProcessedArea(procesType, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)))));
+		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].setProcessing();
+		int i;
+		i = 0;
+	}
 	processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
+	setObj = true;
+	activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].createMaster(&activProcessedObj->getMat());
 	updateImg();
 }
 
@@ -949,7 +982,7 @@ void QtGuiDisplay::changeAreaType(int newType, QtProcessedArea& InOutArea)
 		int x{ ui.label_for_TempImg->size().width() / 2 };
 		int y{ ui.label_for_TempImg->size().height() / 2 };
 		ui.label_for_TempImg->toImgCoordinate(x, y);
-		InOutArea.setScalRect(&QtRotateRect(QRect(x, y, w, h), InOutArea.getScalRect()->getRotateAngel(), QPoint(-w / 2, -h / 2), QPoint(x + w / 2, y + h / 2)));
+		InOutArea.setScalRect(&QtRotateRect(QRect(x, y, w, h), InOutArea.getScalRect()->getRotateAngel()));
 	}
 	else if (newType == 1)
 	{
@@ -981,6 +1014,11 @@ QRect QtGuiDisplay::getLabelRect()
 	return bufer;
 }
 
+void QtGuiDisplay::changeImgFormat(int formatType)
+{
+	ui.label_for_TempImg->formatImage(formatType);
+}
+
 void QtGuiDisplay::updateImg()
 {
 	if (activ)
@@ -991,6 +1029,33 @@ void QtGuiDisplay::updateImg()
 	
 }
 
+void QtGuiDisplay::slot_resetAngel(int activRect)
+{
+	activProcessedObj->getProcesArears()[0][activRect].getScalRect()->resetAngel(ui.label_for_TempImg->getScaledImgSize());
+	processedAreaScale(activProcessedObj->getProcesArears()[0][activRect], true);
+	draw_proceseArears();
+	int x, y;
+	ui.label_for_TempImg->getDrPoint(x, y);
+	ui.label_for_TempImg->show_partImg(x, y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+
+}
+
+void QtGuiDisplay::slot_changeProcssActiv(int isActiv)
+{
+	if (isActiv == 0)
+	{
+		isProcessingActiv = 0;
+	}
+	else
+	{
+		isProcessingActiv = 1;
+	}
+	if (activ)
+	{
+		updateImg();
+	}
+}
+
 bool QtGuiDisplay::isActiv()
 {
 	return activ;
@@ -999,6 +1064,17 @@ bool QtGuiDisplay::isActiv()
 bool QtGuiDisplay::getChageActivArea()
 {
 	return changeActivArea;
+}
+
+bool QtGuiDisplay::ProcessedIsActiv()
+{
+	return isProcessingActiv;
+}
+
+void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)
+{
+	activProcessedObj = activObj;
+	ui.label_for_TempImg->set_myPixmap(activObj->getPixmap());
 }
 
 void QtGuiDisplay::resizeEvent(QResizeEvent* event)

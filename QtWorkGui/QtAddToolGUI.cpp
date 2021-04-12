@@ -1,10 +1,13 @@
 #include "QtAddToolGUI.h"
 
 QtAddToolGUI::QtAddToolGUI(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	dialog(nullptr),
+	checkedButton(0),
+	isClose(false)
 {
 	ui.setupUi(this);
-	isClose = false;
+	setAttribute(Qt::WA_DeleteOnClose);
 	PButtonList.push_back(ui.PButtn_outline);
 	PButtonList.push_back(ui.PButtn_color);
 	PButtonList.push_back(ui.PButton_edgePix);
@@ -32,6 +35,8 @@ QtAddToolGUI::QtAddToolGUI(QWidget *parent)
 
 QtAddToolGUI::~QtAddToolGUI()
 {
+	delete dialog;
+	dialog = nullptr;
 }
 
 void QtAddToolGUI::closeEvent(QCloseEvent* event)
@@ -77,7 +82,7 @@ void QtAddToolGUI::slot_clicOK()
 {
 	isClose = true;
 	emit dataToSetup(checkedButton + 1, 0);
-	this->close();
+	//this->close();
 }
 
 void QtAddToolGUI::slot_clicCanel()
@@ -94,6 +99,8 @@ void QtAddToolGUI::slot_dataFromDialog(bool answer)
 	}
 	else
 	{
+		delete dialog;
+		dialog = nullptr;
 		isClose = false;
 	}
 }

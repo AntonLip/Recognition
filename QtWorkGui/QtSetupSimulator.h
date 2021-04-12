@@ -72,8 +72,11 @@ private slots:
 	void slot_changeUserNameArea(QString newName);
 	void slot_editProceArea();
 	void slot_copyProceArea();
+	void slot_changeWidSteps(int step);
+	void slot_resetAngelRect();
 signals:
 	void dataToGUISim(ProcessedObj* changedObj);
 	void brightnesCorrectAreaDel();
 	void clic_pb();
+	void resetRectAngel(int activRect);
 };
