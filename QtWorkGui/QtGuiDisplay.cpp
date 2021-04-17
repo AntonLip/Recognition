@@ -131,6 +131,8 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 	//}
 	//else
 	//{
+	if (activProcessedObj != nullptr)
+	{
 		if (activProcessedObj->getProcesArears()->size() > 0 && changesProcesedArears)
 		{
 			if (!change_roi)
@@ -143,11 +145,11 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 					{
 						int x, y;
 						ui.label_for_TempImg->getPointInImg(x, y);
-						if ((activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x,y) && activProcessedObj->getProcesArears()[0][i].getAreaType()==0)|| (activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
+						if ((activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0) || (activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
 						{//selecting a activ roi
 							//if (min_roi == -1)
 							//{
-								min_roi = i;
+							min_roi = i;
 							//}
 							/*else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
 							{
@@ -158,156 +160,156 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 							this->setCursor(myCursor);
 						}
 						else
-						if (!activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x, y) || !activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x,y)))
-						{
-							int point_X{ 0 };
-							int point_Y{ 0 };
-							if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+							if (!activProcessedObj->getProcesArears()[0][i].getScalRect()->contains(x, y) || !activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)))
 							{
-								point_X = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X()) / 2);
-								point_Y = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y()) / 2);
-								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 0 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 90)
+								int point_X{ 0 };
+								int point_Y{ 0 };
+								if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
 								{
-									point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
-									point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
-									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									point_X = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X()) / 2);
+									point_Y = abs((activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y()) / 2);
+									if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 0 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 90)
+									{
+										point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
+										point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
+										point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+										point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+									}
+									else
+										if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 90 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 180)
+										{
+											point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
+											point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
+											point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+											point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+										}
+										else
+											if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 180 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 270)
+											{
+												point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
+												point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
+												point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+												point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+											}
+											else
+												if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 270 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 360)
+												{
+													point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
+													point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
+													point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+													point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
+												}
+								}
+								if (QtRotateRect(QRect(point_X, point_Y, 10, 10), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+								{
+									min_roi = i;
+									activ_roi = min_roi;
+									myCursor.setShape(Qt::CrossCursor);
+									this->setCursor(myCursor);
 								}
 								else
-								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 90 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 180)
 								{
-									point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
-									point_Y += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y();
-									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								}
-								else
-								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 180 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 270)
-								{
-									point_X = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - point_X;
-									point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
-									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								}
-								else
-								if (activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() >= 270 && activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() < 360)
-								{
-									point_X += activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X();
-									point_Y = activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - point_Y;
-									point_X += sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-									point_Y -= cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)) * 17;
-								}
-							}
-							if (QtRotateRect(QRect(point_X, point_Y, 10, 10), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
-							{
-								min_roi = i;
-								activ_roi = min_roi;
-								myCursor.setShape(Qt::CrossCursor);
-								this->setCursor(myCursor);
-							}
-							else
-							{
-								//QtRotateRect secondRect(QRect(0,0,0,0),0);
-								double rotAngel{ activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() };
-								//QtRotateRect secondRect{ QRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->x() - 7,activProcessedObj->getProcesArears()[0][i].getScalRect()->y() - 7,
-								//	activProcessedObj->getProcesArears()[0][i].getScalRect()->width() + 14,activProcessedObj->getProcesArears()[0][i].getScalRect()->height() + 14),activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() };
-								MyCircle secondCircle{ *activProcessedObj->getProcesArears()[0][i].getScalCircle() };
-								secondCircle.SetRadius(secondCircle.getRadius() + 7);
-								double diag{ sqrt(2 * 7 * 7) };
-								if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() + 7 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - 7 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->width(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
-									QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_X(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_Y(), activProcessedObj->getProcesArears()[0][i].getScalRect()->width(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
-									|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - 7, secondCircle.getCenterPoint().y() - secondCircle.getRadius(), 14, 14).contains(x, y) || QRect(secondCircle.getCenterPoint().x() - 7, secondCircle.getCenterPoint().y() + secondCircle.getRadius() - 7, 14, 14).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
-								{
-									//if (min_roi == -1)
-									//{
-									min_roi = i;
-									//}
-									//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
-									//{
-									//	min_roi = i;
-									//}
-									activ_roi = min_roi;
-									if (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5))
-										myCursor.setShape(Qt::SizeVerCursor);
-									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
-										myCursor.setShape(Qt::SizeHorCursor);
-									else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
-										myCursor.setShape(Qt::SizeBDiagCursor);
-									else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
-										myCursor.setShape(Qt::SizeFDiagCursor);
-									this->setCursor(myCursor);
-								}
-								else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - 7 * sin((90 - activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - 7 * cos((90 - activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->height(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
-									QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->height(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
-									|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() + secondCircle.getRadius() - 7, secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y) || QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
-								{
-									//if (min_roi == -1)
-									//{
-									//	min_roi = i;
-									//}
-									//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
-									//{
-									min_roi = i;
-									//}
-									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
-										myCursor.setShape(Qt::SizeHorCursor);
-									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
-										myCursor.setShape(Qt::SizeVerCursor);
-									else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
-										myCursor.setShape(Qt::SizeFDiagCursor);
-									else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
-										myCursor.setShape(Qt::SizeBDiagCursor);
-									this->setCursor(myCursor);
-								}
-								else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - diag * cos((45 + activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - diag * sin((45 + activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), 9, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
-									QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownRigth_X() - 1, activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownRigth_Y() - 1, 9, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
-									|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() - secondCircle.getRadius(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y) || QRect(secondCircle.getCenterPoint().x(), secondCircle.getCenterPoint().y(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
-								{
-									//if (min_roi == -1)
-									//{
-									//	min_roi = i;
-									//}
-									//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
-									//{
-									min_roi = i;
-									//}
-									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
-										myCursor.setShape(Qt::SizeFDiagCursor);
-									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
-										myCursor.setShape(Qt::SizeBDiagCursor);
-									else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
-										myCursor.setShape(Qt::SizeVerCursor);
-									else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
-										myCursor.setShape(Qt::SizeHorCursor);
-									this->setCursor(myCursor);
-								}
-								else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() + 6 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - 8 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), 8, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
-									QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_X() - 7 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_Y() - 7 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), 8, 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
-									|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() + 7, secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y) || QRect(secondCircle.getCenterPoint().x() + 7, secondCircle.getCenterPoint().y() - secondCircle.getRadius(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
-								{
-									//if (min_roi == -1)
-									//{
-									//	min_roi = i;
-									//}
-									//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
-									//{
-									min_roi = i;
-									//}
-									activ_roi = min_roi;
-									if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
-										myCursor.setShape(Qt::SizeBDiagCursor);
-									else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
-										myCursor.setShape(Qt::SizeFDiagCursor);
-									else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
-										myCursor.setShape(Qt::SizeHorCursor);
-									else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
-										myCursor.setShape(Qt::SizeVerCursor);
-									this->setCursor(myCursor);
+									//QtRotateRect secondRect(QRect(0,0,0,0),0);
+									double rotAngel{ activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() };
+									//QtRotateRect secondRect{ QRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->x() - 7,activProcessedObj->getProcesArears()[0][i].getScalRect()->y() - 7,
+									//	activProcessedObj->getProcesArears()[0][i].getScalRect()->width() + 14,activProcessedObj->getProcesArears()[0][i].getScalRect()->height() + 14),activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() };
+									MyCircle secondCircle{ *activProcessedObj->getProcesArears()[0][i].getScalCircle() };
+									secondCircle.SetRadius(secondCircle.getRadius() + 7);
+									double diag{ sqrt(2 * 7 * 7) };
+									if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() + 7 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - 7 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->width(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
+										QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_X(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_Y(), activProcessedObj->getProcesArears()[0][i].getScalRect()->width(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+										|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - 7, secondCircle.getCenterPoint().y() - secondCircle.getRadius(), 14, 14).contains(x, y) || QRect(secondCircle.getCenterPoint().x() - 7, secondCircle.getCenterPoint().y() + secondCircle.getRadius() - 7, 14, 14).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
+									{
+										//if (min_roi == -1)
+										//{
+										min_roi = i;
+										//}
+										//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
+										//{
+										//	min_roi = i;
+										//}
+										activ_roi = min_roi;
+										if (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5))
+											myCursor.setShape(Qt::SizeVerCursor);
+										else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
+											myCursor.setShape(Qt::SizeHorCursor);
+										else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
+											myCursor.setShape(Qt::SizeBDiagCursor);
+										else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
+											myCursor.setShape(Qt::SizeFDiagCursor);
+										this->setCursor(myCursor);
+									}
+									else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - 7 * sin((90 - activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - 7 * cos((90 - activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->height(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
+										QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y(), 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->height(), activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+										|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() + secondCircle.getRadius() - 7, secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y) || QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
+									{
+										//if (min_roi == -1)
+										//{
+										//	min_roi = i;
+										//}
+										//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
+										//{
+										min_roi = i;
+										//}
+										activ_roi = min_roi;
+										if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+											myCursor.setShape(Qt::SizeHorCursor);
+										else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
+											myCursor.setShape(Qt::SizeVerCursor);
+										else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
+											myCursor.setShape(Qt::SizeFDiagCursor);
+										else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
+											myCursor.setShape(Qt::SizeBDiagCursor);
+										this->setCursor(myCursor);
+									}
+									else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_X() - diag * cos((45 + activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpLeft_Y() - diag * sin((45 + activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()) * 3.14 / 180), 9, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
+										QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownRigth_X() - 1, activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownRigth_Y() - 1, 9, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+										|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() - secondCircle.getRadius(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y) || QRect(secondCircle.getCenterPoint().x(), secondCircle.getCenterPoint().y(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
+									{
+										//if (min_roi == -1)
+										//{
+										//	min_roi = i;
+										//}
+										//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
+										//{
+										min_roi = i;
+										//}
+										activ_roi = min_roi;
+										if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+											myCursor.setShape(Qt::SizeFDiagCursor);
+										else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
+											myCursor.setShape(Qt::SizeBDiagCursor);
+										else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
+											myCursor.setShape(Qt::SizeVerCursor);
+										else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
+											myCursor.setShape(Qt::SizeHorCursor);
+										this->setCursor(myCursor);
+									}
+									else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_X() + 6 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getUpRigth_Y() - 8 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), 8, 9, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y) ||
+										QtRotateRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_X() - 7 * cos(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getScalRect()->getDownLeft_Y() - 7 * sin(activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel(true)), 8, 8, activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
+										|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() + 7, secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y) || QRect(secondCircle.getCenterPoint().x() + 7, secondCircle.getCenterPoint().y() - secondCircle.getRadius(), secondCircle.getRadius() - 7, secondCircle.getRadius() - 7).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
+									{
+										//if (min_roi == -1)
+										//{
+										//	min_roi = i;
+										//}
+										//else if (activProcessedObj->getProcesArears()[0][i].getArea(true) < (activProcessedObj->getProcesArears()[0][min_roi].getArea(true)))
+										//{
+										min_roi = i;
+										//}
+										activ_roi = min_roi;
+										if ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 157.5 && rotAngel < 202.5))
+											myCursor.setShape(Qt::SizeBDiagCursor);
+										else if ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5))
+											myCursor.setShape(Qt::SizeFDiagCursor);
+										else if ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5))
+											myCursor.setShape(Qt::SizeHorCursor);
+										else if ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))
+											myCursor.setShape(Qt::SizeVerCursor);
+										this->setCursor(myCursor);
+									}
 								}
 							}
-						}
 					}
 				}
 				if (activ_roi == -2)
@@ -320,42 +322,42 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 			{
 				if (this->myCursor.shape() == Qt::SizeAllCursor)
 				{
-					if(activProcessedObj->getProcesArears()[0][activ_roi].getAreaType()==0)
+					if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0)
 						ui.label_for_TempImg->muve_roiRect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
 					else if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 1)
 					{
 						QPoint center;
 						int radius;
 						activProcessedObj->getProcesArears()[0][activ_roi].getScalCircleParam(radius, center);
-						ui.label_for_TempImg->muve_roiCircle(center,radius);
+						ui.label_for_TempImg->muve_roiCircle(center, radius);
 						activProcessedObj->getProcesArears()[0][activ_roi].setScalCircle(&MyCircle(center, radius));
 					}
 				}
 				else
-				if (this->myCursor.shape() == Qt::SizeHorCursor || this->myCursor.shape() == Qt::SizeVerCursor ||
-					this->myCursor.shape() == Qt::SizeBDiagCursor || this->myCursor.shape() == Qt::SizeFDiagCursor)
-				{
-					if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0) 
+					if (this->myCursor.shape() == Qt::SizeHorCursor || this->myCursor.shape() == Qt::SizeVerCursor ||
+						this->myCursor.shape() == Qt::SizeBDiagCursor || this->myCursor.shape() == Qt::SizeFDiagCursor)
 					{
-						ui.label_for_TempImg->resize_rect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
-						//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getMin_Y()));
+						if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0)
+						{
+							ui.label_for_TempImg->resize_rect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
+							//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getMin_Y()));
+						}
+						else if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 1)
+						{
+							QPoint center;
+							int radius;
+							activProcessedObj->getProcesArears()[0][activ_roi].getScalCircleParam(radius, center);
+							ui.label_for_TempImg->resize_circle(center, radius);
+							activProcessedObj->getProcesArears()[0][activ_roi].setScalCircle(&MyCircle(center, radius));
+						}
 					}
-					else if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 1)
-					{
-						QPoint center;
-						int radius;
-						activProcessedObj->getProcesArears()[0][activ_roi].getScalCircleParam(radius, center);
-						ui.label_for_TempImg->resize_circle(center, radius);
-						activProcessedObj->getProcesArears()[0][activ_roi].setScalCircle(&MyCircle(center, radius));
-					}
-				}
-				else 
-				if (this->myCursor.shape() == Qt::CrossCursor)
-				{
-					if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0) 
-						ui.label_for_TempImg->rotatr_rect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
-					//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getRotateAngel()));
-				}
+					else
+						if (this->myCursor.shape() == Qt::CrossCursor)
+						{
+							if (activProcessedObj->getProcesArears()[0][activ_roi].getAreaType() == 0)
+								ui.label_for_TempImg->rotatr_rect(*(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()));
+							//ui.label_Scale->setText(QString::number(activProcessedObj->getProcesArears()[0][activ_roi].getScalRect()->getRotateAngel()));
+						}
 				processedAreaScale(activProcessedObj->getProcesArears()[0][activ_roi], true);
 				//activProcessedObj->getProcesArears()[0][activ_roi].createMaster(&(activProcessedObj->getROI(activProcessedObj->getProcesArears()[0][activ_roi].getRect()->getRotateRectSize())));
 				draw_proceseArears();
@@ -376,7 +378,8 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 			ui.horSB_forTempImg->setSliderPosition(dr_x);
 			ui.verSB_forTempImg->setSliderPosition(dr_y);
 		}
-	//}
+		//}
+	}
 }
 
 void QtGuiDisplay::slot_mousePressed()

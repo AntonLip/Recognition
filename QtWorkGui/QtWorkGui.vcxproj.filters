@@ -104,6 +104,24 @@
     <ClCompile Include="QtConterProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrameObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GE_Widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myscrollarea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mysquare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtConnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="QtGuiDisplay.ui">
@@ -141,6 +159,15 @@
     </QtUic>
     <QtUic Include="QtGUISensorSim.ui">
       <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="GE_Widget.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtConnect.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="widget.ui">
+      <Filter>Resource Files</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +225,21 @@
     <QtMoc Include="QtConterProcessing.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="GE_Widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="myscrollarea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mysquare.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtConnect.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProcessedObj.h">
@@ -210,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CountoursProcessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

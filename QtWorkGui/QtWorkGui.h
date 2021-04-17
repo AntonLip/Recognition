@@ -5,6 +5,7 @@
 #include <qmessagebox.h>
 #include "ui_QtWorkGui.h"
 #include "QtGuiSimulator.h"
+#include "QtConnect.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -19,6 +20,7 @@ public:
 
 private:
     QtGuiSimulator* simulatorMenu;
+    QtConnect* connectMenu;
     Ui::QtWorkGuiClass ui;
 private slots:
     void conect_slot();

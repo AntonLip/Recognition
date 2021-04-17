@@ -9,12 +9,14 @@ QtWorkGui::QtWorkGui(QWidget *parent)
 	QObject::connect(ui.pushButton_simulator, SIGNAL(clicked()), this, SLOT(openSimulator_slot()));
 
 	simulatorMenu = new QtGuiSimulator();
+	connectMenu = new QtConnect();
 	QObject::connect(this, SIGNAL(getDataToSimulator(cv::Mat, QString)), simulatorMenu, SLOT(dataFromMainMenu(cv::Mat, QString)));
 }
 
 void QtWorkGui::conect_slot()
 {
-
+	connectMenu->show();
+	this->close();
 }
 
 void QtWorkGui::openSimulator_slot()

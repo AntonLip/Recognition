@@ -43,8 +43,9 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);$(CommonExecutablePath)</ExecutablePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;D:\SAV\Progects\vimba soft\VimbaCPP\VimbaCPP\Lib\Win64</LibraryPath>
     <ExcludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(FxCopDir);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x64);$(SystemRoot);$(CommonExcludePath)</ExcludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\SAV\Progects\vimba soft\VimbaCPP</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
@@ -54,7 +55,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);C:\opencv12\opencv\build\x64\vc12\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_calib3d2413d.lib;opencv_contrib2413d.lib;opencv_core2413d.lib;opencv_features2d2413d.lib;opencv_flann2413d.lib;opencv_gpu2413d.lib;opencv_highgui2413d.lib;opencv_imgproc2413d.lib;opencv_legacy2413d.lib;opencv_ml2413d.lib;opencv_nonfree2413d.lib;opencv_objdetect2413d.lib;opencv_ocl2413d.lib;opencv_photo2413d.lib;opencv_stitching2413d.lib;opencv_superres2413d.lib;opencv_ts2413d.lib;opencv_video2413d.lib;opencv_videostab2413d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VimbaCPP.lib;opencv_calib3d2413d.lib;opencv_contrib2413d.lib;opencv_core2413d.lib;opencv_features2d2413d.lib;opencv_flann2413d.lib;opencv_gpu2413d.lib;opencv_highgui2413d.lib;opencv_imgproc2413d.lib;opencv_legacy2413d.lib;opencv_ml2413d.lib;opencv_nonfree2413d.lib;opencv_objdetect2413d.lib;opencv_ocl2413d.lib;opencv_photo2413d.lib;opencv_stitching2413d.lib;opencv_superres2413d.lib;opencv_ts2413d.lib;opencv_video2413d.lib;opencv_videostab2413d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -98,16 +99,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CountoursProcessing.cpp" />
+    <ClCompile Include="FrameObserver.cpp" />
+    <ClCompile Include="GE_Widget.cpp" />
     <ClCompile Include="MyCircle.cpp" />
+    <ClCompile Include="myscrollarea.cpp" />
+    <ClCompile Include="mysquare.cpp" />
     <ClCompile Include="QtAreaToProcessed.cpp" />
+    <ClCompile Include="QtConnect.cpp" />
     <ClCompile Include="QtConterProcessing.cpp" />
     <ClCompile Include="QtGUISensorSim.cpp" />
     <ClCompile Include="QtMySliderWid.cpp" />
     <ClCompile Include="QtRotateRect.cpp" />
     <ClCompile Include="QtWidProcesArea.cpp" />
     <ClCompile Include="qxtspanslider.cpp" />
+    <ClCompile Include="widget.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
+    <QtUic Include="GE_Widget.ui" />
     <QtUic Include="QtAddToolGUI.ui" />
+    <QtUic Include="QtConnect.ui" />
     <QtUic Include="QtGuiDisplay.ui" />
     <QtUic Include="QtGuiProgramDetails.ui" />
     <QtUic Include="QtGUISensorSim.ui" />
@@ -135,17 +144,24 @@
     <ClCompile Include="QtSetupSimulator.cpp" />
     <ClCompile Include="QtWorkGui.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="widget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="myLabel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CountoursProcessing.h" />
+    <ClInclude Include="FrameObserver.h" />
+    <QtMoc Include="widget.h" />
+    <QtMoc Include="GE_Widget.h" />
     <ClInclude Include="MyCircle.h" />
+    <QtMoc Include="myscrollarea.h" />
+    <QtMoc Include="mysquare.h" />
     <ClInclude Include="ProcessedObj.h" />
     <QtMoc Include="QtGUISensorSim.h" />
     <QtMoc Include="QtAreaToProcessed.h" />
     <QtMoc Include="QtConterProcessing.h" />
+    <QtMoc Include="QtConnect.h" />
     <ClInclude Include="QtRotateRect.h" />
     <QtMoc Include="QtWidProcesArea.h" />
     <QtMoc Include="QtMySliderWid.h" />

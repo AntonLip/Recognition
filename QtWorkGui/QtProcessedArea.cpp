@@ -108,8 +108,8 @@ void QtProcessedArea::createMaster(cv::Mat const* inputImg)
 {
 	if (processedAreaType == 1)
 	{
-		cv::Mat procImg;
-		cv::cvtColor(*inputImg, procImg, cv::COLOR_RGB2GRAY);
+		cv::Mat procImg(*inputImg);
+		//cv::cvtColor(*inputImg, procImg, cv::COLOR_RGB2GRAY);
 		counterProc->findAndSetMasterContours(&procImg);
 	}
 }
@@ -147,9 +147,12 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	cv::Mat drawImg;
 	cv::Mat(counterProc->getDrawContours(roi)).copyTo(drawImg);
 	cv::Mat backGround;
+	cv::cvtColor(mask, mask, cv::COLOR_RGB2GRAY);
 	cv::bitwise_and(cv::Mat(*inputImg,roi), mask, backGround);
 	cv::bitwise_not(mask, mask);
+	cv::cvtColor(mask, mask, cv::COLOR_GRAY2BGR);
 	cv::bitwise_and(drawImg, mask, drawImg);
+	cv::cvtColor(backGround, backGround, cv::COLOR_GRAY2BGR);
 	cv::bitwise_or(drawImg, backGround, drawImg);
 	return drawImg;
 }
