@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="QtWorkGui.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtMoc Include="QtWorkGui.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="QtWorkGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessedObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtGuiDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtGuiProgramDetails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtGuiSimulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtImgInScrolBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtImgWidgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtProgramCopyProcesObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtSetupSimulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtMyDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtProcessedArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtAddToolGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qxtspanslider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtMySliderWid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWidProcesArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCircle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtRotateRect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtGUISensorSim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtAreaToProcessed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtConnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GE_Widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="myscrollarea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mysquare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="QtGuiDisplay.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtGuiProgramDetails.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtGuiSimulator.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtImgInScrolBar.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtImgWidgets.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtProgramCopyProcesObj.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtMyDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtAddToolGUI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtMySliderWid.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtWidProcesArea.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtGUISensorSim.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="GE_Widget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtConnect.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtWorkGui.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="widget.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+    <QtUic Include="QtSetupSimulator.ui">
+      <Filter>Resource Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="myLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtGuiDisplay.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtGuiProgramDetails.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtGuiSimulator.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtImgInScrolBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtImgWidgets.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtProgramCopyProcesObj.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtSetupSimulator.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtMyDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtProcessedArea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtAddToolGUI.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="qxtspanslider.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="qxtspanslider_p.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtMySliderWid.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtWidProcesArea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtGUISensorSim.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtAreaToProcessed.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtConnect.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GE_Widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="myscrollarea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="mysquare.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ProcessedObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCircle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QtRotateRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
