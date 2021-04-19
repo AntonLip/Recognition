@@ -8,6 +8,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include "qstandarditemmodel.h"
+#include "simplLoger.h"
 
 #include "ProcessedObj.h"
 #include "QtSetupSimulator.h"
@@ -44,6 +45,7 @@ private:
 	int m_index = 0;
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
+	simplLoger myLog;
 
 private slots:
 	void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);

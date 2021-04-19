@@ -6,6 +6,7 @@
 #include "QtAddToolGUI.h"
 #include "QButtonGroup"
 #include "QtWidProcesArea.h"
+#include "simplLoger.h"
 
 class QtSetupSimulator : public QWidget
 {
@@ -31,6 +32,7 @@ class QtSetupSimulator : public QWidget
 	void setGUIParamsAddArea(int typeProcesArea);
 	void closeEvent(QCloseEvent* event);
 	void addProceseArea();
+	simplLoger myLoger;
 public:
 	QtSetupSimulator(QWidget *parent = Q_NULLPTR);
 	~QtSetupSimulator();

@@ -23,6 +23,8 @@
 #include <qwidget.h>
 #include <QWheelEvent>
 
+#include "simplLoger.h"
+
 using namespace AVT;
 using namespace VmbAPI;
 using namespace cv;
@@ -38,7 +40,7 @@ public:
 	friend class FrameObserver;
 	void scaledImages(double factor);
 	double getKoefficient(int value);  //коэффициент уменьшения окна в зависимости от спинбоксов
-
+	simplLoger myLoger;
 
 protected:
 	bool eventFilter(QObject*, QEvent* event);

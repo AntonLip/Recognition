@@ -103,11 +103,18 @@ void QtGuiSimulator::slot_updateComboBox(int activObj)
 
 void QtGuiSimulator::slot_openSetupSimulator()
 {
-	SetupSimulator = new QtSetupSimulator();
-	SetupSimulator->show();
-	connect(this, SIGNAL(dataToSetingSim(ProcessedObj*)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObj*)));
-	connect(SetupSimulator, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
-	emit dataToSetingSim(&loadObj[activLoadObj]);
+	//try
+	{
+		SetupSimulator = new QtSetupSimulator();
+		SetupSimulator->show();
+		connect(this, SIGNAL(dataToSetingSim(ProcessedObj*)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObj*)));
+		connect(SetupSimulator, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
+		emit dataToSetingSim(&loadObj[activLoadObj]);
+	}
+	//catch(...)
+	{
+		//myLog.logMessege("Error");
+	}
 }
 
 void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObj* changedObj)

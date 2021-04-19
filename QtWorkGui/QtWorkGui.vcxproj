@@ -52,6 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);C:\opencv12\opencv\build\include;.\</AdditionalIncludeDirectories>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(Qt_LIBPATH_);%(AdditionalLibraryDirectories);C:\opencv12\opencv\build\x64\vc12\lib</AdditionalLibraryDirectories>
@@ -110,8 +111,10 @@
     <ClCompile Include="QtGUISensorSim.cpp" />
     <ClCompile Include="QtMySliderWid.cpp" />
     <ClCompile Include="QtRotateRect.cpp" />
+    <ClCompile Include="QtSimCamera.cpp" />
     <ClCompile Include="QtWidProcesArea.cpp" />
     <ClCompile Include="qxtspanslider.cpp" />
+    <ClCompile Include="simplLoger.cpp" />
     <ClCompile Include="widget.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
     <QtUic Include="GE_Widget.ui" />
@@ -127,6 +130,7 @@
     <QtUic Include="QtMySliderWid.ui" />
     <QtUic Include="QtProgramCopyProcesObj.ui" />
     <QtUic Include="QtSetupSimulator.ui" />
+    <QtUic Include="QtSimCamera.ui" />
     <QtUic Include="QtWidProcesArea.ui" />
     <QtUic Include="QtWorkGui.ui" />
     <QtMoc Include="QtWorkGui.h" />
@@ -152,6 +156,8 @@
   <ItemGroup>
     <ClInclude Include="CountoursProcessing.h" />
     <ClInclude Include="FrameObserver.h" />
+    <QtMoc Include="QtSimCamera.h" />
+    <ClInclude Include="simplLoger.h" />
     <QtMoc Include="widget.h" />
     <QtMoc Include="GE_Widget.h" />
     <ClInclude Include="MyCircle.h" />

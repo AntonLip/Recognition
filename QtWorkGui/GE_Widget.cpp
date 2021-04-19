@@ -42,77 +42,95 @@ GE_Widget::GE_Widget(QWidget *parent)
 
 	// Start the API, get and open cameras										Запускаем API, получаем и открываем камеру
 	//system.Startup();
-	system.GetCameras(cameras);													//получаем список подключенных камер
+													//получаем список подключенных камер
 	//system.GetCameraByID("169.254.197.209", camera);							//обнаружение камеры по IP, обнаруженную камеру возвращаем в camera
-	camera = *cameras.begin();													//первую из списка камеру присваиваем
+	//try {
+		system.GetCameras(cameras);//получаем список подключенных камер
+		/*
+		if (cameras.size() == 0)
+		{
+			throw "Cameras not found";
+		}
+		*/
+		try {
 
-	camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
+			camera = *cameras.begin();//первую из списка камеру присваиваем
+		}
+		catch (...)
+		{
+			myLoger.logMessege("cr");
+			//myLoger.logMessege(a.what());
+		}
 
-	/******************************/
+		camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
 
-	//GetExposureAutoTargetFeature(feature, camera);
-	//VmbInt64_t value;
-	//GetExposureAutoTarget(value, camera);
-	//SetExposureAutoTarget(50000, camera);
+		/******************************/
 
-	/***ПРОВЕРИТЬ*****низ******ПРОВЕРИТЬ****ПРОВЕРИТЬ********ПРОВЕРИТЬ*********/
-	camera->GetFeatureByName("PixelFormat", pFeature);
-	char* temp = ui.comboBox->currentText().toLocal8Bit().data();//перевод в символьную переменную значения из комбобокса
-	pFeature->SetValue(temp);  //RGB8Packed, YUV411Packed, BayerRG8, …
+		//GetExposureAutoTargetFeature(feature, camera);
+		//VmbInt64_t value;
+		//GetExposureAutoTarget(value, camera);
+		//SetExposureAutoTarget(50000, camera);
 
-	/***********************************/
-	//binning разрешения в tab2
-	camera->GetFeatureByName("BinningHorizontal", pFeature);
-	pFeature->SetValue(ui.spinBox->value());
+		/***ПРОВЕРИТЬ*****низ******ПРОВЕРИТЬ****ПРОВЕРИТЬ********ПРОВЕРИТЬ*********/
+		camera->GetFeatureByName("PixelFormat", pFeature);
+		char* temp = ui.comboBox->currentText().toLocal8Bit().data();//перевод в символьную переменную значения из комбобокса
+		pFeature->SetValue(temp);  //RGB8Packed, YUV411Packed, BayerRG8, …
 
-	camera->GetFeatureByName("BinningVertical", pFeature);
-	pFeature->SetValue(ui.spinBox_2->value());
+		/***********************************/
+		//binning разрешения в tab2
+		camera->GetFeatureByName("BinningHorizontal", pFeature);
+		pFeature->SetValue(ui.spinBox->value());
 
-	camera->GetFeatureByName("Height", pFeature);
-	pFeature->SetValue(ui.spinBox_5->value());
+		camera->GetFeatureByName("BinningVertical", pFeature);
+		pFeature->SetValue(ui.spinBox_2->value());
 
-	camera->GetFeatureByName("Width", pFeature);
-	int tmp = ui.spinBox_6->value();
-	while (tmp % 4 != 0)
-	{
-		tmp++;
-	}
-	pFeature->SetValue(tmp);
+		camera->GetFeatureByName("Height", pFeature);
+		pFeature->SetValue(ui.spinBox_5->value());
 
-	camera->GetFeatureByName("OffsetX", pFeature);
-	pFeature->SetValue(ui.spinBox_4->value());
+		camera->GetFeatureByName("Width", pFeature);
+		int tmp = ui.spinBox_6->value();
+		while (tmp % 4 != 0)
+		{
+			tmp++;
+		}
+		pFeature->SetValue(tmp);
 
-	camera->GetFeatureByName("OffsetY", pFeature);
-	pFeature->SetValue(ui.spinBox_3->value());
-	/****************************************/
+		camera->GetFeatureByName("OffsetX", pFeature);
+		pFeature->SetValue(ui.spinBox_4->value());
 
-
-	// Get the image size for the required buffer								Получите размер изображения для выбора необходимого буфера
-	// Allocate memory for frame buffer											Выделите память для буфера,который будет хранить кадр
-	// Register frame observer/callback for each frame							Зарегистрируйте наблюдатель кадров / обратный вызов для каждого кадра
-	// Announce frame to the API												Предоставьте кадр API
-
-
-	camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
-	pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
+		camera->GetFeatureByName("OffsetY", pFeature);
+		pFeature->SetValue(ui.spinBox_3->value());
+		/****************************************/
 
 
-	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
-	{
-		(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
-		//obs = 
-		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
-		camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
-	}
-	makePhoto = false;
-	// Start the capture engine (API)											Запуск механизма захвата кадров
-	camera->StartCapture();
-	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
-	{
-		// Put frame into the frame queue										Поместить кадр в очередь кадров
-		camera->QueueFrame(*iter);
+		// Get the image size for the required buffer								Получите размер изображения для выбора необходимого буфера
+		// Allocate memory for frame buffer											Выделите память для буфера,который будет хранить кадр
+		// Register frame observer/callback for each frame							Зарегистрируйте наблюдатель кадров / обратный вызов для каждого кадра
+		// Announce frame to the API												Предоставьте кадр API
 
-	}
+
+		camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+		pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
+
+
+		for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
+		{
+			(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+			//obs = 
+			(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
+			camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
+		}
+		makePhoto = false;
+		// Start the capture engine (API)											Запуск механизма захвата кадров
+		camera->StartCapture();
+		for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
+		{
+			// Put frame into the frame queue										Поместить кадр в очередь кадров
+			camera->QueueFrame(*iter);
+
+		}
+	
+	
 }
 
 GE_Widget::~GE_Widget()

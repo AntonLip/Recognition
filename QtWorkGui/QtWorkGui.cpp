@@ -15,6 +15,8 @@ QtWorkGui::QtWorkGui(QWidget *parent)
 
 void QtWorkGui::conect_slot()
 {
+	qwer = new QtSimCamera();
+	qwer->show();
 	connectMenu->show();
 	this->close();
 }

@@ -10,7 +10,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
-
+#include "QtSimCamera.h"
 class QtWorkGui : public QMainWindow
 {
     Q_OBJECT
@@ -21,6 +21,7 @@ public:
 private:
     QtGuiSimulator* simulatorMenu;
     QtConnect* connectMenu;
+    QtSimCamera* qwer;
     Ui::QtWorkGuiClass ui;
 private slots:
     void conect_slot();

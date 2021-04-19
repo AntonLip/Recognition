@@ -128,7 +128,7 @@ void draw(cv::Mat* inOutputImg,std::vector<std::vector<cv::Point>> counters)
     for (size_t i{ 0 }; i < counters.size(); ++i)
     {
         cv::drawContours(*inOutputImg, counters, int(i), cv::Scalar(0, 255, 0));
-    }    
+    }
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elasped = end - start;
     std::cout << "time draw cont: " << elasped.count() << std::endl;

@@ -1,0 +1,3 @@
+67614	Error
+30061	Error
+11451	camera Error
