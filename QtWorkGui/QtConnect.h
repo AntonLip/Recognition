@@ -4,7 +4,8 @@
 #include "ui_QtConnect.h"
 #include <VimbaCPP.h>
 #include <qstring.h>
-#include "QtGuiSimulator.h"
+#include "QtGuiWorkWithCamera.h"
+#include "simplLoger.h"
 
 using namespace AVT;
 using namespace VmbAPI;
@@ -24,9 +25,9 @@ private:
 	Ui::QtConnect ui;
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	CameraPtrVector cameras;
-	QtGuiSimulator* simulatorMenu;
-
+	QtGuiWorkWithCamera* simulatorMenu;
+	simplLoger LOG;
 signals:
 	void moveCameraInformation(CameraPtrVector& ,int );
-	
+	void closeMainForm();
 };

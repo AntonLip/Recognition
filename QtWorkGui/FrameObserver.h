@@ -29,7 +29,7 @@ private:
 	 bool m_gewidget = false;
 
 public:
-	FrameObserver(CameraPtr pCamera, Ui::QtGuiSimulator &ui, QPixmap &img, bool &makePhoto, ProcessedObj *loadObj0) : IFrameObserver(pCamera), m_ui(ui), m_img(img), m_makePhoto(makePhoto), m_loadObj(loadObj0)
+	FrameObserver(CameraPtr pCamera, Ui::QtGuiSimulator&ui, QPixmap &img, bool &makePhoto, ProcessedObj *loadObj0) : IFrameObserver(pCamera), m_ui(ui), m_img(img), m_makePhoto(makePhoto), m_loadObj(loadObj0)
 	{
 
 	};

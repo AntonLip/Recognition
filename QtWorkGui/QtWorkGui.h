@@ -19,7 +19,7 @@ class QtWorkGui : public QMainWindow
 
 public:
     QtWorkGui(QWidget *parent = Q_NULLPTR);
-
+    ~QtWorkGui();
 private:
     QtGuiSimulator* simulatorMenu;
     QtConnect* connectMenu;
@@ -29,6 +29,7 @@ private:
 private slots:
     void conect_slot();
     void openSimulator_slot();
+    void slot_dataFromCameraConect();
 signals:
     void getDataToSimulator(cv::Mat InputImg, QString filename);
 };

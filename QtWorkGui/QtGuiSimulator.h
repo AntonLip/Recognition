@@ -15,12 +15,16 @@
 #include "QtGuiProgramDetails.h"
 #include "QtGUISensorSim.h"
 
-#include "qstandarditemmodel.h"
-#include "FrameObserver.h"
-
 class QtGuiSimulator : public QMainWindow
 {
 	Q_OBJECT
+	
+	
+public:
+	QtGuiSimulator(QWidget *parent = Q_NULLPTR);
+	~QtGuiSimulator();
+protected:
+	Ui::QtGuiSimulator ui;
 	std::vector<ProcessedObj> loadObj;
 	int activLoadObj;
 	QListView *view;
@@ -28,24 +32,7 @@ class QtGuiSimulator : public QMainWindow
 	QtGuiProgramDetails *Programdetail;
 	QtSetupSimulator* SetupSimulator;
 	QtGUISensorSim* SensorSimulator;
-	
-public:
-	QtGuiSimulator(QWidget *parent = Q_NULLPTR);
-	~QtGuiSimulator();
-private:
-	Ui::QtGuiSimulator ui;
-	CameraPtrVector cameras;
-	std::string Str = "AcquisitionStop"; // проверка Play/Stop
-	CameraPtr camera;
-	FeaturePtr pFeature; // Generic feature pointer
-	VmbInt64_t nPLS;// Payload size value
-	FramePtrVector frames{ 3 }; // Frame array
-	QPixmap img;
-	bool makePhoto = true;
-	int m_index = 0;
-	VimbaSystem& system = VimbaSystem::GetInstance();
-	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
-	simplLoger myLog;
+	simplLoger LOG;
 
 private slots:
 	void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);
@@ -56,9 +43,6 @@ private slots:
 	void slot_dataFromSetupSim(ProcessedObj* changedObj);
 	void slot_changeActivProcArea(int newActiv);
 	void slot_openSensorSim();
-	void slot_getCameraInformation(CameraPtrVector& cams, int index);
-	void play();
-	void slot_stop();
 
 signals:
 	void dataToProgramDeyls(ProcessedObj *objts);

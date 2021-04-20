@@ -109,6 +109,7 @@
     <ClCompile Include="QtConnect.cpp" />
     <ClCompile Include="QtConterProcessing.cpp" />
     <ClCompile Include="QtGUISensorSim.cpp" />
+    <ClCompile Include="QtGuiWorkWithCamera.cpp" />
     <ClCompile Include="QtMySliderWid.cpp" />
     <ClCompile Include="QtRotateRect.cpp" />
     <ClCompile Include="QtSimCamera.cpp" />
@@ -124,6 +125,7 @@
     <QtUic Include="QtGuiProgramDetails.ui" />
     <QtUic Include="QtGUISensorSim.ui" />
     <QtUic Include="QtGuiSimulator.ui" />
+    <QtUic Include="QtGuiWorkWithCamera.ui" />
     <QtUic Include="QtImgInScrolBar.ui" />
     <QtUic Include="QtImgWidgets.ui" />
     <QtUic Include="QtMyDialog.ui" />
@@ -157,6 +159,7 @@
     <ClInclude Include="CountoursProcessing.h" />
     <ClInclude Include="FrameObserver.h" />
     <QtMoc Include="QtSimCamera.h" />
+    <QtMoc Include="QtGuiWorkWithCamera.h" />
     <ClInclude Include="simplLoger.h" />
     <QtMoc Include="widget.h" />
     <QtMoc Include="GE_Widget.h" />
