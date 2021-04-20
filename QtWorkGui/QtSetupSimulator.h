@@ -11,6 +11,7 @@
 class QtSetupSimulator : public QWidget
 {
 	Q_OBJECT
+protected:
 	QList<QtWidProcesArea*> widProcAreaList;
 	ProcessedObj masterObjct;
 	QtMyDialog* dialog;
@@ -32,16 +33,17 @@ class QtSetupSimulator : public QWidget
 	void setGUIParamsAddArea(int typeProcesArea);
 	void closeEvent(QCloseEvent* event);
 	void addProceseArea();
-	simplLoger myLoger;
+	simplLoger LOG;
+
 public:
 	QtSetupSimulator(QWidget *parent = Q_NULLPTR);
 	~QtSetupSimulator();
 	
-private:
+protected:
 	Ui::QtSetupSimulator ui;
 	void mousePressEvent(QMouseEvent* event);
 	void setOneSlider(bool oneSlider);
-private slots:
+protected slots:
 	void slot_pushStep1();
 	void slot_pushStep2();
 	void slot_pushStep3();
