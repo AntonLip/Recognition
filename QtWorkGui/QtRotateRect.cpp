@@ -201,78 +201,73 @@ int QtRotateRect::setRotateAngel(double newAngel, QSize *limitSize, QPoint* cent
 
 int QtRotateRect::resetAngel(QSize* limitSize)
 {
-	QPoint center{ 0,0 };
-	center.setX(static_cast<int>(getMin_X()) + static_cast<double>(getMax_X() - getMin_X()) / 2 + 1);
-	center.setY(static_cast<int>(getMin_Y()) + static_cast<double>(getMax_Y() - getMin_Y()) / 2 + 1);
-	double buferAngel{ rotationAngle };
-	rotationAngle = 0.0;
-	double radius{ sqrt(width() * width() + height() * height()) / 2 };
-	double constAngel{ asin((static_cast<double>(width()) / 2) / radius) };
-	double buferCor[8];
-	buferCor[0] = static_cast<double>(center.x() - static_cast<double>(sin(constAngel - rotationAngle * pi / 180.0) * radius));
-	if (buferCor[0] >= limitSize->width() || buferCor[0] < 0)
+	if (rotationAngle != 0.0)
 	{
-		rotationAngle = buferAngel;
-		return -1;
+		QPoint center{ 0,0 };
+		center.setX(static_cast<int>(getMin_X()) + static_cast<double>(getMax_X() - getMin_X()) / 2 + 1);
+		center.setY(static_cast<int>(getMin_Y()) + static_cast<double>(getMax_Y() - getMin_Y()) / 2 + 1);
+		double buferAngel{ rotationAngle };
+		rotationAngle = 0.0;
+		double radius{ sqrt(width() * width() + height() * height()) / 2 };
+		double constAngel{ asin((static_cast<double>(width()) / 2) / radius) };
+		double buferCor[8];
+		buferCor[0] = static_cast<double>(center.x() - static_cast<double>(sin(constAngel - rotationAngle * pi / 180.0) * radius));
+		if (buferCor[0] >= limitSize->width() || buferCor[0] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[1] = static_cast<double>(center.y() - static_cast<double>(cos(constAngel - rotationAngle * pi / 180.0) * radius));
+		if (buferCor[1] >= limitSize->height() || buferCor[1] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[2] = static_cast<double>((this->width() * sin((90.0 - rotationAngle) * pi / 180.0)) + buferCor[0]);
+		if (buferCor[2] >= limitSize->width() || buferCor[2] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[3] = static_cast<double>(buferCor[1] + (this->width() * cos((90.0 - rotationAngle) * pi / 180.0)));
+		if (buferCor[3] >= limitSize->height() || buferCor[3] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[4] = static_cast<double>(buferCor[0] - (this->height() * cos((90.0 - rotationAngle) * pi / 180.0)));
+		if (buferCor[4] >= limitSize->width() || buferCor[4] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[5] = static_cast<double>(buferCor[1] + (this->height() * sin((90.0 - rotationAngle) * pi / 180.0)));
+		if (buferCor[5] >= limitSize->height() || buferCor[5] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[6] = static_cast<double>(buferCor[4] + (this->width() * sin((90.0 - rotationAngle) * pi / 180.0)));
+		if (buferCor[6] >= limitSize->width() || buferCor[6] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		buferCor[7] = static_cast<double>(buferCor[5] + (this->width() * cos((90.0 - rotationAngle) * pi / 180.0)));
+		if (buferCor[7] >= limitSize->height() || buferCor[7] < 0)
+		{
+			rotationAngle = buferAngel;
+			return -1;
+		}
+		upLeftAngel_X = buferCor[0];
+		upLeftAngel_Y = buferCor[1];
+		upRigAngel_X = buferCor[2];
+		upRigAngel_Y = buferCor[3];
+		downLeftAngel_X = buferCor[4];
+		downLeftAngel_Y = buferCor[5];
+		downRigAngel_X = buferCor[6];
+		downRigAngel_Y = buferCor[7];
 	}
-	buferCor[1] = static_cast<double>(center.y() - static_cast<double>(cos(constAngel - rotationAngle * pi / 180.0) * radius));
-	if (buferCor[1] >= limitSize->height() || buferCor[1] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[2] = static_cast<double>((this->width() * sin((90.0 - rotationAngle) * pi / 180.0)) + buferCor[0]);
-	if (buferCor[2] >= limitSize->width() || buferCor[2] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[3] = static_cast<double>(buferCor[1] + (this->width() * cos((90.0 - rotationAngle) * pi / 180.0)));
-	if (buferCor[3] >= limitSize->height() || buferCor[3] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[4] = static_cast<double>(buferCor[0] - (this->height() * cos((90.0 - rotationAngle) * pi / 180.0)));
-	if (buferCor[4] >= limitSize->width() || buferCor[4] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[5] = static_cast<double>(buferCor[1] + (this->height() * sin((90.0 - rotationAngle) * pi / 180.0)));
-	if (buferCor[5] >= limitSize->height() || buferCor[5] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[6] = static_cast<double>(buferCor[4] + (this->width() * sin((90.0 - rotationAngle) * pi / 180.0)));
-	if (buferCor[6] >= limitSize->width() || buferCor[6] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	buferCor[7] = static_cast<double>(buferCor[5] + (this->width() * cos((90.0 - rotationAngle) * pi / 180.0)));
-	if (buferCor[7] >= limitSize->height() || buferCor[7] < 0)
-	{
-		rotationAngle = buferAngel;
-		return -1;
-	}
-	/*upLeftAngel_X = static_cast<double>(x());
-	upLeftAngel_Y = static_cast<double>(y());
-	upRigAngel_X = static_cast<double>(x() + width() + 1);
-	upRigAngel_Y = static_cast<double>(y());
-	downLeftAngel_X = static_cast<double>(x());
-	downLeftAngel_Y = static_cast<double>(y() + height() + 1);
-	downRigAngel_X = static_cast<double>(x() + width() + 1);
-	downRigAngel_Y = static_cast<double>(y() + height() + 1);*/
-	upLeftAngel_X = buferCor[0];
-	upLeftAngel_Y = buferCor[1];
-	upRigAngel_X = buferCor[2];
-	upRigAngel_Y = buferCor[3];
-	downLeftAngel_X = buferCor[4];
-	downLeftAngel_Y = buferCor[5];
-	downRigAngel_X = buferCor[6];
-	downRigAngel_Y = buferCor[7];
 	return 0;
 }
 
@@ -366,42 +361,42 @@ bool QtRotateRect::contains(int x, int y)
 
 int QtRotateRect::getUpLeft_X()
 {
-	return static_cast<int>(trunc(upLeftAngel_X));
+	return static_cast<int>(round(upLeftAngel_X));
 }
 
 int QtRotateRect::getUpLeft_Y()
 {
-	return static_cast<int>(trunc(upLeftAngel_Y));
+	return static_cast<int>(round(upLeftAngel_Y));
 }
 
 int QtRotateRect::getDownLeft_X()
 {
-	return static_cast<int>(trunc(downLeftAngel_X));
+	return static_cast<int>(round(downLeftAngel_X));
 }
 
 int QtRotateRect::getDownLeft_Y()
 {
-	return static_cast<int>(trunc(downLeftAngel_Y));
+	return static_cast<int>(round(downLeftAngel_Y));
 }
 
 int QtRotateRect::getUpRigth_X()
 {
-	return static_cast<int>(trunc(upRigAngel_X));
+	return static_cast<int>(round(upRigAngel_X));
 }
 
 int QtRotateRect::getUpRigth_Y()
 {
-	return static_cast<int>(trunc(upRigAngel_Y));
+	return static_cast<int>(round(upRigAngel_Y));
 }
 
 int QtRotateRect::getDownRigth_X()
 {
-	return static_cast<int>(trunc(downRigAngel_X));
+	return static_cast<int>(round(downRigAngel_X));
 }
 
 int QtRotateRect::getDownRigth_Y()
 {
-	return static_cast<int>(trunc(downRigAngel_Y));
+	return static_cast<int>(round(downRigAngel_Y));
 }
 
 int QtRotateRect::getMax_X()

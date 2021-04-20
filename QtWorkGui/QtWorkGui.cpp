@@ -23,6 +23,7 @@ void QtWorkGui::conect_slot()
 
 void QtWorkGui::openSimulator_slot()
 {
+	LOG.logMessege("begin open Simulator", _DEBUG_);
 	QString qstr_bufer{ QFileDialog::getOpenFileName(this, "Images", "D:/", tr("Images files (*.png *.jpg *.bmp)")) };
 	cv::Mat img_bufer;
 	img_bufer = cv::imread(qstr_bufer.toStdString());
@@ -36,5 +37,6 @@ void QtWorkGui::openSimulator_slot()
 	{
 		QMessageBox::critical(nullptr, QObject::tr("Warning"), QObject::tr("Image not loaded")); //massage about error download
 	}
+	LOG.logMessege("end open Simulator", _DEBUG_);
 }
 

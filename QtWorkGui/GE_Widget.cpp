@@ -45,23 +45,10 @@ GE_Widget::GE_Widget(QWidget *parent)
 													//получаем список подключенных камер
 	//system.GetCameraByID("169.254.197.209", camera);							//обнаружение камеры по IP, обнаруженную камеру возвращаем в camera
 	//try {
-		system.GetCameras(cameras);//получаем список подключенных камер
-		/*
-		if (cameras.size() == 0)
-		{
-			throw "Cameras not found";
-		}
-		*/
-		try {
-
-			camera = *cameras.begin();//первую из списка камеру присваиваем
-		}
-		catch (...)
-		{
-			myLoger.logMessege("cr");
-			//myLoger.logMessege(a.what());
-		}
-
+	system.GetCameras(cameras);//получаем список подключенных камер
+	if (cameras.size() > 0)
+	{
+		camera = *cameras.begin();//первую из списка камеру присваиваем
 		camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
 
 		/******************************/
@@ -129,23 +116,20 @@ GE_Widget::GE_Widget(QWidget *parent)
 			camera->QueueFrame(*iter);
 
 		}
-	
-	
+	}
 }
 
 GE_Widget::~GE_Widget()
 {
-
 	// Stop the capture engine (API)
 	// Flush the frame queue 
 	// Revoke all frames from the API 
-
-	camera->EndCapture();
-	camera->FlushQueue();
-	//camera->RevokeAllFrames();
-
-	//}
-	camera->Close();
+	if (cameras.size() > 0)
+	{
+		camera->EndCapture();
+		camera->FlushQueue();
+		camera->Close();
+	}
 	//system.Shutdown(); // Always pair sys.Startup and sys.Shutdown
 }
 
