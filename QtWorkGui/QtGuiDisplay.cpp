@@ -1029,7 +1029,6 @@ void QtGuiDisplay::updateImg()
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg();
 	}
-	
 }
 
 void QtGuiDisplay::slot_resetAngel(int activRect)

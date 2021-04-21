@@ -3,7 +3,7 @@
 #include <QWidget>
 #include "ui_QtGuiWorkWithCamera.h"
 #include "QtGuiSimulator.h"
-
+#include "QtGuiSetupSensor.h"
 #include "qstandarditemmodel.h"
 #include "FrameObserver.h"
 
@@ -28,10 +28,14 @@ private:
 	int m_index = 0;
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
-	QPushButton* PB_play;
-	QPushButton* PB_parametrs;
+	QtGuiSetupSensor* sensorSetup;
+	void setupGui();
+	
 private slots:
 	void slot_getCameraInformation(CameraPtrVector& cams, int index);
 	void slot_play();
 	void slot_stop();
+	void slot_openSetupCamera();
+signals:
+	void dataToSetingSim(ProcessedObj* activObject);
 };

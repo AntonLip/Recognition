@@ -222,14 +222,14 @@ void QtSetupSimulator::slot_resetAngelRect()
 void QtSetupSimulator::setGUIWid(int newActivStep)
 {
 	activStep = newActivStep;
-	if (newActivStep == 1)
+	/*if (newActivStep == 1)
 	{
 		ui.stackedWidget->setCurrentIndex(0);
 	}
-	else
+	else#
 	{
 		ui.stackedWidget->setCurrentIndex(1);
-	}
+	}*/
 	ui.stackWid_steps->setCurrentIndex(activStep-1);
 	if (activStep != 4)
 		ui.pushButton_nextAndFinsh->setText("to step " + QString::number(activStep + 1) + " ->");

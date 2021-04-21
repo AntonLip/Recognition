@@ -3,6 +3,9 @@
 #include <QWidget>
 #include "ui_QtGuiSetupSensor.h"
 #include "QtSetupSimulator.h"
+#include "myscrollarea.h"
+#include "widget.h"
+#include "qspinbox.h"
 
 class QtGuiSetupSensor : public QtSetupSimulator
 {
@@ -14,4 +17,6 @@ public:
 
 private:
 	Ui::QtGuiSetupSensor ui;
+	QHBoxLayout* HL_forFirstStep;
+	void setUpGui();
 };

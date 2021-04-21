@@ -1,28 +1,14 @@
 #include "QtGuiWorkWithCamera.h"
 
 QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget *parent)
-	: QtGuiSimulator(parent),
-	PB_play(nullptr),
-	PB_parametrs(nullptr)
+	: QtGuiSimulator(parent)
 {
 	LOG.logMessege("QtGuiWorkWithCamera constructor started",_DEBUG_);
 	ui.setupUi(this);
-	PB_play = new QPushButton(this);
-	PB_parametrs = new QPushButton(this);
-	PB_play->setMaximumSize(QSize(40, 40));
-	PB_play->setMinimumSize(QSize(40, 40));
-	PB_parametrs->setMaximumSize(QSize(40, 40));
-	PB_parametrs->setMinimumSize(QSize(40, 40));
-	PB_play->setIcon(QIcon("icon/play.png"));
-	PB_play->setIconSize(QSize(40, 40));
-	PB_parametrs->setIcon(QIcon("icon/parametrs.png"));
-	PB_parametrs->setIconSize(QSize(40, 40));
-	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(0, PB_play);
-	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(1, PB_parametrs);
-	PB_play->show();
-	PB_parametrs->show();
-	connect(PB_play, SIGNAL(clicked()), this, SLOT(slot_play()));
-	connect(PB_parametrs, SIGNAL(clicked()), this, SLOT(slot_stop()));
+	setupGui();
+	connect(ui.PB_play, SIGNAL(clicked()), this, SLOT(slot_play()));
+	connect(ui.PB_parametrs, SIGNAL(clicked()), this, SLOT(slot_stop()));
+	connect(ui.PB_sensorSetup, SIGNAL(clicked()), this, SLOT(slot_openSetupCamera()));
 }
 
 QtGuiWorkWithCamera::~QtGuiWorkWithCamera()
@@ -38,6 +24,14 @@ void QtGuiWorkWithCamera::readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixma
 {
 	LOG.logMessege("set frame in QtGuiWorkWithCamera", _DEBUG_);
 	loadObj[activLoadObj].SetObjParams("", "", *newFrameMat, *newFramePixmap, false);
+}
+
+void QtGuiWorkWithCamera::setupGui()
+{
+	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(0, ui.PB_play);
+	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(1, ui.PB_parametrs);
+	QtGuiSimulator::ui.pushButton_SetupSimltr->hide();
+	QtGuiSimulator::ui.verticalLayout->insertWidget(0, ui.PB_sensorSetup);
 }
 
 void QtGuiWorkWithCamera::slot_play()
@@ -119,6 +113,15 @@ void QtGuiWorkWithCamera::slot_stop()
 		camera->FlushQueue();
 		Str = "AcquisitionStop";
 	}
+}
+
+void QtGuiWorkWithCamera::slot_openSetupCamera()
+{
+	sensorSetup = new QtGuiSetupSensor();
+	sensorSetup->show();
+	
+	connect(this, SIGNAL(dataToSetingSim(ProcessedObj*)), sensorSetup, SLOT(slot_dataFromGUISim(ProcessedObj*)));
+	emit dataToSetingSim(&loadObj[0]);
 }
 
 void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)
