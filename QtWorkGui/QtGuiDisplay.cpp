@@ -1,7 +1,8 @@
 #include "QtGuiDisplay.h"
 
 QtGuiDisplay::QtGuiDisplay(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	isZoomNow(false)
 {
 	ui.setupUi(this);
 	activProcessedObj = nullptr;
@@ -530,101 +531,116 @@ void QtGuiDisplay::slot_mouseRelease()
 
 void QtGuiDisplay::slot_ZoomImg_In()
 {
-	emit clic_pb();
-	int dr_x, dr_y;
-	activ_scaled = ui.label_for_TempImg->scaledPixmap(1, dr_x, dr_y);
-	if (activ_scaled == 500)
+	if (!isZoomNow)
 	{
-		ui.pushButt_ZoomIncress->setEnabled(false);
+		isZoomNow = true;
+		emit clic_pb();
+		int dr_x, dr_y;
+		activ_scaled = ui.label_for_TempImg->scaledPixmap(1, dr_x, dr_y);
+		if (activ_scaled == 500)
+		{
+			ui.pushButt_ZoomIncress->setEnabled(false);
+		}
+		else
+		{
+			ui.pushButt_ZoomIncress->setEnabled(true);
+		}
+		ui.label_Scale->setText(QString::number(activ_scaled) + "%");
+		ui.pushButt_ZoomDeduce->setEnabled(true);
+		this->setSizeScrollBar();
+		ui.label_for_TempImg->scaledPixmap();
+		this->setSizeScrollBar();
+		ui.horSB_forTempImg->setValue(dr_x);
+		ui.verSB_forTempImg->setValue(dr_y);
+		if (!ui.pushButt_AllLabl->isEnabled())
+			ui.pushButt_AllLabl->setEnabled(true);
+		/*int i{ 0 };
+		if (!activProcessedObj->brightnesCorrectAreaIsSet())
+			i = 1;*/
+		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+		{
+			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+		}
+		draw_proceseArears();
+		ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+		isZoomNow = false;
 	}
-	else
-	{
-		ui.pushButt_ZoomIncress->setEnabled(true);
-	}
-	ui.label_Scale->setText(QString::number(activ_scaled) + "%");
-	ui.pushButt_ZoomDeduce->setEnabled(true);
-	this->setSizeScrollBar();
-	ui.label_for_TempImg->scaledPixmap();
-	this->setSizeScrollBar();
-	ui.horSB_forTempImg->setValue(dr_x);
-	ui.verSB_forTempImg->setValue(dr_y);
-	if (!ui.pushButt_AllLabl->isEnabled())
-		ui.pushButt_AllLabl->setEnabled(true);
-	/*int i{ 0 };
-	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;*/
-	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
-	{
-		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
-	}
-	draw_proceseArears();
-	ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 }
 
 void QtGuiDisplay::slot_ZoomImg_Out()
 {
-	emit clic_pb();
-	ui.horSB_forTempImg->hide();
-	ui.verSB_forTempImg->hide();
-	int dr_x, dr_y;
-	activ_scaled = ui.label_for_TempImg->scaledPixmap(-1, dr_x, dr_y);
-	if (activ_scaled == 25)
+	if (!isZoomNow)
 	{
-		ui.pushButt_ZoomDeduce->setEnabled(false);
+		isZoomNow = true;
+		emit clic_pb();
+		ui.horSB_forTempImg->hide();
+		ui.verSB_forTempImg->hide();
+		int dr_x, dr_y;
+		activ_scaled = ui.label_for_TempImg->scaledPixmap(-1, dr_x, dr_y);
+		if (activ_scaled == 25)
+		{
+			ui.pushButt_ZoomDeduce->setEnabled(false);
+		}
+		else
+		{
+			ui.pushButt_ZoomDeduce->setEnabled(true);
+		}
+
+		ui.label_Scale->setText(QString::number(activ_scaled, 'f', 1) + "%");
+		ui.pushButt_ZoomIncress->setEnabled(true);
+		this->setSizeScrollBar();
+		ui.label_for_TempImg->scaledPixmap();
+		this->setSizeScrollBar();
+		ui.horSB_forTempImg->setValue(dr_x);
+		ui.verSB_forTempImg->setValue(dr_y);
+		if (!ui.pushButt_AllLabl->isEnabled())
+			ui.pushButt_AllLabl->setEnabled(true);
+		/*int i{ 0 };
+		if (!activProcessedObj->brightnesCorrectAreaIsSet())
+			i = 1;*/
+		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+		{
+			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+		}
+		draw_proceseArears();
+		ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+		isZoomNow = false;
 	}
-	else
-	{
-		ui.pushButt_ZoomDeduce->setEnabled(true);
-	}
-	
-	ui.label_Scale->setText(QString::number(activ_scaled, 'f', 1) + "%");
-	ui.pushButt_ZoomIncress->setEnabled(true);
-	this->setSizeScrollBar();
-	ui.label_for_TempImg->scaledPixmap();
-	this->setSizeScrollBar();
-	ui.horSB_forTempImg->setValue(dr_x);
-	ui.verSB_forTempImg->setValue(dr_y);
-	if (!ui.pushButt_AllLabl->isEnabled())
-		ui.pushButt_AllLabl->setEnabled(true);
-	/*int i{ 0 };
-	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;*/
-	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
-	{
-		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
-	}
-	draw_proceseArears();
-	ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 }
 
 void QtGuiDisplay::slot_ZoomImg_AllLabl()
 {	
-	emit clic_pb();
-	ui.horSB_forTempImg->hide();
-	ui.verSB_forTempImg->hide();
-	this->updateGeometry();
-	int max, min;
-	activ_scaled = ui.label_for_TempImg->scaledPixmap(0, max, min);
-	ui.label_Scale->setText(QString::number(activ_scaled,'f',1) + "%");
-	ui.label_for_TempImg->getMaxMinScal(max, min);
-	if (max<10)
-		ui.pushButt_ZoomIncress->setEnabled(true);
-	else
-		ui.pushButt_ZoomIncress->setEnabled(false);
-	if (min>0)
-		ui.pushButt_ZoomDeduce->setEnabled(true);
-	else
-		ui.pushButt_ZoomDeduce->setEnabled(false);
-	ui.pushButt_AllLabl->setEnabled(false);
-	/*int i{ 0 };
-	if (!activProcessedObj->brightnesCorrectAreaIsSet())
-		i = 1;*/
-	for (int i{0}; i < activProcessedObj->getProcesArears()->size(); ++i)
+	if (!isZoomNow)
 	{
-		processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+		isZoomNow = true;
+		emit clic_pb();
+		ui.horSB_forTempImg->hide();
+		ui.verSB_forTempImg->hide();
+		this->updateGeometry();
+		int max, min;
+		activ_scaled = ui.label_for_TempImg->scaledPixmap(0, max, min);
+		ui.label_Scale->setText(QString::number(activ_scaled, 'f', 1) + "%");
+		ui.label_for_TempImg->getMaxMinScal(max, min);
+		if (max < 10)
+			ui.pushButt_ZoomIncress->setEnabled(true);
+		else
+			ui.pushButt_ZoomIncress->setEnabled(false);
+		if (min > 0)
+			ui.pushButt_ZoomDeduce->setEnabled(true);
+		else
+			ui.pushButt_ZoomDeduce->setEnabled(false);
+		ui.pushButt_AllLabl->setEnabled(false);
+		/*int i{ 0 };
+		if (!activProcessedObj->brightnesCorrectAreaIsSet())
+			i = 1;*/
+		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+		{
+			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+		}
+		draw_proceseArears();
+		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
+		isZoomNow = false;
 	}
-	draw_proceseArears();
-	ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 }
 
 void QtGuiDisplay::slot_SetDirToSave()
@@ -1071,6 +1087,11 @@ bool QtGuiDisplay::getChageActivArea()
 bool QtGuiDisplay::ProcessedIsActiv()
 {
 	return isProcessingActiv;
+}
+
+void QtGuiDisplay::updateFrame()
+{
+	emit signal_updateFrame();
 }
 
 void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)

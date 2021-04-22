@@ -21,5 +21,6 @@ void QtGuiSetupSensor::setUpGui()
 
 void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* masterObject, CameraPtrVector& cams, int index)
 {
-
+	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(masterObject);
+	
 }

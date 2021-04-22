@@ -22,6 +22,7 @@ QtGuiSimulator::QtGuiSimulator(QWidget *parent)
 	model = new QStandardItemModel();
 	ui.comboBox_program->setView(view);
 	ui.comboBox_program->setModel(model);
+	ui.comboBox_program->setCurrentIndex(0);
 	QPixmap nulPixmap;
 	activLoadObj = 0;
 	nulPixmap.load("NoImg.png");
@@ -43,7 +44,6 @@ void QtGuiSimulator::dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in)
 	std::size_t found = fileName_in.toStdString().find_last_of("/\\");
 	loadObj[0].SetObjParams(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found))
 		, tempImg_out, QPixmap(fileName_in), false);
-	activLoadObj = 0;
 	ui.widget_DisplayImg->setActivProcessObj(&loadObj[0]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 	ui.comboBox_program->setItemIcon(activLoadObj, QPixmap(fileName_in));
@@ -65,7 +65,6 @@ void QtGuiSimulator::slot_openProgramDetail()
 	connect(Programdetail, SIGNAL(add_Images(int)), this, SLOT(slot_updateComboBox(int)));
 	connect(Programdetail, SIGNAL(close_GUIProgDet()), this, SLOT(slot_closeProgDet()));
 	emit dataToProgramDeyls(&loadObj[0]);
-	
 }
 
 void QtGuiSimulator::slot_updateComboBox(int activObj)

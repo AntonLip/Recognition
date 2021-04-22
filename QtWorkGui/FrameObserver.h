@@ -8,7 +8,7 @@
 
 #include "ProcessedObj.h"
 
-#include "ui_QtGuiSimulator.h"
+#include "QtGuiDisplay.h"
 #include "ui_GE_Widget.h"
 
 using namespace AVT;
@@ -18,18 +18,18 @@ using namespace cv;
 class FrameObserver : public IFrameObserver
 {
 private:
-	 Ui::QtGuiSimulator m_ui;
+	 QtGuiDisplay *display;
 	 Ui::GE_WidgetClass m_ui_ge;
 	 QImage myImage; //переменная,хранящая кадр с камеры
 	 QPixmap m_img;
 	 VmbUchar_t* pbuffer;
 	 VmbUint32_t w, h;
-	 ProcessedObj* m_loadObj;
+	 ProcessedObj* newFrame;
 	 bool m_makePhoto;
 	 bool m_gewidget = false;
 
 public:
-	FrameObserver(CameraPtr pCamera, Ui::QtGuiSimulator&ui, QPixmap &img, bool &makePhoto, ProcessedObj *loadObj0) : IFrameObserver(pCamera), m_ui(ui), m_img(img), m_makePhoto(makePhoto), m_loadObj(loadObj0)
+	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, QPixmap &img, bool &makePhoto, ProcessedObj *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), m_img(img), m_makePhoto(makePhoto), newFrame(loadObj0)
 	{
 
 	};
@@ -48,7 +48,7 @@ public:
 	 ~FrameObserver()
 	 {
 		 delete pbuffer;
-		 delete m_loadObj;
+		 delete newFrame;
 	 }
 };
 

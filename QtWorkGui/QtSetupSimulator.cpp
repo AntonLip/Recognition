@@ -486,7 +486,7 @@ void QtSetupSimulator::slot_dataFromGUISim(ProcessedObj* newMasterObj)
 			if (masterObjct.getProcesArears()[0][i].isActiv())
 			{
 				activProcesArea = i;
-				widProcAreaList[i - 1]->setStyleSheet("color: red;");
+				//widProcAreaList[i - 1]->setStyleSheet("color: red;");
 			}
 		}
 		ui.widget_getMasterImg->updateImg();

@@ -36,6 +36,7 @@ class QtGuiDisplay : public QWidget
 	double vert_scaled;
 	bool setObj;
 	bool isProcessingActiv;
+	bool isZoomNow;
 public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();
@@ -58,9 +59,10 @@ public:
 	bool isActiv();
 	bool getChageActivArea();
 	bool ProcessedIsActiv();
-	void updateProcessObj(ProcessedObj* activObj);
+	void updateFrame();
 	ProcessedObj* getActivObject();
 	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
+	void updateProcessObj(ProcessedObj* activObj);
 private:
 	Ui::QtGuiDisplay ui;
 
@@ -87,4 +89,5 @@ signals:
 	void clic_pb();
 	void changeActivProcesArea(int newActiv);
 	void angelIsReset(int isReset);
+	void signal_updateFrame();
 };

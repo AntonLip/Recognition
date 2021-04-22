@@ -31,12 +31,17 @@ private:
 	QtGuiSetupSensor* sensorSetup;
 	void setupGui();
 	ProcessedObj cameraLife;
+	bool isPlay;
 
 private slots:
 	void slot_getCameraInformation(CameraPtrVector& cams, int index);
 	void slot_play();
 	void slot_stop();
 	void slot_openSetupCamera();
+	void slot_updateFrameInSetupSensor();
+	void slot_updateFrame();
+	void slot_setNewActivObj(int newActivObject);
 signals:
 	void dataToSetingSensor(ProcessedObj* activObject, CameraPtrVector& cams, int index);
+	void updateFrameInSetupSensor(ProcessedObj* activObject);
 };
