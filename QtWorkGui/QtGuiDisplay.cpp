@@ -648,16 +648,16 @@ void QtGuiDisplay::setActivProcessObj(ProcessedObj *activObj, bool master, int n
 	ui.label_for_TempImg->setAlignment(Qt::AlignCenter);
 	if (master)
 	{
-		ui.label_for_TempImg->set_myPixmap(activObj->getPixmap());
+		ui.label_for_TempImg->set_myPixmap(&activObj->getPixmap());
 	}
 	else
 	if (number < activObj->getTestVecSize())
 	{
-		ui.label_for_TempImg->set_myPixmap(activObj->getTestPixmap(number));
+		ui.label_for_TempImg->set_myPixmap(&activObj->getTestPixmap(number));
 	}
 	else
 	{
-		ui.label_for_TempImg->set_myPixmap(QPixmap("NoImg.png"));
+		ui.label_for_TempImg->set_myPixmap(&QPixmap("NoImg.png"));
 	}
 	this->slot_ZoomImg_AllLabl();
 	if (activProcessedObj->imgIsLoaded())
@@ -1076,7 +1076,20 @@ bool QtGuiDisplay::ProcessedIsActiv()
 void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)
 {
 	activProcessedObj = activObj;
-	ui.label_for_TempImg->set_myPixmap(activObj->getPixmap());
+	ui.label_for_TempImg->set_myPixmap(&activObj->getPixmap());
+}
+
+ProcessedObj* QtGuiDisplay::getActivObject()
+{
+	return activProcessedObj;
+}
+
+void QtGuiDisplay::setProcessObjStatus(bool isMaster)
+{
+	if (isMaster)
+		ui.label_status->setText("Master");
+	else
+		ui.label_status->setText("Live");
 }
 
 void QtGuiDisplay::resizeEvent(QResizeEvent* event)

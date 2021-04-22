@@ -38,5 +38,5 @@ private slots:
 	void slot_stop();
 	void slot_openSetupCamera();
 signals:
-	void dataToSetingSensor(ProcessedObj* activObject);
+	void dataToSetingSensor(ProcessedObj* activObject, CameraPtrVector& cams, int index);
 };

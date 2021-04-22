@@ -6,7 +6,8 @@
 #include "myscrollarea.h"
 #include "widget.h"
 #include "qspinbox.h"
-
+#include "FrameObserver.h"
+#include "simplLoger.h"
 class QtGuiSetupSensor : public QtSetupSimulator
 {
 	Q_OBJECT
@@ -18,5 +19,8 @@ public:
 private:
 	Ui::QtGuiSetupSensor ui;
 	QHBoxLayout* HL_forFirstStep;
+	CameraPtrVector cameras;
 	void setUpGui();
+private slots:
+	void slot_dataFromWorkWithSensor(ProcessedObj* masterObject, CameraPtrVector& cams, int index);
 };

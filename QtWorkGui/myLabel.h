@@ -50,7 +50,7 @@ public:
 	void mousePressEvent(QMouseEvent *evnt);
 	void mouseReleaseEvent(QMouseEvent *evnt);
 	void leaveEvent(QEvent *evnt);
-	void set_myPixmap(const QPixmap& pixmap);
+	void set_myPixmap(const QPixmap* pixmap);
 	void add_rect(QRect &Input, QPen color = QPen(Qt::red, 1, Qt::DashLine));
 	void set_rect(std::vector<QRect> &InOutput);
 	void rotatr_rect(QtRotateRect& InOutput);

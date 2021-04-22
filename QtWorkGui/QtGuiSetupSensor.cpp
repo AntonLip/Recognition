@@ -18,3 +18,8 @@ void QtGuiSetupSensor::setUpGui()
 	QtSetupSimulator::ui.page_step1->setLayout(HL_forFirstStep);
 	HL_forFirstStep->addWidget(ui.setupSensorParams);
 }
+
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* masterObject, CameraPtrVector& cams, int index)
+{
+
+}

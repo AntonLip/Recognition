@@ -36,7 +36,46 @@ void QtGuiWorkWithCamera::setupGui()
 
 void QtGuiWorkWithCamera::slot_play()
 {
-	LOG.logMessege("start video in QtGuiWorkWithCamera", _INFO_);
+	
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&cameraLife);
+	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(false);
+
+}
+
+void QtGuiWorkWithCamera::slot_stop()
+{
+	pFeature->GetName(Str);
+	if (Str == "AcquisitionStart")
+	{
+		// Stop the acquisition engine (camera)
+		camera->GetFeatureByName("AcquisitionStop", pFeature);
+		pFeature->RunCommand();
+
+		// Stop the capture engine (API)
+		// Flush the frame queue 
+		// Revoke all frames from the API 
+		camera->EndCapture();
+		camera->FlushQueue();
+		Str = "AcquisitionStop";
+	}
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(true);
+}
+
+void QtGuiWorkWithCamera::slot_openSetupCamera()
+{
+	sensorSetup = new QtGuiSetupSensor();
+	sensorSetup->show();
+	connect(this, SIGNAL(dataToSetingSensor(ProcessedObj*, CameraPtrVector&, int)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObj*, CameraPtrVector&, int)));
+	emit dataToSetingSensor(QtGuiSimulator::ui.widget_DisplayImg->getActivObject(), cameras, m_index);
+	
+}
+
+void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)
+{
+	cameras = cams;
+	m_index = index;
+	LOG.logMessege("start conect with in QtGuiWorkWithCamera", _INFO_);
 	try {
 		if (Str == "AcquisitionStop")
 		{
@@ -73,7 +112,7 @@ void QtGuiWorkWithCamera::slot_play()
 				//obs = 
 
 				//(*iter)->RegisterObserver(IFrameObserverPtr(new FirstFrameObserver(camera, &ui, &df)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
-				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui, img, makePhoto, &loadObj[0])));
+				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui, img, makePhoto, &cameraLife)));
 				camera->AnnounceFrame(*iter);
 				//Предоставляем кадр из camera API
 			}
@@ -95,37 +134,5 @@ void QtGuiWorkWithCamera::slot_play()
 	{
 		LOG.logMessege("frame read error", _ERROR_);
 	}
-}
-
-void QtGuiWorkWithCamera::slot_stop()
-{
-	pFeature->GetName(Str);
-	if (Str == "AcquisitionStart")
-	{
-		// Stop the acquisition engine (camera)
-		camera->GetFeatureByName("AcquisitionStop", pFeature);
-		pFeature->RunCommand();
-
-		// Stop the capture engine (API)
-		// Flush the frame queue 
-		// Revoke all frames from the API 
-		camera->EndCapture();
-		camera->FlushQueue();
-		Str = "AcquisitionStop";
-	}
-}
-
-void QtGuiWorkWithCamera::slot_openSetupCamera()
-{
-	sensorSetup = new QtGuiSetupSensor();
-	sensorSetup->show();
-	
-	connect(this, SIGNAL(dataToSetingSim(ProcessedObj*)), sensorSetup, SLOT(slot_dataFromGUISim(ProcessedObj*)));
-	emit dataToSetingSim(&loadObj[0]);
-}
-
-void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)
-{
-	cameras = cams;
-	m_index = index;
+	LOG.logMessege("Camera connected", _INFO_);
 }

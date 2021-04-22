@@ -82,10 +82,10 @@ void myLabel::formatImage(int formatType)
 	}
 }
 
-void myLabel::set_myPixmap(const QPixmap& img)
+void myLabel::set_myPixmap(const QPixmap* img)
 {
-	my_Pixmap = img;
-	my_PixmapOriginal = img;
+	my_Pixmap = *img;
+	my_PixmapOriginal = *img;
 	originalSize = my_PixmapOriginal.size();
 	scaledSize = originalSize;
 	delete myPixmap_bufer;

@@ -59,6 +59,8 @@ public:
 	bool getChageActivArea();
 	bool ProcessedIsActiv();
 	void updateProcessObj(ProcessedObj* activObj);
+	ProcessedObj* getActivObject();
+	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
 private:
 	Ui::QtGuiDisplay ui;
 
