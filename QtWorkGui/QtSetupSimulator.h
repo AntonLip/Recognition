@@ -33,7 +33,6 @@ protected:
 	void setGUIParamsAddArea(int typeProcesArea);
 	void closeEvent(QCloseEvent* event);
 	void addProceseArea();
-	simplLoger LOG;
 
 public:
 	QtSetupSimulator(QWidget *parent = Q_NULLPTR);

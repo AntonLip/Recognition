@@ -26,7 +26,6 @@ private:
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	CameraPtrVector cameras;
 	QtGuiWorkWithCamera* simulatorMenu;
-	simplLoger LOG;
 signals:
 	void moveCameraInformation(CameraPtrVector& ,int );
 	void closeMainForm();

@@ -25,7 +25,7 @@ private:
     QtConnect* connectMenu;
     QtSimCamera* qwer;
     Ui::QtWorkGuiClass ui;
-    simplLoger LOG;
+
 private slots:
     void conect_slot();
     void openSimulator_slot();

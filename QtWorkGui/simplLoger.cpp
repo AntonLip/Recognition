@@ -33,3 +33,4 @@ void simplLoger::logInit(char* logType)
 		levelLog = 4;
 }
 
+simplLoger LOG;

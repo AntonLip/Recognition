@@ -30,11 +30,10 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 					//qDebug() << "hello";
 				}
 			}
-				
 			else
 			{
 				//m_ui.label_3->setPixmap(m_img);
-				m_loadObj->SetObjParams(" ", " ", bufer, m_img, false);
+				m_loadObj->SetObjParams("sensor live", " ", bufer, m_img, false);
 				m_ui.widget_DisplayImg->updateProcessObj(m_loadObj);
 				/*m_ui.linEdit_fileName->setText("Camera Vido");
 				m_ui.comboBox_program->setItemIcon(1, QPixmap());*/
@@ -43,7 +42,7 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 		else
 		{
 			// Put your code here to react on an unsuccessfully received frame 
-			std::cout << "pnh";
+			//std::cout << "pnh";
 		}
 	}
 	m_pCamera->QueueFrame(pFrame);

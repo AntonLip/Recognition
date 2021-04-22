@@ -30,12 +30,13 @@ private:
 	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
 	QtGuiSetupSensor* sensorSetup;
 	void setupGui();
-	
+	ProcessedObj cameraLife;
+
 private slots:
 	void slot_getCameraInformation(CameraPtrVector& cams, int index);
 	void slot_play();
 	void slot_stop();
 	void slot_openSetupCamera();
 signals:
-	void dataToSetingSim(ProcessedObj* activObject);
+	void dataToSetingSensor(ProcessedObj* activObject);
 };

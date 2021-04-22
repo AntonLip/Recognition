@@ -32,7 +32,6 @@ protected:
 	QtGuiProgramDetails *Programdetail;
 	QtSetupSimulator* SetupSimulator;
 	QtGUISensorSim* SensorSimulator;
-	simplLoger LOG;
 
 private slots:
 	void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);

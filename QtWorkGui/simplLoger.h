@@ -23,3 +23,4 @@ public:
 	void logInit(char* levelLog);
 };
 
+extern simplLoger LOG;
