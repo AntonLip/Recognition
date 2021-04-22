@@ -2,7 +2,8 @@
 
 QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	: QtGuiSimulator(parent),
-	isPlay(true)
+	cameraLife("sensor life", "", "sensor", cv::Mat(), QPixmap(), false),
+	isPlay(false)
 {
 	LOG.logMessege("QtGuiWorkWithCamera constructor started", _DEBUG_);
 	ui.setupUi(this);
@@ -12,6 +13,7 @@ QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	connect(ui.PB_sensorSetup, SIGNAL(clicked()), this, SLOT(slot_openSetupCamera()));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrame()));
 	connect(QtGuiSimulator::ui.comboBox_program, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_setNewActivObj(int)));
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 }
 
 QtGuiWorkWithCamera::~QtGuiWorkWithCamera()
@@ -35,7 +37,6 @@ void QtGuiWorkWithCamera::setupGui()
 	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(1, ui.PB_parametrs);
 	QtGuiSimulator::ui.pushButton_SetupSimltr->hide();
 	QtGuiSimulator::ui.verticalLayout->insertWidget(0, ui.PB_sensorSetup);
-	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(false);
 }
 
 void QtGuiWorkWithCamera::slot_play()
@@ -43,6 +44,7 @@ void QtGuiWorkWithCamera::slot_play()
 	isPlay = true;
 	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&cameraLife);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(false);
+	QtGuiSimulator::ui.linEdit_fileName->setText(cameraLife.getFileName());
 }
 
 void QtGuiWorkWithCamera::slot_stop()
@@ -64,6 +66,7 @@ void QtGuiWorkWithCamera::slot_stop()
 	isPlay = false;
 	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(true);
+	QtGuiSimulator::ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 }
 
 void QtGuiWorkWithCamera::slot_openSetupCamera()
@@ -159,6 +162,5 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 	{
 		LOG.logMessege("frame read error", _ERROR_);
 	}
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&cameraLife);
 	LOG.logMessege("Camera connected", _INFO_);
 }

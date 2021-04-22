@@ -33,7 +33,7 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 			else
 			{
 				//m_ui.label_3->setPixmap(m_img);
-				newFrame->SetObjParams("sensor live", " ", bufer, m_img, false);
+				newFrame->SetObjParams("sensor live.jpg", "", bufer, m_img, false);
 				display->updateFrame();
 				/*m_ui.linEdit_fileName->setText("Camera Vido");
 				m_ui.comboBox_program->setItemIcon(1, QPixmap());*/

@@ -29,6 +29,7 @@ protected:
 	bool delActivProcesArea;
 	bool editActivArea;
 	bool editProcesArea;
+	bool firstStepEnable;
 	void setGUIWid(int newActivStep);
 	void setGUIParamsAddArea(int typeProcesArea);
 	void closeEvent(QCloseEvent* event);

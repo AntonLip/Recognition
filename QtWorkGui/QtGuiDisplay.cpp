@@ -653,7 +653,10 @@ void QtGuiDisplay::slot_saveImg()
 {
 	QPixmap out{ ui.label_for_TempImg->getPixmapWithROI(roi) };
 	activProcessedObj->updateObj(out);
-	out.save(activProcessedObj->getDirName() + "/" + activProcessedObj->getFileName());
+	if(activProcessedObj->getDirName()=="")
+		out.save(activProcessedObj->getFileName());
+	else
+		out.save(activProcessedObj->getDirName() + "/" + activProcessedObj->getFileName());
 	emit clic_pb();
 }
 

@@ -4,6 +4,7 @@
 QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	: QtSetupSimulator(parent)
 {
+	firstStepEnable = true;
 	ui.setupUi(this);
 	setUpGui();
 }
