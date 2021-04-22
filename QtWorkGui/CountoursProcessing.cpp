@@ -108,7 +108,10 @@ void CountoursProcessing::setMasterContours(std::vector<std::vector<cv::Point>> 
 
 void CountoursProcessing::drawContours(cv::Mat const *inputImg, cv::Scalar color)
 {
-    cv::cvtColor(*inputImg, originalImgWithCounter, CV_GRAY2RGB);
+    if (inputImg->type() == CV_8U)
+        cv::cvtColor(*inputImg, originalImgWithCounter, CV_GRAY2RGB);
+    else
+        inputImg->copyTo(originalImgWithCounter);
     for (size_t i{ 0 }; i < master_contours.size(); ++i)
     {
         cv::drawContours(originalImgWithCounter, master_contours, int(i), color,2);
