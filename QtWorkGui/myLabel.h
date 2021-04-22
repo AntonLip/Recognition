@@ -86,7 +86,8 @@ public:
 	int s_x_pixMap, s_y_pixMap;
 	int ref_x, ref_y;
 	void toImgCoordinate(int &inOutX, int &inOutY, bool isContains=true);
-	void formatImage(int formatType = 0); //0-original, 1-gray, 2-RGB 
+	void formatImage(int formatType = 0); //0-original, 1-gray, 2-RGB
+	void update_myPixmap(const QPixmap& img);
 	~myLabel();
 signals:
 	void mousePressed();

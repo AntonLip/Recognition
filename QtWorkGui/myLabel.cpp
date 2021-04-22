@@ -3,7 +3,7 @@
 
 myLabel::myLabel(QWidget *parent) :QLabel(parent)
 {
-	this->setStyleSheet("background-color: red");
+	//this->setStyleSheet("background-color: red");
 	myPixmap_bufer = nullptr;
 	myPixmap_mouve = nullptr;
 	add = false;
@@ -80,6 +80,20 @@ void myLabel::formatImage(int formatType)
 		}
 		imageFormat = formatType;
 	}
+}
+
+void myLabel::update_myPixmap(const QPixmap& img)
+{
+	my_Pixmap = img;
+	my_PixmapOriginal = img;
+	originalSize = my_PixmapOriginal.size();
+	scaledSize = originalSize;
+	delete myPixmap_bufer;
+	myPixmap_bufer = new QPixmap(my_Pixmap);
+	delete myPixmap_mouve;
+	myPixmap_mouve = new QPixmap(my_Pixmap.copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
+	setAllImgScaled();
+	this->scaledPixmap();
 }
 
 void myLabel::set_myPixmap(const QPixmap* img)
@@ -1276,8 +1290,19 @@ void myLabel::scaledPixmap()
 	original_drPoint.setX(drPoint.x() / _scaled[activ_scaled]);
 	original_drPoint.setY(drPoint.y() / _scaled[activ_scaled]);
 
-	scaledSize.setWidth(originalSize.width() * _scaled[activ_scaled]);
-	scaledSize.setHeight(originalSize.height() * _scaled[activ_scaled]);
+	this->toUpLeftpoint(drPoint);
+
+	if (activ_scaled == 0)
+	{
+		scaledSize.setWidth(width());
+		scaledSize.setHeight(height());
+	}
+	else
+	{
+		scaledSize.setWidth(originalSize.width() * _scaled[activ_scaled]);
+		scaledSize.setHeight(originalSize.height() * _scaled[activ_scaled]);
+	}
+
 	_aspectRotMod = Qt::IgnoreAspectRatio;
 	if (myPixmap_bufer != nullptr)
 	{
