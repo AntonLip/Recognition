@@ -1101,6 +1101,7 @@ void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)
 {
 	activProcessedObj = activObj;
 	ui.label_for_TempImg->update_myPixmap(activObj->getPixmap());
+	draw_proceseArears();
 	this->setSizeScrollBar();
 	ui.label_for_TempImg->show_partImg();
 	//ui.label_for_TempImg->set_myPixmap(&activObj->getPixmap());

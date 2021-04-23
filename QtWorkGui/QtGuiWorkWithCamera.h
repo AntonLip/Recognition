@@ -42,6 +42,6 @@ private slots:
 	void slot_updateFrame();
 	void slot_setNewActivObj(int newActivObject);
 signals:
-	void dataToSetingSensor(ProcessedObj* activObject, CameraPtrVector& cams, int index);
-	void updateFrameInSetupSensor(ProcessedObj* activObject);
+	void dataToSetingSensor(ProcessedObj* sensorObj,ProcessedObj* masterObject, CameraPtrVector& cams, int index);
+	void updateFrameInSetupSensor(ProcessedObj* sensorObj);
 };

@@ -20,8 +20,13 @@ private:
 	Ui::QtGuiSetupSensor ui;
 	QHBoxLayout* HL_forFirstStep;
 	CameraPtrVector cameras;
-	QtGuiDisplay* newDisplay;
 	void setUpGui();
+	ProcessedObj* sensorObject;
+	bool masterIsActivObject;
 private slots:
-	void slot_dataFromWorkWithSensor(ProcessedObj* masterObject, CameraPtrVector& cams, int index);
+	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtrVector& cams, int index);
+	void slot_updateSensorObject(ProcessedObj* sensorObj);
+	void slot_pushStep1();
+	void slot_pushStep2();
+	void slot_pushStep3();
 };
