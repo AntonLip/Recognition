@@ -50,6 +50,7 @@ QtSetupSimulator::QtSetupSimulator(QWidget *parent)
 	connect(this, SIGNAL(resetRectAngel(int)), ui.widget_getMasterImg, SLOT(slot_resetAngel(int)));
 	connect(ui.stackWid_steps, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.tabWid_setMasterImg, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
+	connect(ui.widget_getMasterImg, SIGNAL(getActivProcessArea()), this, SLOT(slot_getActivProcesAreaTowidgetMasterImg()));
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 
@@ -176,6 +177,7 @@ void QtSetupSimulator::slot_editProceArea()
 	ui.pushButton_nextAndFinsh->setEnabled(false);
 	ui.widget_getMasterImg->setChangeActivArea(false);
 	ui.widget_getMasterImg->setChangesProcessedArears(true);
+	ui.widget_getMasterImg->updateImg();
 	editActivArea = false;
 }
 
@@ -217,6 +219,11 @@ void QtSetupSimulator::slot_changeWidSteps(int step)
 void QtSetupSimulator::slot_resetAngelRect()
 {
 	emit resetRectAngel(activProcesArea);
+}
+
+void QtSetupSimulator::slot_getActivProcesAreaTowidgetMasterImg()
+{
+	ui.widget_getMasterImg->setActivProcesArea(activProcesArea);
 }
 
 
@@ -643,6 +650,7 @@ void QtSetupSimulator::slot_dataFromAddTool(int procesedType, int areaType)
 	ui.pushButton_back->setEnabled(false);
 	ui.pushButton_nextAndFinsh->setEnabled(false);
 	ui.lineEdit_procesUserName->setText(masterObjct.getProcesArears()[0][activProcesArea].getUserName());
+	ui.widget_getMasterImg->updateImg();
 }
 
 void QtSetupSimulator::slot_setBrightnesCorrectArea()

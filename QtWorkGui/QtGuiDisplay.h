@@ -23,6 +23,7 @@ class QtGuiDisplay : public QWidget
 	//QString dir_for_saveImg;
 	//QString fileName;
 	int activ_roi;
+	int activProcesArea;
 	bool change_roi;
 	bool event_img;
 	bool activatedRoi;
@@ -63,6 +64,7 @@ public:
 	ProcessedObj* getActivObject();
 	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
 	void updateProcessObj(ProcessedObj* activObj);
+	void setActivProcesArea(int activArea);
 private:
 	Ui::QtGuiDisplay ui;
 
@@ -90,4 +92,5 @@ signals:
 	void changeActivProcesArea(int newActiv);
 	void angelIsReset(int isReset);
 	void signal_updateFrame();
+	void getActivProcessArea();
 };

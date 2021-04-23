@@ -78,6 +78,7 @@ protected slots:
 	void slot_copyProceArea();
 	void slot_changeWidSteps(int step);
 	void slot_resetAngelRect();
+	void slot_getActivProcesAreaTowidgetMasterImg();
 signals:
 	void dataToGUISim(ProcessedObj* changedObj);
 	void brightnesCorrectAreaDel();
