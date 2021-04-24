@@ -17,6 +17,10 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	connect(this, SIGNAL(sl_buttonChangeSizeClicked(double)), ui.setRoiWid, SLOT(st_buttonChangeSizeClicked(double)));
 	connect(ui.SpinB_binningHor, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning horizontal
 	connect(ui.SpinB_binningVer, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning vertical
+	connect(ui.PB_setRoi,SIGNAL(clicked()),this,SLOT(slot_pushSetRoi()));
+	connect(ui.PB_full,SIGNAL(clicked()),this,SLOT(slot_pushFull()));
+	connect(ui.PB_oneQuarter,SIGNAL(clicked()),this,SLOT(slot_pushOneQuarter()));
+	connect(ui.PB_oneEighth,SIGNAL(clicked()),this,SLOT(slot_pushOneEighth()));
 }
 
 QtGuiSetupSensor::~QtGuiSetupSensor()
@@ -164,6 +168,75 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 	emit sl_buttonChangeSizeClicked(1.0 / 8);
 }
 
+void QtGuiSetupSensor::slot_pushSetRoi()
+{
+	camera->GetFeatureByName("AcquisitionStop", pFeature);
+	pFeature->RunCommand();
+
+	camera->EndCapture();
+	camera->FlushQueue();
+
+	/***********************************/
+	//binning разрешения в tab2
+	camera->GetFeatureByName("BinningHorizontal", pFeature);
+	pFeature->SetValue(ui.SpinB_binningHor->value());
+
+	camera->GetFeatureByName("BinningVertical", pFeature);
+	pFeature->SetValue(ui.SpinB_binningVer->value());
+
+	camera->GetFeatureByName("Height", pFeature);
+	pFeature->SetValue(ui.SpinB_height->value());
+
+	camera->GetFeatureByName("Width", pFeature);
+	int tmp = ui.SpinB_width->value();
+	while (tmp % 4 != 0)
+	{
+		tmp++;
+	}
+	pFeature->SetValue(tmp);
+
+	camera->GetFeatureByName("OffsetX", pFeature);
+	pFeature->SetValue(ui.SpinB_ofsetX->value());
+
+	camera->GetFeatureByName("OffsetY", pFeature);
+	pFeature->SetValue(ui.SpinB_ofsetY->value());
+	/****************************************/
+
+
+	// Get the image size for the required buffer								Получите размер изображения для выбора необходимого буфера
+	// Allocate memory for frame buffer											Выделите память для буфера,который будет хранить кадр
+	// Register frame observer/callback for each frame							Зарегистрируйте наблюдатель кадров / обратный вызов для каждого кадра
+	// Announce frame to the API												Предоставьте кадр API
+
+
+	camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+	pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
+
+
+	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
+	{
+		(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+		//obs = 
+		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay, img, makePhoto,sensorObject)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
+		camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
+	}
+	makePhoto = false;
+	// Start the capture engine (API)											Запуск механизма захвата кадров
+	camera->StartCapture();
+	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
+	{
+		// Put frame into the frame queue										Поместить кадр в очередь кадров
+		camera->QueueFrame(*iter);
+
+	}
+
+
+	// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
+	camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
+	pFeature->RunCommand();
+
+}
+
 void QtGuiSetupSensor::slot_pushContinous()
 {
 	ui.PB_off->setDown(false);
@@ -197,11 +270,12 @@ void QtGuiSetupSensor::slot_pushOff()
 	pFeature->SetValue(temp);
 }
 
-void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtrVector& cams, int index)
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay_)
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(sensorObj);
 	masterObjct = *masterObj;
 	sensorObject = sensorObj;
 	masterIsActivObject = false;
-	cameras = cams;
+	camera = cams;
+	videoDisplay = videoDisplay_;
 }

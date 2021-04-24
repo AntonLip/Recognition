@@ -313,7 +313,6 @@ void GE_Widget::on_pushButton_2_clicked() //stop
 	camera->GetFeatureByName("AcquisitionStop", pFeature);
 	pFeature->RunCommand();
 
-	
 }
 
 //expousure

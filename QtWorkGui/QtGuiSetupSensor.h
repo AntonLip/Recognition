@@ -29,6 +29,7 @@ public:
 
 private:
 	Ui::QtGuiSetupSensor ui;
+	QPixmap img;
 	QHBoxLayout* HL_forFirstStep;
 	CameraPtrVector cameras;
 	void setUpGui();
@@ -43,10 +44,10 @@ private:
 	FeaturePtr m_ExposureAutoTargetFeature;
 	FeaturePtr feature;
 	bool makePhoto = true;
+	QtGuiDisplay* videoDisplay;
 
-
-private slots:
-	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtrVector& cams, int index);
+public slots:
+	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObj* sensorObj);
 	void slot_pushStep1();
 	void slot_pushStep2();
@@ -66,7 +67,7 @@ private slots:
 	void slot_pushFull();
 	void slot_pushOneQuarter();
 	void slot_pushOneEighth();
-
+	void slot_pushSetRoi();
 
 	//expouser auto
 	void slot_pushContinous();//continous
