@@ -21,7 +21,7 @@ class QtGuiSetupSensor : public QtSetupSimulator
 public:
 	QtGuiSetupSensor(QWidget *parent = Q_NULLPTR);
 	~QtGuiSetupSensor();
-	int m_kW = 4872, m_kH = 3248;
+	//int m_kW = 4872, m_kH = 3248;
 	friend class FrameObserver;
 	//void scaledImages(double factor);
 	double getKoefficient(int value);  //коэффициент уменьшения окна в зависимости от спинбоксов
@@ -45,7 +45,7 @@ private:
 	FeaturePtr feature;
 	bool makePhoto = true;
 	QtGuiDisplay* videoDisplay;
-
+	QSizeF maxFrameSize;
 public slots:
 	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObj* sensorObj);

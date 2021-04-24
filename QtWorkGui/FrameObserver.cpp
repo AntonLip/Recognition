@@ -14,21 +14,21 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 			pFrame->GetHeight(h);
 			pFrame->GetWidth(w);
 
-			myImage = QImage(pbuffer, w, h, QImage::Format_Indexed8);
-			m_img = QPixmap::fromImage(myImage);
+			QImage myImage = QImage(pbuffer, w, h, QImage::Format_Indexed8);
+			QPixmap m_img = QPixmap::fromImage(myImage);
 
 			cv::Mat bufer(h, w, CV_8UC1, pbuffer);
 
 			if (m_gewidget)
 			{
-				m_ui_ge.label->setPixmap(m_img); //вывод кадра в лэйбл
-				if (m_makePhoto)//установка фона для сцены
-				{
-					//img.save("background.jpg");
-					m_ui_ge.widget->setSceneBackground(m_img);
-					m_makePhoto = false;
-					//qDebug() << "hello";
-				}
+				//m_ui_ge.label->setPixmap(m_img); //вывод кадра в лэйбл
+				//if (m_makePhoto)//установка фона для сцены
+				//{
+				//	//img.save("background.jpg");
+				//	m_ui_ge.widget->setSceneBackground(m_img);
+				//	m_makePhoto = false;
+				//	//qDebug() << "hello";
+				//}
 			}
 			else
 			{

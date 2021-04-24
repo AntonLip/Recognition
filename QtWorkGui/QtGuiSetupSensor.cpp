@@ -2,7 +2,8 @@
 
 
 QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
-	: QtSetupSimulator(parent)
+	: QtSetupSimulator(parent),
+	maxFrameSize(QSizeF(4872.0, 3248.0))
 {
 	ui.setupUi(this);
 	setUpGui();
@@ -74,14 +75,14 @@ void QtGuiSetupSensor::slot_pushStep3()
 
 void QtGuiSetupSensor::slot_setOffset(QPointF& point)
 {
-	ui.SpinB_ofsetY->setValue(point.y() * (3248.0 / ui.SpinB_binningVer->value() / 256));
-	ui.SpinB_ofsetX->setValue(point.x() * (4872 / ui.SpinB_binningHor->value() / 256));
+	ui.SpinB_ofsetY->setValue(point.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+	ui.SpinB_ofsetX->setValue(point.x() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
 }
 
 void QtGuiSetupSensor::slot_setSizeItemInSpinBox(QPointF& itemSize)
 {
-	ui.SpinB_height->setValue(itemSize.y() * (3248 / ui.SpinB_binningVer->value() / 256));
-	ui.SpinB_width->setValue(itemSize.x() * (4872 / ui.SpinB_binningHor->value() / 256));
+	ui.SpinB_height->setValue(itemSize.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
+	ui.SpinB_width->setValue(itemSize.x() * (4872.0 / ui.SpinB_binningHor->value() / 256.0));
 }
 
 void QtGuiSetupSensor::slot_changeBinning(int value)
@@ -92,8 +93,8 @@ void QtGuiSetupSensor::slot_changeBinning(int value)
 	double K = this->getKoefficient(value);
 	K = K + 0;
 
-	m_kW = 4872 / ui.SpinB_binningVer->value() / 256;
-	m_kH = 3248 / ui.SpinB_binningHor->value() / 256;
+	//m_kW = 4872 / ui.SpinB_binningVer->value() / 256;
+	//m_kH = 3248 / ui.SpinB_binningHor->value() / 256;
 
 	if (ui.SpinB_binningHor->value() - ui.SpinB_binningVer->value() < 0) //		H - W
 	{
@@ -113,8 +114,8 @@ void QtGuiSetupSensor::slot_changeBinning(int value)
 	}
 
 	emit sl_buttonChangeSizeClicked(1);
-	ui.SpinB_height->setValue(3248 / ui.SpinB_binningHor->value());
-	ui.SpinB_width->setValue(4872 / ui.SpinB_binningVer->value());
+	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningHor->value());
+	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningVer->value());
 }
 
 void QtGuiSetupSensor::slot_pushFull()
@@ -129,8 +130,8 @@ void QtGuiSetupSensor::slot_pushFull()
 
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
-	ui.SpinB_height->setValue(3248 / ui.SpinB_binningVer->value());
-	ui.SpinB_width->setValue(4872 / ui.SpinB_binningHor->value());
+	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value());
+	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningHor->value());
 
 	emit sl_buttonChangeSizeClicked(1);
 }
@@ -146,8 +147,8 @@ void QtGuiSetupSensor::slot_pushOneQuarter()
 
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
-	ui.SpinB_height->setValue(3248 / ui.SpinB_binningVer->value() / 4);
-	ui.SpinB_width->setValue((4872 / ui.SpinB_binningHor->value() / 4));
+	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value() / 4);
+	ui.SpinB_width->setValue((maxFrameSize.width() / ui.SpinB_binningHor->value() / 4));
 
 	emit sl_buttonChangeSizeClicked(1.0 / 4);
 }
@@ -162,8 +163,8 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 	ui.spinBox_6->setValue(ui.widget->width() / 8 * (4872 / ui.spinBox->value() / 300));*/
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
-	ui.SpinB_height->setValue(3248 / ui.SpinB_binningVer->value() / 8);
-	ui.SpinB_width->setValue(4872 / ui.SpinB_binningHor->value() / 8);
+	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value() / 8);
+	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningHor->value() / 8);
 
 	emit sl_buttonChangeSizeClicked(1.0 / 8);
 }
@@ -210,12 +211,14 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 
 
 	camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+	VmbInt64_t oldNPLS{ nPLS };
 	pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
 
 
 	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
 	{
-		(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+		if (oldNPLS!=nPLS)
+			(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
 		//obs = 
 		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay, img, makePhoto,sensorObject)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
 		camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
