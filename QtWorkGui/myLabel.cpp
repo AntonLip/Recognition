@@ -4,6 +4,7 @@
 myLabel::myLabel(QWidget *parent) :QLabel(parent)
 {
 	//this->setStyleSheet("background-color: red");
+	_aspectRotMod = Qt::KeepAspectRatio;
 	myPixmap_bufer = nullptr;
 	myPixmap_mouve = nullptr;
 	add = false;
@@ -88,6 +89,8 @@ void myLabel::update_myPixmap(const QPixmap& img)
 	my_PixmapOriginal = img;
 	originalSize = my_PixmapOriginal.size();
 	scaledSize = originalSize;
+	scalCoef_W = (static_cast<double>(this->width())-17) / originalSize.width();
+	scalCoef_H = (static_cast<double>(this->height())-17) / originalSize.height();
 	delete myPixmap_bufer;
 	myPixmap_bufer = new QPixmap(my_Pixmap);
 	delete myPixmap_mouve;
@@ -102,6 +105,8 @@ void myLabel::set_myPixmap(const QPixmap* img)
 	my_PixmapOriginal = *img;
 	originalSize = my_PixmapOriginal.size();
 	scaledSize = originalSize;
+	scalCoef_W = (static_cast<double>(this->width()) - 17) / originalSize.width();
+	scalCoef_H = (static_cast<double>(this->height()) - 17) / originalSize.height();
 	delete myPixmap_bufer;
 	myPixmap_bufer = new QPixmap(my_Pixmap);
 	this->setPixmap(*myPixmap_bufer);
@@ -1150,33 +1155,82 @@ void myLabel::show_partImg(int dx, int dy, int width, int height)
 	drPoint.setX(dx);
 	drPoint.setY(dy);
 
+	double bufer_scalCoef_W{ static_cast<double>(originalSize.width()) / scaledSize.width() };
+	/*if (bufer_scalCoef_W <= 1.0)
+	{
+		bufer_scalCoef_W = 1.0;
+	}
+	else*/
+	{
+		dx = dx * bufer_scalCoef_W;
+		bufer_scalCoef_W *= scalCoef_W;
+	}
+	double bufer_scalCoef_H{ static_cast<double>(originalSize.height()) / scaledSize.height() };
+	/*if (bufer_scalCoef_H <= 1.0)
+	{
+		bufer_scalCoef_H = 1.0;
+	}
+	else*/
+	{
+		dy = dy * bufer_scalCoef_H;
+		bufer_scalCoef_H *= scalCoef_H;
+	}
+	//double needed_W{this->width}
+
 	delete myPixmap_mouve;
 	if (myPixmap_bufer == nullptr)
 	{
-		myPixmap_mouve = new QPixmap(my_Pixmap.copy(dx, dy, width, height));
+		myPixmap_mouve = new QPixmap(my_Pixmap.copy(dx, dy, originalSize.width()*bufer_scalCoef_W, originalSize.height()*bufer_scalCoef_H));
 	}
 	else
 	{
-		myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(dx, dy, width, height));
+		myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(dx, dy, originalSize.width() * bufer_scalCoef_W, originalSize.height() * bufer_scalCoef_H));
+		//myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(dx, dy, width, height));
 	}
 
-	this->setPixmap(*myPixmap_mouve);
+	this->setPixmap(myPixmap_mouve->scaled(this->size(), _aspectRotMod));
 	imgIsShow = true;
 }
 
 void myLabel::show_partImg()
 {
 	this->repaint();
+	int dx{ drPoint.x() };
+	int dy{ drPoint.y() };
+	double bufer_scalCoef_W{ static_cast<double>(originalSize.width()) / scaledSize.width() };
+	/*if (bufer_scalCoef_W > 1.0)
+	{
+		bufer_scalCoef_W = 1.0;
+	}
+	else*/
+	{
+		dx = dx * bufer_scalCoef_W * scalCoef_W;
+		bufer_scalCoef_W *= scalCoef_W;
+	}
+	double bufer_scalCoef_H{ static_cast<double>(originalSize.height()) / scaledSize.height() };
+	/*if (bufer_scalCoef_H < 1.0)
+	{
+		bufer_scalCoef_H = 1.0;
+	}*/
+	//else
+	{
+		dy = dy * bufer_scalCoef_H * scalCoef_H;
+		bufer_scalCoef_H *= scalCoef_H;
+	}
+
 	delete myPixmap_mouve;
 	if (myPixmap_bufer == nullptr)
 	{
-		myPixmap_mouve = new QPixmap(my_Pixmap.copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
+		myPixmap_mouve = new QPixmap(my_Pixmap.copy(dx, dy, originalSize.width() * bufer_scalCoef_W, originalSize.height() * bufer_scalCoef_H));
+
+		//myPixmap_mouve = new QPixmap(my_Pixmap.copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
 	}
 	else
 	{
-		myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
+		myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(dx, dy, originalSize.width() * bufer_scalCoef_W, originalSize.height() * bufer_scalCoef_H));
+		//myPixmap_mouve = new QPixmap(myPixmap_bufer->copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
 	}
-	this->setPixmap(*myPixmap_mouve);
+	this->setPixmap(myPixmap_mouve->scaled(this->size(), _aspectRotMod));
 	imgIsShow = true;
 }
 
@@ -1188,7 +1242,7 @@ double myLabel::scaledPixmap(int scaled, int &dx, int &dy)
 		hor_center = true;
 	if (scaledSize.height() < this->height())
 		ver_center=true;
-	Qt::AspectRatioMode _aspectRotMod;
+	//Qt::AspectRatioMode _aspectRotMod;
 	if (scaled == 0 && activ_scaled == 0)
 	{
 		activ_scaled = 0;
@@ -1244,16 +1298,16 @@ double myLabel::scaledPixmap(int scaled, int &dx, int &dy)
 	}
 	if (myPixmap_bufer != nullptr)
 	{
-		QPixmap scaledPixmap;
-		scaledPixmap = my_PixmapOriginal.scaled(scaledSize, _aspectRotMod);
-		delete myPixmap_bufer;
-		myPixmap_bufer = new QPixmap(scaledPixmap);
-		my_Pixmap = scaledPixmap;
+		//QPixmap scaledPixmap;
+		//scaledPixmap = my_PixmapOriginal.scaled(scaledSize, _aspectRotMod);
+		//delete myPixmap_bufer;
+		//myPixmap_bufer = new QPixmap(scaledPixmap);
+		//my_Pixmap = scaledPixmap;
 		int buferFormat{ imageFormat };
 		imageFormat = 0;
 		formatImage(buferFormat);
-		scaledSize.setHeight(scaledPixmap.height());
-		scaledSize.setWidth(scaledPixmap.width());
+		//scaledSize.setHeight(scaledPixmap.height());
+		//scaledSize.setWidth(scaledPixmap.width());
 		if (activ_scaled != 0)
 		{
 			if (!hor_center)
@@ -1284,7 +1338,7 @@ double myLabel::scaledPixmap(int scaled, int &dx, int &dy)
 
 void myLabel::scaledPixmap()
 {
-	Qt::AspectRatioMode _aspectRotMod;
+	//Qt::AspectRatioMode _aspectRotMod;
 
 	this->toCenterPoint(drPoint);
 	original_drPoint.setX(drPoint.x() / _scaled[activ_scaled]);
@@ -1306,16 +1360,16 @@ void myLabel::scaledPixmap()
 	_aspectRotMod = Qt::IgnoreAspectRatio;
 	if (myPixmap_bufer != nullptr)
 	{
-		QPixmap scaledPixmap;
-		scaledPixmap = my_PixmapOriginal.scaled(scaledSize, _aspectRotMod);
-		delete myPixmap_bufer;
-		myPixmap_bufer = new QPixmap(scaledPixmap);
-		my_Pixmap = scaledPixmap;
+		//QPixmap scaledPixmap;
+		//scaledPixmap = my_PixmapOriginal.scaled(scaledSize, _aspectRotMod);
+		//delete myPixmap_bufer;
+		//myPixmap_bufer = new QPixmap(scaledPixmap);
+		//my_Pixmap = scaledPixmap;
 		int buferFormat{ imageFormat };
 		imageFormat = 0;
 		formatImage(buferFormat);
-		scaledSize.setHeight(scaledPixmap.height());
-		scaledSize.setWidth(scaledPixmap.width());
+		//scaledSize.setHeight(scaledPixmap.height());
+		//scaledSize.setWidth(scaledPixmap.width());
 	}
 }
 

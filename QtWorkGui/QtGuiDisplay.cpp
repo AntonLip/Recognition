@@ -97,7 +97,7 @@ void QtGuiDisplay::setSizeScrollBar()
 
 void QtGuiDisplay::slot_mouvePixmap()
 {
-	if (activ)
+	if (activ && ui.pushButt_AllLabl->isEnabled())
 		ui.label_for_TempImg->show_partImg(ui.horSB_forTempImg->value(), ui.verSB_forTempImg->value(), ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 }
 
@@ -904,23 +904,26 @@ void QtGuiDisplay::draw_proceseArears()
 					penSize = 2;
 					//activProcesArea = i;
 				}
-				if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
+				if (activProcesArea < activProcessedObj->getProcesArears()->size())
 				{
-					ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getScaledLimitRect());
+					if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
+					{
+						ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
+					}
 				}
 				QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
 				if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() == 0)
 					penBufer.setColor(Qt::green);
 				if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
 				{
-					ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getScalRect(), penBufer);
+					ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getRect(), penBufer);
 					noDraw = false;
 				}
 				else if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 1)
 				{
 					QPoint center{ 0,0 };
 					int radius{ 0 };
-					activProcessedObj->getProcesArears()[0][i].getScalCircleParam(radius, center);
+					activProcessedObj->getProcesArears()[0][i].getCircleParm(radius, center);
 					ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
 					noDraw = false;
 				}
@@ -940,46 +943,49 @@ void QtGuiDisplay::draw_proceseArears()
 			}
 			if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() != 0&& isProcessingActiv)
 			{
-				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][i].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][i].getScaledLimitRect());
+				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][i].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][i].getOriginalLimitRect());
 			}
 			QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
 			if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() == 0)
 				penBufer.setColor(Qt::green);
 			if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
 			{
-				ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getScalRect(), penBufer);
+				ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getRect(), penBufer);
 				noDraw = false;
 			}
 			else if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 1)
 			{
 				QPoint center{ 0,0 };
 				int radius{ 0 };
-				activProcessedObj->getProcesArears()[0][i].getScalCircleParam(radius, center);
+				activProcessedObj->getProcesArears()[0][i].getCircleParm(radius, center);
 				ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
 				noDraw = false;
 			}
 		}
 	}
-	if (activProcessedObj->getProcesArears()[0][activProcesArea].isDraw())
+	if (activProcesArea < activProcessedObj->getProcesArears()->size())
 	{
-		if (changesProcesedArearsGeometry || isProcessingActiv)
+		if (activProcessedObj->getProcesArears()[0][activProcesArea].isDraw())
 		{
-			if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
+			if (changesProcesedArearsGeometry || isProcessingActiv)
 			{
-				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getScaledLimitRect());
-			}
+				if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
+				{
+					ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
+				}
 
-			QPen penBufer(Qt::red, ceil(2 * activ_scaled / 100), Qt::DashLine);
-			if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getAreaType() == 0)
-			{
-				ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][activProcesArea].getScalRect(), penBufer);
-			}
-			else if (activProcessedObj->getProcesArears()[0][activProcesArea].getAreaType() == 1)
-			{
-				QPoint center{ 0,0 };
-				int radius{ 0 };
-				activProcessedObj->getProcesArears()[0][activProcesArea].getScalCircleParam(radius, center);
-				ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
+				QPen penBufer(Qt::red, ceil(2 * activ_scaled / 100), Qt::DashLine);
+				if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getAreaType() == 0)
+				{
+					ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][activProcesArea].getRect(), penBufer);
+				}
+				else if (activProcessedObj->getProcesArears()[0][activProcesArea].getAreaType() == 1)
+				{
+					QPoint center{ 0,0 };
+					int radius{ 0 };
+					activProcessedObj->getProcesArears()[0][activProcesArea].getCircleParm(radius, center);
+					ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
+				}
 			}
 		}
 	}
