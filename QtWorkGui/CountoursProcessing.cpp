@@ -111,7 +111,10 @@ void CountoursProcessing::drawContours(cv::Mat const *inputImg, cv::Scalar color
     if (inputImg->type() == CV_8U)
         cv::cvtColor(*inputImg, originalImgWithCounter, CV_GRAY2RGB);
     else
-        inputImg->copyTo(originalImgWithCounter);
+    {
+        cv::cvtColor(*inputImg, originalImgWithCounter, CV_RGB2GRAY);
+        cv::cvtColor(originalImgWithCounter, originalImgWithCounter, CV_GRAY2RGB);
+    }
     for (size_t i{ 0 }; i < master_contours.size(); ++i)
     {
         cv::drawContours(originalImgWithCounter, master_contours, int(i), color,2);

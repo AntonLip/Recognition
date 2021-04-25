@@ -15,7 +15,7 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	setObj = false;
 	isProcessingActiv = false;
 	//addNewBrigthnesRect = false;
-	changesProcesedArears = false;
+	changesProcesedArearsGeometry = false;
 	ui.horSB_forTempImg->hide();
 	ui.verSB_forTempImg->hide();
 	this->updateGeometry();
@@ -135,7 +135,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 	//{
 	if (activProcessedObj != nullptr)
 	{
-		if (activProcessedObj->getProcesArears()->size() > 0 && changesProcesedArears)
+		if (activProcessedObj->getProcesArears()->size() > 0 && changesProcesedArearsGeometry)
 		{
 			if (!change_roi)
 			{
@@ -386,7 +386,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 
 void QtGuiDisplay::slot_mousePressed()
 {
-	if (activ_roi != -2 && changesProcesedArears)
+	if (activ_roi != -2 && changesProcesedArearsGeometry)
 	{
 		event_img = false;
 		if (this->myCursor.shape() == Qt::SizeAllCursor|| this->myCursor.shape() == Qt::SizeHorCursor || this->myCursor.shape() == Qt::SizeVerCursor ||
@@ -431,7 +431,7 @@ void QtGuiDisplay::slot_mousePressed()
 				{
 					emit changeActivProcesArea(i);
 					activProcessedObj->getProcesArears()[0][i].setActiv(true);
-					if (changesProcesedArears)
+					if (changesProcesedArearsGeometry)
 					{
 						myCursor.setShape(Qt::SizeAllCursor);
 						this->setCursor(myCursor);
@@ -788,7 +788,11 @@ void QtGuiDisplay::addBrightnesCorrectRect(bool isAdd)
 
 void QtGuiDisplay::setChangesProcessedArears(bool isChang)
 {
-	changesProcesedArears = isChang;
+	changesProcesedArearsGeometry = isChang;
+	if (isChang)
+		ui.comboBox->hide();
+	else
+		ui.comboBox->show();
 }
 
 void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOriginalScal)
@@ -892,7 +896,7 @@ void QtGuiDisplay::draw_proceseArears()
 		penSize = 1;
 		if (activProcessedObj->getProcesArears()[0][i].isDraw())
 		{
-			if (changesProcesedArears)
+			if (changesProcesedArearsGeometry)
 			{
 				
 				if (activProcessedObj->getProcesArears()[0][i].isActiv())
@@ -924,7 +928,7 @@ void QtGuiDisplay::draw_proceseArears()
 			}
 		}
 	}
-	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size() && !changesProcesedArears; ++i)
+	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size() && !changesProcesedArearsGeometry; ++i)
 	{
 		penSize = 1;
 		if (activProcessedObj->getProcesArears()[0][i].isDraw())
@@ -958,7 +962,7 @@ void QtGuiDisplay::draw_proceseArears()
 	}
 	if (activProcessedObj->getProcesArears()[0][activProcesArea].isDraw())
 	{
-		if (changesProcesedArears || isProcessingActiv)
+		if (changesProcesedArearsGeometry || isProcessingActiv)
 		{
 			if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
 			{

@@ -28,7 +28,7 @@ class QtGuiDisplay : public QWidget
 	bool event_img;
 	bool activatedRoi;
 	bool activ;
-	bool changesProcesedArears;
+	bool changesProcesedArearsGeometry;
 	bool changeActivArea;
 	void resizeEvent(QResizeEvent* event);
 	//bool addNewBrigthnesRect;
