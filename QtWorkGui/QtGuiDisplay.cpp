@@ -892,29 +892,60 @@ void QtGuiDisplay::draw_proceseArears()
 	bool noDraw{ true };
 	int penSize{ 1 };
 	emit getActivProcessArea();
-	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+	if (activProcesArea == 0)
 	{
-		penSize = 1;
-		if (activProcessedObj->getProcesArears()[0][i].isDraw())
+		QPen penBufer(Qt::green, ceil(penSize * 2 * activ_scaled / 100), Qt::DashLine);
+		ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][0].getRect(), penBufer);
+		noDraw = false;
+	}
+	else
+	{
+		for (int i{ 1 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 		{
-			if (changesProcesedArearsGeometry)
+			penSize = 1;
+			if (activProcessedObj->getProcesArears()[0][i].isDraw())
 			{
-				
+				if (changesProcesedArearsGeometry)
+				{
+					if (activProcessedObj->getProcesArears()[0][i].isActiv())
+					{
+						penSize = 2;
+					}
+					ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
+
+					QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
+
+					if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
+					{
+						ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getRect(), penBufer);
+						noDraw = false;
+					}
+					else if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 1)
+					{
+						QPoint center{ 0,0 };
+						int radius{ 0 };
+						activProcessedObj->getProcesArears()[0][i].getCircleParm(radius, center);
+						ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
+						noDraw = false;
+					}
+				}
+			}
+		}
+		for (int i{ 1 }; i < activProcessedObj->getProcesArears()->size() && !changesProcesedArearsGeometry; ++i)
+		{
+			penSize = 1;
+			if (activProcessedObj->getProcesArears()[0][i].isDraw())
+			{
 				if (activProcessedObj->getProcesArears()[0][i].isActiv())
 				{
 					penSize = 2;
-					//activProcesArea = i;
 				}
-				if (activProcesArea < activProcessedObj->getProcesArears()->size())
+				if (isProcessingActiv)
 				{
-					if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
-					{
-						ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
-					}
+					ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][i].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][i].getOriginalLimitRect());
 				}
+
 				QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
-				if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() == 0)
-					penBufer.setColor(Qt::green);
 				if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
 				{
 					ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getRect(), penBufer);
@@ -928,53 +959,15 @@ void QtGuiDisplay::draw_proceseArears()
 					ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
 					noDraw = false;
 				}
-				
 			}
 		}
-	}
-	for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size() && !changesProcesedArearsGeometry; ++i)
-	{
-		penSize = 1;
-		if (activProcessedObj->getProcesArears()[0][i].isDraw())
-		{
-			if (activProcessedObj->getProcesArears()[0][i].isActiv())
-			{
-				penSize = 2;
-				//activProcesArea = i;
-			}
-			if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() != 0&& isProcessingActiv)
-			{
-				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][i].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][i].getOriginalLimitRect());
-			}
-			QPen penBufer(Qt::red, ceil(penSize * activ_scaled / 100), Qt::DashLine);
-			if ((activProcessedObj->getProcesArears()[0])[i].getProcesseedType() == 0)
-				penBufer.setColor(Qt::green);
-			if ((activProcessedObj->getProcesArears()[0])[i].getAreaType() == 0)
-			{
-				ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][i].getRect(), penBufer);
-				noDraw = false;
-			}
-			else if (activProcessedObj->getProcesArears()[0][i].getAreaType() == 1)
-			{
-				QPoint center{ 0,0 };
-				int radius{ 0 };
-				activProcessedObj->getProcesArears()[0][i].getCircleParm(radius, center);
-				ui.label_for_TempImg->draw_circle(&center, radius, penBufer);
-				noDraw = false;
-			}
-		}
-	}
-	if (activProcesArea < activProcessedObj->getProcesArears()->size())
-	{
 		if (activProcessedObj->getProcesArears()[0][activProcesArea].isDraw())
 		{
 			if (changesProcesedArearsGeometry || isProcessingActiv)
 			{
-				if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getProcesseedType() != 0)
-				{
-					ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
-				}
-
+				
+				ui.label_for_TempImg->draw_picture(activProcessedObj->getProcesArears()[0][activProcesArea].getDrawImage(&(activProcessedObj->getMat())), activProcessedObj->getProcesArears()[0][activProcesArea].getOriginalLimitRect());
+				
 				QPen penBufer(Qt::red, ceil(2 * activ_scaled / 100), Qt::DashLine);
 				if ((activProcessedObj->getProcesArears()[0])[activProcesArea].getAreaType() == 0)
 				{

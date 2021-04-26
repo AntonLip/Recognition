@@ -193,13 +193,17 @@ void QtSetupSimulator::slot_copyProceArea()
 	{
 		widProcAreaList[i]->setStyleSheet("");
 	}
-	widProcArea->setStyleSheet("color: red;");
+	//widProcArea->setStyleSheet("color: red;");
 	widProcAreaList.push_back(widProcArea);
 	ui.widget_getMasterImg->updateImg();
 }
 
 void QtSetupSimulator::slot_changeWidSteps(int step)
 {
+	if (ui.stackWid_steps->currentIndex() == 1)
+		activProcesArea = 0;
+	else if (masterObjct.getProcesArears()->size() > 1)
+		activProcesArea = 1;
 	if (ui.stackWid_steps->currentIndex() != 1 || ui.tabWid_setMasterImg->currentIndex() != 1)
 	{
 		masterObjct.getProcesArears()[0][0].setActiv(false);
@@ -655,6 +659,7 @@ void QtSetupSimulator::slot_dataFromAddTool(int procesedType, int areaType)
 
 void QtSetupSimulator::slot_setBrightnesCorrectArea()
 {
+	activProcesArea = 0;
 	ui.widget_getMasterImg->add_rect(0);
 	ui.pushButton_delCorect->setEnabled(true);
 	ui.pushButton_setCorect->setEnabled(false);
