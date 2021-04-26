@@ -1208,7 +1208,11 @@ void myLabel::show_partImg(int dx, int dy, int width, int height)
 	else if (scaledMouvePixmap == 1)
 		this->setPixmap(myPixmap_mouve->scaled(QSize(this->width(), this->scaledSize.height()), _aspectRotMod));
 	else if (scaledMouvePixmap == 11)
+	{
+		//_aspectRotMod = Qt::IgnoreAspectRatio;
 		this->setPixmap(myPixmap_mouve->scaled(this->scaledSize, _aspectRotMod));
+		scaledSize = pixmap()->size();
+	}
 	imgIsShow = true;
 }
 
@@ -1265,6 +1269,7 @@ void myLabel::show_partImg()
 		this->setPixmap(myPixmap_mouve->scaled(QSize(this->width(), this->scaledSize.height()), _aspectRotMod));
 	else if (scaledMouvePixmap == 11)
 	{
+		//_aspectRotMod = Qt::IgnoreAspectRatio;
 		this->setPixmap(myPixmap_mouve->scaled(this->scaledSize, _aspectRotMod));
 		scaledSize = pixmap()->size();
 	}

@@ -634,6 +634,7 @@ void QtGuiDisplay::slot_ZoomImg_AllLabl()
 		/*int i{ 0 };
 		if (!activProcessedObj->brightnesCorrectAreaIsSet())
 			i = 1;*/
+		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 		{
 			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
