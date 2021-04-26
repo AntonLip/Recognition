@@ -74,7 +74,7 @@ void QtGuiDisplay::setSizeScrollBar()
 {
 	//if (!tempImg.empty())
 	//{
-		if (ui.label_for_TempImg->myPixmap().width() > ui.label_for_TempImg->width())
+		if (ui.label_for_TempImg->getScaledImgSize()->width() > ui.label_for_TempImg->width())
 		{
 			ui.horSB_forTempImg->show();
 			ui.horSB_forTempImg->setRange(0, std::abs(ui.label_for_TempImg->getScaledImgSize()->width() - ui.label_for_TempImg->width()));
@@ -83,7 +83,7 @@ void QtGuiDisplay::setSizeScrollBar()
 		{
 			ui.horSB_forTempImg->hide();
 		}
-		if (ui.label_for_TempImg->myPixmap().height() > ui.label_for_TempImg->height())
+		if (ui.label_for_TempImg->getScaledImgSize()->height() > ui.label_for_TempImg->height())
 		{
 			ui.verSB_forTempImg->show();
 			ui.verSB_forTempImg->setRange(0, std::abs(ui.label_for_TempImg->getScaledImgSize()->height() - ui.label_for_TempImg->height()));
