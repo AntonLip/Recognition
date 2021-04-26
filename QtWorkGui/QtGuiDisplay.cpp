@@ -1023,17 +1023,18 @@ void QtGuiDisplay::add_rect(int procesType)
 	if (procesType == 0)
 	{
 		activProcessedObj->getProcesArears()[0][0] = QtProcessedArea(0, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)));
+		processedAreaScale(activProcessedObj->getProcesArears()[0][0], true);
 	}
 	else
 	{
 		activProcessedObj->getProcesArears()[0].push_back((QtProcessedArea(procesType, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)))));
 		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].setProcessing();
+		processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
+		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].createMaster(&activProcessedObj->getMat());
 		int i;
 		i = 0;
 	}
-	processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
 	setObj = true;
-	activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].createMaster(&activProcessedObj->getMat());
 	updateImg();
 }
 

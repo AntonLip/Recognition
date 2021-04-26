@@ -65,7 +65,7 @@ void myLabel::formatImage(int formatType)
 		if (formatType == 0)
 		{
 			my_Pixmap = my_PixmapOriginal;
-			my_Pixmap = my_Pixmap.scaled(scaledSize);
+			//my_Pixmap = my_Pixmap.scaled(scaledSize);
 			delete myPixmap_bufer;
 			myPixmap_bufer = new QPixmap(my_Pixmap);
 		}
@@ -75,9 +75,7 @@ void myLabel::formatImage(int formatType)
 			buferImg = buferImg.convertToFormat(QImage::Format_Grayscale8);
 			delete myPixmap_bufer;
 			myPixmap_bufer = new QPixmap(QPixmap::fromImage(buferImg));
-			buferImg = my_Pixmap.toImage();
-			buferImg = buferImg.convertToFormat(QImage::Format_Grayscale8);
-			my_Pixmap = QPixmap::fromImage(buferImg);
+			my_Pixmap = *myPixmap_bufer;
 		}
 		imageFormat = formatType;
 	}
@@ -1196,6 +1194,7 @@ void myLabel::show_partImg(int dx, int dy, int width, int height)
 		scaledMouvePixmap = 10;
 	if (scaledSize.height() <= this->height())
 		++scaledMouvePixmap;
+	QSize qwe(myPixmap_mouve->size());
 	if (scaledMouvePixmap == 0)
 	{
 		//if (!notScaled)
