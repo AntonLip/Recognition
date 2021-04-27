@@ -71,7 +71,7 @@ void myLabel::formatImage(int formatType)
 		}
 		else if (formatType == 1)
 		{
-			QImage buferImg(myPixmap_bufer->toImage());
+			QImage buferImg(my_Pixmap.toImage());
 			buferImg = buferImg.convertToFormat(QImage::Format_Grayscale8);
 			delete myPixmap_bufer;
 			myPixmap_bufer = new QPixmap(QPixmap::fromImage(buferImg));
@@ -261,12 +261,6 @@ void myLabel::draw_rect(QtRotateRect* Input, QPen newPen)
 	p->drawLine(QPoint(Input->getDownLeft_X(), Input->getDownLeft_Y()), QPoint(Input->getDownRigth_X(), Input->getDownRigth_Y()));
 	p->drawLine(QPoint(Input->getDownLeft_X(), Input->getDownLeft_Y()), QPoint(Input->getUpLeft_X(), Input->getUpLeft_Y()));
 	p->drawLine(QPoint(Input->getDownRigth_X(), Input->getDownRigth_Y()), QPoint(Input->getUpRigth_X(), Input->getUpRigth_Y()));
-	//p->translate(Input->getTranslatePoint());
-	//p->rotate(Input->getRotateAngel());
-	//p->drawRect(QRect(Input->getDrawPoint().x(), Input->getDrawPoint().y(), Input->width(), Input->height()));
-	//p->drawLine(QPoint(Input->upLeftAngel_X, Input->upLeftAngel_Y), QPoint(Input->upRidAngel_X, Input->upRidAngel_Y));
-	//this->setPixmap(*myPixmap_bufer);
-	//this->show_partImg(drPoint.x(),drPoint.y(),this->width(),this->height());
 	delete p;
 }
 

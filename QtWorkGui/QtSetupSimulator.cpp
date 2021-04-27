@@ -200,6 +200,7 @@ void QtSetupSimulator::slot_copyProceArea()
 
 void QtSetupSimulator::slot_changeWidSteps(int step)
 {
+	ui.widget_getMasterImg->setChangesProcessedArears(false);
 	if (ui.stackWid_steps->currentIndex() == 1)
 		activProcesArea = 0;
 	else if (masterObjct.getProcesArears()->size() > 1)
@@ -215,6 +216,12 @@ void QtSetupSimulator::slot_changeWidSteps(int step)
 	{
 		masterObjct.getProcesArears()[0][0].setActiv(true);
 		masterObjct.getProcesArears()[0][0].setDraw(true);
+		if (masterObjct.getProcesArears()[0][0].getArea() > 0)
+		{
+			ui.pushButton_delCorect->setEnabled(true);
+			ui.pushButton_setCorect->setEnabled(false);
+		}
+		ui.widget_getMasterImg->setChangesProcessedArears(true);
 		ui.widget_getMasterImg->changeImgFormat(1);
 		ui.widget_getMasterImg->updateImg();
 	}
@@ -251,7 +258,7 @@ void QtSetupSimulator::setGUIWid(int newActivStep)
 		if(!ui.widget_getMasterImg->isActiv())
 			ui.widget_getMasterImg->setActiv(true);
 	}
-	if (activStep == 2)
+	/*if (activStep == 2)
 	{
 		masterObjct.getProcesArears()[0][0].setDraw(true);
 		
@@ -259,7 +266,7 @@ void QtSetupSimulator::setGUIWid(int newActivStep)
 	else
 	{
 		masterObjct.getProcesArears()[0][0].setDraw(false);
-	}
+	}*/
 	if (activStep == 3)
 	{
 		
@@ -448,7 +455,7 @@ void QtSetupSimulator::slot_pushStep2()
 {
 	setGUIWid(2);
 	ui.widget_getMasterImg->setEanbleActivededRoi(false);
-	ui.widget_getMasterImg->setChangesProcessedArears(true);
+	//ui.widget_getMasterImg->setChangesProcessedArears(true);
 }
 
 void QtSetupSimulator::slot_pushStep3()
