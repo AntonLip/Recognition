@@ -131,10 +131,10 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	if (areaType == 0)
 	{
 		cv::Point vertices[4];
-		vertices[0] = cv::Point(rect.getUpLeft_X(), rect.getUpLeft_Y());
-		vertices[1] = cv::Point(rect.getUpRigth_X(), rect.getUpRigth_Y());
+		vertices[0] = cv::Point(rect.getUpLeft_X() + 1, rect.getUpLeft_Y() + 1);
+		vertices[1] = cv::Point(rect.getUpRigth_X(), rect.getUpRigth_Y() + 1);
 		vertices[2] = cv::Point(rect.getDownRigth_X(), rect.getDownRigth_Y());
-		vertices[3] = cv::Point(rect.getDownLeft_X(), rect.getDownLeft_Y());
+		vertices[3] = cv::Point(rect.getDownLeft_X() + 1, rect.getDownLeft_Y());
 		cv::fillConvexPoly(mask, vertices, 4, cv::Scalar(0, 0, 0));
 		roi=cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width(), rect.getRotateRectSize().height());
 	}

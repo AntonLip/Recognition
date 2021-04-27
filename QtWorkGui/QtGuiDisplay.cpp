@@ -893,13 +893,15 @@ void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOrigina
 void QtGuiDisplay::draw_proceseArears()
 {
 	bool noDraw{ true };
-	int penSize{ 1 };
+	double penSize{ 1 * activ_scaled / 100 };
+	if (penSize < 1)
+		penSize = 1;
 	emit getActivProcessArea();
 	if (activProcesArea == 0)
 	{
 		if (activProcessedObj->getProcesArears()[0][0].isDraw())
 		{
-			QPen penBufer(Qt::green, ceil(penSize * 2 * activ_scaled / 100), Qt::DashLine);
+			QPen penBufer(Qt::green, ceil(penSize * 2), Qt::DashLine);
 			ui.label_for_TempImg->draw_rect(activProcessedObj->getProcesArears()[0][0].getRect(), penBufer);
 			noDraw = false;
 		}

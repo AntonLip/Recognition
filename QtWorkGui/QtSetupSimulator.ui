@@ -186,14 +186,14 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
-                  <widget class="QPushButton" name="pushButton">
+                  <widget class="QPushButton" name="PB_registrImgFromHistory">
                    <property name="text">
                     <string>Register image from image history</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="PB_registrImgFromFile">
                    <property name="text">
                     <string>Register image from file location</string>
                    </property>

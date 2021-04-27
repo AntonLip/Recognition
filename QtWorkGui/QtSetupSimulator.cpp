@@ -51,6 +51,7 @@ QtSetupSimulator::QtSetupSimulator(QWidget *parent)
 	connect(ui.stackWid_steps, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.tabWid_setMasterImg, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.widget_getMasterImg, SIGNAL(getActivProcessArea()), this, SLOT(slot_getActivProcesAreaTowidgetMasterImg()));
+	connect(ui.PB_registrImgFromFile, SIGNAL(clicked()), this, SLOT(slot_registImageFromFile()));
 	setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
@@ -235,6 +236,27 @@ void QtSetupSimulator::slot_resetAngelRect()
 void QtSetupSimulator::slot_getActivProcesAreaTowidgetMasterImg()
 {
 	ui.widget_getMasterImg->setActivProcesArea(activProcesArea);
+}
+
+void QtSetupSimulator::slot_registImageFromFile()
+{
+	LOG.logMessege("Set new master image from file", _INFO_);
+	QString qstr_bufer{ QFileDialog::getOpenFileName(this, "Images", "D:/", tr("Images files (*.png *.jpg *.bmp)")) };
+	cv::Mat img_bufer;
+	img_bufer = cv::imread(qstr_bufer.toStdString());
+	if (!img_bufer.empty())// checking that image has loaded 
+	{
+		std::size_t found = qstr_bufer.toStdString().find_last_of("/\\");
+		masterObjct.SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, QPixmap(qstr_bufer), false);
+		ui.widget_getMasterImg->updateProcessObj(&masterObjct);
+		ui.widget_getMasterImg->updateImg();
+		LOG.logMessege("image load", _DEBUG_);
+	}
+	else
+	{
+		LOG.logMessege("image not loaded", _DEBUG_);
+		QMessageBox::critical(nullptr, QObject::tr("Warning"), QObject::tr("Image not loaded")); //massage about error download
+	}
 }
 
 

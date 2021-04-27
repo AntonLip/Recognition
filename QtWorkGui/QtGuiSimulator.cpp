@@ -99,6 +99,9 @@ void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObj* changedObj)
 		ui.widget_DisplayImg->processedAreaScale(changedObj->getProcesArears()[0][i]);
 	}
 	loadObj[activLoadObj] = *changedObj;
+	ui.widget_DisplayImg->updateProcessObj(&loadObj[activLoadObj]);
+	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
+	ui.comboBox_program->setItemIcon(activLoadObj, loadObj[activLoadObj].getPixmap());
 	ui.widget_DisplayImg->setChangeActivArea(true);
 	ui.widget_DisplayImg->updateImg();
 }

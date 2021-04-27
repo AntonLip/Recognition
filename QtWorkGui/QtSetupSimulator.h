@@ -7,6 +7,7 @@
 #include "QButtonGroup"
 #include "QtWidProcesArea.h"
 #include "simplLoger.h"
+#include "qmessagebox.h"
 
 class QtSetupSimulator : public QWidget
 {
@@ -79,6 +80,7 @@ protected slots:
 	void slot_changeWidSteps(int step);
 	void slot_resetAngelRect();
 	void slot_getActivProcesAreaTowidgetMasterImg();
+	void slot_registImageFromFile();
 signals:
 	void dataToGUISim(ProcessedObj* changedObj);
 	void brightnesCorrectAreaDel();
