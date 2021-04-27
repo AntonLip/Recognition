@@ -31,6 +31,7 @@ private:
 	QtGuiSetupSensor* sensorSetup;
 	void setupGui();
 	ProcessedObj cameraLife;
+	void closeEvent(QCloseEvent* event);
 	bool isPlay;
 
 private slots:
@@ -44,4 +45,5 @@ private slots:
 signals:
 	void dataToSetingSensor(ProcessedObj* sensorObj,ProcessedObj* masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
 	void updateFrameInSetupSensor(ProcessedObj* sensorObj);
+	void workWithCamera_close();
 };

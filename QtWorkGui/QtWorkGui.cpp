@@ -16,6 +16,7 @@ QtWorkGui::QtWorkGui(QWidget *parent)
 	QObject::connect(ui.pushButton_conect, SIGNAL(clicked()), this, SLOT(conect_slot()));
 	QObject::connect(ui.pushButton_simulator, SIGNAL(clicked()), this, SLOT(openSimulator_slot()));
 	QObject::connect(this, SIGNAL(getDataToSimulator(cv::Mat, QString)), simulatorMenu, SLOT(dataFromMainMenu(cv::Mat, QString)));
+	setAttribute(Qt::WA_DeleteOnClose, true);
 	LOG.logMessege("QtWorkGui create ", _DEBUG_);
 }
 
@@ -35,7 +36,7 @@ void QtWorkGui::conect_slot()
 
 QtWorkGui::~QtWorkGui()
 {
-	LOG.logMessege("QtWorkGui destructer", _DEBUG_);
+	LOG.logMessege("QtWorkGui destructer", _INFO_);
 }
 
 void QtWorkGui::openSimulator_slot()

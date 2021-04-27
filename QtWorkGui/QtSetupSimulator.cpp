@@ -51,7 +51,7 @@ QtSetupSimulator::QtSetupSimulator(QWidget *parent)
 	connect(ui.stackWid_steps, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.tabWid_setMasterImg, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.widget_getMasterImg, SIGNAL(getActivProcessArea()), this, SLOT(slot_getActivProcesAreaTowidgetMasterImg()));
-	setAttribute(Qt::WA_DeleteOnClose);
+	setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 QtSetupSimulator::~QtSetupSimulator()

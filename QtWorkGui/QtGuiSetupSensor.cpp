@@ -171,12 +171,13 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 
 void QtGuiSetupSensor::slot_pushSetRoi()
 {
+	LOG.logMessege("Start changing camera settings", _INFO_);
 	camera->GetFeatureByName("AcquisitionStop", pFeature);
 	pFeature->RunCommand();
 
 	camera->EndCapture();
 	camera->FlushQueue();
-
+	camera->RevokeAllFrames();
 	/***********************************/
 	//binning разрешени€ в tab2
 	camera->GetFeatureByName("BinningHorizontal", pFeature);
@@ -232,12 +233,10 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 		camera->QueueFrame(*iter);
 
 	}
-
-
 	// Start the acquisition engine (camera)									«апустите механизм сбора данных (камеру)
 	camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображени€
 	pFeature->RunCommand();
-
+	LOG.logMessege("Camera settings set", _INFO_);
 }
 
 void QtGuiSetupSensor::slot_pushContinous()

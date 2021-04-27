@@ -29,4 +29,6 @@ private:
 signals:
 	void moveCameraInformation(CameraPtrVector& ,int );
 	void closeMainForm();
+private slots:
+	void slot_shutdownCamera();
 };

@@ -14,14 +14,11 @@ QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrame()));
 	connect(QtGuiSimulator::ui.comboBox_program, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_setNewActivObj(int)));
 	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+	setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 QtGuiWorkWithCamera::~QtGuiWorkWithCamera()
 {
-	LOG.logMessege("QtGuiWorkWithCamera destruct started", _DEBUG_);
-	camera->RevokeAllFrames();
-	camera->Close();
-	system.Shutdown(); // Always pair sys.Startup and sys.Shutdown
 	LOG.logMessege("QtGuiWorkWithCamera destruct fineshed", _DEBUG_);
 }
 
@@ -37,6 +34,18 @@ void QtGuiWorkWithCamera::setupGui()
 	QtGuiSimulator::ui.horizontalLayout_4->insertWidget(1, ui.PB_parametrs);
 	QtGuiSimulator::ui.pushButton_SetupSimltr->hide();
 	QtGuiSimulator::ui.verticalLayout->insertWidget(0, ui.PB_sensorSetup);
+}
+
+void QtGuiWorkWithCamera::closeEvent(QCloseEvent* event)
+{
+	camera->GetFeatureByName("AcquisitionStop", pFeature);
+	pFeature->RunCommand();
+	camera->EndCapture();
+	camera->FlushQueue();
+	camera->RevokeAllFrames();
+	camera->Close();
+	emit workWithCamera_close();
+	LOG.logMessege("close form work with sensor", _INFO_);
 }
 
 void QtGuiWorkWithCamera::slot_play()
@@ -113,22 +122,6 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 
 			camera = cameras[m_index];													//первую из списка камеру присваиваем
 			camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
-
-			/***********************************
-			////binning разрешения в tab2
-			//camera->GetFeatureByName("BinningHorizontal", pFeature);
-			//pFeature->SetValue(6);
-			//camera->GetFeatureByName("BinningVertical", pFeature);
-			//pFeature->SetValue(6);
-			//camera->GetFeatureByName("Height", pFeature);
-			//pFeature->SetValue(541);
-			//camera->GetFeatureByName("Width", pFeature);
-			//pFeature->SetValue(812);
-			//camera->GetFeatureByName("OffsetX", pFeature);
-			//pFeature->SetValue(0);
-			//camera->GetFeatureByName("OffsetY", pFeature);
-			//pFeature->SetValue(0);
-			****************************************/
 
 			camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
 			pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки

@@ -1,6 +1,7 @@
 #include "QtWorkGui.h"
 #include <QtWidgets/QApplication>
 #include "simplLoger.h"
+
 int main(int argc, char *argv[])
 {
     LOG.logInit(argv[1]);

@@ -36,13 +36,12 @@ QtConnect::QtConnect(QWidget *parent)
 
 QtConnect::~QtConnect()
 {
-	LOG.logMessege("QtConnect deleted", _DEBUG_);
-	system.Shutdown();
+	LOG.logMessege("QtConnect deleted", _INFO_);
 }
 
 void QtConnect::on_pushButton_clicked()
 {
-	LOG.logMessege("Camera selected, crate and open simulatorMenu", _DEBUG_);
+	LOG.logMessege("Camera selected, crate and open simulatorMenu", _INFO_);
 	try
 	{
 		simulatorMenu = new QtGuiWorkWithCamera();
@@ -52,9 +51,16 @@ void QtConnect::on_pushButton_clicked()
 		LOG.logMessege("simulatorMenu with camer creat error", _ERROR_);
 	}
 	connect(this, SIGNAL(moveCameraInformation(CameraPtrVector&, int)), simulatorMenu, SLOT(slot_getCameraInformation(CameraPtrVector&, int)));
+	connect(simulatorMenu, SIGNAL(workWithCamera_close()), this, SLOT(slot_shutdownCamera()));
 	simulatorMenu->show();
 	emit closeMainForm();
 	emit moveCameraInformation(cameras, ui.comboBox->currentIndex());
 	this->close();
 	//вставить вызов окна GEWidget;
+}
+
+void QtConnect::slot_shutdownCamera()
+{
+	LOG.logMessege("Shutdown camera", _INFO_);
+	system.Shutdown();
 }

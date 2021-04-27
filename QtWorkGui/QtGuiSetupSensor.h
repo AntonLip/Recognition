@@ -38,6 +38,7 @@ private:
 	VmbInt64_t nPLS;// Payload size value
 	FeaturePtr pFeature; // Generic feature pointer
 	CameraPtr camera;
+	FramePtr frame_ptr;
 
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	FramePtrVector frames{ 3 }; // Frame array
