@@ -104,7 +104,7 @@ GE_Widget::GE_Widget(QWidget *parent)
 		{
 			(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. ”казываем новый размер дл€ ,буффера кадра ( теперь он будет равен величине nPLS)
 			//obs = 
-			(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
+			//(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
 			camera->AnnounceFrame(*iter);											//ѕредоставл€ем кадр из camera API
 		}
 		makePhoto = false;
@@ -282,7 +282,7 @@ void GE_Widget::on_pushButton_clicked() //play
 	{
 		(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. ”казываем новый размер дл€ ,буффера кадра ( теперь он будет равен величине nPLS)
 		//obs = 
-		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
+		//(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, ui, img, makePhoto)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
 		camera->AnnounceFrame(*iter);											//ѕредоставл€ем кадр из camera API
 	}
 	makePhoto = false;

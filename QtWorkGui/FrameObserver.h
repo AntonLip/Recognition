@@ -26,18 +26,17 @@ private:
 	 VmbUchar_t* pbuffer;
 	 VmbUint32_t w, h;
 	 ProcessedObj* newFrame;
-	 bool m_makePhoto;
-	 bool m_gewidget = false;
+
 
 public:
-	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, QPixmap &img, bool &makePhoto, ProcessedObj *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), m_makePhoto(makePhoto), newFrame(loadObj0)
+	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObj *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
 	{
 
 	};
-	FrameObserver(CameraPtr pCamera, Ui::GE_WidgetClass& ui, QPixmap& img, bool& makePhoto) : IFrameObserver(pCamera), m_makePhoto(makePhoto)
+	/*FrameObserver(CameraPtr pCamera, Ui::GE_WidgetClass& ui, QPixmap& img, bool& makePhoto) : IFrameObserver(pCamera), m_makePhoto(makePhoto)
 	{
 		m_gewidget = true;
-	};
+	};*/
 
 	FrameObserver(FrameObserver &f) : IFrameObserver(f)
 	{

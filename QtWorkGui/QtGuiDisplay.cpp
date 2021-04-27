@@ -2,6 +2,8 @@
 
 QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	: QWidget(parent),
+	delayUpdateFrame(25),
+	updateImageTime(nullptr),
 	isZoomNow(false),
 	activProcesArea(1)
 {
@@ -1155,6 +1157,11 @@ void QtGuiDisplay::slot_changeProcssActiv(int isActiv)
 	}
 }
 
+void QtGuiDisplay::slot_updateTrigerDelay(int newDelay)
+{
+	delayUpdateFrame = newDelay;
+}
+
 bool QtGuiDisplay::isActiv()
 {
 	return activ;
@@ -1172,7 +1179,17 @@ bool QtGuiDisplay::ProcessedIsActiv()
 
 void QtGuiDisplay::updateFrame()
 {
-	emit signal_updateFrame();
+	if (updateImageTime == nullptr)
+	{
+		updateImageTime = new QTime(0,0);
+		emit signal_updateFrame();
+		updateImageTime->start();
+	}
+	else if (updateImageTime->elapsed() >= delayUpdateFrame)
+	{
+		emit signal_updateFrame();
+		updateImageTime->restart();
+	}
 }
 
 void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)

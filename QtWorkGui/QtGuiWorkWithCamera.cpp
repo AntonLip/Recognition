@@ -133,7 +133,7 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 				//obs = 
 
 				//(*iter)->RegisterObserver(IFrameObserverPtr(new FirstFrameObserver(camera, &ui, &df)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
-				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, img, makePhoto, &cameraLife)));
+				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, &cameraLife)));
 				camera->AnnounceFrame(*iter);
 				//Предоставляем кадр из camera API
 			}

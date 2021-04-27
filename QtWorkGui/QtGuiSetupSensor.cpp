@@ -22,6 +22,7 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	connect(ui.PB_full,SIGNAL(clicked()),this,SLOT(slot_pushFull()));
 	connect(ui.PB_oneQuarter,SIGNAL(clicked()),this,SLOT(slot_pushOneQuarter()));
 	connect(ui.PB_oneEighth,SIGNAL(clicked()),this,SLOT(slot_pushOneEighth()));
+	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
 }
 
 QtGuiSetupSensor::~QtGuiSetupSensor()
@@ -221,7 +222,7 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 		if (oldNPLS!=nPLS)
 			(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. ”казываем новый размер дл€ ,буффера кадра ( теперь он будет равен величине nPLS)
 		//obs = 
-		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay, img, makePhoto,sensorObject)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
+		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay,sensorObject)));//«арегистрировать наблюдател€ camera(уже ссылаетс€ на нашу камеру,которую мы присвоили по ID)
 		camera->AnnounceFrame(*iter);											//ѕредоставл€ем кадр из camera API
 	}
 	makePhoto = false;
@@ -280,4 +281,5 @@ void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, Proc
 	masterIsActivObject = false;
 	camera = cams;
 	videoDisplay = videoDisplay_;
+	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
 }

@@ -18,9 +18,11 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 			QPixmap m_img = QPixmap::fromImage(myImage);
 
 			cv::Mat bufer(h, w, CV_8UC1, pbuffer);
-
-			if (m_gewidget)
-			{
+			newFrame->SetObjParams("sensor live.jpg", "", bufer, m_img, false);
+			display->updateFrame();
+			LOG.logMessege("new frame craded", _DEBUG_);
+			/*if (m_gewidget)
+			{*/
 				//m_ui_ge.label->setPixmap(m_img); //вывод кадра в лэйбл
 				//if (m_makePhoto)//установка фона для сцены
 				//{
@@ -29,15 +31,14 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 				//	m_makePhoto = false;
 				//	//qDebug() << "hello";
 				//}
-			}
+			/*}
 			else
-			{
+			{*/
 				//m_ui.label_3->setPixmap(m_img);
-				newFrame->SetObjParams("sensor live.jpg", "", bufer, m_img, false);
-				display->updateFrame();
+				
 				/*m_ui.linEdit_fileName->setText("Camera Vido");
 				m_ui.comboBox_program->setItemIcon(1, QPixmap());*/
-			}
+			//}
 		}
 		else
 		{

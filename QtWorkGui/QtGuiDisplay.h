@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtGuiDisplay.h"
+#include <QTime>
 #include "qfiledialog.h"
 #include "myLabel.h"
 #include "QtAreaToProcessed.h"
@@ -15,6 +16,8 @@ class QtGuiDisplay : public QWidget
 {
 	Q_OBJECT
 
+	int delayUpdateFrame;;
+	QTime *updateImageTime;
 	cv::Mat tempImg;
 	QPixmap TempPixmap;
 	QCursor myCursor;
@@ -86,6 +89,7 @@ public slots:
 	void updateImg();
 	void slot_resetAngel(int activRect);
 	void slot_changeProcssActiv(int isActiv); //0-disenable 1-enable
+	void slot_updateTrigerDelay(int newDelay);
 signals:
 	void brightnesCorrectRectSet(bool isSet);
 	void clic_pb();
