@@ -1,22 +1,26 @@
 #include "QtGuiProgramDetails.h"
 
 QtGuiProgramDetails::QtGuiProgramDetails(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	firstProcesObj(nullptr),
+	activ_ProcesObj(0),
+	scrolImg(nullptr),
+	copyProcesObj(nullptr)
 {
 	ui.setupUi(this);
-	firstProcesObj = nullptr;
-	activ_ProcesObj = 0;
 	connect(ui.pushButtn_Import, SIGNAL(clicked()), this, SLOT(slot_importImg()));
 	connect(ui.pushButtn_Copy, SIGNAL(clicked()), this, SLOT(slot_copyImg()));
 	connect(ui.lineEdit_ProgrmNam, SIGNAL(textChanged(QString)), this, SLOT(slot_renameProgName(QString)));
-	setAttribute(Qt::WA_DeleteOnClose);
 	ui.my_widget->setEanbleActivededRoi(false);
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 QtGuiProgramDetails::~QtGuiProgramDetails()
 {
-	firstProcesObj = nullptr;
-	delete firstProcesObj;
+	if (copyProcesObj != nullptr)
+		delete copyProcesObj;
+	if (scrolImg != nullptr)
+		delete scrolImg;
 }
 
 void QtGuiProgramDetails::slot_changeActivImg(int idImg, QString ProgName)
@@ -51,9 +55,9 @@ void QtGuiProgramDetails::slot_importImg()
 
 void QtGuiProgramDetails::slot_copyImg()
 {
-		copyProcesObj = new QtProgramCopyProcesObj(firstProcesObj);
-		copyProcesObj->show();
-		connect(copyProcesObj, SIGNAL(objIsCopy(int)), this, SLOT(slot_updateImg(int)));
+	copyProcesObj = new QtProgramCopyProcesObj(firstProcesObj);
+	copyProcesObj->show();
+	connect(copyProcesObj, SIGNAL(objIsCopy(int)), this, SLOT(slot_updateImg(int)));
 }
 
 void QtGuiProgramDetails::slot_updateImg(int updateObj)

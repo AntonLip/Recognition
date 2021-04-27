@@ -7,7 +7,7 @@
 class QtImgInScrolBar : public QWidget
 {
 	Q_OBJECT
-	QtImgWidgets *wid[32];
+	QtImgWidgets *wid;
 	int activ_wid;
 public:
 	QtImgInScrolBar(ProcessedObj* first, QWidget *parent = Q_NULLPTR);
