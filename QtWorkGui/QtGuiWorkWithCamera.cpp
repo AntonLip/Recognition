@@ -85,6 +85,7 @@ void QtGuiWorkWithCamera::slot_openSetupCamera()
 	connect(this, SIGNAL(dataToSetingSensor(ProcessedObj*, ProcessedObj*, CameraPtr&, int,QtGuiDisplay*)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObj*, ProcessedObj*, CameraPtr&, int,QtGuiDisplay*)));
 	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObj*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObj*)));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrameInSetupSensor()));
+	connect(sensorSetup, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
 	emit dataToSetingSensor(&cameraLife, &loadObj[activLoadObj], camera, m_index, QtGuiSimulator::ui.widget_DisplayImg);
 }
 
@@ -108,6 +109,12 @@ void QtGuiWorkWithCamera::slot_setNewActivObj(int newActivObject)
 	{
 		QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 	}
+}
+
+void QtGuiWorkWithCamera::slot_dataFromSetupSim(ProcessedObj* new_pocessObject)
+{
+	QtGuiSimulator::slot_dataFromSetupSim(new_pocessObject);
+	cameraLife.setProcessArea(*new_pocessObject->getProcesArears());
 }
 
 void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)

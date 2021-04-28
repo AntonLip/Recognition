@@ -170,3 +170,19 @@ bool ProcessedObj::imgIsLoaded()
 	else
 		return true;
 }
+
+void ProcessedObj::setProcessArea(std::vector<QtProcessedArea> new_procesArea)
+{
+	processAreas = new_procesArea;
+}
+
+std::vector<QtProcessedArea>* ProcessedObj::getProcessArea()
+{
+	return &processAreas;
+}
+
+void ProcessedObj::updateProcessArea()
+{
+	for (size_t i{ 1 }; i < processAreas.size(); ++i)
+		processAreas[i].createMaster(&mainImgMat);
+}

@@ -748,6 +748,8 @@ void QtGuiDisplay::setEnableWidtsGrouBox(bool enable)
 			ui.comboBox->show();
 		else
 			ui.comboBox->hide();
+		if (!activ)
+			ui.comboBox->hide();
 	}
 	else
 	{
@@ -766,7 +768,7 @@ void QtGuiDisplay::setActiv(bool activ)
 	this->activ = activ;
 	if (activ)
 	{
-		ui.label_for_TempImg->setStyleSheet("background-color: red");
+		ui.label_for_TempImg->setStyleSheet("");
 		this->setActivProcessObj(activProcessedObj);
 	}
 	else

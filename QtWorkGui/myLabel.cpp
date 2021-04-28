@@ -72,7 +72,7 @@ void myLabel::formatImage(int formatType)
 		else if (formatType == 1)
 		{
 			QImage buferImg(my_Pixmap.toImage());
-			buferImg = buferImg.convertToFormat(QImage::Format_Grayscale8);
+			buferImg = buferImg.convertToFormat(QImage::Format_RGB32);
 			delete myPixmap_bufer;
 			myPixmap_bufer = new QPixmap(QPixmap::fromImage(buferImg));
 			my_Pixmap = *myPixmap_bufer;

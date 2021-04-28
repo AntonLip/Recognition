@@ -48,5 +48,8 @@ public:
 	QRect* getBrightnesCorrectArea();
 	QString getProgramName();
 	bool imgIsLoaded();
+	void setProcessArea(std::vector<QtProcessedArea> new_procesArea);
+	std::vector<QtProcessedArea> *getProcessArea();
+	void updateProcessArea();
 };
 

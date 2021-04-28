@@ -22,6 +22,9 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	connect(ui.PB_full,SIGNAL(clicked()),this,SLOT(slot_pushFull()));
 	connect(ui.PB_oneQuarter,SIGNAL(clicked()),this,SLOT(slot_pushOneQuarter()));
 	connect(ui.PB_oneEighth,SIGNAL(clicked()),this,SLOT(slot_pushOneEighth()));
+	connect(ui.PB_continuous,SIGNAL(clicked()),this,SLOT(slot_pushContinous()));
+	connect(ui.PB_once,SIGNAL(clicked()),this,SLOT(slot_pushOnce()));
+	connect(ui.PB_off,SIGNAL(clicked()),this,SLOT(slot_pushOff()));
 	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
 }
 

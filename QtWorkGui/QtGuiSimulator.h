@@ -33,7 +33,7 @@ protected:
 	QtSetupSimulator* SetupSimulator;
 	QtGUISensorSim* SensorSimulator;
 
-private slots:
+protected slots:
 	void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);
 	void slot_SetActivObj(int newActivObj);
 	void slot_openProgramDetail();

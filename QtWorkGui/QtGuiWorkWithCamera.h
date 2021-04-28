@@ -42,6 +42,7 @@ private slots:
 	void slot_updateFrameInSetupSensor();
 	void slot_updateFrame();
 	void slot_setNewActivObj(int newActivObject);
+	void slot_dataFromSetupSim(ProcessedObj* new_pocessObject);
 signals:
 	void dataToSetingSensor(ProcessedObj* sensorObj,ProcessedObj* masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
 	void updateFrameInSetupSensor(ProcessedObj* sensorObj);

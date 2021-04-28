@@ -217,9 +217,17 @@ void QtSetupSimulator::slot_changeWidSteps(int step)
 	{
 		masterObjct.getProcesArears()[0][0].setActiv(true);
 		masterObjct.getProcesArears()[0][0].setDraw(true);
+		if (masterObjct.imgIsLoaded())
+			ui.pushButton_setCorect->setEnabled(true);
+		
 		if (masterObjct.getProcesArears()[0][0].getArea() > 0)
 		{
 			ui.pushButton_delCorect->setEnabled(true);
+			ui.pushButton_setCorect->setEnabled(false);
+		}
+		if (!masterObjct.imgIsLoaded())
+		{
+			ui.pushButton_delCorect->setEnabled(false);
 			ui.pushButton_setCorect->setEnabled(false);
 		}
 		ui.widget_getMasterImg->setChangesProcessedArears(true);
@@ -251,6 +259,7 @@ void QtSetupSimulator::slot_registImageFromFile()
 		ui.widget_getMasterImg->updateProcessObj(&masterObjct);
 		ui.widget_getMasterImg->slot_ZoomImg_AllLabl();
 		LOG.logMessege("image load", _DEBUG_);
+		ui.widget_getMasterImg->setActiv(true);
 	}
 	else
 	{
@@ -262,6 +271,10 @@ void QtSetupSimulator::slot_registImageFromFile()
 
 void QtSetupSimulator::setGUIWid(int newActivStep)
 {
+	if(!masterObjct.imgIsLoaded())
+		ui.widget_getMasterImg->setActiv(false);
+	else 
+		ui.widget_getMasterImg->setActiv(true);
 	activStep = newActivStep;
 	ui.stackWid_steps->setCurrentIndex(activStep-1);
 	if (activStep != 4)
@@ -277,8 +290,8 @@ void QtSetupSimulator::setGUIWid(int newActivStep)
 	else
 	{
 		ui.pushButton_back->setEnabled(true);
-		if(!ui.widget_getMasterImg->isActiv())
-			ui.widget_getMasterImg->setActiv(true);
+		/*if(!ui.widget_getMasterImg->isActiv())
+			ui.widget_getMasterImg->setActiv(true);*/
 	}
 	/*if (activStep == 2)
 	{
@@ -291,7 +304,10 @@ void QtSetupSimulator::setGUIWid(int newActivStep)
 	}*/
 	if (activStep == 3)
 	{
-		
+		if (!ui.widget_getMasterImg->isActiv())
+			ui.pushButton_addTool->setEnabled(false);
+		else
+			ui.pushButton_addTool->setEnabled(true);
 		if (masterObjct.getProcesArears()->size() <= 1)
 		{
 			ui.pushButton_CopyTool->setEnabled(false);
@@ -483,7 +499,7 @@ void QtSetupSimulator::slot_pushStep2()
 void QtSetupSimulator::slot_pushStep3()
 {
 	setGUIWid(3);
-	ui.widget_getMasterImg->setEanbleActivededRoi(true);
+	ui.widget_getMasterImg->setEanbleActivededRoi(false);
 	ui.widget_getMasterImg->setChangesProcessedArears(false);
 }
 

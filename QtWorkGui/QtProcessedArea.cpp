@@ -154,8 +154,8 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	if (inputImg->type() == CV_8U)
 		cv::cvtColor(mask, mask, cv::COLOR_GRAY2BGR);
 	cv::bitwise_and(drawImg, mask, drawImg);
-		if (inputImg->type() == CV_8U)
-	cv::cvtColor(backGround, backGround, cv::COLOR_BGR2GRAY);
+	/*if (inputImg->type() == CV_8U)
+		cv::cvtColor(backGround, backGround, cv::COLOR_BGR2GRAY);*/
 	cv::bitwise_or(drawImg, backGround, drawImg);
 	return drawImg;
 }

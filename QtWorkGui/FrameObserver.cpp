@@ -18,6 +18,7 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 			QPixmap m_img = QPixmap::fromImage(myImage);
 
 			cv::Mat bufer(h, w, CV_8UC1, pbuffer);
+			cv::cvtColor(bufer, bufer, CV_GRAY2BGR);
 			newFrame->SetObjParams("sensor live.jpg", "", bufer, m_img, false);
 			display->updateFrame();
 			LOG.logMessege("new frame craded", _DEBUG_);
