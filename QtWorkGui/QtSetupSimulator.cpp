@@ -249,7 +249,7 @@ void QtSetupSimulator::slot_registImageFromFile()
 		std::size_t found = qstr_bufer.toStdString().find_last_of("/\\");
 		masterObjct.SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, QPixmap(qstr_bufer), false);
 		ui.widget_getMasterImg->updateProcessObj(&masterObjct);
-		ui.widget_getMasterImg->updateImg();
+		ui.widget_getMasterImg->slot_ZoomImg_AllLabl();
 		LOG.logMessege("image load", _DEBUG_);
 	}
 	else

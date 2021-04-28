@@ -90,6 +90,7 @@ public slots:
 	void slot_resetAngel(int activRect);
 	void slot_changeProcssActiv(int isActiv); //0-disenable 1-enable
 	void slot_updateTrigerDelay(int newDelay);
+	void slot_delUpdateImageTime();
 signals:
 	void brightnesCorrectRectSet(bool isSet);
 	void clic_pb();

@@ -1164,6 +1164,12 @@ void QtGuiDisplay::slot_updateTrigerDelay(int newDelay)
 	delayUpdateFrame = newDelay;
 }
 
+void QtGuiDisplay::slot_delUpdateImageTime()
+{	
+	delete updateImageTime;
+	updateImageTime = nullptr;
+}
+
 bool QtGuiDisplay::isActiv()
 {
 	return activ;
@@ -1201,6 +1207,8 @@ void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)
 	draw_proceseArears();
 	this->setSizeScrollBar();
 	ui.label_for_TempImg->show_partImg();
+	activ_scaled = ui.label_for_TempImg->get_activScaled();
+	ui.label_Scale->setText(QString::number(activ_scaled, 'f', 1) + "%");
 	//ui.label_for_TempImg->set_myPixmap(&activObj->getPixmap());
 }
 

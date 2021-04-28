@@ -91,13 +91,23 @@ void myLabel::update_myPixmap(const QPixmap& img)
 	scalCoef_H = static_cast<double>(this->height()) / originalSize.height();
 	delete myPixmap_bufer;
 	myPixmap_bufer = new QPixmap(my_Pixmap);
-	delete myPixmap_mouve;
-	myPixmap_mouve = new QPixmap(my_Pixmap.copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
+	//delete myPixmap_mouve;
+	//myPixmap_mouve = new QPixmap(my_Pixmap.copy(drPoint.x(), drPoint.y(), this->width(), this->height()));
 	setAllImgScaled();
 	this->scaledPixmap();
 }
 
-
+double myLabel::get_activScaled()
+{
+	if (activ_scaled<11 && activ_scaled>0)
+	{
+		return _scaled[activ_scaled] * 100;
+	}
+	else
+	{
+		return _scaled[11] * 100;
+	}
+}
 
 void myLabel::set_myPixmap(const QPixmap* img)
 {

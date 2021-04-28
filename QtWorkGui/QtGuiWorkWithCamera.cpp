@@ -96,7 +96,9 @@ void QtGuiWorkWithCamera::slot_updateFrameInSetupSensor()
 void QtGuiWorkWithCamera::slot_updateFrame()
 {
 	if (isPlay)
+	{
 		QtGuiSimulator::ui.widget_DisplayImg->updateProcessObj(&cameraLife);
+	}
 }
 
 void QtGuiWorkWithCamera::slot_setNewActivObj(int newActivObject)

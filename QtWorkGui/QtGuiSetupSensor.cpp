@@ -172,6 +172,7 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 
 void QtGuiSetupSensor::slot_pushSetRoi()
 {
+
 	LOG.logMessege("Start changing camera settings", _INFO_);
 	camera->GetFeatureByName("AcquisitionStop", pFeature);
 	pFeature->RunCommand();
@@ -232,7 +233,6 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 	{
 		// Put frame into the frame queue										Поместить кадр в очередь кадров
 		camera->QueueFrame(*iter);
-
 	}
 	// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
 	camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
@@ -282,4 +282,5 @@ void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, Proc
 	camera = cams;
 	videoDisplay = videoDisplay_;
 	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
+	connect(ui.PB_setRoi, SIGNAL(clicked()), videoDisplay, SLOT(slot_delUpdateImageTime()));
 }
