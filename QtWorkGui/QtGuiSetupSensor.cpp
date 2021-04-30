@@ -117,26 +117,39 @@ void QtGuiSetupSensor::slot_pushStep3()
 
 void QtGuiSetupSensor::slot_cahgeOfsetX(int newOffsetX)
 {
-	if(chagheROI)
-		emit signal_getNewOffsetX(newOffsetX/ (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+	if (chagheROI)
+	{
+		ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() - newOffsetX);
+		emit signal_getNewOffsetX(newOffsetX / (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+	}
 }
 
 void QtGuiSetupSensor::slot_cahgeOfsetY(int newOffsetY)
 {
 	if (chagheROI)
+	{
+		ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - newOffsetY);
+		int a{};
 		emit signal_getNewOffsetY(newOffsetY / (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+	}
 }
 
 void QtGuiSetupSensor::slot_cahgeHeigth(int newHeigth)
 {
 	if (chagheROI)
+	{
+		ui.SpinB_ofsetY->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - newHeigth);
 		emit signal_getNewHeigth(newHeigth / (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+	}
 }
 
 void QtGuiSetupSensor::slot_cahgeWidth(int newWidth)
 {
 	if (chagheROI)
+	{
+		ui.SpinB_ofsetX->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() - newWidth);
 		emit signal_getNewWidth(newWidth / (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+	}
 }
 
 void QtGuiSetupSensor::slot_setOffset(QRectF& point)
@@ -146,6 +159,20 @@ void QtGuiSetupSensor::slot_setOffset(QRectF& point)
 	ui.SpinB_ofsetX->setValue(point.x() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
 	ui.SpinB_height->setValue(point.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
 	ui.SpinB_width->setValue(point.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / 256.0));
+
+	ui.SpinB_ofsetY->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - point.height());
+	ui.SpinB_ofsetX->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() - point.width());
+	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - point.y());
+	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() - point.x());
+
+	if (ui.SpinB_width->maximum() >= maxFrameSize.width() / ui.SpinB_binningHor->value())
+		ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value());
+	if (ui.SpinB_ofsetY->maximum() < 0)
+		ui.SpinB_ofsetY->setMaximum(0);
+	if (ui.SpinB_ofsetX->maximum() < 0)
+		ui.SpinB_ofsetX->setMaximum(0);	
+	if (ui.SpinB_height->maximum() >= maxFrameSize.height() / ui.SpinB_binningVer->value())
+		ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value());
 	chagheROI = true;
 }
 

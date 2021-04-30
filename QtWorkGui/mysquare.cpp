@@ -42,7 +42,7 @@ void MySquare::slot_changeHeight(int value)
     prepareGeometryChange();
     //update(QRectF(x(), y(), value, value));
     b_Y = mapToItem(this, QPointF(0, value)).y();
-    if (mapToScene(m_BottomRight).y() > scene()->sceneRect().height())  //если к-та нижней границы выходит за пределы сцены, то не изменяем ее к-ту, т.е она остается на границе
+    if (b_Y > scene()->sceneRect().height())  //если к-та нижней границы выходит за пределы сцены, то не изменяем ее к-ту, т.е она остается на границе
     {
         b_Y = rec.bottomRight().y();
         m_BottomRight = QPointF(b_X, b_Y);
@@ -60,7 +60,7 @@ void MySquare::slot_changeWidth(int value)
 {
     prepareGeometryChange();
     b_X = mapToItem(this, QPointF(value, 0)).x();
-    if (mapToScene(m_BottomRight).x() > scene()->sceneRect().width() - 1)
+    if (b_X > scene()->sceneRect().width() )
     {
         b_X = rec.bottomRight().x() - 1;
         m_BottomRight = QPointF(b_X, b_Y);
