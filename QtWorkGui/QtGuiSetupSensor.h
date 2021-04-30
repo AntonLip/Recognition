@@ -47,17 +47,23 @@ private:
 	bool makePhoto = true;
 	QtGuiDisplay* videoDisplay;
 	QSizeF maxFrameSize;
+	bool chagheROI;
+	void setCameraParamsInGui();
+	
 public slots:
 	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObj* sensorObj);
 	void slot_pushStep1();
 	void slot_pushStep2();
 	void slot_pushStep3();
+	void slot_cahgeOfsetX(int newOffsetX);
+	void slot_cahgeOfsetY(int newOffsetY);
+	void slot_cahgeHeigth(int newHeigth);
+	void slot_cahgeWidth(int newWidth);
 
 
-
-	void slot_setOffset(QPointF& point);
-	void slot_setSizeItemInSpinBox(QPointF& itemSize);
+	void slot_setOffset(QRectF& point);
+	void slot_setSizeItemInSpinBox(QSizeF& itemSize);
 	void slot_changeBinning(int value);
 	
 	//VmbErrorType GetExposureAutoTargetFeature(FeaturePtr& feature, CameraPtr& camera);
@@ -78,4 +84,8 @@ public slots:
 signals:
 	void sl_BinningChange(int value);
 	void sl_buttonChangeSizeClicked(double changeKoef);
+	void signal_getNewOffsetX(int newOffsetX);
+	void signal_getNewOffsetY(int newOffsetY);
+	void signal_getNewHeigth(int newHeigth);
+	void signal_getNewWidth(int newWidth);
 };

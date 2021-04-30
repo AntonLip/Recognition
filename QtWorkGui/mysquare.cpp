@@ -6,52 +6,76 @@ MySquare::MySquare()
     rec = boundingRect();
 }
 
-void MySquare::changeSizeFromButton(QPointF size)
+void MySquare::changeSizeFromButton(QSizeF size)
 {
     prepareGeometryChange();
     this->setPos(0,0);
-    b_X = t_X + size.x();
-    b_Y = t_Y + size.y();
+    b_X = t_X + size.width();
+    b_Y = t_Y + size.height();
     m_BottomRight = QPointF(b_X, b_Y);
     rec.setBottomRight(m_BottomRight);
     update();
 }
-//{
 
-//void MySquare::st_ItemHeightChangeee(int height, int m_kH)
-//{
-//    //setFlag(ItemIsMovable, false);
-//    prepareGeometryChange();
-//    b_Y = t_Y + height/ m_kH;
-//    m_BottomRight = QPointF(b_X, b_Y);
-//    rec.setBottomRight(m_BottomRight);
-//    update();
-//}
-//
-//void MySquare::st_ItemWidthChangeee(int width, int m_kW)
-//{
-//    //setFlag(ItemIsMovable, false);
-//    prepareGeometryChange();
-//    b_X = t_X + width/ m_kW;
-//    m_BottomRight = QPointF(b_X, b_Y);
-//    rec.setBottomRight(m_BottomRight);
-//    update();
-//}
-//
-//void MySquare::st_SpinBoxChangeOffY(int value,int m_kH)
-//{
-//    if (this->cursor() != QCursor(Qt::ClosedHandCursor))
-//        this->setY(value* m_kH);
-//}
-//
-//
-//void MySquare::st_SpinBoxChangeOffX(int value,int m_kW)
-//{
-//    if(this->cursor()!= QCursor(Qt::ClosedHandCursor))
-//        this->setX(value* m_kW);
-//}
+void MySquare::slot_changeOffX(int value)
+{
+    this->setX(value);
+    //this->setX(mapToItem(this,QPointF(value, 0)).x());
+    if (this->x() + (rec.bottomRight().x()) > scene()->sceneRect().width() + 1)
+    {
+        this->setX(scene()->sceneRect().width() - (abs(rec.bottomRight().x())));   /// справа
+    }
+}
 
+void MySquare::slot_changeOffY(int value)
+{
+    this->setY(value);
+    //this->setY(mapToItem(this, QPointF(0, value)).y());
+    if (this->y() + (rec.bottomRight().y()) > scene()->sceneRect().height() + 1)
+    {
+        this->setY(scene()->sceneRect().height() - (abs(rec.bottomRight().y())));   /// снизу
+    }
+}
 
+void MySquare::slot_changeHeight(int value)
+{
+    prepareGeometryChange();
+    //update(QRectF(x(), y(), value, value));
+    b_Y = mapToItem(this, QPointF(0, value)).y();
+    if (mapToScene(m_BottomRight).y() > scene()->sceneRect().height())  //если к-та нижней границы выходит за пределы сцены, то не изменяем ее к-ту, т.е она остается на границе
+    {
+        b_Y = rec.bottomRight().y();
+        m_BottomRight = QPointF(b_X, b_Y);
+    }
+    else    //иначе 
+        m_BottomRight = QPointF(b_X, b_Y);
+    rec.setBottomRight(m_BottomRight);
+    if (this->y() + (rec.topLeft().y()) < 0) 
+    {
+        this->setY(-rec.topLeft().y());         /// сверху
+    }
+}
+
+void MySquare::slot_changeWidth(int value)
+{
+    prepareGeometryChange();
+    b_X = mapToItem(this, QPointF(value, 0)).x();
+    if (mapToScene(m_BottomRight).x() > scene()->sceneRect().width() - 1)
+    {
+        b_X = rec.bottomRight().x() - 1;
+        m_BottomRight = QPointF(b_X, b_Y);
+    }
+    else    //иначе
+    {
+        m_BottomRight = QPointF(b_X, b_Y);
+
+    }
+    rec.setBottomRight(m_BottomRight);
+    if (this->x() + rec.topLeft().x() < 0) 
+    {       
+        this->setX(-rec.topLeft().x());         /// слева
+    }
+}
 
 
 QRectF MySquare::boundingRect() const
@@ -71,13 +95,10 @@ void MySquare::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 
 void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    
-    
+{ 
     //если ПЕРЕТАСКИВАЕМ
     if(this->cursor()==QCursor(Qt::ClosedHandCursor))
-    {
-        
+    { 
         //изменяем ПОЛОЖЕНИЕ объекта
         this->setPos(mapToScene(event->pos() - m_shiftMouseCoords));
 
@@ -85,17 +106,18 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if(this->x()+rec.topLeft().x() < 0){       //1 -толщина линии границы квадрата в пикселях
             this->setX(-rec.topLeft().x());         /// слева
         }
-        if(this->x() +(rec.bottomRight().x())  > scene()->sceneRect().width()){
+        if(this->x() +(rec.bottomRight().x())  > scene()->sceneRect().width()+1)
+        {
             this->setX(scene()->sceneRect().width() - (abs(rec.bottomRight().x())));   /// справа
         }
         if(this->y()+(rec.topLeft().y()) < 0){
             this->setY(-rec.topLeft().y());         /// сверху
         }
-        if(this->y() + (rec.bottomRight().y())  > scene()->sceneRect().height()){
-            this->setY(scene()->sceneRect().height() - (abs(rec.bottomRight().y())) );   /// снизу
+        if(this->y() + (rec.bottomRight().y())  > scene()->sceneRect().height()+1){
+            this->setY(scene()->sceneRect().height() - (abs(rec.bottomRight().y())));   /// снизу
         }
-        QPointF coordinate = QPointF(mapToScene(m_TopLeft));
-        emit CoordinateChange(coordinate);
+        //QPointF coordinate = QPointF(mapToScene(m_TopLeft));
+        emit CoordinateChange(mapRectToScene(this->boundingRect()));
 
     }
     //если ИЗМЕНЯЕМ размер
@@ -117,8 +139,7 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
             prepareGeometryChange();             //подготовка к изменению размеров
             rec.setBottomRight(m_BottomRight);   //устанавливаем для фигуры новые к-ты нижнего правого угла
-
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         else if(this->cursor()==QCursor(Qt::SizeVerCursor)&&top==true) // ВЕРХНЯЯ граница
         {
@@ -146,9 +167,9 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             prepareGeometryChange();
             rec.setTopLeft(m_TopLeft);
 
-            QPointF coordinate = QPointF(mapToScene(m_TopLeft));
-            emit CoordinateChange(coordinate);
-
+            //QPointF coordinate = QPointF(mapToScene(m_TopLeft));
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
+            
         }
         else if(this->cursor()==QCursor(Qt::SizeHorCursor)&&right==true) // ПРАВАЯ граница
         {
@@ -172,7 +193,7 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             }
             prepareGeometryChange();
             rec.setBottomRight(m_BottomRight);
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         else if(this->cursor()==QCursor(Qt::SizeHorCursor)&&left==true) // ЛЕВАЯ граница
         {
@@ -192,8 +213,8 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             prepareGeometryChange();
             rec.setTopLeft(m_TopLeft);
 
-            QPointF coordinate = QPointF(mapToScene(m_TopLeft));
-            emit CoordinateChange(coordinate);
+            //QPointF coordinate = QPointF(mapToScene(m_TopLeft));
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
 
         }
         else if(this->cursor()==QCursor(Qt::SizeFDiagCursor)&&bottom==true&&right==true) // НИЖНИЙ ПРАВЫЙ угол
@@ -215,7 +236,7 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
             prepareGeometryChange();
             rec.setBottomRight(m_BottomRight);
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         else if(this->cursor()==QCursor(Qt::SizeBDiagCursor)&&bottom==true&&left==true) // НИЖНИЙ ЛЕВЫЙ угол
         {
@@ -238,7 +259,7 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             prepareGeometryChange();
             rec.setBottomRight(m_BottomRight);
             rec.setTopLeft(m_TopLeft);
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         else if(this->cursor()==QCursor(Qt::SizeFDiagCursor)&&top==true&&left==true) // ВЕРХНИЙ ЛЕВЫЙ угол
         {
@@ -259,7 +280,7 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
             prepareGeometryChange();
             rec.setTopLeft(m_TopLeft);
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         else if(this->cursor()==QCursor(Qt::SizeBDiagCursor)&&top==true&&right==true) // ВЕРХНИЙ ПРАВЫЙ угол
         {
@@ -282,19 +303,18 @@ void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             prepareGeometryChange();
             rec.setBottomRight(m_BottomRight);
             rec.setTopLeft(m_TopLeft);
-
+            emit CoordinateChange(mapRectToScene(this->boundingRect()));
         }
         /*******     нажатие на границе конец   ********************************************************************************************************************************************************************************/
-        emit sizeChange(QPointF(m_BottomRight.x()-m_TopLeft.x(), m_BottomRight.y() - m_TopLeft.y()));
-        
+        //emit sizeChange(QPointF(m_BottomRight.x()-m_TopLeft.x(), m_BottomRight.y() - m_TopLeft.y()));
+        //emit sizeChange(QRectF(mapRectToScene(this->boundingRect())).size());
     }
-    
 }
 
 
 void MySquare::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "Press";
+    //qDebug() << "Press";
     m_Pressed=true;
     m_shiftMouseCoords = mapToScene(event->pos())-this->pos();
 

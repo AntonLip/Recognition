@@ -36,10 +36,13 @@ protected:
 
 private slots:
     void resizeEvent(QResizeEvent *event);
-
+    void slot_setNewOffsetX(int newOffsetX);
+    void slot_setNewOffsetY(int newOffsetY);
+    void slot_setNewHeigth(int newHeigth);
+    void slot_setNewWidth(int newWidth);
 public slots:
-    void st_CoordItemChange(QPointF& itemCoord);
-    void st_ItemFromWidgetSizeChange(QPointF& itemSize);
+    void st_CoordItemChange(QRectF& itemCoord);
+    void st_ItemFromWidgetSizeChange(QSizeF& itemSize);
 
     void st_buttonChangeSizeClicked(double changeKoefficient);
     
@@ -50,10 +53,13 @@ public slots:
 
 
 signals:
-    void CoordItemChange(QPointF& itemCoord);
-    void ItemFromWidgetSizeChange(QPointF& itemSize);
-    void sl_changeSizeFromButton(QPointF size);
-    
+    void CoordItemChange(QRectF& itemCoord);
+    void ItemFromWidgetSizeChange(QSizeF& itemSize);
+    void sl_changeSizeFromButton(QSizeF size);
+    void signal_new_offsetX(int newOffsetX);
+    void signal_new_offsetY(int newOffsetY);
+    void signal_new_heigth(int newHeigth);
+    void signal_new_width(int newWidth);
    /* void ItemHeightChange(int height,int m_kH);
     void ItemWidthChange(int width, int m_kW);
     void SpinBoxChangeOff_Y(int width, int m_kH);

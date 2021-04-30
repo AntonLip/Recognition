@@ -86,7 +86,7 @@ void QtGuiWorkWithCamera::slot_openSetupCamera()
 	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObj*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObj*)));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrameInSetupSensor()));
 	connect(sensorSetup, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
-	emit dataToSetingSensor(&cameraLife, &loadObj[activLoadObj], camera, m_index, QtGuiSimulator::ui.widget_DisplayImg);
+	emit dataToSetingSensor(&cameraLife, &loadObj[activLoadObj], camera, QtGuiSimulator::ui.widget_DisplayImg->getDelayUpdateFrame(), QtGuiSimulator::ui.widget_DisplayImg);
 }
 
 void QtGuiWorkWithCamera::slot_updateFrameInSetupSensor()

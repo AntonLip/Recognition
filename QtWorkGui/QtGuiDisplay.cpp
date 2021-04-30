@@ -1219,6 +1219,11 @@ void QtGuiDisplay::setActivProcesArea(int activArea)
 	activProcesArea = activArea;
 }
 
+int QtGuiDisplay::getDelayUpdateFrame()
+{
+	return delayUpdateFrame;
+}
+
 ProcessedObj* QtGuiDisplay::getActivObject()
 {
 	return activProcessedObj;

@@ -68,6 +68,7 @@ public:
 	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
 	void updateProcessObj(ProcessedObj* activObj);
 	void setActivProcesArea(int activArea);
+	int getDelayUpdateFrame();
 private:
 	Ui::QtGuiDisplay ui;
 

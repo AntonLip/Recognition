@@ -23,7 +23,7 @@ private:
     QRectF rec;                                 //фигура прямоугольник
     QPointF m_TopLeft=QPointF(t_X,t_Y);         //к-ты верхнего левого угла
     QPointF m_BottomRight=QPointF(b_X,b_Y);     //к-ты нижнего правого угла
-
+    QSizeF m_size=QSizeF(b_X, b_Y);
 
 public:
 
@@ -34,19 +34,18 @@ public:
     bool m_Pressed=false;
 
 public slots:
-    void changeSizeFromButton(QPointF size);
-    /*void st_SpinBoxChangeOffX(int value,int m_kW);
-    void st_SpinBoxChangeOffY(int value,int m_kH);
-    void st_ItemHeightChangeee(int value, int m_kH);
-    void st_ItemWidthChangeee(int value, int m_kW);*/
+    void changeSizeFromButton(QSizeF size);
+    void slot_changeOffX(int value);
+    void slot_changeOffY(int value);
+    void slot_changeHeight(int value);
+    void slot_changeWidth(int value);
 
 signals:
-    void CoordinateChange(QPointF &point); 
-    void sizeChange(QPointF& itemSize);
+    void CoordinateChange(QRectF &rect); 
+    void sizeChange(QSizeF& itemSize);
 
 
 protected:
-
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

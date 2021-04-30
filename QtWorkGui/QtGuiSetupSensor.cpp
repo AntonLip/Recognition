@@ -1,9 +1,10 @@
 #include "QtGuiSetupSensor.h"
 
 
-QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
+QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	: QtSetupSimulator(parent),
-	maxFrameSize(QSizeF(4872.0, 3248.0))
+	maxFrameSize(QSizeF(4872.0, 3248.0)),
+	chagheROI(false)
 {
 	ui.setupUi(this);
 	setUpGui();
@@ -13,8 +14,8 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	connect(QtSetupSimulator::ui.pushButton_step2, SIGNAL(clicked()), this, SLOT(slot_pushStep2()));
 	connect(QtSetupSimulator::ui.pushButton_step3, SIGNAL(clicked()), this, SLOT(slot_pushStep3()));
 	connect(QtSetupSimulator::ui.pushButton_step4, SIGNAL(clicked()), this, SLOT(slot_pushStep4()));
-	connect(ui.setRoiWid, SIGNAL(CoordItemChange(QPointF&)), this, SLOT(slot_setOffset(QPointF&)));		    //при изменении положения РОИ меняются значения спинбоксов
-	connect(ui.setRoiWid, SIGNAL(ItemFromWidgetSizeChange(QPointF&)), this, SLOT(slot_setSizeItemInSpinBox(QPointF&)));		//при изменении width ,height ROI изменяется значение в спинбоксах
+	connect(ui.setRoiWid, SIGNAL(CoordItemChange(QRectF&)), this, SLOT(slot_setOffset(QRectF&)));		    //при изменении положения РОИ меняются значения спинбоксов
+	connect(ui.setRoiWid, SIGNAL(ItemFromWidgetSizeChange(QSizeF&)), this, SLOT(slot_setSizeItemInSpinBox(QSizeF&)));		//при изменении width ,height ROI изменяется значение в спинбоксах
 	connect(this, SIGNAL(sl_buttonChangeSizeClicked(double)), ui.setRoiWid, SLOT(st_buttonChangeSizeClicked(double)));
 	connect(ui.SpinB_binningHor, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning horizontal
 	connect(ui.SpinB_binningVer, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning vertical
@@ -25,7 +26,16 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget *parent)
 	connect(ui.PB_continuous,SIGNAL(clicked()),this,SLOT(slot_pushContinous()));
 	connect(ui.PB_once,SIGNAL(clicked()),this,SLOT(slot_pushOnce()));
 	connect(ui.PB_off,SIGNAL(clicked()),this,SLOT(slot_pushOff()));
+	connect(ui.SpinB_ofsetX,SIGNAL(valueChanged(int)),this,SLOT(slot_cahgeOfsetX(int)));
+	connect(ui.SpinB_ofsetY,SIGNAL(valueChanged(int)),this,SLOT(slot_cahgeOfsetY(int)));
+	connect(ui.SpinB_height,SIGNAL(valueChanged(int)),this,SLOT(slot_cahgeHeigth(int)));
+	connect(ui.SpinB_width,SIGNAL(valueChanged(int)),this,SLOT(slot_cahgeWidth(int)));
+	connect(this, SIGNAL(signal_getNewOffsetX(int)), ui.setRoiWid, SLOT(slot_setNewOffsetX(int)));
+	connect(this, SIGNAL(signal_getNewOffsetY(int)), ui.setRoiWid, SLOT(slot_setNewOffsetY(int)));
+	connect(this, SIGNAL(signal_getNewHeigth(int)), ui.setRoiWid, SLOT(slot_setNewHeigth(int)));
+	connect(this, SIGNAL(signal_getNewWidth(int)), ui.setRoiWid, SLOT(slot_setNewWidth(int)));
 	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
+
 }
 
 QtGuiSetupSensor::~QtGuiSetupSensor()
@@ -45,6 +55,34 @@ void QtGuiSetupSensor::setUpGui()
 	HL_forFirstStep = new QHBoxLayout();
 	QtSetupSimulator::ui.page_step1->setLayout(HL_forFirstStep);
 	HL_forFirstStep->addWidget(ui.setupSensorParams);
+}
+
+void QtGuiSetupSensor::setCameraParamsInGui()
+{
+	VmbInt64_t buferForAnyParams{ 0 };
+	camera->GetFeatureByName("BinningHorizontal", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_binningHor->setValue(static_cast<int>(buferForAnyParams));
+
+	camera->GetFeatureByName("BinningVertical", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_binningVer->setValue(static_cast<int>(buferForAnyParams));
+
+	camera->GetFeatureByName("Height", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_height->setValue(static_cast<int>(buferForAnyParams));
+
+	camera->GetFeatureByName("Width", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_width->setValue(static_cast<int>(buferForAnyParams));
+
+	camera->GetFeatureByName("OffsetX", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_ofsetX->setValue(static_cast<int>(buferForAnyParams));
+
+	camera->GetFeatureByName("OffsetY", pFeature);
+	pFeature->GetValue(buferForAnyParams);
+	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForAnyParams));
 }
 
 void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObj* sensorObj)
@@ -77,16 +115,44 @@ void QtGuiSetupSensor::slot_pushStep3()
 	masterIsActivObject = true;
 }
 
-void QtGuiSetupSensor::slot_setOffset(QPointF& point)
+void QtGuiSetupSensor::slot_cahgeOfsetX(int newOffsetX)
 {
-	ui.SpinB_ofsetY->setValue(point.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
-	ui.SpinB_ofsetX->setValue(point.x() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+	if(chagheROI)
+		emit signal_getNewOffsetX(newOffsetX/ (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
 }
 
-void QtGuiSetupSensor::slot_setSizeItemInSpinBox(QPointF& itemSize)
+void QtGuiSetupSensor::slot_cahgeOfsetY(int newOffsetY)
 {
-	ui.SpinB_height->setValue(itemSize.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
-	ui.SpinB_width->setValue(itemSize.x() * (4872.0 / ui.SpinB_binningHor->value() / 256.0));
+	if (chagheROI)
+		emit signal_getNewOffsetY(newOffsetY / (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+}
+
+void QtGuiSetupSensor::slot_cahgeHeigth(int newHeigth)
+{
+	if (chagheROI)
+		emit signal_getNewHeigth(newHeigth / (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+}
+
+void QtGuiSetupSensor::slot_cahgeWidth(int newWidth)
+{
+	if (chagheROI)
+		emit signal_getNewWidth(newWidth / (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+}
+
+void QtGuiSetupSensor::slot_setOffset(QRectF& point)
+{
+	chagheROI = false;
+	ui.SpinB_ofsetY->setValue(point.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+	ui.SpinB_ofsetX->setValue(point.x() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
+	ui.SpinB_height->setValue(point.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
+	ui.SpinB_width->setValue(point.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / 256.0));
+	chagheROI = true;
+}
+
+void QtGuiSetupSensor::slot_setSizeItemInSpinBox(QSizeF& itemSize)
+{
+	ui.SpinB_height->setValue(itemSize.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
+	ui.SpinB_width->setValue(itemSize.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / 256.0));
 }
 
 void QtGuiSetupSensor::slot_changeBinning(int value)
@@ -276,7 +342,7 @@ void QtGuiSetupSensor::slot_pushOff()
 	pFeature->SetValue(temp);
 }
 
-void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay_)
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(sensorObj);
 	masterObjct = *masterObj;
@@ -284,6 +350,8 @@ void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, Proc
 	masterIsActivObject = false;
 	camera = cams;
 	videoDisplay = videoDisplay_;
+	ui.spinB_trigerDelay->setValue(delay);
+	setCameraParamsInGui();
 	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
 	connect(ui.PB_setRoi, SIGNAL(clicked()), videoDisplay, SLOT(slot_delUpdateImageTime()));
 }

@@ -18,8 +18,8 @@
     <rect>
      <x>120</x>
      <y>50</y>
-     <width>372</width>
-     <height>632</height>
+     <width>394</width>
+     <height>630</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -197,54 +197,65 @@
        <property name="title">
         <string>ROI</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_6">
-        <item row="0" column="0">
-         <widget class="MyScrollArea" name="SkrolArea_forRoiWidget">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>326</width>
-             <height>274</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="Widget" name="setRoiWid" native="true">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>256</width>
-                <height>256</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>256</width>
-                <height>256</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="Widget" name="setRoiWid" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>256</width>
+              <height>256</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>256</width>
+              <height>256</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
-        <item row="1" column="0">
+        <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
            <string>ROI coordinate</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout">
+          <layout class="QGridLayout" name="gridLayout" columnstretch="2,1,2,1">
            <item row="1" column="1">
             <widget class="QSpinBox" name="SpinB_height">
              <property name="maximum">
@@ -304,7 +315,7 @@
           </layout>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="PB_full">
@@ -329,7 +340,7 @@
           </item>
          </layout>
         </item>
-        <item row="3" column="0">
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,1">
           <item>
            <spacer name="horizontalSpacer_2">
@@ -446,12 +457,6 @@
    <class>Widget</class>
    <extends>QWidget</extends>
    <header>widget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>MyScrollArea</class>
-   <extends>QScrollArea</extends>
-   <header>myscrollarea.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

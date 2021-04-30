@@ -23,10 +23,13 @@ Widget::Widget(QWidget *parent)
     myitem->setPos(0,0);
     scene->addItem(myitem);
 
-    connect(myitem,SIGNAL(CoordinateChange(QPointF& )),this,SLOT(st_CoordItemChange(QPointF& )));    //если двигаем итем
-    connect(myitem,SIGNAL(sizeChange(QPointF& )),this,SLOT(st_ItemFromWidgetSizeChange(QPointF& ))); //если изменяем размеры итема
-    connect(this,SIGNAL(sl_changeSizeFromButton(QPointF )),myitem,SLOT(changeSizeFromButton(QPointF))); //если изменяем размеры итема
-    
+    connect(myitem,SIGNAL(CoordinateChange(QRectF& )),this,SLOT(st_CoordItemChange(QRectF& )));    //если двигаем итем
+    connect(myitem,SIGNAL(sizeChange(QSizeF& )),this,SLOT(st_ItemFromWidgetSizeChange(QSizeF& ))); //если изменяем размеры итема
+    connect(this,SIGNAL(sl_changeSizeFromButton(QSizeF )),myitem,SLOT(changeSizeFromButton(QSizeF))); //если изменяем размеры итема
+    connect(this, SIGNAL(signal_new_offsetX(int)), myitem, SLOT(slot_changeOffX(int)));
+    connect(this, SIGNAL(signal_new_offsetY(int)), myitem, SLOT(slot_changeOffY(int)));
+    connect(this, SIGNAL(signal_new_heigth(int)), myitem, SLOT(slot_changeHeight(int)));
+    connect(this, SIGNAL(signal_new_width(int)), myitem, SLOT(slot_changeWidth(int)));
     //connect(this,SIGNAL(ItemHeightChange(int ,int )), myitem,SLOT(st_ItemHeightChangeee(int ,int )));                                       //если изменяем размеры итема через спинбоксы
     //connect(this,SIGNAL(ItemWidthChange(int, int)), myitem,SLOT(st_ItemWidthChangeee(int ,int )));                                         //если изменяем размеры итема через спинбоксы
     //connect(this,SIGNAL(SpinBoxChangeOff_Y(int, int)), myitem,SLOT(st_SpinBoxChangeOffY(int ,int )));                                      //изменяем значение спинбоксами
@@ -42,8 +45,8 @@ Widget::~Widget()
 void Widget ::st_buttonChangeSizeClicked(double changeKoefficient)
 {
     //qDebug() << this->width() * changeKoefficient;
-    QPointF size = QPointF(this->width() * changeKoefficient, this->height() * changeKoefficient);
-    emit sl_changeSizeFromButton(size);
+    //QPointF size = QPointF(this->width() * changeKoefficient, this->height() * changeKoefficient);
+    emit sl_changeSizeFromButton(QSizeF(this->width() * changeKoefficient, this->height() * changeKoefficient));
 }
 
 //void Widget::st_SpinBoxChangeOff_Y(int offsetY, int m_kH)
@@ -67,14 +70,34 @@ void Widget ::st_buttonChangeSizeClicked(double changeKoefficient)
 //    ItemHeightChange(height,m_kH);
 //}
 
-void Widget::st_CoordItemChange(QPointF& itemCoord)
+void Widget::st_CoordItemChange(QRectF& itemCoord)
 {
-    CoordItemChange(itemCoord);
+    emit CoordItemChange(itemCoord);
 }
 
-void Widget::st_ItemFromWidgetSizeChange(QPointF& itemSize)
+void Widget::slot_setNewOffsetX(int newOffsetX)
 {
-    ItemFromWidgetSizeChange(itemSize);
+    emit signal_new_offsetX(newOffsetX);
+}
+
+void Widget::slot_setNewOffsetY(int newOffsetY)
+{
+    emit signal_new_offsetY(newOffsetY);
+}
+
+void Widget::slot_setNewHeigth(int newHeigth)
+{
+    emit signal_new_heigth(newHeigth);
+}
+
+void Widget::slot_setNewWidth(int newWidth)
+{
+    emit signal_new_width(newWidth);
+}
+
+void Widget::st_ItemFromWidgetSizeChange(QSizeF& itemSize)
+{
+    emit ItemFromWidgetSizeChange(itemSize);
 }
 
 
