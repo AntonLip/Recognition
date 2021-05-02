@@ -25,6 +25,7 @@ Widget::Widget(QWidget *parent)
 
     connect(myitem,SIGNAL(CoordinateChange(QRectF& )),this,SLOT(st_CoordItemChange(QRectF& )));    //если двигаем итем
     connect(myitem,SIGNAL(sizeChange(QSizeF& )),this,SLOT(st_ItemFromWidgetSizeChange(QSizeF& ))); //если изменяем размеры итема
+    connect(this,SIGNAL(signal_newSizeScene(QSizeF )), myitem,SLOT(slot_updateSceneSize(QSizeF ))); //если изменяем размеры итема
     connect(this,SIGNAL(sl_changeSizeFromButton(QSizeF )),myitem,SLOT(changeSizeFromButton(QSizeF))); //если изменяем размеры итема
     connect(this, SIGNAL(signal_new_offsetX(int)), myitem, SLOT(slot_changeOffX(int)));
     connect(this, SIGNAL(signal_new_offsetY(int)), myitem, SLOT(slot_changeOffY(int)));
@@ -112,62 +113,38 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)  //филтр событи
         {
             const QGraphicsSceneMouseEvent* const me = static_cast<const QGraphicsSceneMouseEvent*>(event);
             const QPointF position = me->scenePos();
-
+            QRectF drawRect{ myitem->getDrawRect() };
             //будем проверять находится ли курсор над границей фигуры,если да,то меняем курсор
-            //курсор на ЛЕВОЙ границе
-            if((position.y()>myitem->y()+myitem->boundingRect().top()+adjust)&&(position.x()<myitem->x()+myitem->boundingRect().left()+adjust)&&(position.y()<myitem->y()+myitem->boundingRect().bottom()-adjust))
+            myitem->setCursor(QCursor(Qt::ArrowCursor));
+            //cursor on draw rect
+            if (drawRect.contains(position))
             {
-              myitem->setCursor(QCursor(Qt::SizeHorCursor));
+                myitem->setCursor(QCursor(Qt::ClosedHandCursor));
             }
-
-            //курсор на ПРАВОЙ границе
-            else if((position.y()<myitem->y()+myitem->boundingRect().bottom()-adjust)&&(position.x()>myitem->x()+myitem->boundingRect().right()-adjust)&&(position.y()>myitem->y()+myitem->boundingRect().top()+adjust))
+            //cursor on left or right border 
+            if (QRectF(drawRect.x(), drawRect.y() + adjust, adjust, drawRect.height() - 2 * adjust).contains(position) ||
+                QRectF(drawRect.x()+drawRect.width()-adjust, drawRect.y() + adjust, adjust, drawRect.height() - 2 * adjust).contains(position))
             {
-              myitem->setCursor(QCursor(Qt::SizeHorCursor));
+                myitem->setCursor(QCursor(Qt::SizeHorCursor));
             }
-
-            //курсор на ВЕРХНЕЙ границе
-            else if((position.y()<myitem->y()+myitem->boundingRect().top()+adjust)&&(position.x()>myitem->x()+myitem->boundingRect().left()+adjust)&&(position.x()<myitem->x()+myitem->boundingRect().right()-adjust))
+            //cursor on top or low border 
+            else if (QRectF(drawRect.x() + adjust, drawRect.y(), drawRect.width() - 2 * adjust, adjust).contains(position) ||
+                    QRectF(drawRect.x() + adjust, drawRect.y() + drawRect.height() - adjust, drawRect.width() - 2 * adjust, adjust).contains(position))
             {
-              myitem->setCursor(QCursor(Qt::SizeVerCursor));
+                myitem->setCursor(QCursor(Qt::SizeVerCursor));
             }
-
-            //курсор на НИЖНЕЙ границе
-            else if((position.y()>myitem->y()+myitem->boundingRect().bottom()-adjust)&&(position.x()>myitem->x()+myitem->boundingRect().left()+adjust)&&(position.x()<myitem->x()+myitem->boundingRect().right()-adjust))
-            {
-              myitem->setCursor(QCursor(Qt::SizeVerCursor));
-            }
-
-            //курсор  ВЕРХНИЙ ЛЕВЫЙ угол
-            else if((position.x() <myitem->x()+ myitem->boundingRect().left() + adjust)&&(position.y() <myitem->y()+ myitem->boundingRect().top() + adjust))
+            //cursor on top left or low right border
+            else if (QRectF(drawRect.x(), drawRect.y(), adjust, adjust).contains(position) ||
+                    QRectF(drawRect.x()+drawRect.width() - adjust, drawRect.y() + drawRect.height() - adjust, adjust, adjust).contains(position))
             {
               myitem->setCursor(QCursor(Qt::SizeFDiagCursor));
             }
-
-            //курсор  ВЕРХНИЙ ПРАВЫЙ угол
-            else if((position.x() >myitem->x()+ myitem->boundingRect().right() - adjust)&&(position.y() <myitem->y()+ myitem->boundingRect().top() + adjust))
+            //cursor on top right or low left border
+            else if (QRectF(drawRect.x(), drawRect.y()+drawRect.height()-adjust, adjust, adjust).contains(position) ||
+                    QRectF(drawRect.x() + drawRect.width() - adjust, drawRect.y() , adjust, adjust).contains(position))
             {
               myitem->setCursor(QCursor(Qt::SizeBDiagCursor));
             }
-
-            //курсор  НИЖНИЙ ПРАВЫЙ угол
-            else if((position.x() >myitem->x()+ myitem->boundingRect().right() - adjust)&&(position.y() >myitem->y()+ myitem->boundingRect().bottom() - adjust))
-            {
-              myitem->setCursor(QCursor(Qt::SizeFDiagCursor));
-            }
-
-            //курсор  НИЖНИЙ ЛЕВЫЙ угол
-            else if((position.x() <myitem->x()+ myitem->boundingRect().left() + adjust)&&(position.y() >myitem->y()+ myitem->boundingRect().bottom() - adjust))
-            {
-              myitem->setCursor(QCursor(Qt::SizeBDiagCursor));
-            }
-
-            //курсор на ВНУТРИ фигуры
-            else
-                myitem->setCursor(QCursor(Qt::ArrowCursor));
-
-
-
         }
     }
 
@@ -179,8 +156,7 @@ void Widget::resizeEvent(QResizeEvent *event)
 {
     ui->graphicsView->setGeometry(0,0,this->width(),this->height()); //Устанавливаем размеры x,y - координаты верхнего левого угла
     scene->setSceneRect(0,0,ui->graphicsView->width(),ui->graphicsView->height());//Устанавливаем размеры x,y - координаты верхнего левого угла
-
-    
+    emit signal_newSizeScene(this->size());
 }
 
 void Widget::setSceneBackground(QPixmap& pixmap)

@@ -15,16 +15,19 @@ class MySquare : public QObject, public QGraphicsItem
   Q_OBJECT
 private:
 
-    int b_X = 64, b_Y = 64, t_X = 0, t_Y = 0;
-        //X,Y;
     bool top=false, bottom=false, left=false, right=false;
     QPointF m_shiftMouseCoords;                 //Координаты сдвига позиции курсора относительно координаты (0, 0) в координатной системе MoveItem.
 
     QRectF rec;                                 //фигура прямоугольник
-    QPointF m_TopLeft=QPointF(t_X,t_Y);         //к-ты верхнего левого угла
-    QPointF m_BottomRight=QPointF(b_X,b_Y);     //к-ты нижнего правого угла
-    QSizeF m_size=QSizeF(b_X, b_Y);
-
+    QRectF scenaRect;
+    void changeX(QPointF newPos);
+    void changeY(QPointF newPos);
+    void changeWidth(QPointF newPos);
+    void changeHeigth(QPointF newPos);
+    void changeOffX(int newX);
+    void changeOffY(int newY);
+    void changeWidth(int newW);
+    void changeHeigth(int newH);
 public:
 
     Ui::Widget *ui;
@@ -32,14 +35,14 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     bool m_Pressed=false;
-
+    QRectF getDrawRect();
 public slots:
     void changeSizeFromButton(QSizeF size);
     void slot_changeOffX(int value);
     void slot_changeOffY(int value);
     void slot_changeHeight(int value);
     void slot_changeWidth(int value);
-
+    void slot_updateSceneSize(QSizeF newSize);
 signals:
     void CoordinateChange(QRectF &rect); 
     void sizeChange(QSizeF& itemSize);

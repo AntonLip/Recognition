@@ -157,8 +157,8 @@ void QtGuiSetupSensor::slot_setOffset(QRectF& point)
 	chagheROI = false;
 	ui.SpinB_ofsetY->setValue(point.y() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
 	ui.SpinB_ofsetX->setValue(point.x() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
-	ui.SpinB_height->setValue(point.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
-	ui.SpinB_width->setValue(point.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / 256.0));
+	ui.SpinB_height->setValue(point.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
+	ui.SpinB_width->setValue(point.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / ui.setRoiWid->size().width()));
 
 	ui.SpinB_ofsetY->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - point.height());
 	ui.SpinB_ofsetX->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() - point.width());
@@ -178,15 +178,13 @@ void QtGuiSetupSensor::slot_setOffset(QRectF& point)
 
 void QtGuiSetupSensor::slot_setSizeItemInSpinBox(QSizeF& itemSize)
 {
-	ui.SpinB_height->setValue(itemSize.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / 256.0));
-	ui.SpinB_width->setValue(itemSize.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / 256.0));
+	ui.SpinB_height->setValue(itemSize.height() * (maxFrameSize.height() / ui.SpinB_binningVer->value() / maxFrameSize.height()));
+	ui.SpinB_width->setValue(itemSize.width() * (maxFrameSize.width() / ui.SpinB_binningHor->value() / maxFrameSize.width()));
 }
 
 void QtGuiSetupSensor::slot_changeBinning(int value)
 {
-	ui.SpinB_ofsetX->setValue(0);
-	ui.SpinB_ofsetY->setValue(0);
-	//ui.widget->resize(350, 200);
+	
 	double K = this->getKoefficient(value);
 	K = K + 0;
 
@@ -209,10 +207,18 @@ void QtGuiSetupSensor::slot_changeBinning(int value)
 		ui.setRoiWid->setFixedWidth(256);  //W
 		ui.setRoiWid->setFixedHeight(256);;  //H
 	}
-
+	
+	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value());
+	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value());	
+	
+	chagheROI = false;
+	ui.SpinB_ofsetX->setValue(0);
+	ui.SpinB_ofsetY->setValue(0);
+	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value());
+	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningHor->value());
+	chagheROI = true;
+	
 	emit sl_buttonChangeSizeClicked(1);
-	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningHor->value());
-	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningVer->value());
 }
 
 void QtGuiSetupSensor::slot_pushFull()
@@ -224,12 +230,15 @@ void QtGuiSetupSensor::slot_pushFull()
 	//ui.spinBox_5->setValue(ui.widget->height() * (3248 / ui.spinBox_2->value() / 250));
 	//ui.spinBox_6->setValue(ui.widget->width() * (4872 / ui.spinBox->value() / 300));
 
+	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value());
+	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value());
 
+	chagheROI = false;
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
 	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value());
 	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningHor->value());
-
+	chagheROI = true;
 	emit sl_buttonChangeSizeClicked(1);
 }
 
@@ -242,11 +251,14 @@ void QtGuiSetupSensor::slot_pushOneQuarter()
 	//ui.spinBox_5->setValue(ui.widget->height()/4 * (3248 / ui.spinBox_2->value() / 250));
 	//ui.spinBox_6->setValue(ui.widget->width()/4 * (4872 / ui.spinBox->value() / 300));
 
+	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() / 4);
+	ui.SpinB_width->setMaximum((maxFrameSize.width() / ui.SpinB_binningHor->value() / 4));
+	chagheROI = false;
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
 	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value() / 4);
 	ui.SpinB_width->setValue((maxFrameSize.width() / ui.SpinB_binningHor->value() / 4));
-
+	chagheROI = true;
 	emit sl_buttonChangeSizeClicked(1.0 / 4);
 }
 
@@ -258,11 +270,16 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 
 	/*ui.spinBox_5->setValue(ui.widget->height() / 8 * (3248 / ui.spinBox_2->value() / 250));
 	ui.spinBox_6->setValue(ui.widget->width() / 8 * (4872 / ui.spinBox->value() / 300));*/
+
+	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() / 8);
+	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() / 8);
+
+	chagheROI = false;
 	ui.SpinB_ofsetY->setValue(0);
 	ui.SpinB_ofsetX->setValue(0);
 	ui.SpinB_height->setValue(maxFrameSize.height() / ui.SpinB_binningVer->value() / 8);
 	ui.SpinB_width->setValue(maxFrameSize.width() / ui.SpinB_binningHor->value() / 8);
-
+	chagheROI = true;
 	emit sl_buttonChangeSizeClicked(1.0 / 8);
 }
 
@@ -378,7 +395,7 @@ void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, Proc
 	camera = cams;
 	videoDisplay = videoDisplay_;
 	ui.spinB_trigerDelay->setValue(delay);
-	setCameraParamsInGui();
+	//setCameraParamsInGui();
 	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
 	connect(ui.PB_setRoi, SIGNAL(clicked()), videoDisplay, SLOT(slot_delUpdateImageTime()));
 }

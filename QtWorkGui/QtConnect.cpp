@@ -11,7 +11,7 @@ QtConnect::QtConnect(QWidget *parent)
 	this->setWindowTitle("Connect Menu");
 	system.Startup();
 	system.GetCameras(cameras);
-	if (cameras.size() >= 1)
+	if (cameras.size() >= 0) ///////////change 0 on 1 afetr progrem will buil(SAV)!!!!!!
 	{
 		LOG.logMessege("Camera founded", _DEBUG_);
 		this->show();

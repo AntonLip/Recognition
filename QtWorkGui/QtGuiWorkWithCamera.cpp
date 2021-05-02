@@ -123,41 +123,44 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 	m_index = index;
 	LOG.logMessege("start conect with in QtGuiWorkWithCamera", _INFO_);
 	try {
-		if (Str == "AcquisitionStop")
+		if (cameras.size() >= 1)
 		{
-			//ui.stackedWidget->setCurrentIndex(1);
-			//system.Startup();  // Процесс запускаем в QtConnect
-			//system.GetCameras(cameras);
-
-			camera = cameras[m_index];													//первую из списка камеру присваиваем
-			camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
-
-			camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
-			pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
-
-			//cv::Mat df(0, 0, CV_8UC1);
-			for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
+			if (Str == "AcquisitionStop")
 			{
-				(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
-				//obs = 
+				//ui.stackedWidget->setCurrentIndex(1);
+				//system.Startup();  // Процесс запускаем в QtConnect
+				//system.GetCameras(cameras);
 
-				//(*iter)->RegisterObserver(IFrameObserverPtr(new FirstFrameObserver(camera, &ui, &df)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
-				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, &cameraLife)));
-				camera->AnnounceFrame(*iter);
-				//Предоставляем кадр из camera API
+				camera = cameras[m_index];													//первую из списка камеру присваиваем
+				camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
+
+				camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+				pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
+
+				//cv::Mat df(0, 0, CV_8UC1);
+				for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
+				{
+					(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+					//obs = 
+
+					//(*iter)->RegisterObserver(IFrameObserverPtr(new FirstFrameObserver(camera, &ui, &df)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
+					(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, &cameraLife)));
+					camera->AnnounceFrame(*iter);
+					//Предоставляем кадр из camera API
+				}
+				makePhoto = false;
+				// Start the capture engine (API)											Запуск механизма захвата кадров
+				camera->StartCapture();
+				for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
+				{
+					// Put frame into the frame queue										Поместить кадр в очередь кадров
+					camera->QueueFrame(*iter);
+				}
+				// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
+				camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
+				pFeature->RunCommand();
+				Str = "AcquisitionStart";
 			}
-			makePhoto = false;
-			// Start the capture engine (API)											Запуск механизма захвата кадров
-			camera->StartCapture();
-			for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
-			{
-				// Put frame into the frame queue										Поместить кадр в очередь кадров
-				camera->QueueFrame(*iter);
-			}
-			// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
-			camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
-			pFeature->RunCommand();
-			Str = "AcquisitionStart";
 		}
 	}
 	catch (...)

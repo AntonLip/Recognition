@@ -60,6 +60,7 @@ signals:
     void signal_new_offsetY(int newOffsetY);
     void signal_new_heigth(int newHeigth);
     void signal_new_width(int newWidth);
+    void signal_newSizeScene(QSizeF newSize);
    /* void ItemHeightChange(int height,int m_kH);
     void ItemWidthChange(int width, int m_kW);
     void SpinBoxChangeOff_Y(int width, int m_kH);
