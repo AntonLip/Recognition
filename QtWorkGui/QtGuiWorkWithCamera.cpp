@@ -13,7 +13,6 @@ QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	connect(ui.PB_sensorSetup, SIGNAL(clicked()), this, SLOT(slot_openSetupCamera()));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrame()));
 	connect(QtGuiSimulator::ui.comboBox_program, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_setNewActivObj(int)));
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 	setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
@@ -58,20 +57,6 @@ void QtGuiWorkWithCamera::slot_play()
 
 void QtGuiWorkWithCamera::slot_stop()
 {
-	//pFeature->GetName(Str);
-	//if (Str == "AcquisitionStart")
-	//{
-	//	// Stop the acquisition engine (camera)
-	//	camera->GetFeatureByName("AcquisitionStop", pFeature);
-	//	pFeature->RunCommand();
-
-	//	// Stop the capture engine (API)
-	//	// Flush the frame queue 
-	//	// Revoke all frames from the API 
-	//	camera->EndCapture();
-	//	camera->FlushQueue();
-	//	Str = "AcquisitionStop";
-	//}
 	isPlay = false;
 	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(true);
@@ -168,4 +153,5 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 		LOG.logMessege("frame read error", _ERROR_);
 	}
 	LOG.logMessege("Camera connected", _INFO_);
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
 }

@@ -105,7 +105,7 @@
      <item>
       <widget class="QtGuiDisplay" name="widget_getMasterImg" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
