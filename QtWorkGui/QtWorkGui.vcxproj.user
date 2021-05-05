@@ -3,5 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommandArguments>$(QmlDebug)info</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerEnvironment>PATH=%PATH%;$(QtDllPath)
+$(LocalDebuggerEnvironment) </LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>

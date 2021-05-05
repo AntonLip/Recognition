@@ -43,9 +43,9 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);$(CommonExecutablePath)</ExecutablePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)\VimbaCPP\VimbaCPP\Lib\Win64</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)\QtWorkGui\Vimba\VimbaCPP\VimbaCPP\Lib\Win64</LibraryPath>
     <ExcludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(FxCopDir);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x64);$(SystemRoot);$(CommonExcludePath)</ExcludePath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\VimbaCPP</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\QtWorkGui\Vimba\VimbaCPP</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
@@ -117,14 +117,13 @@
     <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgInScrolBar.cpp" />
     <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgWidgets.cpp" />
     <ClCompile Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.cpp" />
+    <ClCompile Include="Gui For Simulator\QtGUISensorSim.cpp" />
     <ClCompile Include="Loger\simplLoger.cpp" />
     <ClCompile Include="Processing Object\MyCircle.cpp" />
     <ClCompile Include="Processing Object\ProcessedObj.cpp" />
     <ClCompile Include="Processing Object\QtProcessedArea.cpp" />
     <ClCompile Include="Processing Object\QtRotateRect.cpp" />
     <ClCompile Include="Processing\CountoursProcessing.cpp" />
-    <ClCompile Include="QtAreaToProcessed.cpp" />
-    <ClCompile Include="QtGUISensorSim.cpp" />
     <ClCompile Include="Work With Camera\FrameObserver.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
     <QtUic Include="Form File\Form For Camera\QtConnect.ui" />
@@ -134,6 +133,7 @@
     <QtUic Include="Form File\Form For Simulator\QtAddToolGUI.ui" />
     <QtUic Include="Form File\Form For Simulator\QtGuiDisplay.ui" />
     <QtUic Include="Form File\Form For Simulator\QtGuiProgramDetails.ui" />
+    <QtUic Include="Form File\Form For Simulator\QtGUISensorSim.ui" />
     <QtUic Include="Form File\Form For Simulator\QtGuiSimulator.ui" />
     <QtUic Include="Form File\Form For Simulator\QtImgInScrolBar.ui" />
     <QtUic Include="Form File\Form For Simulator\QtImgWidgets.ui" />
@@ -141,16 +141,11 @@
     <QtUic Include="Form File\Form For Simulator\QtProgramCopyProcesObj.ui" />
     <QtUic Include="Form File\Form For Simulator\QtSetupSimulator.ui" />
     <QtUic Include="Form File\Form For Simulator\QtWidProcesArea.ui" />
-    <QtUic Include="Form File\QtGUISensorSim.ui" />
     <QtUic Include="Form File\QtMyDialog.ui" />
     <QtUic Include="Form File\QtWorkGui.ui" />
     <QtMoc Include="QtWorkGui.h" />
     <ClCompile Include="QtWorkGui.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="QtGUISensorSim.h" />
-    <QtMoc Include="QtAreaToProcessed.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Dialog\QtMyDialog.h" />
@@ -207,6 +202,7 @@
     <QtMoc Include="Gui For Simulator\Gui Simulator\QtImgWidgets.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Gui For Simulator\QtGUISensorSim.h" />
     <QtMoc Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.h" />
     <ClInclude Include="Loger\simplLoger.h" />
     <ClInclude Include="Processing Object\MyCircle.h" />
