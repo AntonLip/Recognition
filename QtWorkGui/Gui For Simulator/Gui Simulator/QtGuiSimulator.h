@@ -8,10 +8,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include "qstandarditemmodel.h"
-#include "simplLoger.h"
+#include "Loger/simplLoger.h"
 
-#include "ProcessedObj.h"
-#include "QtSetupSimulator.h"
+#include "Processing Object/ProcessedObj.h"
+#include "Gui For Simulator/Gui Setup Simulator/QtSetupSimulator.h"
 #include "QtGuiProgramDetails.h"
 #include "QtGUISensorSim.h"
 

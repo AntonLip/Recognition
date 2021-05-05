@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtGUISensorSim.h"
+#include "Processing Object/ProcessedObj.h"
 
 class QtGUISensorSim : public QWidget
 {

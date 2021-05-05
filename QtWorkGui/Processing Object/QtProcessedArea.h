@@ -4,7 +4,7 @@
 #include <qrect.h>
 #include "MyCircle.h"
 #include "QtRotateRect.h"
-#include "CountoursProcessing.h"
+#include "Processing/CountoursProcessing.h"
 #include "qimage.h"
 
 class QtProcessedArea : public QObject

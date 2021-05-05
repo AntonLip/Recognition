@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtGuiProgramDetails.h"
-#include "ProcessedObj.h"
+#include "Processing Object/ProcessedObj.h"
 #include "QtImgInScrolBar.h"
 #include <qmessagebox.h>
 #include "QtProgramCopyProcesObj.h"

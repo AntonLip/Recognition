@@ -4,7 +4,7 @@
 #include "ui_QtProgramCopyProcesObj.h"
 #include <qlistview.h>
 #include <qstandarditemmodel.h>
-#include "ProcessedObj.h"
+#include "Processing Object/ProcessedObj.h"
 
 class QtProgramCopyProcesObj : public QWidget
 {

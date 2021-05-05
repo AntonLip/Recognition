@@ -2,12 +2,12 @@
 
 #include <QWidget>
 #include "ui_QtGuiSetupSensor.h"
-#include "QtSetupSimulator.h"
-#include "myscrollarea.h"
+#include "Gui For Simulator/Gui Setup Simulator/QtSetupSimulator.h"
+//#include "myscrollarea.h"
 #include "widget.h"
 #include "qspinbox.h"
-#include "FrameObserver.h"
-#include "simplLoger.h"
+#include "Work With Camera/FrameObserver.h"
+#include "Loger/simplLoger.h"
 
 
 using namespace AVT;

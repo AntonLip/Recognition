@@ -4,14 +4,13 @@
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include "ui_QtWorkGui.h"
-#include "QtGuiSimulator.h"
-#include "QtConnect.h"
+#include "Gui For Simulator/Gui Simulator/QtGuiSimulator.h"
+#include "Gui For Camera/QtConnect.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
-#include "QtSimCamera.h"
-#include "simplLoger.h"
+#include "Loger/simplLoger.h"
 
 class QtWorkGui : public QMainWindow
 {
@@ -23,7 +22,6 @@ public:
 private:
     QtGuiSimulator* simulatorMenu;
     QtConnect* connectMenu;
-    QtSimCamera* qwer;
     Ui::QtWorkGuiClass ui;
 
 private slots:

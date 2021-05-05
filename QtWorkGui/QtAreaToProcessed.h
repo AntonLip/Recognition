@@ -3,7 +3,7 @@
 #include <QObject>
 #include <opencv2/core/core.hpp>
 
-#include "QtProcessedArea.h"
+#include "Processing Object/QtProcessedArea.h"
 
 class QtAreaToProcessed : public QObject
 {

@@ -5,7 +5,7 @@
 #include <VimbaCPP.h>
 #include <qstring.h>
 #include "QtGuiWorkWithCamera.h"
-#include "simplLoger.h"
+#include "Loger/simplLoger.h"
 
 using namespace AVT;
 using namespace VmbAPI;

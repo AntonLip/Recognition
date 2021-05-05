@@ -6,11 +6,11 @@
 #include <opencv2/opencv.hpp>
 #include <qimage.h>
 
-#include "ProcessedObj.h"
+#include "Processing Object/ProcessedObj.h"
 
-#include "QtGuiDisplay.h"
-#include "ui_GE_Widget.h"
-#include "simplLoger.h"
+#include "Gui For Simulator/Gui Display/QtGuiDisplay.h"
+//#include "ui_GE_Widget.h"
+#include "Loger/simplLoger.h"
 
 using namespace AVT;
 using namespace VmbAPI;

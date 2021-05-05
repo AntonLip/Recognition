@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtAddToolGUI.h"
-#include "QtMyDialog.h"
+#include "Dialog/QtMyDialog.h"
 #include <QCloseEvent>
 
 class QtAddToolGUI : public QWidget

@@ -2,11 +2,11 @@
 
 #include <QWidget>
 #include "ui_QtSetupSimulator.h"
-#include "QtMyDialog.h"
+#include "Dialog/QtMyDialog.h"
 #include "QtAddToolGUI.h"
 #include "QButtonGroup"
 #include "QtWidProcesArea.h"
-#include "simplLoger.h"
+#include "Loger/simplLoger.h"
 #include "qmessagebox.h"
 
 class QtSetupSimulator : public QWidget

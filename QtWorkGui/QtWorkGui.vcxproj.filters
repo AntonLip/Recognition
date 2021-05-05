@@ -22,14 +22,98 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Form Files\Form For Camera">
+      <UniqueIdentifier>{c4d99244-4445-4229-8f09-ccaa6bcbfd5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files\Form For Simulator">
+      <UniqueIdentifier>{d0787711-9b7c-4aa9-a1d1-f04ea06dbb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Work With Camera">
+      <UniqueIdentifier>{d1c12de1-0740-431f-8cac-66a1db34ff2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Work With Camera\Header Files">
+      <UniqueIdentifier>{991b5a3d-d8e9-4b3f-b894-57b7d8281504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Work With Camera\Source Files">
+      <UniqueIdentifier>{3878b702-1a8c-4762-847b-cde7c918f4ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera">
+      <UniqueIdentifier>{47146e08-5e38-472d-a6ac-5b9799ba27ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera\Header Files">
+      <UniqueIdentifier>{f0d55528-5516-40db-90b3-5c0f035ac357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera\Source Files">
+      <UniqueIdentifier>{b2f99404-91fe-4237-8abd-0622adf5de62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator">
+      <UniqueIdentifier>{e5780123-8f1b-472a-8ccd-ee242354ce46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Display">
+      <UniqueIdentifier>{9481dcce-54dd-4475-9ff9-e40db4424801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Setup Simulator">
+      <UniqueIdentifier>{b7c8992a-fadf-4059-8b17-307513171ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Simulator">
+      <UniqueIdentifier>{ac0224c8-8b8e-47e8-8be5-84c201e54e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Display\Header Files">
+      <UniqueIdentifier>{68281018-6a59-4bea-94f8-c1ee786688ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Display\Source Files">
+      <UniqueIdentifier>{adb4de26-d28b-4af5-aacc-84e752a6b531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Setup Simulator\Header Files">
+      <UniqueIdentifier>{4179e9f2-1034-45e7-a12d-9fc95d67ebf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Setup Simulator\Source Files">
+      <UniqueIdentifier>{86b3f8ce-ed87-4102-9ff8-b2ad11d47ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Simulator\Header Files">
+      <UniqueIdentifier>{ef55398b-c0b5-43fd-b34d-6f979f343945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Simulator\Gui Simulator\Source Files">
+      <UniqueIdentifier>{f85c1c8c-f1e2-4ba1-a522-aad3aedfa95c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing">
+      <UniqueIdentifier>{558e2012-10cc-4097-be0c-a896eeeec73c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing Object">
+      <UniqueIdentifier>{0f9f0274-f1f9-4cf0-afbb-f453ce510b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing Object\Header Files">
+      <UniqueIdentifier>{8002c10f-d08e-4fc0-8106-1e6779cdbcb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing Object\Source Files">
+      <UniqueIdentifier>{62aa22b7-2dbf-452f-933f-7190dfe325d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialog">
+      <UniqueIdentifier>{920e1be8-6bfb-41a2-97c2-17f058534da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera\Gui Setup Camera">
+      <UniqueIdentifier>{dd6218e4-5403-48af-9620-2aea31394b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera\Gui Setup Camera\Header Files">
+      <UniqueIdentifier>{43d8d798-2afb-4118-8164-8d7248b50171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui For Camera\Gui Setup Camera\Source Files">
+      <UniqueIdentifier>{327b4acb-a87e-4393-b43e-2af722ba1c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loger">
+      <UniqueIdentifier>{470ffd45-8bfe-49a5-9372-adc1c2633cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing\Header Files">
+      <UniqueIdentifier>{71a65bf4-5af7-47d4-8457-367dc6b67964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing\Source Files">
+      <UniqueIdentifier>{241161d6-74de-4c02-9479-96dccf571c7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="QtWorkGui.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="QtWorkGui.ui">
-      <Filter>Resource Files</Filter>
-    </QtUic>
     <QtMoc Include="QtWorkGui.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -41,254 +125,227 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="myLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProcessedObj.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtGuiDisplay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtGuiProgramDetails.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtGuiSimulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtImgInScrolBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtImgWidgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtProgramCopyProcesObj.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtSetupSimulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtMyDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtProcessedArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtAddToolGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="qxtspanslider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtMySliderWid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtWidProcesArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyCircle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QtRotateRect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QtGUISensorSim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QtAreaToProcessed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CountoursProcessing.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Dialog\QtMyDialog.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="QtConterProcessing.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Camera\Gui Setup Camera\mysquare.cpp">
+      <Filter>Gui For Camera\Gui Setup Camera\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FrameObserver.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Camera\Gui Setup Camera\QtGuiSetupSensor.cpp">
+      <Filter>Gui For Camera\Gui Setup Camera\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GE_Widget.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Camera\Gui Setup Camera\widget.cpp">
+      <Filter>Gui For Camera\Gui Setup Camera\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="myscrollarea.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Camera\QtConnect.cpp">
+      <Filter>Gui For Camera\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mysquare.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Camera\QtGuiWorkWithCamera.cpp">
+      <Filter>Gui For Camera\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="widget.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Display\myLabel.cpp">
+      <Filter>Gui For Simulator\Gui Display\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtConnect.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Display\QtGuiDisplay.cpp">
+      <Filter>Gui For Simulator\Gui Display\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="simplLoger.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtAddToolGUI.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtSimCamera.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtMySliderWid.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtGuiWorkWithCamera.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtSetupSimulator.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtGuiSetupSensor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtWidProcesArea.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Simulator\QtGuiProgramDetails.cpp">
+      <Filter>Gui For Simulator\Gui Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Simulator\QtGuiSimulator.cpp">
+      <Filter>Gui For Simulator\Gui Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgInScrolBar.cpp">
+      <Filter>Gui For Simulator\Gui Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgWidgets.cpp">
+      <Filter>Gui For Simulator\Gui Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loger\simplLoger.cpp">
+      <Filter>Loger</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing Object\MyCircle.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing Object\ProcessedObj.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing Object\QtProcessedArea.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing Object\QtRotateRect.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing\CountoursProcessing.cpp">
+      <Filter>Processing\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Work With Camera\FrameObserver.cpp">
+      <Filter>Work With Camera\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.cpp">
+      <Filter>Gui For Simulator\Gui Simulator\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="QtGuiDisplay.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Camera\QtConnect.ui">
+      <Filter>Form Files\Form For Camera</Filter>
     </QtUic>
-    <QtUic Include="QtGuiProgramDetails.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtGuiProgramDetails.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtGuiSimulator.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtAddToolGUI.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtImgInScrolBar.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtGuiDisplay.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtImgWidgets.ui">
-      <Filter>Resource Files</Filter>
-    </QtUic>
-    <QtUic Include="QtProgramCopyProcesObj.ui">
+    <QtUic Include="Form File\QtGUISensorSim.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="QtSetupSimulator.ui">
+    <QtUic Include="Form File\Form For Camera\widget.ui">
+      <Filter>Form Files\Form For Camera</Filter>
+    </QtUic>
+    <QtUic Include="Form File\QtWorkGui.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="QtMyDialog.ui">
-      <Filter>Form Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtWidProcesArea.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtAddToolGUI.ui">
-      <Filter>Form Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtSetupSimulator.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtMySliderWid.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtProgramCopyProcesObj.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtWidProcesArea.ui">
-      <Filter>Form Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtMySliderWid.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtGUISensorSim.ui">
-      <Filter>Form Files</Filter>
+    <QtUic Include="Form File\Form For Camera\QtGuiSetupSensor.ui">
+      <Filter>Form Files\Form For Camera</Filter>
     </QtUic>
-    <QtUic Include="GE_Widget.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtGuiSimulator.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtConnect.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Camera\QtGuiWorkWithCamera.ui">
+      <Filter>Form Files\Form For Camera</Filter>
     </QtUic>
-    <QtUic Include="widget.ui">
-      <Filter>Resource Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtImgInScrolBar.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtSimCamera.ui">
-      <Filter>Form Files</Filter>
+    <QtUic Include="Form File\Form For Simulator\QtImgWidgets.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="QtGuiWorkWithCamera.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="QtGuiSetupSensor.ui">
+    <QtUic Include="Form File\QtMyDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="myLabel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtGuiDisplay.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtGuiProgramDetails.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtGuiSimulator.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtImgInScrolBar.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtImgWidgets.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtProgramCopyProcesObj.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtSetupSimulator.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtMyDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtProcessedArea.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtAddToolGUI.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qxtspanslider.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="qxtspanslider_p.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtMySliderWid.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QtWidProcesArea.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="QtGUISensorSim.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="QtAreaToProcessed.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtConterProcessing.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Dialog\QtMyDialog.h">
+      <Filter>Dialog</Filter>
     </QtMoc>
-    <QtMoc Include="GE_Widget.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Camera\Gui Setup Camera\mysquare.h">
+      <Filter>Gui For Camera\Gui Setup Camera\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="myscrollarea.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Camera\Gui Setup Camera\QtGuiSetupSensor.h">
+      <Filter>Gui For Camera\Gui Setup Camera\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="mysquare.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Camera\Gui Setup Camera\widget.h">
+      <Filter>Gui For Camera\Gui Setup Camera\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtConnect.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Camera\QtConnect.h">
+      <Filter>Gui For Camera\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="widget.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Camera\QtGuiWorkWithCamera.h">
+      <Filter>Gui For Camera\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtSimCamera.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Simulator\Gui Display\myLabel.h">
+      <Filter>Gui For Simulator\Gui Display\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtGuiWorkWithCamera.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Simulator\Gui Display\QtGuiDisplay.h">
+      <Filter>Gui For Simulator\Gui Display\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtGuiSetupSensor.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtAddToolGUI.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtMySliderWid.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtSetupSimulator.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtWidProcesArea.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider_p.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Simulator\QtGuiProgramDetails.h">
+      <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Simulator\QtGuiSimulator.h">
+      <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Simulator\QtImgInScrolBar.h">
+      <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Simulator\QtImgWidgets.h">
+      <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Processing Object\QtProcessedArea.h">
+      <Filter>Processing Object\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.h">
+      <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ProcessedObj.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Loger\simplLoger.h">
+      <Filter>Loger</Filter>
     </ClInclude>
-    <ClInclude Include="MyCircle.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Processing Object\MyCircle.h">
+      <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QtRotateRect.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Processing Object\ProcessedObj.h">
+      <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CountoursProcessing.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Processing Object\QtRotateRect.h">
+      <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FrameObserver.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Processing\CountoursProcessing.h">
+      <Filter>Processing\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="simplLoger.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Work With Camera\FrameObserver.h">
+      <Filter>Work With Camera\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

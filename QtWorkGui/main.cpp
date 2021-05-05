@@ -1,6 +1,6 @@
 #include "QtWorkGui.h"
 #include <QtWidgets/QApplication>
-#include "simplLoger.h"
+#include "Loger/simplLoger.h"
 
 int main(int argc, char *argv[])
 {
