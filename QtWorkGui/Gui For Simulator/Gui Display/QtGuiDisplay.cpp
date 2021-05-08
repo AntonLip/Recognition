@@ -216,7 +216,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 											myCursor.setShape(Qt::SizeFDiagCursor);
 										this->setCursor(myCursor);
 									}
-									else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_X() - 7 * sin((90 - activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_Y() - 7 * cos((90 - activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()) * 3.14 / 180), 8, activProcessedObj->getProcesArears()[0][i].getRect()->height(), activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()).contains(x, y) ||
+									else if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_X() - 7 * sin((90 - activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()) * 3.14 / 180), activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_Y() - 7 * cos((90 - activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()) * 3.14 / 180), 8, activProcessedObj->getProcesArears()[0][i].getRect()->height()-1, activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()).contains(x, y) ||
 										QtRotateRect(activProcessedObj->getProcesArears()[0][i].getRect()->getUpRigth_X(), activProcessedObj->getProcesArears()[0][i].getRect()->getUpRigth_Y(), 8, activProcessedObj->getProcesArears()[0][i].getRect()->height(), activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0)
 										|| (secondCircle.contains(QPoint(x, y)) && (QRect(secondCircle.getCenterPoint().x() + secondCircle.getRadius() - 7, secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y) || QRect(secondCircle.getCenterPoint().x() - secondCircle.getRadius(), secondCircle.getCenterPoint().y() - 7, 14, 14).contains(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))
 									{
@@ -542,7 +542,7 @@ void QtGuiDisplay::slot_ZoomImg_In()
 			i = 1;*/
 		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 		{
-			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+			//processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 		}
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
@@ -583,7 +583,7 @@ void QtGuiDisplay::slot_ZoomImg_Out()
 			i = 1;*/
 		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 		{
-			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+			//processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 		}
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
@@ -619,7 +619,7 @@ void QtGuiDisplay::slot_ZoomImg_AllLabl()
 		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
 		{
-			processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
+			//processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
 		}
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
@@ -1008,13 +1008,13 @@ void QtGuiDisplay::add_rect(int procesType)
 	if (procesType == 0)
 	{
 		activProcessedObj->getProcesArears()[0][0] = QtProcessedArea(0, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)));
-		processedAreaScale(activProcessedObj->getProcesArears()[0][0], true);
+		//processedAreaScale(activProcessedObj->getProcesArears()[0][0], true);
 	}
 	else
 	{
 		activProcessedObj->getProcesArears()[0].push_back((QtProcessedArea(procesType, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)))));
 		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].setProcessing();
-		processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
+		//processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
 		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].createMaster(&activProcessedObj->getMat());
 		int i;
 		i = 0;
@@ -1038,7 +1038,7 @@ void QtGuiDisplay::add_circle()
 	int y{ ui.label_for_TempImg->size().height() / 2 };
 	ui.label_for_TempImg->toImgCoordinate(x, y);
 	activProcessedObj->getProcesArears()[0].push_back(QtProcessedArea(6, 1, MyCircle(QPoint(x - w / 2, y - w / 2), w/2)));
-	processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
+	//processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
 	updateImg();
 }
 
@@ -1085,7 +1085,7 @@ void QtGuiDisplay::changeAreaType(int newType, QtProcessedArea& InOutArea)
 		ui.label_for_TempImg->toImgCoordinate(x, y);
 		InOutArea.setScalCircle(&MyCircle(QPoint(x,y), w/2));
 	}
-	processedAreaScale(InOutArea, true);
+	//processedAreaScale(InOutArea, true);
 }
 
 QRect QtGuiDisplay::getLabelRect()
@@ -1116,7 +1116,7 @@ void QtGuiDisplay::updateImg()
 void QtGuiDisplay::slot_resetAngel(int activRect)
 {
 	activProcessedObj->getProcesArears()[0][activRect].getRect()->resetAngel(ui.label_for_TempImg->getScaledImgSize());
-	processedAreaScale(activProcessedObj->getProcesArears()[0][activRect], true);
+	//processedAreaScale(activProcessedObj->getProcesArears()[0][activRect], true);
 	draw_proceseArears();
 	int x, y;
 	ui.label_for_TempImg->getDrPoint(x, y);

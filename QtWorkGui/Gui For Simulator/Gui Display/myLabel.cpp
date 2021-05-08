@@ -67,8 +67,8 @@ void myLabel::toImgCoordinate_(int& inOutX, int& inOutY, bool isContains)
 	{
 		inOutX = (inOutX - (this->width() - scaledSize.width()) / 2) / scal_W;
 	}
-	if (inOutX >= scaledSize.width() && isContains)
-		inOutX = scaledSize.width() - 1;
+	if (inOutX >= originalSize.width() && isContains)
+		inOutX = originalSize.width() - 1;
 	else if (inOutX <= 0 && isContains)
 		inOutX = 0.0;
 
@@ -81,8 +81,8 @@ void myLabel::toImgCoordinate_(int& inOutX, int& inOutY, bool isContains)
 		inOutY = (inOutY - (this->height() - scaledSize.height()) / 2) / scal_H;
 	}
 
-	if (inOutY > scaledSize.height() && isContains)
-		inOutY = scaledSize.height() - 1;
+	if (inOutY > originalSize.height() && isContains)
+		inOutY = originalSize.height() - 1;
 	else if (inOutY < 0 && isContains)
 		inOutY = 0.0;
 }
@@ -100,8 +100,8 @@ QPoint myLabel::getImageCoordinate(bool isContains)
 	{
 		x = (x_labl - (this->width() - scaledSize.width()) / 2) / scal_W;
 	}
-	if (x >= scaledSize.width() && isContains)
-		x = scaledSize.width()-1;
+	if (x >= originalSize.width() && isContains)
+		x = originalSize.width()-1;
 	else if (x <= 0 && isContains)
 		x = 0.0;
 
@@ -114,8 +114,8 @@ QPoint myLabel::getImageCoordinate(bool isContains)
 		y =(y_labl -(this->height() - scaledSize.height())/2 ) / scal_H;
 	}
 
-	if (y > scaledSize.height()&& isContains)
-		y = scaledSize.height()-1;
+	if (y > originalSize.height()&& isContains)
+		y = originalSize.height()-1;
 	else if (y < 0 && isContains)
 		y = 0.0;
 	return QPoint(x, y);
@@ -264,7 +264,8 @@ void myLabel::mousePressEvent(QMouseEvent *evnt)
 	first_y_labl = evnt->y();
 	f_x_pixMap = first_x_labl;
 	f_y_pixMap = first_y_labl;
-	toImgCoordinate(f_x_pixMap, f_y_pixMap);
+	//toImgCoordinate(f_x_pixMap, f_y_pixMap);
+	toImgCoordinate_(f_x_pixMap, f_y_pixMap);
 	/*std::cout << "X " << f_x_pixMap << std::endl;
 	std::cout << "Y " << f_y_pixMap << std::endl;*/
 	//f_x_pixMap = f_x_labl + drPoint.x();
@@ -402,7 +403,7 @@ void myLabel::rotatr_rect(QtRotateRect& InOutput)
 {
 	double point_X{static_cast<double>(InOutput.getMin_X()) + static_cast<double>(InOutput.getMax_X() - InOutput.getMin_X()) / 2 + 1};
 	double point_Y{static_cast<double>(InOutput.getMin_Y()) + static_cast<double>(InOutput.getMax_Y() - InOutput.getMin_Y()) / 2 + 1};
-	toImgCoordinate(x_labl, y_labl);
+	toImgCoordinate_(x_labl, y_labl);
 	QPointF buferPoint{ static_cast<float>(point_X),static_cast<float>(point_Y - InOutput.height() / 2) };
 	double len_v1{ std::sqrt(std::pow(point_X - buferPoint.x(),2) + std::pow(point_Y - buferPoint.y(),2)) };
 	double len_v2{ std::sqrt(std::pow(point_X - x_labl,2) + std::pow(point_Y - y_labl,2)) };
@@ -426,7 +427,7 @@ void myLabel::rotatr_rect(QtRotateRect& InOutput)
 	{
 		rotateAngel = 2 * pi - rotateAngel;
 	}
-	InOutput.setRotateAngel(rotateAngel * 180 / pi, this->getScaledImgSize(), &QPoint(point_X, point_Y));
+	InOutput.setRotateAngel(rotateAngel * 180 / pi, this->getOriginalImgSize(), &QPoint(point_X, point_Y));
 }
 
 void myLabel::resize_rect(QtRotateRect &InOutput)
@@ -443,9 +444,9 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 	
 	
 	
-	toImgCoordinate_(first_x_labl, first_y_labl);
-	f_x_pixMap = first_x_labl;
-	f_y_pixMap = first_y_labl;
+	//toImgCoordinate_(first_x_labl, first_y_labl);
+	/*f_x_pixMap = first_x_labl;
+	f_y_pixMap = first_y_labl;*/
 	double rotAngel{ InOutput.getRotateAngel() };
 	if ((this->cursor().shape() == Qt::SizeHorCursor && (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5)))
 		||(this->cursor().shape() == Qt::SizeVerCursor && ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5)))
@@ -591,6 +592,7 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 				}
 				else
 				{
+					std::cout << "h" << std::endl;
 					InOutput.setHeight(InOutput.height() + static_cast<int>(dh_first), this->getOriginalImgSize());
 				}
 			}
@@ -1029,7 +1031,7 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 					if (InOutput.getDownRigth_X() > InOutput.getUpLeft_X() || InOutput.width() <= 0)
 					{
 						InOutput.setX(InOutput.x() + InOutput.width() - 1);
-						InOutput.setDrowPoint(QPoint(InOutput.x() - InOutput.getTranslatePoint().x(), InOutput.y() - InOutput.getTranslatePoint().y()));
+						//InOutput.setDrowPoint(QPoint(InOutput.x() - InOutput.getTranslatePoint().x(), InOutput.y() - InOutput.getTranslatePoint().y()));
 					}
 				}
 				else
@@ -1114,46 +1116,42 @@ void myLabel::resize_circle(const QPoint& centerPoint, int& radius)
 
 void myLabel::muve_roiRect(QtRotateRect &InOutput)
 {
-	toImgCoordinate(x_labl, y_labl);
+	toImgCoordinate_(x_labl, y_labl);
 	int step_X{ x_labl - f_x_pixMap };
 	int step_Y{ y_labl - f_y_pixMap };
+
+	f_x_pixMap = x_labl;
+	f_y_pixMap = y_labl;
 
 	if (trunc(InOutput.getMin_X()) + step_X < 1)
 	{
 		step_X = 0;
-		//InOutput.setX(0);
+		//f_x_pixMap = InOutput.width() / 2;
 		emit mouseLeftMouveRoi(0);
 	}
-	else if (trunc(InOutput.getMax_X()) + step_X > this->scaledSize.width() - 2)
+	else if (trunc(InOutput.getMax_X()) + step_X > this->originalSize.width() - 2)
 	{
 		step_X = 0;
-		/*int bufer(InOutput.width());
-		InOutput.setX(scaledSize.width() - InOutput.width() - 1);
-		InOutput.setWidth(bufer);*/
+		//f_x_pixMap = InOutput.width() / 2 + InOutput.x();
 		emit mouseLeftMouveRoi(1);
 	}
 
 	if (trunc(InOutput.getMin_Y()) + step_Y < 1)
 	{
 		step_Y = 0;
-		//InOutput.setY(0);
+		//f_y_pixMap = InOutput.height() / 2;
 		emit mouseLeftMouveRoi(2);
 	}
-	else if (trunc(InOutput.getMax_Y()) + step_Y > this->scaledSize.height() - 1)
+	else if (trunc(InOutput.getMax_Y()) + step_Y > this->originalSize.height() - 1)
 	{
 		step_Y = 0;
-		/*int bufer(InOutput.height());
-		InOutput.setY(scaledSize.height() - InOutput.height() - 1);
-		InOutput.setHeight(bufer);*/
+		//f_y_pixMap = InOutput.height() / 2 + InOutput.y();
 		emit mouseLeftMouveRoi(3);
 	}
-	InOutput.translate(step_X, step_Y);
-	InOutput.setTranslatePoint(QPoint(InOutput.x() + cos(InOutput.getRotateAngel(true)) * InOutput.width() / 2, InOutput.y() + cos(InOutput.getRotateAngel(true)) * InOutput.height() / 2));
+	//InOutput.translate(step_X, step_Y);
+	//InOutput.setTranslatePoint(QPoint(InOutput.x() + cos(InOutput.getRotateAngel(true)) * InOutput.width() / 2, InOutput.y() + cos(InOutput.getRotateAngel(true)) * InOutput.height() / 2));
 
-	InOutput.translateTranslatePoint(step_X, step_Y);
-	//InOutput.setDrowPoint(QPoint((InOutput.x() - InOutput.getTranslatePoint().x()), (InOutput.y() - InOutput.getTranslatePoint().y())));
-	f_x_pixMap = x_labl;
-	f_y_pixMap = y_labl;
+	InOutput.translateTranslatePoint(step_X, step_Y);////rename funk!!!!!!!!!
 }
 
 void myLabel::muve_roiCircle(QPoint& centerPoint,const int& radius)

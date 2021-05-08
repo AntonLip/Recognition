@@ -296,8 +296,8 @@ void QtRotateRect::setTranslatePoint(QPoint transltPont)
 
 void QtRotateRect::translateTranslatePoint(int dx, int dy)
 {
-	translatePoint.setX(translatePoint.x() + dx);
-	translatePoint.setY(translatePoint.y() + dy);
+	//translatePoint.setX(translatePoint.x() + dx);
+	//translatePoint.setY(translatePoint.y() + dy);
 	upLeftAngel_X+=dx;
 	upLeftAngel_Y+=dy;
 	upRigAngel_X+=dx;
@@ -308,10 +308,10 @@ void QtRotateRect::translateTranslatePoint(int dx, int dy)
 	downRigAngel_Y+=dy;
 }
 
-QPoint QtRotateRect::getTranslatePoint()
-{
-	return translatePoint;
-}
+//QPoint QtRotateRect::getTranslatePoint()
+//{
+//	return translatePoint;
+//}
 
 bool QtRotateRect::contains(QPoint point)
 {

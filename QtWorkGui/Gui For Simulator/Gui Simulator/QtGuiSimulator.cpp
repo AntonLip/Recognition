@@ -96,7 +96,7 @@ void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObj* changedObj)
 	for (int i{ 0 }; i < changedObj->getProcesArears()->size(); ++i)
 	{
 		changedObj->getProcesArears()[0][i].setDraw(true);
-		ui.widget_DisplayImg->processedAreaScale(changedObj->getProcesArears()[0][i]);
+		//ui.widget_DisplayImg->processedAreaScale(changedObj->getProcesArears()[0][i]);
 	}
 	loadObj[activLoadObj] = *changedObj;
 	ui.widget_DisplayImg->updateProcessObj(&loadObj[activLoadObj]);

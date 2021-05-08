@@ -31,7 +31,7 @@ public:
 	QPoint getDrawPoint();
 	void setTranslatePoint(QPoint transltPont);
 	void translateTranslatePoint(int dx, int dy);
-	QPoint getTranslatePoint();
+//	QPoint getTranslatePoint();
 	bool contains(QPoint point);
 	bool contains(int x, int y);
 	int getUpLeft_X();
