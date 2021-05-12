@@ -122,7 +122,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 						QPoint buferPoint(ui.label_for_TempImg->getImageCoordinate());
 						x = buferPoint.x();
 						y = buferPoint.y();
-						if ((activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0) || (activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
+						if ((activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0) || (activProcessedObj->getProcesArears()[0][i].getCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
 						{//selecting a activ roi
 							//if (min_roi == -1)
 							//{
@@ -137,7 +137,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 							this->setCursor(myCursor);
 						}
 						else
-							if (!activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) || !activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)))
+							if (!activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) || !activProcessedObj->getProcesArears()[0][i].getCircle()->contains(QPoint(x, y)))
 							{
 								int point_X{ 0 };
 								int point_Y{ 0 };
@@ -190,7 +190,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 									double rotAngel{ activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel() };
 									//QtRotateRect secondRect{ QRect(activProcessedObj->getProcesArears()[0][i].getScalRect()->x() - 7,activProcessedObj->getProcesArears()[0][i].getScalRect()->y() - 7,
 									//	activProcessedObj->getProcesArears()[0][i].getScalRect()->width() + 14,activProcessedObj->getProcesArears()[0][i].getScalRect()->height() + 14),activProcessedObj->getProcesArears()[0][i].getScalRect()->getRotateAngel() };
-									MyCircle secondCircle{ *activProcessedObj->getProcesArears()[0][i].getScalCircle() };
+									MyCircle secondCircle{ *activProcessedObj->getProcesArears()[0][i].getCircle() };
 									secondCircle.SetRadius(secondCircle.getRadius() + 7);
 									double diag{ sqrt(2 * 7 * 7) };
 									if (((QtRotateRect(activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_X() + 7 * sin(activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getRect()->getUpLeft_Y() - 7 * cos(activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel(true)), activProcessedObj->getProcesArears()[0][i].getRect()->width(), 8, activProcessedObj->getProcesArears()[0][i].getRect()->getRotateAngel()).contains(x, y) ||
@@ -305,9 +305,9 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 					{
 						QPoint center;
 						int radius;
-						activProcessedObj->getProcesArears()[0][activ_roi].getScalCircleParam(radius, center);
+						activProcessedObj->getProcesArears()[0][activ_roi].getCircleParm(radius, center);
 						ui.label_for_TempImg->muve_roiCircle(center, radius);
-						activProcessedObj->getProcesArears()[0][activ_roi].setScalCircle(&MyCircle(center, radius));
+						activProcessedObj->getProcesArears()[0][activ_roi].setCircle(&MyCircle(center, radius));
 					}
 				}
 				else
@@ -323,9 +323,9 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 						{
 							QPoint center;
 							int radius;
-							activProcessedObj->getProcesArears()[0][activ_roi].getScalCircleParam(radius, center);
+							activProcessedObj->getProcesArears()[0][activ_roi].getCircleParm(radius, center);
 							ui.label_for_TempImg->resize_circle(center, radius);
-							activProcessedObj->getProcesArears()[0][activ_roi].setScalCircle(&MyCircle(center, radius));
+							activProcessedObj->getProcesArears()[0][activ_roi].setCircle(&MyCircle(center, radius));
 						}
 					}
 					else
@@ -387,7 +387,7 @@ void QtGuiDisplay::slot_mousePressed()
 				x = buferPoint.x();
 				y = buferPoint.y();
 
-				if ((activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0) || (activProcessedObj->getProcesArears()[0][i].getScalCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
+				if ((activProcessedObj->getProcesArears()[0][i].getRect()->contains(x, y) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 0) || (activProcessedObj->getProcesArears()[0][i].getCircle()->contains(QPoint(x, y)) && activProcessedObj->getProcesArears()[0][i].getAreaType() == 1))  //check whether the pointer islocated in activ ROI
 				{//selecting a activ roi
 					if (min_roi == -1)
 					{
@@ -1067,7 +1067,7 @@ void QtGuiDisplay::changeAreaType(int newType, QtProcessedArea& InOutArea)
 		int x{ ui.label_for_TempImg->size().width() / 2 };
 		int y{ ui.label_for_TempImg->size().height() / 2 };
 		ui.label_for_TempImg->toImgCoordinate(x, y);
-		InOutArea.setScalRect(&QtRotateRect(QRect(x, y, w, h), InOutArea.getScalRect()->getRotateAngel()));
+		InOutArea.setRect(&QtRotateRect(QRect(x, y, w, h), InOutArea.getRect()->getRotateAngel()));
 	}
 	else if (newType == 1)
 	{
@@ -1083,7 +1083,7 @@ void QtGuiDisplay::changeAreaType(int newType, QtProcessedArea& InOutArea)
 		int x{ ui.label_for_TempImg->size().width() / 2 };
 		int y{ ui.label_for_TempImg->size().height() / 2 };
 		ui.label_for_TempImg->toImgCoordinate(x, y);
-		InOutArea.setScalCircle(&MyCircle(QPoint(x,y), w/2));
+		InOutArea.setCircle(&MyCircle(QPoint(x,y), w/2));
 	}
 	//processedAreaScale(InOutArea, true);
 }

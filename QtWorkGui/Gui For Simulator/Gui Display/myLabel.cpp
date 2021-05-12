@@ -251,6 +251,7 @@ void myLabel::mouseMoveEvent(QMouseEvent *evnt)
 	{
 		y_labl = evnt->y();
 	}
+
 	//x_pixMap = x_labl + drPoint.x();
 	//y_pixMap = y_labl + drPoint.y();
 	x_lablG = evnt->x();
@@ -270,8 +271,8 @@ void myLabel::mousePressEvent(QMouseEvent *evnt)
 	std::cout << "Y " << f_y_pixMap << std::endl;*/
 	//f_x_pixMap = f_x_labl + drPoint.x();
 	//f_y_pixMap = f_y_labl + drPoint.y();
-	ref_x = evnt->x();
-	ref_y = evnt->y();
+	//ref_x = evnt->x();
+	//ref_y = evnt->y();
 	add = true;
 	emit mousePressed();
 }
@@ -283,8 +284,8 @@ void myLabel::leaveEvent(QEvent *evnt)
 
 void myLabel::mouseReleaseEvent(QMouseEvent *evnt)
 {
-	s_x_pixMap = evnt->x();
-	s_y_pixMap = evnt->y()-this->y();
+	//s_x_pixMap = evnt->x();
+	//s_y_pixMap = evnt->y()-this->y();
 	add = false;
 	up_or_left = false;
 	down_or_right = false;
@@ -293,10 +294,10 @@ void myLabel::mouseReleaseEvent(QMouseEvent *evnt)
 
 void myLabel::reset_x_y()
 {
-	f_x_labl = 0;
-	f_y_labl = 0;
-	s_x_labl = 0;
-	s_y_labl = 0;
+	//f_x_labl = 0;
+	//f_y_labl = 0;
+	//s_x_labl = 0;
+	//s_y_labl = 0;
 }
 
 void myLabel::add_rect(QRect &Input, QPen newPen)
@@ -433,20 +434,13 @@ void myLabel::rotatr_rect(QtRotateRect& InOutput)
 void myLabel::resize_rect(QtRotateRect &InOutput)
 {
 	QPoint buferP(getImageCoordinate(false));
-	//toImgCoordinate(x_lablG, y_lablG,false);
 	x_lablG = buferP.x();
 	y_lablG = buferP.y();
-//	toImgCoordinate(x_labl, y_labl);
 
 	buferP = getImageCoordinate();
 	x_labl = buferP.x();
 	y_labl = buferP.y();
 	
-	
-	
-	//toImgCoordinate_(first_x_labl, first_y_labl);
-	/*f_x_pixMap = first_x_labl;
-	f_y_pixMap = first_y_labl;*/
 	double rotAngel{ InOutput.getRotateAngel() };
 	if ((this->cursor().shape() == Qt::SizeHorCursor && (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5)))
 		||(this->cursor().shape() == Qt::SizeVerCursor && ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5)))
@@ -1076,33 +1070,38 @@ void myLabel::resize_rect(QtRotateRect &InOutput)
 
 void myLabel::resize_circle(const QPoint& centerPoint, int& radius)
 {
-	toImgCoordinate(x_labl, y_labl);
+	toImgCoordinate_(x_labl, y_labl);
 	int step_X{ x_labl - f_x_pixMap };
 	int step_Y{ y_labl - f_y_pixMap };
 	bool overflow{ false };
-	if (centerPoint.x() - radius + step_X < 0)
+	double step{ sqrt(step_X * step_X + step_Y * step_Y) };
+	if (centerPoint.x() - radius - step < 0)
 	{
 		step_X = 0;
-		radius = centerPoint.x();
+		//step_Y = 0;
+		//radius = centerPoint.x();
 		overflow = true;
 	}
-	else if ((centerPoint.x() + radius + step_X > this->scaledSize.width() - 1) && !overflow)
+	 if ((centerPoint.x() + radius + step > this->originalSize.width() ) && !overflow)
 	{
 		step_X = 0;
-		radius = this->getScaledImgSize()->width() - centerPoint.x()-1;
+		//step_Y = 0;
+		//radius = this->originalSize.width() - centerPoint.x() - 1;
 		overflow = true;
 	}
 
-	if ((centerPoint.y() - radius + step_Y) < 0 && !overflow)
+	if ((centerPoint.y() - radius - step) < 0 && !overflow)
 	{
+		//step_X = 0;
 		step_Y = 0;
-		radius = centerPoint.y();
+		//radius = centerPoint.y();
 		overflow = true;
 	}
-	else if ((centerPoint.y() + radius + step_Y > this->scaledSize.height() - 1) && !overflow)
+	 if ((centerPoint.y() + radius + step > this->originalSize.height() ) && !overflow)
 	{
+		//step_X = 0;
 		step_Y = 0;
-		radius = this->getScaledImgSize()->height() - centerPoint.y()-1;	
+		//radius = this->originalSize.height() - centerPoint.y() - 1;
 		overflow = true;
 	}
 	double r_2{ sqrt(pow(static_cast<double>(centerPoint.x() - x_labl),2) + pow(static_cast<double>(centerPoint.y() - y_labl),2)) };
@@ -1110,6 +1109,8 @@ void myLabel::resize_circle(const QPoint& centerPoint, int& radius)
 		radius += (sqrt(step_X * step_X + step_Y * step_Y));
 	else if(static_cast<int>(r_2) < radius)
 		radius -= (sqrt(step_X * step_X + step_Y * step_Y));
+	if (radius <= 0)
+		radius = 1;
 	f_x_pixMap = x_labl;
 	f_y_pixMap = y_labl;
 }
@@ -1156,7 +1157,7 @@ void myLabel::muve_roiRect(QtRotateRect &InOutput)
 
 void myLabel::muve_roiCircle(QPoint& centerPoint,const int& radius)
 {
-	toImgCoordinate(x_labl, y_labl);
+	toImgCoordinate_(x_labl, y_labl);
 	int step_X{ x_labl - f_x_pixMap };
 	int step_Y{ y_labl - f_y_pixMap };
 
@@ -1166,10 +1167,10 @@ void myLabel::muve_roiCircle(QPoint& centerPoint,const int& radius)
 		centerPoint.setX(radius);
 		emit mouseLeftMouveRoi(0);
 	}
-	else if (centerPoint.x() + radius + step_X > this->scaledSize.width() - 1)
+	else if (centerPoint.x() + radius + step_X > this->originalSize.width() - 1)
 	{
 		step_X = 0;
-		centerPoint.setX(scaledSize.width() - radius - 1);
+		centerPoint.setX(originalSize.width() - radius - 1);
 		emit mouseLeftMouveRoi(1);
 	}
 
@@ -1179,10 +1180,10 @@ void myLabel::muve_roiCircle(QPoint& centerPoint,const int& radius)
 		centerPoint.setY(radius);
 		emit mouseLeftMouveRoi(2);
 	}
-	else if (centerPoint.y() + radius + step_Y > this->scaledSize.height() - 1)
+	else if (centerPoint.y() + radius + step_Y > this->originalSize.height() - 1)
 	{
 		step_Y = 0;
-		centerPoint.setY(scaledSize.height() -radius - 1);
+		centerPoint.setY(originalSize.height() -radius - 1);
 	}
 	centerPoint.setX(centerPoint.x() + step_X);
 	centerPoint.setY(centerPoint.y() + step_Y);
@@ -1585,206 +1586,206 @@ QPixmap myLabel::getPixmapWithROI(std::vector<QRect> &Input) const
 	return out;
 }
 
-double myLabel::outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX)
-{
-	double dx{ 0 };
-	double dx_bufer{ 0 };
-	bool reset_dx{ false };
-	int X{ static_cast<int>((in_X)) };
-	if (isX)
-		X *= -1;
-	if (InRect->getMax_X() + X > this->getScaledImgSize()->width() &&
-		((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isX) ||
-		(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel()< 90)|| (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isX)))
-	{
-		dx = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
-		if (!reset_dx)
-		{
-			dx_bufer = dx;
-			reset_dx = true;
-		}
-		else if (abs(dx_bufer) < abs(dx))
-			dx = dx_bufer;
-	}
-	if (InRect->getMax_Y() + static_cast<int>((X)) > this->getScaledImgSize()->height() && 
-		((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isX) || 
-		(InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && !isX)))
-	{
-		dx = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
-		if (!reset_dx)
-		{
-			dx_bufer = dx;
-			reset_dx = true;
-		}
-		else if (abs(dx_bufer) < abs(dx))
-			dx = dx_bufer;
-	}
-	X *= -1;
-	if (InRect->getMin_X() + static_cast<int>((X)) < 0 &&
-		((((InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360) || (InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90)) && isX) ||
-		(InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && !isX)))
-	{
-		dx = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
-		if (!reset_dx)
-		{
-			dx_bufer = dx;
-			reset_dx = true;
-		}
-		else if (abs(dx_bufer) < abs(dx))
-			dx = dx_bufer;
-	}
-	if (InRect->getMin_Y() + static_cast<int>((X)) < 0 && 
-		((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isX) ||
-		(InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && !isX)))
-	{
-		dx = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
-		if (!reset_dx)
-		{
-			dx_bufer = dx;
-			reset_dx = true;
-		}
-		else if (abs(dx_bufer) < abs(dx))
-			dx = dx_bufer;
-	}
-	if (!reset_dx)
-		return in_X;
-	else
-		return dx;
-}
-
-double myLabel::outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus)
-{
-	double dy{ 0 };
-	double dy_bufer{ 0 };
-	bool reset_dy{ false };
-	int Y{ static_cast<int>((in_Y)) };
-	if (dy_isMinus)
-	{
-		if (!isY)
-			Y *= -1;
-		if (InRect->getMax_X() + static_cast<int>((Y)) > this->getScaledImgSize()->width() &&
-			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isY) ||
-			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360) && !isY)))
-		{
-			dy = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		if (InRect->getMax_Y() + static_cast<int>((Y)) > this->getScaledImgSize()->height() &&
-			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isY) ||
-			(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isY)))
-		{
-			dy_bufer = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		Y *= -1;
-		if (InRect->getMin_X() + static_cast<int>((in_Y)) < 0 &&
-			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isY) ||
-			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180) && !isY)))
-		{
-			dy = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		if (InRect->getMin_Y() + static_cast<int>((in_Y)) < 0 &&
-			((((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && isY) ||
-			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270) && !isY)))
-		{
-			dy_bufer = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-	}
-	else
-	{
-		if (isY)
-			Y *= -1;
-		if (InRect->getMax_X() + static_cast<int>((Y)) > this->getScaledImgSize()->width() &&
-			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isY) ||
-			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360) && !isY)))
-		{
-			dy_bufer = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		if (InRect->getMax_Y() + static_cast<int>((Y)) > this->getScaledImgSize()->height() &&
-			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isY) ||
-			(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isY)))
-		{
-			dy_bufer = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		Y*= -1;
-		if (InRect->getMin_X() + static_cast<int>((Y)) < 0 &&
-			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isY) ||
-			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180) && !isY)))
-		{
-			dy_bufer = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-		if (InRect->getMin_Y() + static_cast<int>((Y)) < 0 &&
-			((((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && isY) ||
-			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270) && !isY)))
-		{
-			dy_bufer = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
-			if (!reset_dy)
-			{
-				dy_bufer = dy;
-				reset_dy = true;
-			}
-			else if (abs(dy_bufer) < abs(dy))
-				dy = dy_bufer;
-		}
-	}
-	if ((in_Y >= 0 && dy >= 0) || (in_Y < 0 && dy < 0)) {
-	}
-	else
-	{
-		dy *= -1;
-	}
-	if (!reset_dy)
-		return in_Y;
-	else
-		return dy;
-}
+//double myLabel::outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX)
+//{
+//	double dx{ 0 };
+//	double dx_bufer{ 0 };
+//	bool reset_dx{ false };
+//	int X{ static_cast<int>((in_X)) };
+//	if (isX)
+//		X *= -1;
+//	if (InRect->getMax_X() + X > this->getScaledImgSize()->width() &&
+//		((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isX) ||
+//		(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel()< 90)|| (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isX)))
+//	{
+//		dx = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
+//		if (!reset_dx)
+//		{
+//			dx_bufer = dx;
+//			reset_dx = true;
+//		}
+//		else if (abs(dx_bufer) < abs(dx))
+//			dx = dx_bufer;
+//	}
+//	if (InRect->getMax_Y() + static_cast<int>((X)) > this->getScaledImgSize()->height() && 
+//		((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isX) || 
+//		(InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && !isX)))
+//	{
+//		dx = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
+//		if (!reset_dx)
+//		{
+//			dx_bufer = dx;
+//			reset_dx = true;
+//		}
+//		else if (abs(dx_bufer) < abs(dx))
+//			dx = dx_bufer;
+//	}
+//	X *= -1;
+//	if (InRect->getMin_X() + static_cast<int>((X)) < 0 &&
+//		((((InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360) || (InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90)) && isX) ||
+//		(InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && !isX)))
+//	{
+//		dx = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
+//		if (!reset_dx)
+//		{
+//			dx_bufer = dx;
+//			reset_dx = true;
+//		}
+//		else if (abs(dx_bufer) < abs(dx))
+//			dx = dx_bufer;
+//	}
+//	if (InRect->getMin_Y() + static_cast<int>((X)) < 0 && 
+//		((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isX) ||
+//		(InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && !isX)))
+//	{
+//		dx = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
+//		if (!reset_dx)
+//		{
+//			dx_bufer = dx;
+//			reset_dx = true;
+//		}
+//		else if (abs(dx_bufer) < abs(dx))
+//			dx = dx_bufer;
+//	}
+//	if (!reset_dx)
+//		return in_X;
+//	else
+//		return dx;
+//}
+//
+//double myLabel::outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus)
+//{
+//	double dy{ 0 };
+//	double dy_bufer{ 0 };
+//	bool reset_dy{ false };
+//	int Y{ static_cast<int>((in_Y)) };
+//	if (dy_isMinus)
+//	{
+//		if (!isY)
+//			Y *= -1;
+//		if (InRect->getMax_X() + static_cast<int>((Y)) > this->getScaledImgSize()->width() &&
+//			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isY) ||
+//			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360) && !isY)))
+//		{
+//			dy = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		if (InRect->getMax_Y() + static_cast<int>((Y)) > this->getScaledImgSize()->height() &&
+//			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isY) ||
+//			(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isY)))
+//		{
+//			dy_bufer = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		Y *= -1;
+//		if (InRect->getMin_X() + static_cast<int>((in_Y)) < 0 &&
+//			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isY) ||
+//			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180) && !isY)))
+//		{
+//			dy = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		if (InRect->getMin_Y() + static_cast<int>((in_Y)) < 0 &&
+//			((((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && isY) ||
+//			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270) && !isY)))
+//		{
+//			dy_bufer = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//	}
+//	else
+//	{
+//		if (isY)
+//			Y *= -1;
+//		if (InRect->getMax_X() + static_cast<int>((Y)) > this->getScaledImgSize()->width() &&
+//			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180 && isY) ||
+//			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360) && !isY)))
+//		{
+//			dy_bufer = (cos(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->width() - InRect->getMax_X()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		if (InRect->getMax_Y() + static_cast<int>((Y)) > this->getScaledImgSize()->height() &&
+//			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270 && isY) ||
+//			(((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && !isY)))
+//		{
+//			dy_bufer = (sin(InRect->getRotateAngel(true)) * (this->getScaledImgSize()->height() - InRect->getMax_Y()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		Y*= -1;
+//		if (InRect->getMin_X() + static_cast<int>((Y)) < 0 &&
+//			((InRect->getRotateAngel() >= 180 && InRect->getRotateAngel() <= 360 && isY) ||
+//			((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 180) && !isY)))
+//		{
+//			dy_bufer = (cos(InRect->getRotateAngel(true)) * (-InRect->getMin_X()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//		if (InRect->getMin_Y() + static_cast<int>((Y)) < 0 &&
+//			((((InRect->getRotateAngel() >= 0 && InRect->getRotateAngel() < 90) || (InRect->getRotateAngel() >= 270 && InRect->getRotateAngel() <= 360)) && isY) ||
+//			((InRect->getRotateAngel() >= 90 && InRect->getRotateAngel() < 270) && !isY)))
+//		{
+//			dy_bufer = (sin(InRect->getRotateAngel(true)) * (-InRect->getMin_Y()));
+//			if (!reset_dy)
+//			{
+//				dy_bufer = dy;
+//				reset_dy = true;
+//			}
+//			else if (abs(dy_bufer) < abs(dy))
+//				dy = dy_bufer;
+//		}
+//	}
+//	if ((in_Y >= 0 && dy >= 0) || (in_Y < 0 && dy < 0)) {
+//	}
+//	else
+//	{
+//		dy *= -1;
+//	}
+//	if (!reset_dy)
+//		return in_Y;
+//	else
+//		return dy;
+//}
 
 double round(double InputNumber, int const accuracy)
 {

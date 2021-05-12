@@ -41,11 +41,15 @@ class myLabel :
 	int f_x_pixMap, f_y_pixMap;
 	int x_pixMap, y_pixMap;
 	int imageFormat;//0-original, 1-gray, 2-RGB 
-	double outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX); 
-	double outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus); 
+	//double outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX); 
+	//double outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus); 
 	
 	Q_OBJECT
 public:
+	//int f_x_labl, f_y_labl;
+	//int s_x_labl, s_y_labl;
+	//int s_x_pixMap, s_y_pixMap;
+	//int ref_x, ref_y;
 	explicit myLabel(QWidget *parent = 0);
 	QPixmap myPixmap() const;
 	QPixmap getPixmapWithROI(std::vector<QRect> &Input) const;
@@ -84,10 +88,7 @@ public:
 	QSize* getOriginalImgSize();
 	void setAllImgScaled();
 	void getPointInImg(int& x, int& y);
-	int f_x_labl, f_y_labl;
-	int s_x_labl, s_y_labl;
-	int s_x_pixMap, s_y_pixMap;
-	int ref_x, ref_y;
+	
 	void toImgCoordinate(int &inOutX, int &inOutY, bool isContains=true);
 	void toImgCoordinate_(int &inOutX, int &inOutY, bool isContains=true);
 	QPoint getImageCoordinate(bool isContains=true);
