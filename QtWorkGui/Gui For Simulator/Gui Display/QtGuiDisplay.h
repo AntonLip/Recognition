@@ -52,7 +52,7 @@ public:
 	void setChangeActivArea(bool isChange);
 	void addBrightnesCorrectRect(bool isAdd);
 	void setChangesProcessedArears(bool isChang);
-	void processedAreaScale(QtProcessedArea &InOutArea ,bool toOriginalScal=false);
+	//void processedAreaScale(QtProcessedArea &InOutArea ,bool toOriginalScal=false);
 	void draw_proceseArears();
 	void add_rect(int procesType);
 	void add_circle();

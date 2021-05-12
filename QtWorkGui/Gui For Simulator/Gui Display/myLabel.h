@@ -46,10 +46,6 @@ class myLabel :
 	
 	Q_OBJECT
 public:
-	//int f_x_labl, f_y_labl;
-	//int s_x_labl, s_y_labl;
-	//int s_x_pixMap, s_y_pixMap;
-	//int ref_x, ref_y;
 	explicit myLabel(QWidget *parent = 0);
 	QPixmap myPixmap() const;
 	QPixmap getPixmapWithROI(std::vector<QRect> &Input) const;

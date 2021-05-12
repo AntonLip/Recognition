@@ -191,28 +191,6 @@ void myLabel::set_myPixmap(const QPixmap* img)
 	activ_scaled = 4;
 	this->updateGeometry();
 	setAllImgScaled();
-	/*double scal_NormImg{ (double)this->width() / (double)originalSize.width() };
-	_scaled[11] = scal_NormImg;
-	for (int i{ 0 }; i < 9; i++)
-	{
-		if (_scaled[i]>scal_NormImg)
-		{
-			max_activ_scaled = i;
-			i = 10;
-		}
-		else
-			max_activ_scaled = 10;
-	}
-	for (int i{ 9 }; i >= 0; i--)
-	{
-		if (_scaled[i] < scal_NormImg)
-		{
-			min_activ_scaled = i;
-			i = -1;
-		}
-		else
-			min_activ_scaled = 0;
-	}*/
 }
 
 QPixmap myLabel::myPixmap() const

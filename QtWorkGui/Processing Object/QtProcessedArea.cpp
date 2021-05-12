@@ -5,9 +5,7 @@ QtProcessedArea::QtProcessedArea(QObject* parent)
 	processedAreaType(0),
 	areaType(0),
 	rect(QtRotateRect{}),
-	scalRect(QtRotateRect{}),
 	circle(MyCircle{}),
-	scalCircle(MyCircle{}),
 	activ(false),
 	draw(false),
 	systemName(QString{}),
@@ -26,11 +24,9 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect 
 	processedAreaType(processedType),
 	areaType(areaType_),
 	rect(newRect),
-	scalRect(newRect),
 	activ(true),
 	draw(true),
 	circle(MyCircle{}),
-	scalCircle(MyCircle{}),
 	systemName(QString{}),
 	userName(QString{}),
 	doubleTreshF(0),
@@ -52,11 +48,9 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	processedAreaType(processedType),
 	areaType(areaType_),
 	rect(QtRotateRect()),
-	scalRect(QtRotateRect()),
 	activ(true),
 	draw(true),
 	circle(newCircle),
-	scalCircle(newCircle),
 	systemName(QString{}),
 	userName(QString{}),
 	doubleTreshF(0),
@@ -77,7 +71,6 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	:processedAreaType(drop.processedAreaType),
 	areaType(drop.areaType),
 	rect(drop.rect),
-	scalRect(drop.scalRect),
 	activ(drop.activ),
 	draw(drop.draw),
 	systemName(drop.systemName),
@@ -86,7 +79,6 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	scalCircle(drop.scalCircle),
 	counterProc(drop.counterProc),
 	qw(drop.qw)
 {
@@ -119,10 +111,10 @@ void QtProcessedArea::setRect(QtRotateRect* newRect)
 	rect = *newRect;
 }
 
-void QtProcessedArea::setScalRect(QtRotateRect* newRect)
-{
-	scalRect = *newRect;
-}
+//void QtProcessedArea::setScalRect(QtRotateRect* newRect)
+//{
+//	scalRect = *newRect;
+//}
 
 cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 {
@@ -165,10 +157,10 @@ void QtProcessedArea::setCircle(MyCircle* newCircle)
 	circle = *newCircle;
 }
 
-void QtProcessedArea::setScalCircle(MyCircle* newCirkle)
-{
-	scalCircle = *newCirkle;
-}
+//void QtProcessedArea::setScalCircle(MyCircle* newCirkle)
+//{
+//	scalCircle = *newCirkle;
+//}
 
 void QtProcessedArea::setAreaType(int newType)
 {
@@ -292,20 +284,20 @@ QtRotateRect* QtProcessedArea::getRect()
 	return &rect;
 }
 
-QtRotateRect* QtProcessedArea::getScalRect()
-{
-	return &scalRect;
-}
+//QtRotateRect* QtProcessedArea::getScalRect()
+//{
+//	return &scalRect;
+//}
 
 MyCircle* QtProcessedArea::getCircle()
 {
 	return &circle;
 }
 
-MyCircle* QtProcessedArea::getScalCircle()
-{
-	return &scalCircle;
-}
+//MyCircle* QtProcessedArea::getScalCircle()
+//{
+//	return &scalCircle;
+//}
 
 void QtProcessedArea::getCircleParm(int &radius, QPoint &center)
 {
@@ -313,11 +305,11 @@ void QtProcessedArea::getCircleParm(int &radius, QPoint &center)
 	center = circle.getCenterPoint();
 }
 
-void QtProcessedArea::getScalCircleParam(int& radius, QPoint& center)
-{
-	radius = scalCircle.getRadius();
-	center = scalCircle.getCenterPoint();
-}
+//void QtProcessedArea::getScalCircleParam(int& radius, QPoint& center)
+//{
+//	radius = scalCircle.getRadius();
+//	center = scalCircle.getCenterPoint();
+//}
 
 void QtProcessedArea::setProcessing(int typeProcessing)
 {
@@ -337,7 +329,6 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	processedAreaType = drop.processedAreaType;
 	areaType = drop.areaType;
 	rect = drop.rect;
-	scalRect = drop.scalRect;
 	activ = drop.activ;
 	draw = drop.draw;
 	systemName = drop.systemName;
@@ -346,7 +337,6 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	doubleTreshS = drop.doubleTreshS;
 	singlTresActiv = drop.singlTresActiv;
 	circle = drop.circle;
-	scalCircle = drop.scalCircle;
 	qw = drop.qw;
 	counterProc = drop.counterProc;
 	std::cout << "=" << std::endl;
@@ -365,32 +355,32 @@ QRect QtProcessedArea::getOriginalLimitRect()
 	}
 }
 
-QRect QtProcessedArea::getScaledLimitRect()
-{
-	if (areaType == 0)
-	{
-		return QRect(scalRect.getMin_X(), scalRect.getMin_Y(), scalRect.getMax_X() - scalRect.getMin_X(), scalRect.getMax_Y() - scalRect.getMin_Y());
-	}
-	else if (areaType == 1)
-	{
-		return QRect(scalCircle.getCenterPoint().x() - scalCircle.getRadius(), scalCircle.getCenterPoint().y() - scalCircle.getRadius(), scalCircle.getRadius() * 2, scalCircle.getRadius() * 2);
-	}
-}
+//QRect QtProcessedArea::getScaledLimitRect()
+//{
+//	if (areaType == 0)
+//	{
+//		return QRect(scalRect.getMin_X(), scalRect.getMin_Y(), scalRect.getMax_X() - scalRect.getMin_X(), scalRect.getMax_Y() - scalRect.getMin_Y());
+//	}
+//	else if (areaType == 1)
+//	{
+//		return QRect(scalCircle.getCenterPoint().x() - scalCircle.getRadius(), scalCircle.getCenterPoint().y() - scalCircle.getRadius(), scalCircle.getRadius() * 2, scalCircle.getRadius() * 2);
+//	}
+//}
 
 double QtProcessedArea::getArea(bool scaled)
 {
-	if (scaled)
+	/*if (scaled)
 	{
 		if (areaType == 0)
 			return scalRect.height() * scalRect.width();
 		else if (areaType == 1)
 			return scalCircle.getArea();
 	}
-	else
-	{
+	else*/
+	//{
 		if (areaType == 0)
 			return rect.height() * rect.width();
 		else if (areaType == 1)
 			return circle.getArea();
-	}
+	//}
 }

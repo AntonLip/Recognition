@@ -4,6 +4,20 @@
 #include <qrect.h>
 #include <cmath>
 double const pi = 3.14159265359;
+
+enum ResizeType
+{
+	NoResize,
+	Resize_X,
+	Resize_Y,
+	Resize_Width,
+	Resize_Height,
+	Resize_XAndY,
+	Resize_HeigthAndWidth,
+	Resize_XAndHeight,
+	Resize_YAndWidth
+};
+
 class QtRotateRect : public QRect
 {
 	double rotationAngle;
@@ -17,7 +31,7 @@ class QtRotateRect : public QRect
 	double downLeftAngel_Y;
 	double downRigAngel_X;
 	double downRigAngel_Y;
-	
+	int activResizeType_;
 public:
 	QtRotateRect(QRect parent = QRect(0, 0, 0, 0), double rotateAngl = 0.0);
 	QtRotateRect(QRect parent, double rotateAngel, QPoint centerPoint);
@@ -66,7 +80,9 @@ public:
 	int getRigthX(int y);
 	int getRigthY(int x);
 	int getLeftY(int x);
+	void resizeRect(QPoint imgPoint, QPoint globalImgPoint, QPoint& firstPoint, Qt::CursorShape cursorShape);
 	QPointF getEdgePoint(int typePoint);
 	QRect getRotateRectSize();
 	QPoint getUpLeftPoint();
+	void setResizeType(int activType);
 };

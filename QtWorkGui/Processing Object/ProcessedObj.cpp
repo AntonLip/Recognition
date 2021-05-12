@@ -115,7 +115,7 @@ void ProcessedObj::setProgramName(QString newName)
 
 void ProcessedObj::setBrightnesCorrectArea(QRect *area)
 {
-	processAreas[0].setScalRect(&QtRotateRect(*area));
+	processAreas[0].setRect(&QtRotateRect(*area));
 	brightnesCorrectSet = true;
 }
 
@@ -124,7 +124,7 @@ void ProcessedObj::deletBrightnesCorrectArea()
 	brightnesCorrectSet = false;
 	QRect QR(0, 0, 0, 0);
 	processAreas[0].setRect(&QtRotateRect(QR));
-	processAreas[0].setScalRect(&QtRotateRect(QR));
+	processAreas[0].setRect(&QtRotateRect(QR));
 	processAreas[0].setActiv(false);
 }
 
