@@ -726,633 +726,587 @@ int QtRotateRect::getLeftY(int x)
 	return upLeftAngel_Y + ((x - upLeftAngel_X) * (downLeftAngel_Y - upLeftAngel_Y) / (downLeftAngel_X - upLeftAngel_X));
 }
 
-void QtRotateRect::resizeRect(QPoint imgPoint, QPoint globalImgPoint, QPoint& firstPoint, Qt::CursorShape cursorShape)
+void QtRotateRect::resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize* boundingSize)
 {
-	//double rotAngel_{ rotationAngle };
-	//if ((cursorShape == Qt::SizeHorCursor && (((rotAngel_ >= 337.5 && rotAngel_ <= 360) || (rotAngel_ >= 0 && rotAngel_ < 22.5)) || (rotAngel_ >= 157.5 && rotAngel_ < 202.5)))
-	//	|| (cursorShape == Qt::SizeVerCursor && ((rotAngel_ >= 67.5 && rotAngel_ < 112.5) || (rotAngel_ >= 247.5 && rotAngel_ < 292.5)))
-	//	|| (cursorShape == Qt::SizeFDiagCursor && ((rotAngel_ >= 22.5 && rotAngel_ < 67.5) || (rotAngel_ >= 202.5 && rotAngel_ < 247.5)))
-	//	|| (cursorShape == Qt::SizeBDiagCursor && ((rotAngel_ >= 112.5 && rotAngel_ < 157.5) || (rotAngel_ >= 292.5 && rotAngel_ < 337.5))))
-	//{
-	//	if (((f_x_pixMap < getRigthX(imgPoint.y()) && ((rotAngel_ >= 337.5 && rotAngel_ <= 360) || (rotAngel_ >= 0 && rotAngel_ < 22.5) || (rotAngel_ >= 22.5 && rotAngel_ < 67.5) || (rotAngel_ >= 292.5 && rotAngel_ < 337.5)))
-	//		|| (f_y_pixMap < getRigthY(imgPoint.x()) && (rotAngel_ >= 67.5 && rotAngel_ < 112.5))
-	//		|| (f_y_pixMap > getRigthY(imgPoint.x()) && (rotAngel_ >= 247.5 && rotAngel_ < 292.5))
-	//		|| (f_x_pixMap > getRigthX(imgPoint.y()) && ((rotAngel_ >= 157.5 && rotAngel_ < 202.5) || (rotAngel_ >= 112.5 && rotAngel_ < 157.5) || (rotAngel_ >= 202.5 && rotAngel_ < 247.5))))
-	//		&& !down_or_right)
-	//	{
-	//		up_or_left = true;
-	//		double dx{ 0 };
-	//		bool dx_isSet{ false };
-	//		if (((rotAngel >= 67.5 && rotAngel < 112.5) && y_labl < InOutput.getRigthY(x_labl))
-	//			|| ((rotAngel >= 247.5 && rotAngel < 292.5) && y_labl > InOutput.getRigthY(x_labl)))
-	//		{
-	//			dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getLeftY(x_labl));
-	//		}
-	//		else if ((x_labl < InOutput.getRigthX(y_labl) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//			|| (x_labl > InOutput.getRigthX(y_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
-	//		{
-	//			dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getLeftX(y_labl));
-	//		}
-	//		else
-	//		{
-	//			InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//			dx_isSet = true;
-	//		}
-	//		if (!dx_isSet)
-	//		{
-	//			InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//			if (InOutput.width() <= 0)
-	//			{
-	//				InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//			}
-	//		}
-	//	}
-	//	else if (!up_or_left)
-	//	{
-	//		down_or_right = true;
-	//		double dw{ 0 };
-	//		bool widt_isSet{ false };
-	//		if (((rotAngel >= 67.5 && rotAngel < 112.5) && y_labl > InOutput.getLeftY(x_labl))
-	//			|| ((rotAngel >= 247.5 && rotAngel < 292.5) && y_labl < InOutput.getLeftY(x_labl)))
-	//		{
-	//			dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
-	//		}
-	//		else if ((x_labl > InOutput.getLeftX(y_labl) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//			|| (x_labl < InOutput.getLeftX(y_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
-	//		{
-	//			dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
-	//		}
-	//		else
-	//		{
-	//			InOutput.setWidth(1);
-	//			widt_isSet = true;
-	//		}
-	//		if (!widt_isSet)
-	//		{
-	//			InOutput.setWidth(InOutput.width() + static_cast<int>(dw), this->getOriginalImgSize());
-	//			if (InOutput.width() <= 0)
-	//			{
-	//				InOutput.setWidth(1);
-	//			}
-	//		}
-	//	}
-	//}
-	//else
-	//	if ((this->cursor().shape() == Qt::SizeVerCursor && (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5)))
-	//		|| (this->cursor().shape() == Qt::SizeHorCursor && ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5)))
-	//		|| (this->cursor().shape() == Qt::SizeBDiagCursor && ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5)))
-	//		|| (this->cursor().shape() == Qt::SizeFDiagCursor && ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))))
 
-	//	{
-	//		if (((f_y_pixMap < InOutput.getDownY(x_labl) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//			|| (f_y_pixMap > InOutput.getDownY(x_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5)))
-	//			|| ((rotAngel >= 67.5 && rotAngel < 112.5) && f_x_pixMap > InOutput.getDownX(y_labl))
-	//			|| ((rotAngel >= 247.5 && rotAngel < 292.5) && f_x_pixMap < InOutput.getDownX(y_labl)))
-	//			&& !down_or_right)
-	//		{
-	//			up_or_left = true;
-	//			double dy_first{ 0 };
+	int x_lablG{ globalImgPoint.x() };
+	int y_lablG{ globalImgPoint.y() };
+	int x_labl{ imgPoint.x() };
+	int y_labl{ imgPoint.y() };
+	int f_x_pixMap{ firstPoint.x() };
+	int f_y_pixMap{ firstPoint.y() };
 
-	//			bool dy_isSet{ false };
-	//			bool dy_isMinus{ false };
-	//			if (((rotAngel >= 67.5 && rotAngel < 112.5) && x_labl > InOutput.getDownX(y_labl))
-	//				|| ((rotAngel >= 247.5 && rotAngel < 292.5) && x_labl < InOutput.getDownX(y_labl)))
-	//			{
-	//				dy_first = sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpX(y_labl));
-	//				dy_isMinus = true;
-	//			}
-	//			else if ((y_labl < InOutput.getDownY(x_labl) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//				|| (y_labl > InOutput.getDownY(x_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
-	//			{
-	//				dy_first = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpY(x_labl));
-	//			}
-	//			else
-	//			{
-	//				InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//				dy_isSet = true;
-	//			}
-	//			if (!dy_isSet)
-	//			{
-	//				if (dy_isMinus)
-	//				{
-	//					InOutput.setY(InOutput.y() - static_cast<int>(dy_first), this->getOriginalImgSize());
-	//				}
-	//				else
-	//				{
-	//					InOutput.setY(InOutput.y() + static_cast<int>(dy_first), this->getOriginalImgSize());
-	//				}
-	//			}
-	//		}
-	//		else if (!up_or_left)
-	//		{
-	//			down_or_right = true;
-	//			bool dh_isSet{ false };
-	//			bool dh_isMinus{ false };
-	//			double dh_first{ 0 };
-	//			if (((rotAngel >= 67.5 && rotAngel < 112.5) && x_labl < InOutput.getUpX(y_labl))
-	//				|| ((rotAngel >= 247.5 && rotAngel < 292.5) && x_labl > InOutput.getUpX(y_labl)))
-	//			{
-	//				dh_first = sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownX(y_labl));
-	//				dh_isMinus = true;
-	//			}
-	//			else if ((y_labl > InOutput.getUpY(x_labl) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//				|| (y_labl < InOutput.getUpY(x_labl) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5))))
-	//			{
-	//				dh_first = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownY(x_labl));
-	//			}
-	//			else
-	//			{
-	//				InOutput.setHeight(1);
-	//				dh_isSet = true;
-	//			}
-	//			if (!dh_isSet)
-	//			{
-	//				if (dh_isMinus)
-	//				{
-	//					InOutput.setHeight(InOutput.height() - static_cast<int>(dh_first), this->getOriginalImgSize());
-	//				}
-	//				else
-	//				{
-	//					std::cout << "h" << std::endl;
-	//					InOutput.setHeight(InOutput.height() + static_cast<int>(dh_first), this->getOriginalImgSize());
-	//				}
-	//			}
-	//		}
-	//	}
-	//	else
-	//		if ((this->cursor().shape() == Qt::SizeFDiagCursor && (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5)))
-	//			|| (this->cursor().shape() == Qt::SizeBDiagCursor && ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5)))
-	//			|| (this->cursor().shape() == Qt::SizeVerCursor && ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5)))
-	//			|| (this->cursor().shape() == Qt::SizeHorCursor && ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))))
-	//		{
-	//			if (((f_y_pixMap < InOutput.getDownRigth_Y() && (rotAngel >= 0 && rotAngel < 90))
-	//				|| (f_x_pixMap > InOutput.getDownRigth_X() && (rotAngel >= 90 && rotAngel < 180))
-	//				|| (f_y_pixMap > InOutput.getDownRigth_Y() && (rotAngel >= 180 && rotAngel < 270))
-	//				|| (f_x_pixMap < InOutput.getDownRigth_X() && (rotAngel >= 270 && rotAngel <= 360)))
-	//				&& !down_or_right)
-	//			{
-	//				up_or_left = true;
-	//				if (((y_labl < InOutput.getDownY(x_lablG) && x_labl < InOutput.getRigthX(y_lablG)) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//					|| (f_x_pixMap > InOutput.getDownX(y_lablG) && y_labl < InOutput.getRigthY(x_lablG) && x_labl > InOutput.getDownX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//					|| (f_x_pixMap < InOutput.getDownX(y_lablG) && y_labl > InOutput.getRigthY(x_lablG) && x_labl < InOutput.getDownX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//					|| ((y_labl > InOutput.getDownY(x_lablG) && x_labl > InOutput.getRigthX(y_lablG)) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//				{
-	//					double dy{ 0 };
-	//					double dx{ 0 };
-	//					if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//					{
-	//						dy = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpLeft_Y());
-	//						dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpLeft_X());
-	//					}
-	//					else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//					{
-	//						dy = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpLeft_X());
-	//						dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpLeft_Y());
-	//					}
-	//					InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//					InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//					if (InOutput.height() <= 0)
-	//					{
-	//						InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//					}
-	//					if (InOutput.width() <= 0)
-	//					{
-	//						InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//					}
-	//				}
-	//				else
-	//					if ((y_labl >= InOutput.getDownY(x_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//						|| (f_x_pixMap > InOutput.getDownX(y_lablG) && x_labl <= InOutput.getDownX(y_lablG) + 1 && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//						|| (f_x_pixMap < InOutput.getDownX(y_lablG) && x_labl >= InOutput.getDownX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//						|| (y_labl <= InOutput.getDownY(x_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//					{
-	//						InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//						double dx{ 0 };
-	//						if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//						{
-	//							dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpLeft_X());
-	//						}
-	//						else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//						{
-	//							dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpLeft_Y());
-	//						}
+	if (getResizeType() == Resize_X)
+	{
+		double dx{ 0 };
+		bool dx_isSet{ false };
+		if (((rotationAngle >= 67.5 && rotationAngle < 112.5) && y_labl < getRigthY(x_labl))
+			|| ((rotationAngle >= 247.5 && rotationAngle < 292.5) && y_labl > getRigthY(x_labl)))
+		{
+			dx = sin(getRotateAngel(true)) * (y_labl - getLeftY(x_labl));
+		}
+		else if ((x_labl < getRigthX(y_labl) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (x_labl > getRigthX(y_labl) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5))))
+		{
+			dx = cos(getRotateAngel(true)) * (x_labl - getLeftX(y_labl));
+		}
+		else
+		{
+			setX(x() + width() - 1);
+			dx_isSet = true;
+		}
+		if (!dx_isSet)
+		{
+			setX(x() + static_cast<int>(dx), boundingSize);
+			if (width() <= 0)
+			{
+				setX(x() + width() - 1);
+			}
+		}
+	}
+	else if (getResizeType() == Resize_Width)
+	{
+		double dw{ 0 };
+		bool widt_isSet{ false };
+		if (((rotationAngle >= 67.5 && rotationAngle < 112.5) && y_labl > getLeftY(x_labl))
+			|| ((rotationAngle >= 247.5 && rotationAngle < 292.5) && y_labl < getLeftY(x_labl)))
+		{
+			dw = sin(getRotateAngel(true)) * (y_labl - getRigthY(x_labl));
+		}
+		else if ((x_labl > getLeftX(y_labl) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (x_labl < getLeftX(y_labl) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5))))
+		{
+			dw = cos(getRotateAngel(true)) * (x_labl - getRigthX(y_labl));
+		}
+		else
+		{
+			setWidth(1);
+			widt_isSet = true;
+		}
+		if (!widt_isSet)
+		{
+			setWidth(width() + static_cast<int>(dw), boundingSize);
+			if (width() <= 0)
+			{
+				setWidth(1);
+			}
+		}
+	}
 
-	//						if (InOutput.getDownRigth_Y() >= InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() >= InOutput.getUpLeft_X())
-	//						{
-	//							InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//							if ((InOutput.getDownRigth_X() < InOutput.getUpLeft_X() || InOutput.width() <= 0))
-	//							{
-	//								InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//							}
-	//						}
-	//						else
-	//							if (InOutput.getDownRigth_Y() >= InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() < InOutput.getUpLeft_X())
-	//							{
-	//								InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//								if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() || InOutput.width() <= 0)
-	//								{
-	//									InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//								}
-	//							}
-	//							else
-	//								if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() < InOutput.getUpLeft_X())
-	//								{
-	//									InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//									if (InOutput.getDownRigth_X() > InOutput.getUpLeft_X() || InOutput.width() <= 0)
-	//									{
-	//										InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//									}
-	//								}
-	//								else
-	//									if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() >= InOutput.getUpLeft_X())
-	//									{
-	//										InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//										if (InOutput.getDownRigth_Y() > InOutput.getUpLeft_Y() || InOutput.width() <= 0)
-	//										{
-	//											InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//										}
-	//									}
-	//					}
-	//					else
-	//						if ((x_labl >= InOutput.getRigthX(y_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//							|| (f_x_pixMap > InOutput.getDownX(y_lablG) && x_labl >= InOutput.getDownRigth_X() && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//							|| (f_x_pixMap < InOutput.getDownX(y_lablG) && x_labl <= InOutput.getDownRigth_X() && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//							|| (x_labl <= InOutput.getRigthX(y_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//						{
-	//							InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//							double dy{ 0 };
-	//							bool dy_isMinus{ false };
-	//							if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//							{
-	//								dy = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpLeft_Y());
-	//							}
-	//							else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//							{
-	//								dy = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpLeft_X());
-	//								dy_isMinus = true;
-	//							}
-	//							if (InOutput.getDownRigth_Y() >= InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() >= InOutput.getUpLeft_X())
-	//							{
-	//								InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//								if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() || InOutput.height() <= 0)
-	//								{
-	//									InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//								}
-	//							}
-	//							else
-	//								if (InOutput.getDownRigth_Y() >= InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() < InOutput.getUpLeft_X())
-	//								{
-	//									InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//									if (InOutput.getDownRigth_X() > InOutput.getUpLeft_X() || InOutput.height() <= 0)
-	//									{
-	//										InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//									}
-	//								}
-	//								else
-	//									if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() < InOutput.getUpLeft_X())
-	//									{
-	//										InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//										if (InOutput.getDownRigth_Y() > InOutput.getUpLeft_Y() || InOutput.height() <= 0)
-	//										{
-	//											InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//										}
-	//									}
-	//									else
-	//										if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() && InOutput.getDownRigth_X() >= InOutput.getUpLeft_X())
-	//										{
-	//											InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//											if (InOutput.getDownRigth_X() < InOutput.getUpLeft_X() || InOutput.height() <= 0)
-	//											{
-	//												InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//											}
-	//										}
-	//						}
-	//						else
-	//						{
-	//							InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//							InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//						}
-	//			}
-	//			else if (!up_or_left)
-	//			{
-	//				down_or_right = true;
-	//				if (((y_labl > InOutput.getUpY(x_lablG) && x_labl > InOutput.getLeftX(y_lablG)) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//					|| (f_x_pixMap < InOutput.getUpX(y_lablG) && y_labl > InOutput.getLeftY(x_lablG) && x_labl < InOutput.getUpX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//					|| (f_x_pixMap > InOutput.getUpX(y_lablG) && y_labl < InOutput.getLeftY(x_lablG) && x_labl > InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//					|| ((y_labl < InOutput.getUpY(x_lablG) && x_labl < InOutput.getLeftX(y_lablG)) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//				{
-	//					double dh{ 0 };
-	//					double dw{ 0 };
+	if (getResizeType() == Resize_Y)
+	{
+		double dy_first{ 0 };
 
-	//					if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//					{
-	//						dh = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownY(x_labl));
-	//						dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
-	//					}
-	//					else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//					{
-	//						dh = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownX(y_labl));
-	//						dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
-	//					}
-	//					InOutput.setHeight(InOutput.height() + static_cast<int>(dh), this->getOriginalImgSize());
-	//					InOutput.setWidth(InOutput.width() + static_cast<int>(dw), this->getOriginalImgSize());
-	//					if (InOutput.height() <= 0)
-	//					{
-	//						InOutput.setHeight(1);
-	//					}
-	//					if (InOutput.width() <= 0)
-	//					{
-	//						InOutput.setWidth(1);
-	//					}
-	//				}
-	//				else
-	//					if ((y_labl <= InOutput.getUpY(x_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//						|| (f_x_pixMap < InOutput.getUpX(y_lablG) && x_labl >= InOutput.getUpX(y_lablG) + 1 && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//						|| (f_x_pixMap > InOutput.getUpX(y_lablG) && x_labl <= InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//						|| (y_labl >= InOutput.getUpY(x_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//					{
-	//						InOutput.setHeight(1);
-	//						double dw{ 0 };
-	//						if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//						{
-	//							dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
-	//						}
-	//						else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//						{
-	//							dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
-	//						}
-	//						InOutput.setWidth(InOutput.width() + static_cast<int>(dw), this->getOriginalImgSize());
-	//						if (InOutput.width() <= 0)
-	//						{
-	//							InOutput.setWidth(1);
-	//						}
-	//					}
-	//					else
-	//						if ((x_labl <= InOutput.getLeftX(y_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//							|| (f_x_pixMap < InOutput.getUpX(y_lablG) && x_labl <= InOutput.getUpX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//							|| (f_x_pixMap > InOutput.getUpX(y_lablG) && x_labl >= InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//							|| (x_labl >= InOutput.getLeftX(y_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//						{
-	//							InOutput.setWidth(1);
-	//							double dh{ 0 };
-	//							bool dh_isMinus{ false };
-	//							if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//							{
-	//								dh = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownY(x_labl));
-	//							}
-	//							else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//							{
-	//								dh = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownX(y_labl));
-	//								dh_isMinus = false;
-	//							}
-	//							InOutput.setHeight(InOutput.height() + static_cast<int>(dh), this->getOriginalImgSize());
-	//							if (InOutput.height() <= 0)
-	//							{
-	//								InOutput.setHeight(1);
-	//							}
-	//						}
-	//						else
-	//						{
-	//							InOutput.setHeight(1);
-	//							InOutput.setWidth(1);
-	//						}
-	//			}
-	//		}
-	//		else
-	//			if ((this->cursor().shape() == Qt::SizeBDiagCursor && (((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5)) || (rotAngel >= 157.5 && rotAngel < 202.5)))
-	//				|| (this->cursor().shape() == Qt::SizeFDiagCursor && ((rotAngel >= 67.5 && rotAngel < 112.5) || (rotAngel >= 247.5 && rotAngel < 292.5)))
-	//				|| (this->cursor().shape() == Qt::SizeHorCursor && ((rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 202.5 && rotAngel < 247.5)))
-	//				|| (this->cursor().shape() == Qt::SizeVerCursor && ((rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 292.5 && rotAngel < 337.5))))
+		bool dy_isSet{ false };
+		bool dy_isMinus{ false };
+		if (((rotationAngle >= 67.5 && rotationAngle < 112.5) && x_labl > getDownX(y_labl))
+			|| ((rotationAngle >= 247.5 && rotationAngle < 292.5) && x_labl < getDownX(y_labl)))
+		{
+			dy_first = sin(getRotateAngel(true)) * (x_labl - getUpX(y_labl));
+			dy_isMinus = true;
+		}
+		else if ((y_labl < getDownY(x_labl) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (y_labl > getDownY(x_labl) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5))))
+		{
+			dy_first = cos(getRotateAngel(true)) * (y_labl - getUpY(x_labl));
+		}
+		else
+		{
+			setY(y() + height() - 1);
+			dy_isSet = true;
+		}
+		if (!dy_isSet)
+		{
+			if (dy_isMinus)
+			{
+				setY(y() - static_cast<int>(dy_first), boundingSize);
+			}
+			else
+			{
+				setY(y() + static_cast<int>(dy_first), boundingSize);
+			}
+		}
+	}
+	else if (getResizeType() == Resize_Height)
+	{
+		bool dh_isSet{ false };
+		bool dh_isMinus{ false };
+		double dh_first{ 0 };
+		if (((rotationAngle >= 67.5 && rotationAngle < 112.5) && x_labl < getUpX(y_labl))
+			|| ((rotationAngle >= 247.5 && rotationAngle < 292.5) && x_labl > getUpX(y_labl)))
+		{
+			dh_first = sin(getRotateAngel(true)) * (x_labl - getDownX(y_labl));
+			dh_isMinus = true;
+		}
+		else if ((y_labl > getUpY(x_labl) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (y_labl < getUpY(x_labl) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5))))
+		{
+			dh_first = cos(getRotateAngel(true)) * (y_labl - getDownY(x_labl));
+		}
+		else
+		{
+			setHeight(1);
+			dh_isSet = true;
+		}
+		if (!dh_isSet)
+		{
+			if (dh_isMinus)
+			{
+				setHeight(height() - static_cast<int>(dh_first), boundingSize);
+			}
+			else
+			{
+				setHeight(height() + static_cast<int>(dh_first), boundingSize);
+			}
+		}
+	}
+	else if (getResizeType() == Resize_XAndY)
+	{
+		if (((y_labl < getDownY(x_lablG) && x_labl < getRigthX(y_lablG)) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap > getDownX(y_lablG) && y_labl < getRigthY(x_lablG) && x_labl > getDownX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap < getDownX(y_lablG) && y_labl > getRigthY(x_lablG) && x_labl < getDownX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| ((y_labl > getDownY(x_lablG) && x_labl > getRigthX(y_lablG)) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			double dy{ 0 };
+			double dx{ 0 };
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dy = cos(getRotateAngel(true)) * (y_labl - getUpLeft_Y());
+				dx = cos(getRotateAngel(true)) * (x_labl - getUpLeft_X());
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dy = -sin(getRotateAngel(true)) * (x_labl - getUpLeft_X());
+				dx = sin(getRotateAngel(true)) * (y_labl - getUpLeft_Y());
+			}
+			setY(y() + static_cast<int>(dy), boundingSize);
+			setX(x() + static_cast<int>(dx), boundingSize);
+			if (height() <= 0)
+			{
+				setY(y() + height() - 1);
+			}
+			if (width() <= 0)
+			{
+				setX(x() + width() - 1);
+			}
+		}
+		else
+			if ((y_labl >= getDownY(x_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+				|| (f_x_pixMap > getDownX(y_lablG) && x_labl <= getDownX(y_lablG) + 1 && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+				|| (f_x_pixMap < getDownX(y_lablG) && x_labl >= getDownX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+				|| (y_labl <= getDownY(x_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+			{
+				setY(y() + height() - 1);
+				double dx{ 0 };
+				if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+				{
+					dx = cos(getRotateAngel(true)) * (x_labl - getUpLeft_X());
+				}
+				else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+				{
+					dx = sin(getRotateAngel(true)) * (y_labl - getUpLeft_Y());
+				}
 
-	//			{
-	//				if (((f_x_pixMap > InOutput.getDownLeft_X() && (rotAngel >= 0 && rotAngel < 90))
-	//					|| (f_y_pixMap > InOutput.getDownLeft_Y() && (rotAngel >= 90 && rotAngel < 180))
-	//					|| (f_x_pixMap < InOutput.getDownLeft_X() && (rotAngel >= 180 && rotAngel < 270))
-	//					|| (f_y_pixMap < InOutput.getDownLeft_Y() && (rotAngel >= 270 && rotAngel <= 360)))
-	//					&& !down_or_right)
-	//				{
-	//					up_or_left = true;
-	//					if (((y_labl < InOutput.getDownY(x_lablG) && x_labl > InOutput.getLeftX(y_lablG)) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//						|| (f_x_pixMap > InOutput.getDownX(y_lablG) && y_labl > InOutput.getLeftY(x_lablG) && x_labl > InOutput.getDownX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//						|| (f_x_pixMap < InOutput.getDownX(y_lablG) && y_labl < InOutput.getLeftY(x_lablG) && x_labl < InOutput.getDownX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//						|| ((y_labl > InOutput.getDownY(x_lablG) && x_labl < InOutput.getLeftX(y_lablG)) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//					{
-	//						double dy{ 0 };
-	//						double dw{ 0 };
-	//						if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//						{
-	//							dy = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpRigth_Y());
-	//							dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
-	//						}
-	//						else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//						{
-	//							dy = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpRigth_X());
-	//							dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
-	//						}
-	//						InOutput.setWidth(InOutput.width() + static_cast<int>(dw), this->getOriginalImgSize());
-	//						InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//						if (InOutput.height() <= 0)
-	//						{
-	//							InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//						}
-	//						if (InOutput.width() <= 0)
-	//						{
-	//							InOutput.setWidth(1);
-	//						}
-	//					}
-	//					else
-	//						if ((y_labl >= InOutput.getDownY(x_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//							|| (f_x_pixMap > InOutput.getDownX(y_lablG) && x_labl <= InOutput.getDownX(y_lablG) + 1 && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//							|| (f_x_pixMap < InOutput.getDownX(y_lablG) && x_labl >= InOutput.getDownX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//							|| (y_labl <= InOutput.getDownY(x_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//						{
-	//							InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//							double dw{ 0 };
-	//							if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//							{
-	//								dw = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getRigthX(y_labl));
-	//							}
-	//							else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//							{
-	//								dw = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getRigthY(x_labl));
-	//							}
-	//							InOutput.setWidth(InOutput.width() + static_cast<int>(dw), this->getOriginalImgSize());
-	//							if (InOutput.width() <= 0)
-	//							{
-	//								InOutput.setWidth(1);
-	//							}
-	//						}
-	//						else
-	//							if ((x_labl <= InOutput.getLeftX(y_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//								|| (f_x_pixMap > InOutput.getDownX(y_lablG) && y_labl <= InOutput.getRigthY(x_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//								|| (f_x_pixMap < InOutput.getDownX(y_lablG) && x_labl <= InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//								|| (x_labl >= InOutput.getLeftX(y_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//							{
-	//								InOutput.setWidth(1);
-	//								double dy{ 0 };
-	//								if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//								{
-	//									dy = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpRigth_Y());
-	//								}
-	//								else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//								{
-	//									dy = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getUpRigth_X());
-	//								}
-	//								if (InOutput.getDownLeft_Y() >= InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() < InOutput.getUpRigth_X())
-	//								{
-	//									InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//									if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() || InOutput.height() <= 0)
-	//									{
-	//										InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//									}
-	//								}
-	//								else
-	//									if (InOutput.getDownLeft_Y() < InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() < InOutput.getUpRigth_X())
-	//									{
-	//										InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//										if (InOutput.getDownRigth_X() > InOutput.getUpLeft_X() || InOutput.height() <= 0)
-	//										{
-	//											InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//										}
-	//									}
-	//									else
-	//										if (InOutput.getDownLeft_Y() < InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() >= InOutput.getUpRigth_X())
-	//										{
-	//											InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//											if (InOutput.getDownRigth_Y() > InOutput.getUpLeft_Y() || InOutput.height() <= 0)
-	//											{
-	//												InOutput.setY(InOutput.y() + InOutput.height() - 1);
+				if (getDownRigth_Y() >= getUpLeft_Y() && getDownRigth_X() >= getUpLeft_X())
+				{
+					setX(x() + static_cast<int>(dx), boundingSize);
+					if ((getDownRigth_X() < getUpLeft_X() || width() <= 0))
+					{
+						setX(x() + width() - 1);
+					}
+				}
+				else
+				if (getDownRigth_Y() >= getUpLeft_Y() && getDownRigth_X() < getUpLeft_X())
+				{
+					setX(x() + static_cast<int>(dx), boundingSize);
+					if (getDownRigth_Y() < getUpLeft_Y() || width() <= 0)
+					{
+						setX(x() + width() - 1);
+					}
+				}
+				else
+				if (getDownRigth_Y() < getUpLeft_Y() && getDownRigth_X() < getUpLeft_X())
+				{
+					setX(x() + static_cast<int>(dx), boundingSize);
+					if (getDownRigth_X() > getUpLeft_X() || width() <= 0)
+					{
+						setX(x() + width() - 1);
+					}
+				}
+				else
+				if (getDownRigth_Y() < getUpLeft_Y() && getDownRigth_X() >= getUpLeft_X())
+				{
+					setX(x() + static_cast<int>(dx), boundingSize);
+					if (getDownRigth_Y() > getUpLeft_Y() || width() <= 0)
+					{
+						setX(x() + width() - 1);
+					}
+				}
+			}
+			else
+				if ((x_labl >= getRigthX(y_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+					|| (f_x_pixMap > getDownX(y_lablG) && x_labl >= getDownRigth_X() && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+					|| (f_x_pixMap < getDownX(y_lablG) && x_labl <= getDownRigth_X() && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+					|| (x_labl <= getRigthX(y_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+				{
+					setX(x() + width() - 1);
+					double dy{ 0 };
+					bool dy_isMinus{ false };
+					if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+					{
+						dy = cos(getRotateAngel(true)) * (y_labl - getUpLeft_Y());
+					}
+					else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+					{
+						dy = -sin(getRotateAngel(true)) * (x_labl - getUpLeft_X());
+						dy_isMinus = true;
+					}
+					if (getDownRigth_Y() >= getUpLeft_Y() && getDownRigth_X() >= getUpLeft_X())
+					{
+						setY(y() + static_cast<int>(dy), boundingSize);
+						if (getDownRigth_Y() < getUpLeft_Y() || height() <= 0)
+						{
+							setY(y() + height() - 1);
+						}
+					}
+					else
+					if (getDownRigth_Y() >= getUpLeft_Y() && getDownRigth_X() < getUpLeft_X())
+					{
+						setY(y() + static_cast<int>(dy), boundingSize);
+						if (getDownRigth_X() > getUpLeft_X() || height() <= 0)
+						{
+							setY(y() + height() - 1);
+						}
+					}
+					else
+					if (getDownRigth_Y() < getUpLeft_Y() && getDownRigth_X() < getUpLeft_X())
+					{
+						setY(y() + static_cast<int>(dy), boundingSize);
+						if (getDownRigth_Y() > getUpLeft_Y() || height() <= 0)
+						{
+							setY(y() + height() - 1);
+						}
+					}
+					else
+					if (getDownRigth_Y() < getUpLeft_Y() && getDownRigth_X() >= getUpLeft_X())
+					{
+						setY(y() + static_cast<int>(dy), boundingSize);
+						if (getDownRigth_X() < getUpLeft_X() || height() <= 0)
+						{
+							setY(y() + height() - 1);
+						}
+					}
+				}
+				else
+				{
+					setX(x() + width() - 1);
+					setY(y() + height() - 1);
+				}
+	}
+	else if (getResizeType() == Resize_HeigthAndWidth)
+	{
+		if (((y_labl > getUpY(x_lablG) && x_labl > getLeftX(y_lablG)) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap < getUpX(y_lablG) && y_labl > getLeftY(x_lablG) && x_labl < getUpX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap > getUpX(y_lablG) && y_labl < getLeftY(x_lablG) && x_labl > getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| ((y_labl < getUpY(x_lablG) && x_labl < getLeftX(y_lablG)) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			double dh{ 0 };
+			double dw{ 0 };
 
-	//											}
-	//										}
-	//										else
-	//											if (InOutput.getDownLeft_Y() >= InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() >= InOutput.getUpRigth_X())
-	//											{
-	//												InOutput.setY(InOutput.y() + static_cast<int>(dy), this->getOriginalImgSize());
-	//												if (InOutput.getDownRigth_X() < InOutput.getUpLeft_X() || InOutput.height() <= 0)
-	//												{
-	//													InOutput.setY(InOutput.y() + InOutput.height() - 1);
-	//												}
-	//											}
-	//							}
-	//							else
-	//							{
-	//								InOutput.setHeight(1);
-	//								InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//							}
-	//				}
-	//				else if (!up_or_left)
-	//				{
-	//					down_or_right = true;
-	//					if (((y_labl > InOutput.getUpY(x_lablG) && x_labl < InOutput.getRigthX(y_lablG)) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//						|| (f_x_pixMap < InOutput.getUpX(y_lablG) && y_labl < InOutput.getRigthY(x_lablG) && x_labl < InOutput.getUpX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//						|| (f_x_pixMap > InOutput.getUpX(y_lablG) && y_labl > InOutput.getRigthY(x_lablG) && x_labl > InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//						|| ((y_labl < InOutput.getUpY(x_lablG) && x_labl > InOutput.getRigthX(y_lablG)) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//					{
-	//						double dx{ 0 };
-	//						double dh{ 0 };
-	//						if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//						{
-	//							dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownLeft_X());
-	//							dh = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownY(x_labl));
-	//						}
-	//						else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//						{
-	//							dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownLeft_Y());
-	//							dh = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownX(y_labl));
-	//						}
-	//						InOutput.setHeight(InOutput.height() + static_cast<int>(dh), this->getOriginalImgSize());
-	//						InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//						if (InOutput.width() <= 0)
-	//						{
-	//							InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//						}
-	//						if (InOutput.height() <= 0)
-	//						{
-	//							InOutput.setHeight(1);
-	//						}
-	//					}
-	//					else
-	//						if ((y_labl <= InOutput.getUpY(x_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//							|| (f_x_pixMap < InOutput.getUpX(y_lablG) && x_labl >= InOutput.getUpX(y_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//							|| (f_x_pixMap > InOutput.getUpX(y_lablG) && x_labl <= InOutput.getUpX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//							|| (y_labl >= InOutput.getUpY(x_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//						{
-	//							InOutput.setHeight(1);
-	//							double dx{ 0 };
-	//							if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//							{
-	//								dx = cos(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownLeft_X());
-	//							}
-	//							else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//							{
-	//								dx = sin(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getUpLeft_Y());
-	//							}
-	//							if (InOutput.getDownLeft_Y() >= InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() < InOutput.getUpRigth_X())
-	//							{
-	//								InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//								if ((InOutput.getDownRigth_X() < InOutput.getUpLeft_X() || InOutput.width() <= 0))
-	//								{
-	//									InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//								}
-	//							}
-	//							else
-	//								if (InOutput.getDownLeft_Y() < InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() < InOutput.getUpRigth_X())
-	//								{
-	//									InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//									if (InOutput.getDownRigth_Y() < InOutput.getUpLeft_Y() || InOutput.width() <= 0)
-	//									{
-	//										InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//									}
-	//								}
-	//								else
-	//									if (InOutput.getDownLeft_Y() < InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() >= InOutput.getUpRigth_X())
-	//									{
-	//										InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());					//InOutput.setX(InOutput.x() + static_cast<int>(outForBoard_X(&InOutput, dx, true)));
-	//										if (InOutput.getDownRigth_X() > InOutput.getUpLeft_X() || InOutput.width() <= 0)
-	//										{
-	//											InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//											//InOutput.setDrowPoint(QPoint(InOutput.x() - InOutput.getTranslatePoint().x(), InOutput.y() - InOutput.getTranslatePoint().y()));
-	//										}
-	//									}
-	//									else
-	//										if (InOutput.getDownLeft_Y() >= InOutput.getUpRigth_Y() && InOutput.getDownLeft_X() >= InOutput.getUpRigth_X())
-	//										{
-	//											InOutput.setX(InOutput.x() + static_cast<int>(dx), this->getOriginalImgSize());
-	//											if (InOutput.getDownRigth_Y() > InOutput.getUpLeft_Y() || InOutput.width() <= 0)
-	//											{
-	//												InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//											}
-	//										}
-	//						}
-	//						else
-	//							if ((x_labl >= InOutput.getRigthX(y_lablG) && ((rotAngel >= 337.5 && rotAngel <= 360) || (rotAngel >= 0 && rotAngel < 22.5) || (rotAngel >= 22.5 && rotAngel < 67.5) || (rotAngel >= 292.5 && rotAngel < 337.5)))
-	//								|| (f_x_pixMap < InOutput.getUpX(y_lablG) && y_labl >= InOutput.getRigthY(x_lablG) && (rotAngel >= 67.5 && rotAngel < 112.5))
-	//								|| (f_x_pixMap > InOutput.getUpX(y_lablG) && x_labl <= InOutput.getDownX(y_lablG) && (rotAngel >= 247.5 && rotAngel < 292.5))
-	//								|| (x_labl <= InOutput.getRigthX(y_lablG) && ((rotAngel >= 157.5 && rotAngel < 202.5) || (rotAngel >= 112.5 && rotAngel < 157.5) || (rotAngel >= 202.5 && rotAngel < 247.5) || (rotAngel >= 247.5 && rotAngel < 292.5))))
-	//							{
-	//								InOutput.setX(InOutput.x() + InOutput.width() - 1);
-	//								double dh{ 0 };
-	//								if ((rotAngel >= 315.0 && rotAngel <= 360.0) || (rotAngel >= 0.0 && rotAngel < 45.0) || (rotAngel >= 135.0 && rotAngel < 225.0))
-	//								{
-	//									dh = cos(InOutput.getRotateAngel(true)) * (y_labl - InOutput.getDownY(x_labl));
-	//								}
-	//								else if ((rotAngel >= 45.0 && rotAngel < 135.0) || (rotAngel >= 225.0 && rotAngel < 315.0))
-	//								{
-	//									dh = -sin(InOutput.getRotateAngel(true)) * (x_labl - InOutput.getDownX(y_labl));
-	//								}
-	//								InOutput.setHeight(InOutput.height() + static_cast<int>(dh), this->getOriginalImgSize());
-	//								if (InOutput.height() <= 0)
-	//								{
-	//									InOutput.setHeight(1);
-	//								}
-	//							}
-	//							else
-	//							{
-	//							}
-	//				}
-	//			}
-	//InOutput.setTranslatePoint(QPoint(InOutput.x() + cos(InOutput.getRotateAngel(true)) * InOutput.width() / 2, InOutput.y() + sin(InOutput.getRotateAngel(true)) * InOutput.height() / 2));
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dh = cos(getRotateAngel(true)) * (y_labl - getDownY(x_labl));
+				dw = cos(getRotateAngel(true)) * (x_labl - getRigthX(y_labl));
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dh = -sin(getRotateAngel(true)) * (x_labl - getDownX(y_labl));
+				dw = sin(getRotateAngel(true)) * (y_labl - getRigthY(x_labl));
+			}
+			setHeight(height() + static_cast<int>(dh), boundingSize);
+			setWidth(width() + static_cast<int>(dw), boundingSize);
+			if (height() <= 0)
+			{
+				setHeight(1);
+			}
+			if (width() <= 0)
+			{
+				setWidth(1);
+			}
+		}
+		else
+			if ((y_labl <= getUpY(x_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+				|| (f_x_pixMap < getUpX(y_lablG) && x_labl >= getUpX(y_lablG) + 1 && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+				|| (f_x_pixMap > getUpX(y_lablG) && x_labl <= getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+				|| (y_labl >= getUpY(x_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+			{
+				setHeight(1);
+				double dw{ 0 };
+				if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+				{
+					dw = cos(getRotateAngel(true)) * (x_labl - getRigthX(y_labl));
+				}
+				else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+				{
+					dw = sin(getRotateAngel(true)) * (y_labl - getRigthY(x_labl));
+				}
+				setWidth(width() + static_cast<int>(dw), boundingSize);
+				if (width() <= 0)
+				{
+					setWidth(1);
+				}
+			}
+			else
+			if ((x_labl <= getLeftX(y_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+				|| (f_x_pixMap < getUpX(y_lablG) && x_labl <= getUpX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+				|| (f_x_pixMap > getUpX(y_lablG) && x_labl >= getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+				|| (x_labl >= getLeftX(y_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+			{
+				setWidth(1);
+				double dh{ 0 };
+				bool dh_isMinus{ false };
+				if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+				{
+					dh = cos(getRotateAngel(true)) * (y_labl - getDownY(x_labl));
+				}
+				else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+				{
+					dh = -sin(getRotateAngel(true)) * (x_labl - getDownX(y_labl));
+					dh_isMinus = false;
+				}
+				setHeight(height() + static_cast<int>(dh), boundingSize);
+				if (height() <= 0)
+				{
+					setHeight(1);
+				}
+			}
+			else
+			{
+				setHeight(1);
+				setWidth(1);
+			}
+	}
+	
+	else if (getResizeType() == Resize_YAndWidth)
+	{
+		if (((y_labl < getDownY(x_lablG) && x_labl > getLeftX(y_lablG)) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap > getDownX(y_lablG) && y_labl > getLeftY(x_lablG) && x_labl > getDownX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap < getDownX(y_lablG) && y_labl < getLeftY(x_lablG) && x_labl < getDownX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| ((y_labl > getDownY(x_lablG) && x_labl < getLeftX(y_lablG)) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			double dy{ 0 };
+			double dw{ 0 };
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dy = cos(getRotateAngel(true)) * (y_labl - getUpRigth_Y());
+				dw = cos(getRotateAngel(true)) * (x_labl - getRigthX(y_labl));
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dy = -sin(getRotateAngel(true)) * (x_labl - getUpRigth_X());
+				dw = sin(getRotateAngel(true)) * (y_labl - getRigthY(x_labl));
+			}
+			setWidth(width() + static_cast<int>(dw), boundingSize);
+			setY(y() + static_cast<int>(dy), boundingSize);
+			if (height() <= 0)
+			{
+				setY(y() + height() - 1);
+			}
+			if (width() <= 0)
+			{
+				setWidth(1);
+			}
+		}
+		else
+		if ((y_labl >= getDownY(x_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap > getDownX(y_lablG) && x_labl <= getDownX(y_lablG) + 1 && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap < getDownX(y_lablG) && x_labl >= getDownX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| (y_labl <= getDownY(x_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			setY(y() + height() - 1);
+			double dw{ 0 };
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dw = cos(getRotateAngel(true)) * (x_labl - getRigthX(y_labl));
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dw = sin(getRotateAngel(true)) * (y_labl - getRigthY(x_labl));
+			}
+			setWidth(width() + static_cast<int>(dw), boundingSize);
+			if (width() <= 0)
+			{
+				setWidth(1);
+			}
+		}
+		else
+		if ((x_labl <= getLeftX(y_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap > getDownX(y_lablG) && y_labl <= getRigthY(x_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap < getDownX(y_lablG) && x_labl <= getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| (x_labl >= getLeftX(y_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			setWidth(1);
+			double dy{ 0 };
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dy = cos(getRotateAngel(true)) * (y_labl - getUpRigth_Y());
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dy = -sin(getRotateAngel(true)) * (x_labl - getUpRigth_X());
+			}
+			if (getDownLeft_Y() >= getUpRigth_Y() && getDownLeft_X() < getUpRigth_X())
+			{
+				setY(y() + static_cast<int>(dy), boundingSize);
+				if (getDownRigth_Y() < getUpLeft_Y() || height() <= 0)
+				{
+					setY(y() + height() - 1);
+				}
+			}
+			else
+			if (getDownLeft_Y() < getUpRigth_Y() && getDownLeft_X() < getUpRigth_X())
+			{
+				setY(y() + static_cast<int>(dy), boundingSize);
+				if (getDownRigth_X() > getUpLeft_X() || height() <= 0)
+				{
+					setY(y() + height() - 1);
+				}
+			}
+			else
+			if (getDownLeft_Y() < getUpRigth_Y() && getDownLeft_X() >= getUpRigth_X())
+			{
+				setY(y() + static_cast<int>(dy), boundingSize);
+				if (getDownRigth_Y() > getUpLeft_Y() || height() <= 0)
+				{
+					setY(y() + height() - 1);
+
+				}
+			}
+			else
+			if (getDownLeft_Y() >= getUpRigth_Y() && getDownLeft_X() >= getUpRigth_X())
+			{
+				setY(y() + static_cast<int>(dy), boundingSize);
+				if (getDownRigth_X() < getUpLeft_X() || height() <= 0)
+				{
+					setY(y() + height() - 1);
+				}
+			}
+		}
+		else
+		{
+			setHeight(1);
+			setX(x() + width() - 1);
+		}
+	}
+	else if (getResizeType() == Resize_XAndHeight)
+	{
+		if (((y_labl > getUpY(x_lablG) && x_labl < getRigthX(y_lablG)) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+			|| (f_x_pixMap < getUpX(y_lablG) && y_labl < getRigthY(x_lablG) && x_labl < getUpX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+			|| (f_x_pixMap > getUpX(y_lablG) && y_labl > getRigthY(x_lablG) && x_labl > getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+			|| ((y_labl < getUpY(x_lablG) && x_labl > getRigthX(y_lablG)) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+		{
+			double dx{ 0 };
+			double dh{ 0 };
+			if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+			{
+				dx = cos(getRotateAngel(true)) * (x_labl - getDownLeft_X());
+				dh = cos(getRotateAngel(true)) * (y_labl - getDownY(x_labl));
+			}
+			else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+			{
+				dx = sin(getRotateAngel(true)) * (y_labl - getDownLeft_Y());
+				dh = -sin(getRotateAngel(true)) * (x_labl - getDownX(y_labl));
+			}
+			setHeight(height() + static_cast<int>(dh), boundingSize);
+			setX(x() + static_cast<int>(dx), boundingSize);
+			if (width() <= 0)
+			{
+				setX(x() + width() - 1);
+			}
+			if (height() <= 0)
+			{
+				setHeight(1);
+			}
+		}
+		else
+			if ((y_labl <= getUpY(x_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+				|| (f_x_pixMap < getUpX(y_lablG) && x_labl >= getUpX(y_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+				|| (f_x_pixMap > getUpX(y_lablG) && x_labl <= getUpX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+				|| (y_labl >= getUpY(x_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+			{
+				setHeight(1);
+				double dx{ 0 };
+				if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+				{
+					dx = cos(getRotateAngel(true)) * (x_labl - getDownLeft_X());
+				}
+				else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+				{
+					dx = sin(getRotateAngel(true)) * (y_labl - getUpLeft_Y());
+				}
+				if (getDownLeft_Y() >= getUpRigth_Y() && getDownLeft_X() < getUpRigth_X())
+				{
+					setX(x() + static_cast<int>(dx), boundingSize);
+					if ((getDownRigth_X() < getUpLeft_X() || width() <= 0))
+					{
+						setX(x() + width() - 1);
+					}
+				}
+				else
+					if (getDownLeft_Y() < getUpRigth_Y() && getDownLeft_X() < getUpRigth_X())
+					{
+						setX(x() + static_cast<int>(dx), boundingSize);
+						if (getDownRigth_Y() < getUpLeft_Y() || width() <= 0)
+						{
+							setX(x() + width() - 1);
+						}
+					}
+					else
+						if (getDownLeft_Y() < getUpRigth_Y() && getDownLeft_X() >= getUpRigth_X())
+						{
+							setX(x() + static_cast<int>(dx), boundingSize);					
+							if (getDownRigth_X() > getUpLeft_X() || width() <= 0)
+							{
+								setX(x() + width() - 1);
+							}
+						}
+						else
+							if (getDownLeft_Y() >= getUpRigth_Y() && getDownLeft_X() >= getUpRigth_X())
+							{
+								setX(x() + static_cast<int>(dx), boundingSize);
+								if (getDownRigth_Y() > getUpLeft_Y() || width() <= 0)
+								{
+									setX(x() + width() - 1);
+								}
+							}
+			}
+			else
+				if ((x_labl >= getRigthX(y_lablG) && ((rotationAngle >= 337.5 && rotationAngle <= 360) || (rotationAngle >= 0 && rotationAngle < 22.5) || (rotationAngle >= 22.5 && rotationAngle < 67.5) || (rotationAngle >= 292.5 && rotationAngle < 337.5)))
+					|| (f_x_pixMap < getUpX(y_lablG) && y_labl >= getRigthY(x_lablG) && (rotationAngle >= 67.5 && rotationAngle < 112.5))
+					|| (f_x_pixMap > getUpX(y_lablG) && x_labl <= getDownX(y_lablG) && (rotationAngle >= 247.5 && rotationAngle < 292.5))
+					|| (x_labl <= getRigthX(y_lablG) && ((rotationAngle >= 157.5 && rotationAngle < 202.5) || (rotationAngle >= 112.5 && rotationAngle < 157.5) || (rotationAngle >= 202.5 && rotationAngle < 247.5) || (rotationAngle >= 247.5 && rotationAngle < 292.5))))
+				{
+					setX(x() + width() - 1);
+					double dh{ 0 };
+					if ((rotationAngle >= 315.0 && rotationAngle <= 360.0) || (rotationAngle >= 0.0 && rotationAngle < 45.0) || (rotationAngle >= 135.0 && rotationAngle < 225.0))
+					{
+						dh = cos(getRotateAngel(true)) * (y_labl - getDownY(x_labl));
+					}
+					else if ((rotationAngle >= 45.0 && rotationAngle < 135.0) || (rotationAngle >= 225.0 && rotationAngle < 315.0))
+					{
+						dh = -sin(getRotateAngel(true)) * (x_labl - getDownX(y_labl));
+					}
+					setHeight(height() + static_cast<int>(dh), boundingSize);
+					if (height() <= 0)
+					{
+						setHeight(1);
+					}
+				}
+				else
+				{
+				}
+	}
+	setTranslatePoint(QPoint(x() + cos(getRotateAngel(true)) * width() / 2, y() + sin(getRotateAngel(true)) * height() / 2));
 }
 
 //QPointF QtRotateRect::getEdgePoint(int typePoint)
@@ -1386,6 +1340,41 @@ QRect QtRotateRect::getRotateRectSize()
 QPoint QtRotateRect::getUpLeftPoint()
 {
 	return QPoint(getMin_X(), getMin_Y());
+}
+
+void QtRotateRect::changePosition(QPoint const imgPoint, QPoint const firstPoint, QSize boundingSize)
+{
+	int step_X{ imgPoint.x() - firstPoint.x() };
+	int step_Y{ imgPoint.y() - firstPoint.y() };
+	if (trunc(getMin_X()) + step_X < 1)
+	{
+		step_X = 0;
+	}
+	else if (trunc(getMax_X()) + step_X > boundingSize.width() - 1)
+	{
+		step_X = 0;
+	}
+	if (trunc(getMin_Y()) + step_Y < 1)
+	{
+		step_Y = 0;
+	}
+	else if (trunc(getMax_Y()) + step_Y > boundingSize.height() - 1)
+	{
+		step_Y = 0;
+	}
+	upLeftAngel_X += step_X;
+	upLeftAngel_Y += step_Y;
+	upRigAngel_X += step_X;
+	upRigAngel_Y += step_Y;
+	downLeftAngel_X += step_X;
+	downLeftAngel_Y += step_Y;
+	downRigAngel_X += step_X;
+	downRigAngel_Y += step_Y;
+}
+
+int QtRotateRect::getResizeType()
+{
+	return activResizeType_;
 }
 
 void QtRotateRect::setResizeType(int activType)

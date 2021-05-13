@@ -41,6 +41,10 @@ class QtGuiDisplay : public QWidget
 	bool setObj;
 	bool isProcessingActiv;
 	bool isZoomNow;
+	void setCursor_àorChangesTopBotton(double rotateAngel);
+	void setCursor_àorChangesRightLeft(double rotateAngel);
+	void setCursor_àorChangesTopRight_BottonLeft(double rotateAngel);
+	void setCursor_àorChangesTopLeft_BottonRight(double rotateAngel);
 public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();

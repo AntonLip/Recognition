@@ -88,6 +88,7 @@ public:
 	void toImgCoordinate(int &inOutX, int &inOutY, bool isContains=true);
 	void toImgCoordinate_(int &inOutX, int &inOutY, bool isContains=true);
 	QPoint getImageCoordinate(bool isContains=true);
+	QPoint getFirstImagePoint();
 	void formatImage(int formatType = 0); //0-original, 1-gray, 2-RGB
 	void update_myPixmap(const QPixmap& img);
 	double get_activScaled();

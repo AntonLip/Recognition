@@ -80,9 +80,11 @@ public:
 	int getRigthX(int y);
 	int getRigthY(int x);
 	int getLeftY(int x);
-	void resizeRect(QPoint imgPoint, QPoint globalImgPoint, QPoint& firstPoint, Qt::CursorShape cursorShape);
+	void resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize *boundingSize);
+	void changePosition(QPoint const imgPoint, QPoint const firstPoint, QSize boundingSize);
 	QPointF getEdgePoint(int typePoint);
 	QRect getRotateRectSize();
 	QPoint getUpLeftPoint();
 	void setResizeType(int activType);
+	int getResizeType();
 };
