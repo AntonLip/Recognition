@@ -1306,7 +1306,7 @@ void QtRotateRect::resizeRect(QPoint const imgPoint, QPoint const globalImgPoint
 				{
 				}
 	}
-	setTranslatePoint(QPoint(x() + cos(getRotateAngel(true)) * width() / 2, y() + sin(getRotateAngel(true)) * height() / 2));
+	//setTranslatePoint(QPoint(x() + cos(getRotateAngel(true)) * width() / 2, y() + sin(getRotateAngel(true)) * height() / 2));
 }
 
 //QPointF QtRotateRect::getEdgePoint(int typePoint)
@@ -1370,6 +1370,36 @@ void QtRotateRect::changePosition(QPoint const imgPoint, QPoint const firstPoint
 	downLeftAngel_Y += step_Y;
 	downRigAngel_X += step_X;
 	downRigAngel_Y += step_Y;
+}
+
+void QtRotateRect::changeAngel(QPoint const imgPoint, QSize boundingSize)
+{
+	double point_X{ static_cast<double>(getMin_X()) + static_cast<double>(getMax_X() - getMin_X()) / 2 + 1 };
+	double point_Y{ static_cast<double>(getMin_Y()) + static_cast<double>(getMax_Y() - getMin_Y()) / 2 + 1 };
+	QPointF buferPoint{ static_cast<float>(point_X),static_cast<float>(point_Y - height() / 2) };
+	double len_v1{ std::sqrt(std::pow(point_X - buferPoint.x(),2) + std::pow(point_Y - buferPoint.y(),2)) };
+	double len_v2{ std::sqrt(std::pow(point_X - imgPoint.x(),2) + std::pow(point_Y - imgPoint.y(),2)) };
+	QPointF firstPoint{ static_cast<float>(std::sqrt(std::pow(point_X - buferPoint.x(),2))),static_cast<float>(std::sqrt(std::pow(point_Y - buferPoint.y(),2))) };
+	QPointF secondPoint{ static_cast<float>(std::sqrt(std::pow(point_X - imgPoint.x(),2))),static_cast<float>(std::sqrt(std::pow(point_Y - imgPoint.y(),2))) };
+	double rotateAngel{ std::acos((firstPoint.x() * secondPoint.x() + firstPoint.y() * secondPoint.y()) / (len_v1 * len_v2)) };
+
+	if (imgPoint.x() > point_X && imgPoint.y() < point_Y)
+	{
+
+	}
+	else if (imgPoint.x() > point_X && imgPoint.y() > point_Y)
+	{
+		rotateAngel = pi - rotateAngel;
+	}
+	else if (imgPoint.x() < point_X && imgPoint.y() > point_Y)
+	{
+		rotateAngel = pi + rotateAngel;
+	}
+	else if (imgPoint.x() < point_X && imgPoint.y() < point_Y)
+	{
+		rotateAngel = 2 * pi - rotateAngel;
+	}
+	setRotateAngel(rotateAngel * 180 / pi, &boundingSize, &QPoint(point_X, point_Y));
 }
 
 int QtRotateRect::getResizeType()

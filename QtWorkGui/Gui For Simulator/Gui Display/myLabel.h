@@ -41,8 +41,7 @@ class myLabel :
 	int f_x_pixMap, f_y_pixMap;
 	int x_pixMap, y_pixMap;
 	int imageFormat;//0-original, 1-gray, 2-RGB 
-	//double outForBoard_X(QtRotateRect* const InRect, double const in_X, bool const isX); 
-	//double outForBoard_Y(QtRotateRect* const InRect, double const in_Y, bool const isY, bool const dy_isMinus); 
+
 	
 	Q_OBJECT
 public:
@@ -56,11 +55,6 @@ public:
 	void set_myPixmap(const QPixmap* pixmap);
 	void add_rect(QRect &Input, QPen color = QPen(Qt::red, 1, Qt::DashLine));
 	void set_rect(std::vector<QRect> &InOutput);
-	void rotatr_rect(QtRotateRect& InOutput);
-	void resize_rect(QtRotateRect &InOutput);
-	void resize_circle(const QPoint& centerPoint, int& radius);
-	void muve_roiRect(QtRotateRect &InOutput);
-	void muve_roiCircle(QPoint& centerPoint,const int& radius);
 	void show_roi(std::vector<QRect> &Input);
 	void draw_rect(QtRotateRect* Input, QPen color=QPen(Qt::red, 1, Qt::DashLine));
 	void draw_circle(QPoint* centerPoint, int radius, QPen color = QPen(Qt::red, 1, Qt::DashLine));
@@ -84,7 +78,7 @@ public:
 	QSize* getOriginalImgSize();
 	void setAllImgScaled();
 	void getPointInImg(int& x, int& y);
-	
+	void setFirstPixmapPoint(QPoint newPoint);
 	void toImgCoordinate(int &inOutX, int &inOutY, bool isContains=true);
 	void toImgCoordinate_(int &inOutX, int &inOutY, bool isContains=true);
 	QPoint getImageCoordinate(bool isContains=true);

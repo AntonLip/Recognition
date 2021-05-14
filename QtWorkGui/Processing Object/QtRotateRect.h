@@ -82,6 +82,7 @@ public:
 	int getLeftY(int x);
 	void resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize *boundingSize);
 	void changePosition(QPoint const imgPoint, QPoint const firstPoint, QSize boundingSize);
+	void changeAngel(QPoint const imgPoint, QSize boundingSize);
 	QPointF getEdgePoint(int typePoint);
 	QRect getRotateRectSize();
 	QPoint getUpLeftPoint();
