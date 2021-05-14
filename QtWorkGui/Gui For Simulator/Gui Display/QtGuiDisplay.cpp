@@ -542,7 +542,6 @@ void QtGuiDisplay::slot_mouseRelease()
 	event_img = false;
 	change_roi = false;
 	//activProcessedObj->getProcesArears()[0][activ_roi].getRect()->setResizeType(NoResize);
-	//ui.label_forMainImg->show_roi(roi);
 }
 
 void QtGuiDisplay::slot_ZoomImg_In()
@@ -614,10 +613,10 @@ void QtGuiDisplay::slot_ZoomImg_Out()
 		/*int i{ 0 };
 		if (!activProcessedObj->brightnesCorrectAreaIsSet())
 			i = 1;*/
-		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
-		{
+		//for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+		//{
 			//processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
-		}
+		//}
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg(dr_x, dr_y, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 		isZoomNow = false;
@@ -650,10 +649,10 @@ void QtGuiDisplay::slot_ZoomImg_AllLabl()
 		if (!activProcessedObj->brightnesCorrectAreaIsSet())
 			i = 1;*/
 		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
-		for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
-		{
+		//for (int i{ 0 }; i < activProcessedObj->getProcesArears()->size(); ++i)
+		//{
 			//processedAreaScale(activProcessedObj->getProcesArears()[0][i]);
-		}
+		//}
 		draw_proceseArears();
 		ui.label_for_TempImg->show_partImg(0, 0, ui.label_for_TempImg->width(), ui.label_for_TempImg->height());
 		isZoomNow = false;
@@ -812,97 +811,6 @@ void QtGuiDisplay::setChangesProcessedArears(bool isChang)
 	else if(activ)
 		ui.comboBox->show();
 }
-
-//void QtGuiDisplay::processedAreaScale(QtProcessedArea& InOutArea, bool toOriginalScal)
-//{
-//	QtRotateRect bufer{};
-//	QtRotateRect buferScal{};
-//	int buferSize{0};
-//	if (toOriginalScal)
-//	{
-//		if (InOutArea.getAreaType() == 0)
-//		{
-//			bufer = *InOutArea.getScalRect();
-//			double mul{ static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width()) };
-//			double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1) * mul};
-//			double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) * mul};
-//			buferSize = static_cast<int>(ceil(bufer.width() * mul));
-//			bufer.setX(bufer.x() * mul);
-//			bufer.setWidth(buferSize);
-//
-//			mul = static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->height()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->height());
-//			buferSize = static_cast<int>(ceil(bufer.height() * mul));
-//			bufer.setY(bufer.y() * mul);
-//			bufer.setHeight(buferSize);
-//			InOutArea.setRect(&QtRotateRect(QRect(bufer.x(), bufer.y(), bufer.width(), bufer.height()), InOutArea.getScalRect()->getRotateAngel(), QPoint(point_X, point_Y)));
-//		}
-//		else if (InOutArea.getAreaType() == 1)
-//		{
-//			double mul{ static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width()) };
-//			QPoint buferPointCenter{ 0,0 };
-//			int buferRadius{ 0 };
-//			InOutArea.getScalCircleParam(buferRadius, buferPointCenter);
-//			InOutArea.setCircle(&(MyCircle(QPoint(buferPointCenter.x() * mul, buferPointCenter.y() * mul), buferRadius * mul)));
-//		}
-//	}
-//	else
-//	{
-//		bufer = *InOutArea.getRect();
-//		buferScal = *InOutArea.getScalRect();
-//		if (ui.pushButt_AllLabl->isEnabled())
-//		{
-//			if (InOutArea.getAreaType() == 0)
-//			{
-//				double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1)* activ_scaled / 100 };
-//				double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) * activ_scaled / 100};
-//				buferSize = static_cast<int>(ceil(bufer.width() * activ_scaled / 100));
-//				bufer.setX(bufer.x() * activ_scaled / 100);
-//				bufer.setWidth(buferSize);
-//
-//				buferSize = static_cast<int>(ceil(bufer.height() * activ_scaled / 100));
-//				bufer.setY(bufer.y() * activ_scaled / 100);
-//				bufer.setHeight(buferSize);
-//				InOutArea.setScalRect(&QtRotateRect(QRect(bufer.x(), bufer.y(), bufer.width(), bufer.height()), InOutArea.getScalRect()->getRotateAngel(), QPoint(point_X, point_Y)));
-//			}
-//			else if (InOutArea.getAreaType() == 1)
-//			{
-//				QPoint buferPointCenter{ 0,0 };
-//				int buferRadius{ 0 };
-//				InOutArea.getCircleParm(buferRadius, buferPointCenter);
-//				InOutArea.setScalCircle(&(MyCircle(QPoint(buferPointCenter.x() * activ_scaled / 100, buferPointCenter.y() * activ_scaled / 100), buferRadius * activ_scaled / 100)));
-//			}
-//		}
-//		else
-//		{
-//			if (InOutArea.getAreaType() == 0)
-//			{
-//				double point_X{ (static_cast<double>(bufer.getMin_X()) + static_cast<double>(bufer.getMax_X() - bufer.getMin_X()) / 2 + 1) };
-//				double point_Y{ (static_cast<double>(bufer.getMin_Y()) + static_cast<double>(bufer.getMax_Y() - bufer.getMin_Y()) / 2 + 1) };
-//
-//				hor_scaled = static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width());
-//				int buferSize{ static_cast<int>(ceil(bufer.width() / hor_scaled)) };
-//				bufer.setX(bufer.x() / hor_scaled);
-//				bufer.setWidth(buferSize);
-//
-//				vert_scaled = static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->height()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->height());
-//				buferSize = static_cast<int>(ceil(bufer.height() / vert_scaled));
-//				bufer.setY(bufer.y() / vert_scaled);
-//				bufer.setHeight(buferSize);
-//
-//				bufer.setRotateAngel(InOutArea.getRect()->getRotateAngel(), &QPoint(point_X / hor_scaled, point_Y / vert_scaled));
-//				InOutArea.setScalRect(&bufer);
-//			}
-//			else if (InOutArea.getAreaType() == 1)
-//			{
-//				double mul{ static_cast<double>(ui.label_for_TempImg->getOriginalImgSize()->width()) / static_cast<double>(ui.label_for_TempImg->getScaledImgSize()->width()) };
-//				QPoint buferPointCenter{ 0,0 };
-//				int buferRadius{ 0 };
-//				InOutArea.getCircleParm(buferRadius, buferPointCenter);
-//				InOutArea.setScalCircle(&(MyCircle(QPoint(buferPointCenter.x() /mul, buferPointCenter.y() / mul), buferRadius / mul)));
-//			}
-//		}
-//	}
-//}
 
 void QtGuiDisplay::draw_proceseArears()
 {

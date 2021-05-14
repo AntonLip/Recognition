@@ -1,0 +1,1 @@
+#include "ImageProcessedObject.h"

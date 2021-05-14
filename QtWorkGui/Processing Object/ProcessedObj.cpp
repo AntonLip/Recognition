@@ -12,10 +12,10 @@ ProcessedObj::~ProcessedObj()
 {
 }
 
-cv::Mat ProcessedObj::getROI(QRect ROICoordinate)
-{
-	return cv::Mat(mainImgMat, cv::Rect(ROICoordinate.x(), ROICoordinate.y(), ROICoordinate.width(), ROICoordinate.height()));
-}
+//cv::Mat ProcessedObj::getROI(QRect ROICoordinate)
+//{
+//	return cv::Mat(mainImgMat, cv::Rect(ROICoordinate.x(), ROICoordinate.y(), ROICoordinate.width(), ROICoordinate.height()));
+//}
 
 ProcessedObj::ProcessedObj(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap)
 {

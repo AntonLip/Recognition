@@ -203,6 +203,12 @@
     <ClCompile Include="Gui For Simulator\QtGUISensorSim.cpp">
       <Filter>Gui For Simulator</Filter>
     </ClCompile>
+    <ClCompile Include="Processing Object\ProcessedObject.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing Object\ImageProcessedObject.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Form File\Form For Camera\QtConnect.ui">
@@ -340,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="Work With Camera\FrameObserver.h">
       <Filter>Work With Camera\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing Object\ProcessedObject.h">
+      <Filter>Processing Object\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing Object\ImageProcessedObject.h">
+      <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

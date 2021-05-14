@@ -25,9 +25,9 @@ public:
 	ProcessedObj();
 	ProcessedObj(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap);
 	ProcessedObj(QString inputFileName, QString inputDirName, QString inputProgName, cv::Mat inputMat, QPixmap inputPixmap, bool imgIsAbsnd);
-	ProcessedObj(const ProcessedObj &dep);
+	ProcessedObj(const ProcessedObj &dep); 
 	~ProcessedObj();
-	cv::Mat getROI(QRect ROICoordinate);
+	//cv::Mat getROI(QRect ROICoordinate);
 	QString getFileName();
 	void SetFileName(QString inputFileName);
 	QString getDirName();
