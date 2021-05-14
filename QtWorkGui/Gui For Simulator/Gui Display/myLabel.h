@@ -53,8 +53,8 @@ public:
 	void mouseReleaseEvent(QMouseEvent *evnt);
 	void leaveEvent(QEvent *evnt);
 	void set_myPixmap(const QPixmap* pixmap);
-	void add_rect(QRect &Input, QPen color = QPen(Qt::red, 1, Qt::DashLine));
-	void set_rect(std::vector<QRect> &InOutput);
+	//void add_rect(QRect &Input, QPen color = QPen(Qt::red, 1, Qt::DashLine));
+	//void set_rect(std::vector<QRect> &InOutput);
 	void show_roi(std::vector<QRect> &Input);
 	void draw_rect(QtRotateRect* Input, QPen color=QPen(Qt::red, 1, Qt::DashLine));
 	void draw_circle(QPoint* centerPoint, int radius, QPen color = QPen(Qt::red, 1, Qt::DashLine));

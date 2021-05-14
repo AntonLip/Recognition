@@ -254,7 +254,7 @@ void myLabel::mousePressEvent(QMouseEvent *evnt)
 	//f_y_pixMap = f_y_labl + drPoint.y();
 	//ref_x = evnt->x();
 	//ref_y = evnt->y();
-	add = true;
+	//add = true;
 	emit mousePressed();
 }
 
@@ -267,7 +267,7 @@ void myLabel::mouseReleaseEvent(QMouseEvent *evnt)
 {
 	//s_x_pixMap = evnt->x();
 	//s_y_pixMap = evnt->y()-this->y();
-	add = false;
+	//add = false;
 	up_or_left = false;
 	down_or_right = false;
 	emit mouseRelease();
@@ -281,16 +281,16 @@ void myLabel::reset_x_y()
 	//s_y_labl = 0;
 }
 
-void myLabel::add_rect(QRect &Input, QPen newPen)
-{
-	if (add == true)
-	{
-		toImgCoordinate(x_labl, y_labl);
-		Input.setRect(f_x_pixMap, f_y_pixMap, x_labl - f_x_pixMap, y_labl- f_y_pixMap);
-		this->draw_rect(&QtRotateRect(Input), newPen);
-		this->show_partImg(drPoint.x(), drPoint.y(), this->width(), this->height());
-	}
-}
+//void myLabel::add_rect(QRect &Input, QPen newPen)
+//{
+//	if (add == true)
+//	{
+//		toImgCoordinate(x_labl, y_labl);
+//		Input.setRect(f_x_pixMap, f_y_pixMap, x_labl - f_x_pixMap, y_labl- f_y_pixMap);
+//		this->draw_rect(&QtRotateRect(Input), newPen);
+//		this->show_partImg(drPoint.x(), drPoint.y(), this->width(), this->height());
+//	}
+//}
 
 void myLabel::show_roi(std::vector <QRect> &Input)
 {
@@ -375,11 +375,11 @@ void myLabel::show_roi(std::vector<QRect> &Input, std::vector<int> rect, int cir
 	delete p;
 }
 
-void myLabel::set_rect(std::vector<QRect> &InOutput)
-{
-	//InOutput.push_back(QRect(QPoint(f_x_labl, f_y_labl), QPoint(s_x_labl, s_y_labl)));
-	add = false;
-}
+//void myLabel::set_rect(std::vector<QRect> &InOutput)
+//{
+//	//InOutput.push_back(QRect(QPoint(f_x_labl, f_y_labl), QPoint(s_x_labl, s_y_labl)));
+//	add = false;
+//}
 
 void myLabel::show_partImg(int dx, int dy, int width, int height)
 {

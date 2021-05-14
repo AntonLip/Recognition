@@ -394,7 +394,6 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 			ui.horSB_forTempImg->setSliderPosition(dr_x);
 			ui.verSB_forTempImg->setSliderPosition(dr_y);
 		}
-		//}
 	}
 }
 
@@ -540,15 +539,9 @@ void QtGuiDisplay::slot_mouseLeft(int direct)
 
 void QtGuiDisplay::slot_mouseRelease()
 {
-	/*if (addNewBrigthnesRect && activProcessedObj->brightnesCorrectAreaIsSet())
-	{
-		addNewBrigthnesRect = false;
-		processedAreaScale(activProcessedObj->getProcesArears()[0][0],true);
-		emit brightnesCorrectRectSet(true);
-	}*/
 	event_img = false;
 	change_roi = false;
-	activProcessedObj->getProcesArears()[0][activ_roi].getRect()->setResizeType(NoResize);
+	//activProcessedObj->getProcesArears()[0][activ_roi].getRect()->setResizeType(NoResize);
 	//ui.label_forMainImg->show_roi(roi);
 }
 
@@ -1044,20 +1037,16 @@ void QtGuiDisplay::add_rect(int procesType)
 	}
 	int x{ ui.label_for_TempImg->size().width() / 2 };
 	int y{ ui.label_for_TempImg->size().height() / 2 };
-	ui.label_for_TempImg->toImgCoordinate(x, y);
+	ui.label_for_TempImg->toImgCoordinate_(x, y);
 	if (procesType == 0)
 	{
 		activProcessedObj->getProcesArears()[0][0] = QtProcessedArea(0, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)));
-		//processedAreaScale(activProcessedObj->getProcesArears()[0][0], true);
 	}
 	else
 	{
 		activProcessedObj->getProcesArears()[0].push_back((QtProcessedArea(procesType, 0, QtRotateRect(QRect(x - w / 2, y - h / 2, w, h)))));
 		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].setProcessing();
-		//processedAreaScale(activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1], true);
 		activProcessedObj->getProcesArears()[0][activProcessedObj->getProcesArears()[0].size() - 1].createMaster(&activProcessedObj->getMat());
-		int i;
-		i = 0;
 	}
 	setObj = true;
 	updateImg();
