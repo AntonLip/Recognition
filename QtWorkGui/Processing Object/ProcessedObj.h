@@ -33,16 +33,15 @@ public:
 	QString getDirName();
 	void SetDirName(QString inputDirName);
 	QPixmap getPixmap();
-	QPixmap getTestPixmap(int number);
-	cv::Mat getTestMat(int number);
 	cv::Mat getMat();
+	
+	
 	void updateObj(QPixmap inputPixmap);
 	void SetObjParams(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, bool imgIsNull_);
 	void setProgramName(QString newName);
 	void setBrightnesCorrectArea(QRect *area);
 	void deletBrightnesCorrectArea();
-	void addTestImg(QString nameImg);
-	int getTestVecSize();
+	
 	std::vector<QtProcessedArea>* getProcesArears();
 	bool brightnesCorrectAreaIsSet();
 	QRect* getBrightnesCorrectArea();
@@ -51,5 +50,11 @@ public:
 	void setProcessArea(std::vector<QtProcessedArea> new_procesArea);
 	std::vector<QtProcessedArea> *getProcessArea();
 	void updateProcessArea();
+	
+	
+	void addTestImg(QString nameImg);
+	int getTestVecSize();
+	QPixmap getTestPixmap(int number);
+	cv::Mat getTestMat(int number);
 };
 

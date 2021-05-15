@@ -28,6 +28,7 @@ public:
 	QPixmap getCorrectPixmap();
 	cv::Mat getCorrectMat();
 	virtual void updateMat(cv::Mat newMat, QPixmap newPixmap) = 0;
+	//virtual void copy();
 };
 
 #endif
