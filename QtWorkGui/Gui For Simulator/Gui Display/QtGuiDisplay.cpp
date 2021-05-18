@@ -87,7 +87,7 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 
 
 	test_1 = new ImageProcessedObject(" ", " ", cv::Mat(), QPixmap(), 1, "1");
-	test_2 = new ImageProcessedObject(*test_1->getThis());
+	test_2 = test_1->getThis();
 	int a;
 	a = 1;
 
@@ -1144,6 +1144,11 @@ void QtGuiDisplay::setActivProcesArea(int activArea)
 int QtGuiDisplay::getDelayUpdateFrame()
 {
 	return delayUpdateFrame;
+}
+
+void QtGuiDisplay::copy(ProcessedObject& qwe)
+{
+	test_2 = new ImageProcessedObject(qwe.getThis());
 }
 
 ProcessedObj* QtGuiDisplay::getActivObject()

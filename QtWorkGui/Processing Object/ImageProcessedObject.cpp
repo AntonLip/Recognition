@@ -63,3 +63,8 @@ ProcessedObject* ImageProcessedObject::getThis()
 {
 	return new ImageProcessedObject(*this);
 }
+
+void ImageProcessedObject::assign(ProcessedObject& dep)
+{
+	dep.getThis()->
+}

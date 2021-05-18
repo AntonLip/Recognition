@@ -79,7 +79,7 @@ public:
 	int getDelayUpdateFrame();
 private:
 	Ui::QtGuiDisplay ui;
-
+	void copy(ProcessedObject& qwe);
 public slots:
 	//void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);
 	void slot_mouvePixmap();
