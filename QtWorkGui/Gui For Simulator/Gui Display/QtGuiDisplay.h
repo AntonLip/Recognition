@@ -24,8 +24,8 @@ class QtGuiDisplay : public QWidget
 	QCursor myCursor;
 	std::vector<QRect> roi;
 
-	ImageProcessedObject* activProcessedObj;
-	//ProcessedObj *activProcessedObj;
+	//ImageProcessedObject* activProcessedObj;
+	ProcessedObj *activProcessedObj;
 	//QString dir_for_saveImg;
 	//QString fileName;
 	int activ_roi;
@@ -52,7 +52,7 @@ public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();
 	void setSizeScrollBar();
-	void setActivProcessObj(ProcessedObject *activObj, bool master=true, int number=0);
+	void setActivProcessObj(ProcessedObj *activObj, bool master=true, int number=0);
 	void setEanbleActivededRoi(bool activ);
 	void setEnableWidtsGrouBox(bool enable);
 	void setActiv(bool activ);
@@ -71,9 +71,9 @@ public:
 	bool getChageActivArea();
 	bool ProcessedIsActiv();
 	void updateFrame();
-	ProcessedObject* getActivObject();
+	ProcessedObj* getActivObject();
 	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
-	void updateProcessObj(ProcessedObject* activObj);
+	void updateProcessObj(ProcessedObj* activObj);
 	void setActivProcesArea(int activArea);
 	int getDelayUpdateFrame();
 private:
