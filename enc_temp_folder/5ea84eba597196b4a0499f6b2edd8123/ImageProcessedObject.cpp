@@ -59,7 +59,7 @@ void ImageProcessedObject::updateMat (cv::Mat newMat, QPixmap newPixmap)
 	originalPixmap_ = newPixmap;
 }
 
-ProcessedObject* ImageProcessedObject::getThis()
+ImageProcessedObject* ImageProcessedObject::getThis()
 {
-	return new ImageProcessedObject(*this);
+	return this;
 }

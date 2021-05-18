@@ -3,6 +3,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "qpixmap.h"
+#include "QtProcessedArea.h"
 
 #ifndef  processedObject_h
 #define  processedObject_h
@@ -16,9 +17,11 @@ protected:
 	cv::Mat originalMat_;
 	QPixmap correctPixmap_;
 	cv::Mat correctMat_;
+	std::vector<QtProcessedArea> processedArears_;
 public:
 	ProcessedObject();
 	ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap);
+	ProcessedObject(const ProcessedObject& dep);
 	QString getFileName();
 	void setFileName(QString newFileName);
 	QString getDirName();
@@ -27,8 +30,12 @@ public:
 	cv::Mat getOriginalMat();
 	QPixmap getCorrectPixmap();
 	cv::Mat getCorrectMat();
+	void setProcessedArears(std::vector<QtProcessedArea> *newProcessedAreas);
+	std::vector<QtProcessedArea>* getProcessedArears();
+	
 	virtual void updateMat(cv::Mat newMat, QPixmap newPixmap) = 0;
-	//virtual void copy();
+	virtual ProcessedObject* getThis() = 0;
+	virtual void assign(ProcessedObject& dep) = 0;
 };
 
 #endif

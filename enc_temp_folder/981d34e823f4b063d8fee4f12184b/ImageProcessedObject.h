@@ -21,6 +21,6 @@ public:
     QString getProgramName();
     void setProgramName(QString newProgramName);
     virtual void updateMat(cv::Mat newMat, QPixmap newPixmap) override;
-    virtual ProcessedObject* getThis() override;
+    virtual ImageProcessedObject* getThis() override;
 };
 

@@ -6,7 +6,8 @@ ProcessedObject::ProcessedObject():
 	originalPixmap_(QPixmap()),
 	originalMat_(cv::Mat()),
 	correctPixmap_(QPixmap()),
-	correctMat_(cv::Mat())
+	correctMat_(cv::Mat()),
+	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) })
 {
 }
 
@@ -16,7 +17,19 @@ ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv
 	originalPixmap_(inputPixmap),
 	originalMat_(inputMat),
 	correctPixmap_(QPixmap()),
-	correctMat_(cv::Mat())
+	correctMat_(cv::Mat()),
+	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) })
+{
+}
+
+ProcessedObject::ProcessedObject(const ProcessedObject& dep):
+	fileName_(dep.fileName_),
+	dirName_(dep.dirName_),
+	originalPixmap_(dep.originalPixmap_),
+	originalMat_(dep.originalMat_),
+	correctPixmap_(dep.correctPixmap_),
+	correctMat_(dep.correctMat_),
+	processedArears_(dep.processedArears_)
 {
 }
 
@@ -58,4 +71,14 @@ QPixmap ProcessedObject::getCorrectPixmap()
 cv::Mat ProcessedObject::getCorrectMat()
 {
 	return correctMat_;
+}
+
+void ProcessedObject::setProcessedArears(std::vector<QtProcessedArea> *newProcessedAreas)
+{
+	processedArears_.assign(newProcessedAreas->begin(), newProcessedAreas->end());
+}
+
+std::vector<QtProcessedArea>* ProcessedObject::getProcessedArears()
+{
+	return &processedArears_;
 }
