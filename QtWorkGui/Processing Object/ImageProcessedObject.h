@@ -7,7 +7,6 @@ class ImageProcessedObject :
 {
 protected:
     bool imageIsNull_;
-    bool imageCorrected_;
     
     QString programName_;
 public:
@@ -16,12 +15,8 @@ public:
     ImageProcessedObject(const ImageProcessedObject& dep);
     bool imageIsNull();
     void setFlagImageIsNull(bool imageIsNull);
-    bool imageCorrected();
     void setFlagImageIsCorrected(bool imageIsCorrected);
     QString getProgramName();
     void setProgramName(QString newProgramName);
-    virtual void updateMat(cv::Mat newMat, QPixmap newPixmap) override;
-    virtual ProcessedObject* getThis() override;
-    virtual void assign(ProcessedObject& dep) override;
+    ImageProcessedObject& operator=(const ImageProcessedObject& drop);
 };
-

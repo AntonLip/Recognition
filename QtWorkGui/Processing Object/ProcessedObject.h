@@ -18,6 +18,8 @@ protected:
 	QPixmap correctPixmap_;
 	cv::Mat correctMat_;
 	std::vector<QtProcessedArea> processedArears_;
+	bool imageCorrected_;
+
 public:
 	ProcessedObject();
 	ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap);
@@ -32,10 +34,9 @@ public:
 	cv::Mat getCorrectMat();
 	void setProcessedArears(std::vector<QtProcessedArea> *newProcessedAreas);
 	std::vector<QtProcessedArea>* getProcessedArears();
-	
-	virtual void updateMat(cv::Mat newMat, QPixmap newPixmap) = 0;
-	virtual ProcessedObject* getThis() = 0;
-	virtual void assign(ProcessedObject& dep) = 0;
+	void updateMat(cv::Mat newMat, QPixmap newPixmap);
+	ProcessedObject& operator=(const ProcessedObject& drop);
+	bool imageCorrected();
 };
 
 #endif

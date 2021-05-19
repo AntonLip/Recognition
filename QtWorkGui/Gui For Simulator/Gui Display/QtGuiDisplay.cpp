@@ -84,13 +84,6 @@ QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	connect(ui.label_for_TempImg, SIGNAL(mouseLeft()), this, SLOT(slot_mouseLeft()));
 	connect(ui.label_for_TempImg, SIGNAL(mouseLeftMouveRoi(int)), this, SLOT(slot_mouseLeft(int)));
 	connect(ui.comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_changeProcssActiv(int)));
-
-
-	test_1 = new ImageProcessedObject(" ", " ", cv::Mat(), QPixmap(), 1, "1");
-	test_2 = test_1->getThis();
-	int a;
-	a = 1;
-
 }
 
 QtGuiDisplay::~QtGuiDisplay()
@@ -1144,11 +1137,6 @@ void QtGuiDisplay::setActivProcesArea(int activArea)
 int QtGuiDisplay::getDelayUpdateFrame()
 {
 	return delayUpdateFrame;
-}
-
-void QtGuiDisplay::copy(ProcessedObject& qwe)
-{
-	test_2 = new ImageProcessedObject(qwe.getThis());
 }
 
 ProcessedObj* QtGuiDisplay::getActivObject()

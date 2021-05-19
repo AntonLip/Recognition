@@ -24,8 +24,6 @@ class QtGuiDisplay : public QWidget
 	QCursor myCursor;
 	std::vector<QRect> roi;
 
-	ImageProcessedObject* test_1;
-	ImageProcessedObject* test_2;
 	ProcessedObj *activProcessedObj;
 	//QString dir_for_saveImg;
 	//QString fileName;
@@ -79,7 +77,6 @@ public:
 	int getDelayUpdateFrame();
 private:
 	Ui::QtGuiDisplay ui;
-	void copy(ProcessedObject& qwe);
 public slots:
 	//void dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in);
 	void slot_mouvePixmap();

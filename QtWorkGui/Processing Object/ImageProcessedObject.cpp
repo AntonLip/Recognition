@@ -2,7 +2,6 @@
 
 ImageProcessedObject::ImageProcessedObject():
 	imageIsNull_(true),
-	imageCorrected_(false),
 	programName_("")
 {
 }
@@ -10,17 +9,14 @@ ImageProcessedObject::ImageProcessedObject():
 ImageProcessedObject::ImageProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, bool imegeIsLoad, QString programName):
 	ProcessedObject(inputFileName,inputDirName,inputMat,inputPixmap),
 	imageIsNull_(!imegeIsLoad),
-	imageCorrected_(false),
 	programName_(programName)
 {
 }
 
-ImageProcessedObject::ImageProcessedObject(const ImageProcessedObject& dep):
+ImageProcessedObject::ImageProcessedObject(const ImageProcessedObject& dep) :
 	imageIsNull_(dep.imageIsNull_),
-	imageCorrected_(dep.imageCorrected_),
 	programName_(dep.programName_)
 {
-
 }
 
 bool ImageProcessedObject::imageIsNull()
@@ -31,11 +27,6 @@ bool ImageProcessedObject::imageIsNull()
 void ImageProcessedObject::setFlagImageIsNull(bool imageIsNull)
 {
 	imageIsNull_ = imageIsNull;
-}
-
-bool ImageProcessedObject::imageCorrected()
-{
-	return imageCorrected_;
 }
 
 void ImageProcessedObject::setFlagImageIsCorrected(bool imageIsCorrected)
@@ -53,18 +44,15 @@ void ImageProcessedObject::setProgramName(QString newProgramName)
 	programName_ = newProgramName;
 }
 
-void ImageProcessedObject::updateMat (cv::Mat newMat, QPixmap newPixmap)
+ImageProcessedObject& ImageProcessedObject::operator=(const ImageProcessedObject& drop)
 {
-	originalMat_ = newMat;
-	originalPixmap_ = newPixmap;
-}
-
-ProcessedObject* ImageProcessedObject::getThis()
-{
-	return new ImageProcessedObject(*this);
-}
-
-void ImageProcessedObject::assign(ProcessedObject& dep)
-{
-	dep.getThis()->
+	fileName_ = drop.fileName_;
+	dirName_ = drop.dirName_;
+	originalPixmap_ = drop.originalPixmap_;
+	originalMat_ = drop.originalMat_;
+	correctPixmap_ = drop.originalPixmap_;
+	correctMat_ = drop.correctMat_;
+	processedArears_.assign(drop.processedArears_.begin(), drop.processedArears_.end());
+	imageCorrected_ = drop.imageCorrected_;
+	imageIsNull_ = drop.imageIsNull_;
 }

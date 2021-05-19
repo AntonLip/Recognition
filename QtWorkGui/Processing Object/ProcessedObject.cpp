@@ -7,7 +7,8 @@ ProcessedObject::ProcessedObject():
 	originalMat_(cv::Mat()),
 	correctPixmap_(QPixmap()),
 	correctMat_(cv::Mat()),
-	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) })
+	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) }),
+	imageCorrected_(false)
 {
 }
 
@@ -18,7 +19,8 @@ ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv
 	originalMat_(inputMat),
 	correctPixmap_(QPixmap()),
 	correctMat_(cv::Mat()),
-	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) })
+	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) }),
+	imageCorrected_(false)
 {
 }
 
@@ -29,7 +31,8 @@ ProcessedObject::ProcessedObject(const ProcessedObject& dep):
 	originalMat_(dep.originalMat_),
 	correctPixmap_(dep.correctPixmap_),
 	correctMat_(dep.correctMat_),
-	processedArears_(dep.processedArears_)
+	processedArears_(dep.processedArears_),
+	imageCorrected_(dep.imageCorrected_)
 {
 }
 
@@ -81,4 +84,28 @@ void ProcessedObject::setProcessedArears(std::vector<QtProcessedArea> *newProces
 std::vector<QtProcessedArea>* ProcessedObject::getProcessedArears()
 {
 	return &processedArears_;
+}
+
+void ProcessedObject::updateMat(cv::Mat newMat, QPixmap newPixmap)
+{
+	originalMat_ = newMat;
+	originalPixmap_ = newPixmap;
+}
+
+ProcessedObject& ProcessedObject::operator=(const ProcessedObject& drop)
+{
+	fileName_ = drop.fileName_;
+	dirName_ = drop.dirName_;
+	originalPixmap_ = drop.originalPixmap_;
+	originalMat_ = drop.originalMat_;
+	correctPixmap_ = drop.originalPixmap_;
+	correctMat_ = drop.correctMat_;
+	processedArears_.assign(drop.processedArears_.begin(), drop.processedArears_.end());
+	imageCorrected_ = drop.imageCorrected_;
+	return *this;
+}
+
+bool ProcessedObject::imageCorrected()
+{
+	return imageCorrected_;
 }
