@@ -1,6 +1,6 @@
 #include "QtProgramCopyProcesObj.h"
 
-QtProgramCopyProcesObj::QtProgramCopyProcesObj(ProcessedObj *firstObj, QWidget *parent)
+QtProgramCopyProcesObj::QtProgramCopyProcesObj(ProcessedObject *firstObj, QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -19,9 +19,9 @@ QtProgramCopyProcesObj::QtProgramCopyProcesObj(ProcessedObj *firstObj, QWidget *
 	for (int i{ 0 }; i < 32; i++)
 	{
 		ui.comboBox_copyFrom->addItem((firstObj + i)->getProgramName());
-		ui.comboBox_copyFrom->setItemIcon(i, (firstObj + i)->getPixmap());
+		ui.comboBox_copyFrom->setItemIcon(i, (firstObj + i)->getCorrectPixmap());
 		ui.comboBox_copyTo->addItem((firstObj + i)->getProgramName());
-		ui.comboBox_copyTo->setItemIcon(i, (firstObj + i)->getPixmap());
+		ui.comboBox_copyTo->setItemIcon(i, (firstObj + i)->getCorrectPixmap());
 	}
 	firstObject = firstObj;
 	connect(ui.pushButton_OK, SIGNAL(clicked()), this, SLOT(slot_copyImg()));
@@ -35,12 +35,13 @@ QtProgramCopyProcesObj::~QtProgramCopyProcesObj()
 
 void QtProgramCopyProcesObj::slot_copyImg()
 {
-	ProcessedObj* fromObj;
+	ProcessedObject* fromObj;
 	fromObj = (firstObject + ui.comboBox_copyFrom->currentIndex());
-	(firstObject + ui.comboBox_copyTo->currentIndex())->SetObjParams(fromObj->getFileName(), fromObj->getDirName(), 
-		fromObj->getMat(), fromObj->getPixmap(), !fromObj->imgIsLoaded());
-	ui.comboBox_copyTo->setItemIcon(ui.comboBox_copyTo->currentIndex(), fromObj->getPixmap());
-	ui.comboBox_copyFrom->setItemIcon(ui.comboBox_copyTo->currentIndex(), fromObj->getPixmap());
+	*(firstObject + ui.comboBox_copyTo->currentIndex()) = ProcessedObject(fromObj->getFileName(), fromObj->getDirName(), fromObj->getMat(), fromObj->getCorrectPixmap(), (firstObject + ui.comboBox_copyTo->currentIndex())->getProgramName());
+	//(firstObject + ui.comboBox_copyTo->currentIndex())->SetObjParams(fromObj->getFileName(), fromObj->getDirName(), 
+	//	fromObj->getMat(), fromObj->getPixmap(), !fromObj->imgIsLoaded());
+	ui.comboBox_copyTo->setItemIcon(ui.comboBox_copyTo->currentIndex(), fromObj->getCorrectPixmap());
+	ui.comboBox_copyFrom->setItemIcon(ui.comboBox_copyTo->currentIndex(), fromObj->getCorrectPixmap());
 	emit objIsCopy(ui.comboBox_copyTo->currentIndex());
 }
 

@@ -7,7 +7,7 @@
 class QtGUISensorSim : public QWidget
 {
 	Q_OBJECT
-	ProcessedObj mainProcesObj;
+	ProcessedObject mainProcesObj;
 public:
 	QtGUISensorSim(QWidget *parent = Q_NULLPTR);
 	~QtGUISensorSim();
@@ -15,5 +15,5 @@ public:
 private:
 	Ui::QtGUISensorSim ui;
 private slots:
-	void slot_dataFromGuiSimulator(ProcessedObj& data);
+	void slot_dataFromGuiSimulator(ProcessedObject& data);
 };

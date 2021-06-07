@@ -19,10 +19,12 @@ protected:
 	cv::Mat correctMat_;
 	std::vector<QtProcessedArea> processedArears_;
 	bool imageCorrected_;
+	bool imageIsNull_;
+	QString programName_;
 
 public:
 	ProcessedObject();
-	ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap);
+	ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, QString programName, bool imageIsNull = false);
 	ProcessedObject(const ProcessedObject& dep);
 	QString getFileName();
 	void setFileName(QString newFileName);
@@ -31,12 +33,16 @@ public:
 	QPixmap getOriginalPixmap();
 	cv::Mat getOriginalMat();
 	QPixmap getCorrectPixmap();
-	cv::Mat getCorrectMat();
+	cv::Mat getMat();
 	void setProcessedArears(std::vector<QtProcessedArea> *newProcessedAreas);
-	std::vector<QtProcessedArea>* getProcessedArears();
+	std::vector<QtProcessedArea>* getProcesArears();
 	void updateMat(cv::Mat newMat, QPixmap newPixmap);
 	ProcessedObject& operator=(const ProcessedObject& drop);
 	bool imageCorrected();
+	bool imageIsNull();
+	void setFlagImageIsNull(bool imageIsNull);
+	QString getProgramName();
+	void setProgramName(QString newProgramName);
 };
 
 #endif

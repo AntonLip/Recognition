@@ -2,7 +2,7 @@
 
 QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	: QtGuiSimulator(parent),
-	cameraLife("sensor life", "", "sensor", cv::Mat(), QPixmap(), false),
+	cameraLife("sensor life", "", cv::Mat(), QPixmap(), false),
 	isPlay(false)
 {
 	LOG.logMessege("QtGuiWorkWithCamera constructor started", _DEBUG_);
@@ -24,7 +24,8 @@ QtGuiWorkWithCamera::~QtGuiWorkWithCamera()
 void QtGuiWorkWithCamera::readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap)
 {
 	LOG.logMessege("set frame in QtGuiWorkWithCamera", _DEBUG_);
-	loadObj[activLoadObj].SetObjParams("", "", *newFrameMat, *newFramePixmap, false);
+	loadObj[activLoadObj]=ProcessedObject("", "", *newFrameMat, *newFramePixmap, loadObj[activLoadObj].getProgramName(), false);
+	//loadObj[activLoadObj].SetObjParams("", "", *newFrameMat, *newFramePixmap, false);
 }
 
 void QtGuiWorkWithCamera::setupGui()
@@ -50,7 +51,7 @@ void QtGuiWorkWithCamera::closeEvent(QCloseEvent* event)
 void QtGuiWorkWithCamera::slot_play()
 {
 	isPlay = true;
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&cameraLife);
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(cameraLife);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(false);
 	QtGuiSimulator::ui.linEdit_fileName->setText(cameraLife.getFileName());
 }
@@ -58,7 +59,7 @@ void QtGuiWorkWithCamera::slot_play()
 void QtGuiWorkWithCamera::slot_stop()
 {
 	isPlay = false;
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(loadObj[activLoadObj]);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(true);
 	QtGuiSimulator::ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 }
@@ -67,11 +68,11 @@ void QtGuiWorkWithCamera::slot_openSetupCamera()
 {
 	sensorSetup = new QtGuiSetupSensor();
 	sensorSetup->show();
-	connect(this, SIGNAL(dataToSetingSensor(ProcessedObj*, ProcessedObj*, CameraPtr&, int,QtGuiDisplay*)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObj*, ProcessedObj*, CameraPtr&, int,QtGuiDisplay*)));
-	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObj*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObj*)));
+	connect(this, SIGNAL(dataToSetingSensor(ProcessedObject*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObject*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)));
+	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObject*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObject*)));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrameInSetupSensor()));
-	connect(sensorSetup, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
-	emit dataToSetingSensor(&cameraLife, &loadObj[activLoadObj], camera, QtGuiSimulator::ui.widget_DisplayImg->getDelayUpdateFrame(), QtGuiSimulator::ui.widget_DisplayImg);
+	connect(sensorSetup, SIGNAL(dataToGUISim(ProcessedObject*)), this, SLOT(slot_dataFromSetupSim(ProcessedObject*)));
+	emit dataToSetingSensor(cameraLife, loadObj[activLoadObj], camera, QtGuiSimulator::ui.widget_DisplayImg->getDelayUpdateFrame(), QtGuiSimulator::ui.widget_DisplayImg);
 }
 
 void QtGuiWorkWithCamera::slot_updateFrameInSetupSensor()
@@ -83,7 +84,7 @@ void QtGuiWorkWithCamera::slot_updateFrame()
 {
 	if (isPlay)
 	{
-		QtGuiSimulator::ui.widget_DisplayImg->updateProcessObj(&cameraLife);
+		QtGuiSimulator::ui.widget_DisplayImg->updateProcessObj(cameraLife);
 	}
 }
 
@@ -92,14 +93,14 @@ void QtGuiWorkWithCamera::slot_setNewActivObj(int newActivObject)
 	activLoadObj = newActivObject;
 	if (!isPlay)
 	{
-		QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+		QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(loadObj[activLoadObj]);
 	}
 }
 
-void QtGuiWorkWithCamera::slot_dataFromSetupSim(ProcessedObj* new_pocessObject)
+void QtGuiWorkWithCamera::slot_dataFromSetupSim(ProcessedObject* new_pocessObject)
 {
 	QtGuiSimulator::slot_dataFromSetupSim(new_pocessObject);
-	cameraLife.setProcessArea(*new_pocessObject->getProcesArears());
+	cameraLife.setProcessedArears(new_pocessObject->getProcesArears());
 }
 
 void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)
@@ -153,5 +154,5 @@ void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int i
 		LOG.logMessege("frame read error", _ERROR_);
 	}
 	LOG.logMessege("Camera connected", _INFO_);
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(loadObj[activLoadObj]);
 }

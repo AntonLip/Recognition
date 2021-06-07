@@ -14,7 +14,8 @@ class QtSetupSimulator : public QWidget
 	Q_OBJECT
 protected:
 	QList<QtWidProcesArea*> widProcAreaList;
-	ProcessedObj masterObjct;
+	ProcessedObject masterObjct;
+	//ProcessedObj masterObjct;
 	QtMyDialog* dialog;
 	QtAddToolGUI* addTool;
 	QtWidProcesArea* widProcArea;
@@ -53,7 +54,7 @@ protected slots:
 	void slot_pushBack();
 	void slot_pushCanel();
 	void slot_pushAddTool();
-	void slot_dataFromGUISim(ProcessedObj *newMasterObj);
+	void slot_dataFromGUISim(ProcessedObject &newMasterObj);
 	void slot_dataFromDialog(bool answer);
 	void slot_dataFromAddTool(int procesedType, int areaType);
 	void slot_setBrightnesCorrectArea();
@@ -82,7 +83,7 @@ protected slots:
 	void slot_getActivProcesAreaTowidgetMasterImg();
 	void slot_registImageFromFile();
 signals:
-	void dataToGUISim(ProcessedObj* changedObj);
+	void dataToGUISim(ProcessedObject& changedObj);
 	void brightnesCorrectAreaDel();
 	void clic_pb();
 	void resetRectAngel(int activRect);

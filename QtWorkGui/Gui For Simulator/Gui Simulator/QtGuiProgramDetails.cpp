@@ -27,7 +27,7 @@ void QtGuiProgramDetails::slot_changeActivImg(int idImg, QString ProgName)
 {
 	activ_ProcesObj = idImg;
 	(firstProcesObj + idImg)->setProgramName(ProgName);
-	ui.my_widget->setActivProcessObj((firstProcesObj + idImg));
+	ui.my_widget->setActivProcessObj(*(firstProcesObj + idImg));
 	ui.lineEdit_ProgrmNam->setText(ProgName);
 }
 
@@ -41,9 +41,10 @@ void QtGuiProgramDetails::slot_importImg()
 	if (!img_bufer.empty())// checking that image has loaded 
 	{
 		std::size_t found = qstr_bufer.toStdString().find_last_of("/\\");
-		(firstProcesObj + activ_ProcesObj)->SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), 
-			QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer,pixmapBufer , false);
-		ui.my_widget->setActivProcessObj((firstProcesObj + activ_ProcesObj));
+		*(firstProcesObj + activ_ProcesObj) = ProcessedObject(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, pixmapBufer, (firstProcesObj + activ_ProcesObj)->getProgramName());
+		//(firstProcesObj + activ_ProcesObj)->SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), 
+		//	QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer,pixmapBufer , false);
+		ui.my_widget->setActivProcessObj(*(firstProcesObj + activ_ProcesObj));
 		scrolImg->update_qtImgWid(activ_ProcesObj, firstProcesObj + activ_ProcesObj);
 		emit add_Images(activ_ProcesObj);
 	}
@@ -72,13 +73,13 @@ void QtGuiProgramDetails::slot_renameProgName(QString newProgName)
 	slot_updateImg(activ_ProcesObj);
 }
 
-void QtGuiProgramDetails::slot_dataFromGuiSimulator(ProcessedObj* first)
+void QtGuiProgramDetails::slot_dataFromGuiSimulator(ProcessedObject* first)
 {
 	firstProcesObj = first;
 	activ_ProcesObj = 0;
 	scrolImg = new QtImgInScrolBar(firstProcesObj,this);
 	ui.scrollArea_->setWidget(scrolImg);
-	ui.my_widget->setActivProcessObj(firstProcesObj);
+	ui.my_widget->setActivProcessObj(*firstProcesObj);
 	connect(scrolImg, SIGNAL(change_activImg(int, QString)), this, SLOT(slot_changeActivImg(int, QString)));
 	scrolImg->slot_actived(0);
 }

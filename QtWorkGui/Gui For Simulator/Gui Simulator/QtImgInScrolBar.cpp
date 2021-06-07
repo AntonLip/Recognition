@@ -1,6 +1,6 @@
 #include "QtImgInScrolBar.h"
 
-QtImgInScrolBar::QtImgInScrolBar(ProcessedObj *first, QWidget *parent)
+QtImgInScrolBar::QtImgInScrolBar(ProcessedObject *first, QWidget *parent)
 	: QWidget(parent),
 	wid(nullptr)
 {
@@ -9,7 +9,7 @@ QtImgInScrolBar::QtImgInScrolBar(ProcessedObj *first, QWidget *parent)
 	for (int i{ 0 }; i < 32; ++i)
 	{
 		wid[i].setImgName((first+i)->getProgramName());
-		wid[i].setImg((first + i)->getPixmap());
+		wid[i].setImg((first + i)->getCorrectPixmap());
 		wid[i].setId(i);
 		ui.horizontalLayout->addWidget(&wid[i]);
 		connect(&wid[i], SIGNAL(mousePres(int)), this, SLOT(slot_actived(int)));
@@ -28,10 +28,10 @@ void QtImgInScrolBar::mousePressEvent(QMouseEvent *evnt)
 
 }
 
-void QtImgInScrolBar::update_qtImgWid(int idWid, ProcessedObj* activObj)
+void QtImgInScrolBar::update_qtImgWid(int idWid, ProcessedObject* activObj)
 {
 	wid[idWid].setImgName((activObj)->getProgramName());
-	wid[idWid].setImg((activObj)->getPixmap());
+	wid[idWid].setImg((activObj)->getCorrectPixmap());
 }
 
 void QtImgInScrolBar::set_ImgInQtImgWid(QPixmap newImg)

@@ -5,7 +5,7 @@
 #include <QTime>
 #include "qfiledialog.h"
 #include "myLabel.h"
-#include "Processing Object/ImageProcessedObject.h"
+#include "Processing Object/ProcessedObject.h"
 //#include "QtAreaToProcessed.h"
 
 #include <opencv2/core/core.hpp>
@@ -24,7 +24,8 @@ class QtGuiDisplay : public QWidget
 	QCursor myCursor;
 	std::vector<QRect> roi;
 
-	ProcessedObj *activProcessedObj;
+	//ProcessedObj *activProcessedObj;
+	ProcessedObject* activProcessedObj;
 	//QString dir_for_saveImg;
 	//QString fileName;
 	int activ_roi;
@@ -51,7 +52,8 @@ public:
 	QtGuiDisplay(QWidget *parent = Q_NULLPTR);
 	~QtGuiDisplay();
 	void setSizeScrollBar();
-	void setActivProcessObj(ProcessedObj *activObj, bool master=true, int number=0);
+	//void setActivProcessObj(ProcessedObj &activObj, bool master=true, int number=0);
+	void setActivProcessObj(ProcessedObject &activObj, bool master=true, int number=0);
 	void setEanbleActivededRoi(bool activ);
 	void setEnableWidtsGrouBox(bool enable);
 	void setActiv(bool activ);
@@ -70,9 +72,9 @@ public:
 	bool getChageActivArea();
 	bool ProcessedIsActiv();
 	void updateFrame();
-	ProcessedObj* getActivObject();
+	//ProcessedObj* getActivObject();
 	void setProcessObjStatus(bool isMaster);//0-Live 1-Master;
-	void updateProcessObj(ProcessedObj* activObj);
+	void updateProcessObj(ProcessedObject& activObj);
 	void setActivProcesArea(int activArea);
 	int getDelayUpdateFrame();
 private:

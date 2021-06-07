@@ -33,7 +33,8 @@ private:
 	QHBoxLayout* HL_forFirstStep;
 	CameraPtrVector cameras;
 	void setUpGui();
-	ProcessedObj* sensorObject;
+	ProcessedObject* sensorObject;
+	//ProcessedObj* sensorObject;
 	bool masterIsActivObject;
 	VmbInt64_t nPLS;// Payload size value
 	FeaturePtr pFeature; // Generic feature pointer
@@ -51,8 +52,8 @@ private:
 	void setCameraParamsInGui();
 	
 public slots:
-	void slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
-	void slot_updateSensorObject(ProcessedObj* sensorObj);
+	void slot_dataFromWorkWithSensor(ProcessedObject* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
+	void slot_updateSensorObject(ProcessedObject& sensorObj);
 	void slot_pushStep1();
 	void slot_pushStep2();
 	void slot_pushStep3();

@@ -660,7 +660,7 @@ void QtGuiDisplay::slot_ZoomImg_AllLabl()
 
 void QtGuiDisplay::slot_SetDirToSave()
 {
-	activProcessedObj->SetDirName(QFileDialog::getExistingDirectory(this, "D:/"));
+	activProcessedObj->setDirName(QFileDialog::getExistingDirectory(this, "D:/"));
 	emit clic_pb();
 }
 
@@ -675,26 +675,27 @@ void QtGuiDisplay::slot_saveImg()
 	emit clic_pb();
 }
 
-void QtGuiDisplay::setActivProcessObj(ProcessedObj *activObj, bool master, int number)
+//void QtGuiDisplay::setActivProcessObj(ProcessedObj& activObj, bool master, int number)
+void QtGuiDisplay::setActivProcessObj(ProcessedObject &activObj, bool master, int number)
 {
 	this->updateGeometry();
-	activProcessedObj = activObj;
-	ui.label_for_TempImg->setAlignment(Qt::AlignCenter);
+	activProcessedObj = &activObj;                  
+ 	ui.label_for_TempImg->setAlignment(Qt::AlignCenter);
 	if (master)
 	{
-		ui.label_for_TempImg->set_myPixmap(&activObj->getPixmap());
+		ui.label_for_TempImg->set_myPixmap(&activObj.getCorrectPixmap());
 	}
-	else
-	if (number < activObj->getTestVecSize())
+	/*else
+	if (number < activObj.getTestVecSize())
 	{
-		ui.label_for_TempImg->set_myPixmap(&activObj->getTestPixmap(number));
+		ui.label_for_TempImg->set_myPixmap(activObj.getTestPixmap(number));
 	}
 	else
 	{
 		ui.label_for_TempImg->set_myPixmap(&QPixmap("NoImg.png"));
-	}
+	}*/
 	this->slot_ZoomImg_AllLabl();
-	if (activProcessedObj->imgIsLoaded())
+	if (!activProcessedObj->imageIsNull())
 	{
 		ui.pushButt_ZoomDeduce->show();
 		ui.pushButt_ZoomIncress->show();
@@ -721,7 +722,7 @@ void QtGuiDisplay::setActivProcessObj(ProcessedObj *activObj, bool master, int n
 
 void QtGuiDisplay::slot_reNameImg(QString newFileName)
 {
-	activProcessedObj->SetFileName(newFileName);
+	activProcessedObj->setFileName(newFileName);
 }
 
 void QtGuiDisplay::slot_brighAreaDel()
@@ -779,7 +780,7 @@ void QtGuiDisplay::setActiv(bool activ)
 	if (activ)
 	{
 		ui.label_for_TempImg->setStyleSheet("");
-		this->setActivProcessObj(activProcessedObj);
+		//this->setActivProcessObj(activProcessedObj);        !!!!!!!!!!!!!!!!!!!!SAV
 	}
 	else
 	{
@@ -1117,10 +1118,10 @@ void QtGuiDisplay::updateFrame()
 	}
 }
 
-void QtGuiDisplay::updateProcessObj(ProcessedObj* activObj)
+void QtGuiDisplay::updateProcessObj(ProcessedObject& activObj)
 {
-	activProcessedObj = activObj;
-	ui.label_for_TempImg->update_myPixmap(activObj->getPixmap());
+	activProcessedObj = &activObj; 
+	ui.label_for_TempImg->update_myPixmap(activObj.getCorrectPixmap());
 	draw_proceseArears();
 	this->setSizeScrollBar();
 	ui.label_for_TempImg->show_partImg();
@@ -1139,10 +1140,11 @@ int QtGuiDisplay::getDelayUpdateFrame()
 	return delayUpdateFrame;
 }
 
-ProcessedObj* QtGuiDisplay::getActivObject()
-{
-	return activProcessedObj;
-}
+//ProcessedObj* QtGuiDisplay::getActivObject()
+//{
+//	return &ProcessedObj();
+//	////return activProcessedObj; ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SAV
+//}
 
 void QtGuiDisplay::setProcessObjStatus(bool isMaster)
 {

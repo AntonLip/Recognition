@@ -4,18 +4,19 @@
 #include "ui_QtProgramCopyProcesObj.h"
 #include <qlistview.h>
 #include <qstandarditemmodel.h>
-#include "Processing Object/ProcessedObj.h"
+#include "Processing Object/ProcessedObject.h"
+
 
 class QtProgramCopyProcesObj : public QWidget
 {
 	Q_OBJECT
 
 public:
-	QtProgramCopyProcesObj(ProcessedObj *firstObj,QWidget *parent = Q_NULLPTR);
+	QtProgramCopyProcesObj(ProcessedObject *firstObj,QWidget *parent = Q_NULLPTR);
 	~QtProgramCopyProcesObj();
 
 private:
-	ProcessedObj *firstObject;
+	ProcessedObject *firstObject;
 	QListView* viewForFrom;
 	QListView* viewForTo;
 	QStandardItemModel* modelForFrom;

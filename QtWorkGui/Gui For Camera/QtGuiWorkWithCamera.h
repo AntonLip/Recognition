@@ -7,6 +7,7 @@
 #include "qstandarditemmodel.h"
 #include "Work With Camera/FrameObserver.h"
 #include "Gui For Camera/Gui Setup Camera/QtGuiSetupSensor.h"
+#include "Processing Object/ProcessedObject.h"
 
 class QtGuiWorkWithCamera : public QtGuiSimulator
 {
@@ -31,7 +32,7 @@ private:
 	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
 	QtGuiSetupSensor* sensorSetup;
 	void setupGui();
-	ProcessedObj cameraLife;
+	ProcessedObject cameraLife;
 	void closeEvent(QCloseEvent* event);
 	bool isPlay;
 
@@ -43,9 +44,9 @@ private slots:
 	void slot_updateFrameInSetupSensor();
 	void slot_updateFrame();
 	void slot_setNewActivObj(int newActivObject);
-	void slot_dataFromSetupSim(ProcessedObj* new_pocessObject);
+	void slot_dataFromSetupSim(ProcessedObject* new_pocessObject);
 signals:
-	void dataToSetingSensor(ProcessedObj* sensorObj,ProcessedObj* masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
-	void updateFrameInSetupSensor(ProcessedObj* sensorObj);
+	void dataToSetingSensor(ProcessedObject& sensorObj,ProcessedObject& masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
+	void updateFrameInSetupSensor(ProcessedObject* sensorObj);
 	void workWithCamera_close();
 };

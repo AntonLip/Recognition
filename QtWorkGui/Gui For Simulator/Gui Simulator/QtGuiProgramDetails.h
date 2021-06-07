@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtGuiProgramDetails.h"
-#include "Processing Object/ProcessedObj.h"
+//#include "Processing Object/ProcessedObj.h"
 #include "QtImgInScrolBar.h"
 #include <qmessagebox.h>
 #include "QtProgramCopyProcesObj.h"
@@ -10,7 +10,7 @@
 class QtGuiProgramDetails : public QWidget
 {
 	Q_OBJECT
-	ProcessedObj *firstProcesObj;
+	ProcessedObject *firstProcesObj;
 	int activ_ProcesObj;
 	QtImgInScrolBar* scrolImg;
 	QtProgramCopyProcesObj *copyProcesObj;
@@ -22,7 +22,7 @@ private:
 	Ui::QtGuiProgramDetails ui;
 	
 private slots:
-	void slot_dataFromGuiSimulator(ProcessedObj* first);
+	void slot_dataFromGuiSimulator(ProcessedObject* first);
 	void slot_changeActivImg(int idImg, QString ProgName);
 	void slot_importImg();
 	void slot_copyImg();

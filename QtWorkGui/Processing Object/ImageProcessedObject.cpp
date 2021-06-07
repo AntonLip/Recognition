@@ -1,32 +1,16 @@
 #include "ImageProcessedObject.h"
 
-ImageProcessedObject::ImageProcessedObject():
-	imageIsNull_(true),
-	programName_("")
+ImageProcessedObject::ImageProcessedObject()
 {
 }
 
-ImageProcessedObject::ImageProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, bool imegeIsLoad, QString programName):
-	ProcessedObject(inputFileName,inputDirName,inputMat,inputPixmap),
-	imageIsNull_(!imegeIsLoad),
-	programName_(programName)
+ImageProcessedObject::ImageProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, QString programName, bool imageIsNull) :
+	ProcessedObject(inputFileName, inputDirName, inputMat, inputPixmap, programName, imageIsNull)
 {
 }
 
-ImageProcessedObject::ImageProcessedObject(const ImageProcessedObject& dep) :
-	imageIsNull_(dep.imageIsNull_),
-	programName_(dep.programName_)
+ImageProcessedObject::ImageProcessedObject(const ImageProcessedObject& dep) 
 {
-}
-
-bool ImageProcessedObject::imageIsNull()
-{
-	return imageIsNull_;
-}
-
-void ImageProcessedObject::setFlagImageIsNull(bool imageIsNull)
-{
-	imageIsNull_ = imageIsNull;
 }
 
 void ImageProcessedObject::setFlagImageIsCorrected(bool imageIsCorrected)
@@ -55,4 +39,6 @@ ImageProcessedObject& ImageProcessedObject::operator=(const ImageProcessedObject
 	processedArears_.assign(drop.processedArears_.begin(), drop.processedArears_.end());
 	imageCorrected_ = drop.imageCorrected_;
 	imageIsNull_ = drop.imageIsNull_;
+	programName_ = drop.programName_;
+	return *this;
 }

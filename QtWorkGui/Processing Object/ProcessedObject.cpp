@@ -1,38 +1,44 @@
 #include "ProcessedObject.h"
 
 ProcessedObject::ProcessedObject():
-	fileName_(""),
-	dirName_(""),
-	originalPixmap_(QPixmap()),
-	originalMat_(cv::Mat()),
-	correctPixmap_(QPixmap()),
-	correctMat_(cv::Mat()),
-	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) }),
-	imageCorrected_(false)
+	fileName_{},
+	dirName_{},
+	originalPixmap_{},
+	originalMat_{},
+	correctPixmap_{},
+	correctMat_{},
+	processedArears_{},
+	imageCorrected_{ false },
+	imageIsNull_{true},
+	programName_{}
 {
 }
 
-ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap) :
-	fileName_(inputFileName),
-	dirName_(inputDirName),
-	originalPixmap_(inputPixmap),
-	originalMat_(inputMat),
-	correctPixmap_(QPixmap()),
-	correctMat_(cv::Mat()),
-	processedArears_({ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) }),
-	imageCorrected_(false)
+ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, QString programName, bool imageIsNull) :
+	fileName_{ inputFileName },
+	dirName_{inputDirName},
+	originalPixmap_{ inputPixmap },
+	originalMat_{inputMat},
+	correctPixmap_{inputPixmap},
+	correctMat_{inputMat},
+	processedArears_{ QtProcessedArea(0,0,QtRotateRect(0,0,0,0,0)) },
+	imageCorrected_{false},
+	imageIsNull_{imageIsNull},
+	programName_{programName}
 {
 }
 
 ProcessedObject::ProcessedObject(const ProcessedObject& dep):
-	fileName_(dep.fileName_),
-	dirName_(dep.dirName_),
-	originalPixmap_(dep.originalPixmap_),
-	originalMat_(dep.originalMat_),
-	correctPixmap_(dep.correctPixmap_),
-	correctMat_(dep.correctMat_),
-	processedArears_(dep.processedArears_),
-	imageCorrected_(dep.imageCorrected_)
+	fileName_{ dep.fileName_ },
+	dirName_{dep.dirName_},
+	originalPixmap_{dep.originalPixmap_},
+	originalMat_{dep.originalMat_},
+	correctPixmap_{dep.correctPixmap_},
+	correctMat_{dep.correctMat_},
+	processedArears_{dep.processedArears_},
+	imageCorrected_{dep.imageCorrected_},
+	imageIsNull_{dep.imageIsNull_},
+	programName_{dep.programName_}
 {
 }
 
@@ -71,7 +77,7 @@ QPixmap ProcessedObject::getCorrectPixmap()
 	return correctPixmap_;
 }
 
-cv::Mat ProcessedObject::getCorrectMat()
+cv::Mat ProcessedObject::getMat()
 {
 	return correctMat_;
 }
@@ -81,7 +87,7 @@ void ProcessedObject::setProcessedArears(std::vector<QtProcessedArea> *newProces
 	processedArears_.assign(newProcessedAreas->begin(), newProcessedAreas->end());
 }
 
-std::vector<QtProcessedArea>* ProcessedObject::getProcessedArears()
+std::vector<QtProcessedArea>* ProcessedObject::getProcesArears()
 {
 	return &processedArears_;
 }
@@ -102,10 +108,32 @@ ProcessedObject& ProcessedObject::operator=(const ProcessedObject& drop)
 	correctMat_ = drop.correctMat_;
 	processedArears_.assign(drop.processedArears_.begin(), drop.processedArears_.end());
 	imageCorrected_ = drop.imageCorrected_;
+	imageIsNull_ = drop.imageIsNull_;
+	programName_ = drop.programName_;
 	return *this;
 }
 
 bool ProcessedObject::imageCorrected()
 {
 	return imageCorrected_;
+}
+
+bool ProcessedObject::imageIsNull()
+{
+	return imageIsNull_;
+}
+
+void ProcessedObject::setFlagImageIsNull(bool imageIsNull)
+{
+	imageIsNull_ = imageIsNull;
+}
+
+QString ProcessedObject::getProgramName()
+{
+	return programName_;
+}
+
+void ProcessedObject::setProgramName(QString newProgramName)
+{
+	programName_ = newProgramName;
 }

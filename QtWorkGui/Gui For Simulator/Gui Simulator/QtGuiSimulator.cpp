@@ -28,7 +28,7 @@ QtGuiSimulator::QtGuiSimulator(QWidget *parent)
 	nulPixmap.load("NoImg.png");
 	for (int i{ 0 }; i < 32; i++)
 	{
-		loadObj.push_back(ProcessedObj("", "", "PN" + QString::number(i), cv::Mat(), nulPixmap, true));
+		loadObj.push_back(ProcessedObject("", "", cv::Mat(), nulPixmap, "PN" + QString::number(i), true));
 		ui.comboBox_program->addItem("PN" + QString::number(i));
 		ui.comboBox_program->setItemIcon(i, nulPixmap);
 	}
@@ -42,9 +42,10 @@ QtGuiSimulator::~QtGuiSimulator()
 void QtGuiSimulator::dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in)
 {
 	std::size_t found = fileName_in.toStdString().find_last_of("/\\");
-	loadObj[0].SetObjParams(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found))
-		, tempImg_out, QPixmap(fileName_in), false);
-	ui.widget_DisplayImg->setActivProcessObj(&loadObj[0]);
+	loadObj[0] = ProcessedObject(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found)), tempImg_out, QPixmap(fileName_in),loadObj[0].getProgramName());
+	//loadObj[0].SetObjParams(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found))
+	//	, tempImg_out, QPixmap(fileName_in), false);
+	ui.widget_DisplayImg->setActivProcessObj(loadObj[0]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 	ui.comboBox_program->setItemIcon(activLoadObj, QPixmap(fileName_in));
 	connect(ui.comboBox_program, SIGNAL(currentIndexChanged(int)), this, SLOT(slot_SetActivObj(int)));
@@ -53,7 +54,7 @@ void QtGuiSimulator::dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in)
 void QtGuiSimulator::slot_SetActivObj(int newActivObj)
 {
 	activLoadObj = newActivObj;
-	ui.widget_DisplayImg->setActivProcessObj(&loadObj[activLoadObj]);
+	ui.widget_DisplayImg->setActivProcessObj(loadObj[activLoadObj]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 }
 
@@ -61,7 +62,7 @@ void QtGuiSimulator::slot_openProgramDetail()
 {	
 	Programdetail = new QtGuiProgramDetails();
 	Programdetail->show();
-	connect(this, SIGNAL(dataToProgramDeyls(ProcessedObj*)), Programdetail, SLOT(slot_dataFromGuiSimulator(ProcessedObj*)));
+	connect(this, SIGNAL(dataToProgramDeyls(ProcessedObject*)), Programdetail, SLOT(slot_dataFromGuiSimulator(ProcessedObject*)));
 	connect(Programdetail, SIGNAL(add_Images(int)), this, SLOT(slot_updateComboBox(int)));
 	connect(Programdetail, SIGNAL(close_GUIProgDet()), this, SLOT(slot_closeProgDet()));
 	emit dataToProgramDeyls(&loadObj[0]);
@@ -69,7 +70,7 @@ void QtGuiSimulator::slot_openProgramDetail()
 
 void QtGuiSimulator::slot_updateComboBox(int activObj)
 {
-	ui.comboBox_program->setItemIcon(activObj, loadObj[activObj].getPixmap());
+	ui.comboBox_program->setItemIcon(activObj, loadObj[activObj].getCorrectPixmap());
 	ui.comboBox_program->setItemText(activObj, loadObj[activObj].getProgramName());
 	if (ui.comboBox_program->currentIndex() == activObj)
 		slot_SetActivObj(activObj);
@@ -86,12 +87,12 @@ void QtGuiSimulator::slot_openSetupSimulator()
 		LOG.logMessege("SetupSimulator creation error",_ERROR_);
 	}
 	SetupSimulator->show();
-	connect(this, SIGNAL(dataToSetingSim(ProcessedObj*)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObj*)));
-	connect(SetupSimulator, SIGNAL(dataToGUISim(ProcessedObj*)), this, SLOT(slot_dataFromSetupSim(ProcessedObj*)));
-	emit dataToSetingSim(&loadObj[activLoadObj]);
+	connect(this, SIGNAL(dataToSetingSim(ProcessedObject*)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObject*)));
+	connect(SetupSimulator, SIGNAL(dataToGUISim(ProcessedObject*)), this, SLOT(slot_dataFromSetupSim(ProcessedObject*)));
+	emit dataToSetingSim(loadObj[activLoadObj]);
 }
 
-void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObj* changedObj)
+void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObject* changedObj)
 {
 	for (int i{ 0 }; i < changedObj->getProcesArears()->size(); ++i)
 	{
@@ -99,9 +100,9 @@ void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObj* changedObj)
 		//ui.widget_DisplayImg->processedAreaScale(changedObj->getProcesArears()[0][i]);
 	}
 	loadObj[activLoadObj] = *changedObj;
-	ui.widget_DisplayImg->updateProcessObj(&loadObj[activLoadObj]);
+	ui.widget_DisplayImg->updateProcessObj(loadObj[activLoadObj]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
-	ui.comboBox_program->setItemIcon(activLoadObj, loadObj[activLoadObj].getPixmap());
+	ui.comboBox_program->setItemIcon(activLoadObj, loadObj[activLoadObj].getOriginalPixmap());
 	ui.widget_DisplayImg->setChangeActivArea(true);
 	ui.widget_DisplayImg->updateImg();
 }
@@ -131,9 +132,9 @@ void QtGuiSimulator::slot_openSensorSim()
 	img_bufer = cv::imread(qstr_bufer.toStdString());
 	if (!img_bufer.empty())// checking that image has loaded 
 	{
-		loadObj[activLoadObj].addTestImg(qstr_bufer);
+		//loadObj[activLoadObj].addTestImg(qstr_bufer);
 		SensorSimulator->show();
-		connect(this, SIGNAL(dataToSensorSim(ProcessedObj&)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObj&)));
+		connect(this, SIGNAL(dataToSensorSim(ProcessedObject&)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObject&)));
 		emit dataToSensorSim(loadObj[activLoadObj]);
 		//this->close();
 	}

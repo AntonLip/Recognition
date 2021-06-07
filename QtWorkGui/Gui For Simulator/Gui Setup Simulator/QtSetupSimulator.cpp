@@ -217,7 +217,7 @@ void QtSetupSimulator::slot_changeWidSteps(int step)
 	{
 		masterObjct.getProcesArears()[0][0].setActiv(true);
 		masterObjct.getProcesArears()[0][0].setDraw(true);
-		if (masterObjct.imgIsLoaded())
+		if (!masterObjct.imageIsNull())
 			ui.pushButton_setCorect->setEnabled(true);
 		
 		if (masterObjct.getProcesArears()[0][0].getArea() > 0)
@@ -225,7 +225,7 @@ void QtSetupSimulator::slot_changeWidSteps(int step)
 			ui.pushButton_delCorect->setEnabled(true);
 			ui.pushButton_setCorect->setEnabled(false);
 		}
-		if (!masterObjct.imgIsLoaded())
+		if (masterObjct.imageIsNull())
 		{
 			ui.pushButton_delCorect->setEnabled(false);
 			ui.pushButton_setCorect->setEnabled(false);
@@ -255,8 +255,9 @@ void QtSetupSimulator::slot_registImageFromFile()
 	if (!img_bufer.empty())// checking that image has loaded 
 	{
 		std::size_t found = qstr_bufer.toStdString().find_last_of("/\\");
-		masterObjct.SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, QPixmap(qstr_bufer), false);
-		ui.widget_getMasterImg->updateProcessObj(&masterObjct);
+		//masterObjct.SetObjParams(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, QPixmap(qstr_bufer), false);
+		masterObjct = ProcessedObject(QString::fromStdString(qstr_bufer.toStdString().substr(found + 1)), QString::fromStdString(qstr_bufer.toStdString().substr(0, found)), img_bufer, QPixmap(qstr_bufer), false);
+		ui.widget_getMasterImg->updateProcessObj(masterObjct);
 		ui.widget_getMasterImg->slot_ZoomImg_AllLabl();
 		LOG.logMessege("image load", _DEBUG_);
 		ui.widget_getMasterImg->setActiv(true);
@@ -271,7 +272,7 @@ void QtSetupSimulator::slot_registImageFromFile()
 
 void QtSetupSimulator::setGUIWid(int newActivStep)
 {
-	if(!masterObjct.imgIsLoaded())
+	if(masterObjct.imageIsNull())
 		ui.widget_getMasterImg->setActiv(false);
 	else 
 		ui.widget_getMasterImg->setActiv(true);
@@ -510,10 +511,11 @@ void QtSetupSimulator::slot_pushStep4()
 	ui.widget_getMasterImg->setChangesProcessedArears(false);
 }
 
-void QtSetupSimulator::slot_dataFromGUISim(ProcessedObj* newMasterObj)
+//void QtSetupSimulator::slot_dataFromGUISim(ProcessedObj* newMasterObj)
+void QtSetupSimulator::slot_dataFromGUISim(ProcessedObject& newMasterObj)
 {
-	masterObjct = *newMasterObj;
-	ui.widget_getMasterImg->setActivProcessObj(&masterObjct);
+	masterObjct = newMasterObj;
+	ui.widget_getMasterImg->setActivProcessObj(masterObjct);
 	setGUIWid(1);
 	if (masterObjct.getProcesArears()->size() > 1)
 	{
@@ -557,7 +559,7 @@ void QtSetupSimulator::slot_dataFromDialog(bool answer)
 	{
 		if (isClose&&changes)
 		{
-			emit dataToGUISim(&masterObjct);
+			emit dataToGUISim(masterObjct);
 			this->close();
 		}
 		else

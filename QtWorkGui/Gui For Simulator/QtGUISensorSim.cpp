@@ -10,11 +10,11 @@ QtGUISensorSim::~QtGUISensorSim()
 {
 }
 
-void QtGUISensorSim::slot_dataFromGuiSimulator(ProcessedObj& data)
+void QtGUISensorSim::slot_dataFromGuiSimulator(ProcessedObject& data)
 {
 	mainProcesObj = data;
 
-	ui.wid_forTestImg->setActivProcessObj(&data,false,0);
+	ui.wid_forTestImg->setActivProcessObj(data,false,0);
 	//ui.wid_forTestImg->setActiv(false);
 	ui.wid_forTestImg->setChangesProcessedArears(false);
 }

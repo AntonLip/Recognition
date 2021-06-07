@@ -85,33 +85,33 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForAnyParams));
 }
 
-void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObj* sensorObj)
+void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObject& sensorObj)
 {
-	sensorObject = sensorObj;
+	sensorObject = &sensorObj;
 	if (!masterIsActivObject)
 	{
-		QtSetupSimulator::ui.widget_getMasterImg->updateProcessObj(sensorObj);
+		QtSetupSimulator::ui.widget_getMasterImg->updateProcessObj(sensorObj); 
 	}
 }
 
 void QtGuiSetupSensor::slot_pushStep1()
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setProcessObjStatus(false);
-	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(sensorObject);
+	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(*sensorObject);
 	masterIsActivObject = false;
 }
 
 void QtGuiSetupSensor::slot_pushStep2()
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setProcessObjStatus(true);
-	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(&masterObjct);
+	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(masterObjct);
 	masterIsActivObject = true;
 }
 
 void QtGuiSetupSensor::slot_pushStep3()
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setProcessObjStatus(true);
-	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(&masterObjct);
+	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(masterObjct);
 	masterIsActivObject = true;
 }
 
@@ -386,9 +386,9 @@ void QtGuiSetupSensor::slot_pushOff()
 	pFeature->SetValue(temp);
 }
 
-void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObj* sensorObj, ProcessedObj* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObject* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
 {
-	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(sensorObj);
+	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(*sensorObj);
 	masterObjct = *masterObj;
 	sensorObject = sensorObj;
 	masterIsActivObject = false;

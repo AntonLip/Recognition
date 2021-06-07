@@ -25,11 +25,11 @@ private:
 	 //QPixmap m_img;
 	 VmbUchar_t* pbuffer;
 	 VmbUint32_t w, h;
-	 ProcessedObj* newFrame;
+	 ProcessedObject* newFrame;
 
 
 public:
-	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObj *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
+	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObject *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
 	{
 
 	};
