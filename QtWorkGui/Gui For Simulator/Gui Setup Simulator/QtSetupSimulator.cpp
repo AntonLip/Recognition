@@ -559,7 +559,7 @@ void QtSetupSimulator::slot_dataFromDialog(bool answer)
 	{
 		if (isClose&&changes)
 		{
-			emit dataToGUISim(masterObjct);
+			emit dataToGUISim(&masterObjct);
 			this->close();
 		}
 		else

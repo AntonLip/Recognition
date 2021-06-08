@@ -4,25 +4,25 @@
 #include <qdebug.h>
 
 QtConnect::QtConnect(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	cameras{},
+	simulatorMenu{nullptr}
 {
 	LOG.logMessege("QtConnect began to emerge", _DEBUG_);
 	ui.setupUi(this);
 	this->setWindowTitle("Connect Menu");
 	system.Startup();
 	system.GetCameras(cameras);
-	if (cameras.size() >= 0) ///////////change 0 on 1 afetr progrem will buil(SAV)!!!!!!
+	if (cameras.size() >= 0) ///////////change 0 on 1 afetr program will buil(SAV)!!!!!!
 	{
 		LOG.logMessege("Camera founded", _DEBUG_);
 		this->show();
 		std::string strIp;
-		QString ipAddres;
 		//Заносим в комбобокс доступные камеры (их МАС адреса)
 		for (CameraPtrVector::iterator iter = cameras.begin(); cameras.end() != iter; ++iter)
 		{
 			(*iter)->GetID(strIp);
-			ipAddres = QString::fromStdString(strIp);
-			ui.comboBox->addItem(ipAddres);
+			ui.comboBox->addItem(QString::fromStdString(strIp));
 		}
 		connect(ui.pushButton_connect, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
 	}
@@ -50,11 +50,11 @@ void QtConnect::on_pushButton_clicked()
 	{
 		LOG.logMessege("simulatorMenu with camer creat error", _ERROR_);
 	}
-	connect(this, SIGNAL(moveCameraInformation(CameraPtrVector&, int)), simulatorMenu, SLOT(slot_getCameraInformation(CameraPtrVector&, int)));
+	connect(this, SIGNAL(moveCameraInformation(CameraPtr)), simulatorMenu, SLOT(slot_getCameraInformation(CameraPtr)));
 	connect(simulatorMenu, SIGNAL(workWithCamera_close()), this, SLOT(slot_shutdownCamera()));
 	simulatorMenu->show();
 	emit closeMainForm();
-	emit moveCameraInformation(cameras, ui.comboBox->currentIndex());
+	emit moveCameraInformation(cameras[ui.comboBox->currentIndex()]);
 	this->close();
 	//вставить вызов окна GEWidget;
 }

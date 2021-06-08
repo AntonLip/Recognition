@@ -7,7 +7,7 @@
 #include "qstandarditemmodel.h"
 #include "Work With Camera/FrameObserver.h"
 #include "Gui For Camera/Gui Setup Camera/QtGuiSetupSensor.h"
-#include "Processing Object/ProcessedObject.h"
+#include "Processing Object/ProcessedObjectSensor.h"
 
 class QtGuiWorkWithCamera : public QtGuiSimulator
 {
@@ -19,25 +19,23 @@ public:
 
 private:
 	Ui::QtGuiWorkWithCamera ui;
-	CameraPtrVector cameras;
 	std::string Str = "AcquisitionStop"; // проверка Play/Stop
 	CameraPtr camera;
 	FeaturePtr pFeature; // Generic feature pointer
 	VmbInt64_t nPLS;// Payload size value
 	FramePtrVector frames{ 3 }; // Frame array
-	QPixmap img;
+	//QPixmap img;
 	bool makePhoto = true;
-	int m_index = 0;
 	VimbaSystem& system = VimbaSystem::GetInstance();
 	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
 	QtGuiSetupSensor* sensorSetup;
 	void setupGui();
-	ProcessedObject cameraLife;
+	ProcessedObjectSensor sensorLife;
 	void closeEvent(QCloseEvent* event);
 	bool isPlay;
 
 private slots:
-	void slot_getCameraInformation(CameraPtrVector& cams, int index);
+	void slot_getCameraInformation(CameraPtr sensor);
 	void slot_play();
 	void slot_stop();
 	void slot_openSetupCamera();
@@ -46,7 +44,7 @@ private slots:
 	void slot_setNewActivObj(int newActivObject);
 	void slot_dataFromSetupSim(ProcessedObject* new_pocessObject);
 signals:
-	void dataToSetingSensor(ProcessedObject& sensorObj,ProcessedObject& masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
-	void updateFrameInSetupSensor(ProcessedObject* sensorObj);
+	void dataToSetingSensor(ProcessedObjectSensor* sensorObj,ProcessedObject* masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
+	void updateFrameInSetupSensor(ProcessedObjectSensor* sensorObj);
 	void workWithCamera_close();
 };

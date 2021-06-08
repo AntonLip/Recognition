@@ -27,7 +27,7 @@ private:
 	CameraPtrVector cameras;
 	QtGuiWorkWithCamera* simulatorMenu;
 signals:
-	void moveCameraInformation(CameraPtrVector& ,int );
+	void moveCameraInformation(CameraPtr activSensor);
 	void closeMainForm();
 private slots:
 	void slot_shutdownCamera();

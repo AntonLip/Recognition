@@ -123,6 +123,7 @@
     <ClCompile Include="Processing Object\MyCircle.cpp" />
     <ClCompile Include="Processing Object\ProcessedObj.cpp" />
     <ClCompile Include="Processing Object\ProcessedObject.cpp" />
+    <ClCompile Include="Processing Object\ProcessedObjectSensor.cpp" />
     <ClCompile Include="Processing Object\QtProcessedArea.cpp" />
     <ClCompile Include="Processing Object\QtRotateRect.cpp" />
     <ClCompile Include="Processing\CountoursProcessing.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Processing Object\MyCircle.h" />
     <ClInclude Include="Processing Object\ProcessedObj.h" />
     <ClInclude Include="Processing Object\ProcessedObject.h" />
+    <ClInclude Include="Processing Object\ProcessedObjectSensor.h" />
     <ClInclude Include="Processing Object\QtRotateRect.h" />
     <ClInclude Include="Processing\CountoursProcessing.h" />
     <ClInclude Include="Work With Camera\FrameObserver.h" />

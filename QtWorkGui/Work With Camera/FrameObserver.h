@@ -6,7 +6,7 @@
 #include <opencv2/opencv.hpp>
 #include <qimage.h>
 
-#include "Processing Object/ProcessedObj.h"
+#include "Processing Object/ProcessedObjectSensor.h"
 
 #include "Gui For Simulator/Gui Display/QtGuiDisplay.h"
 //#include "ui_GE_Widget.h"
@@ -20,16 +20,11 @@ class FrameObserver : public IFrameObserver
 {
 private:
 	 QtGuiDisplay *display;
-	 //Ui::GE_WidgetClass m_ui_ge;
-	 //QImage myImage; //переменная,хранящая кадр с камеры
-	 //QPixmap m_img;
-	 VmbUchar_t* pbuffer;
-	 VmbUint32_t w, h;
-	 ProcessedObject* newFrame;
+	 ProcessedObjectSensor* newFrame;
 
 
 public:
-	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObject *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
+	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObjectSensor *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
 	{
 
 	};
@@ -48,8 +43,6 @@ public:
 	 ~FrameObserver()
 	 {
 		 LOG.logMessege("Frame obser destr", _INFO_);
-		 //delete pbuffer;
-		 //delete newFrame;
 	 }
 };
 

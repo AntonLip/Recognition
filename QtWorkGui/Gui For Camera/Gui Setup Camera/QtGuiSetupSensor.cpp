@@ -85,12 +85,12 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForAnyParams));
 }
 
-void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObject& sensorObj)
+void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObjectSensor* sensorObj)
 {
-	sensorObject = &sensorObj;
+	sensorObject->updateMat(sensorObj->getOriginalMat(),sensorObj->getCorrectPixmap());
 	if (!masterIsActivObject)
 	{
-		QtSetupSimulator::ui.widget_getMasterImg->updateProcessObj(sensorObj); 
+		QtSetupSimulator::ui.widget_getMasterImg->updateProcessObj(*sensorObj); 
 	}
 }
 
@@ -129,7 +129,6 @@ void QtGuiSetupSensor::slot_cahgeOfsetY(int newOffsetY)
 	if (chagheROI)
 	{
 		ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() - newOffsetY);
-		int a{};
 		emit signal_getNewOffsetY(newOffsetY / (maxFrameSize.height() / ui.SpinB_binningVer->value() / ui.setRoiWid->size().height()));
 	}
 }
@@ -188,18 +187,13 @@ void QtGuiSetupSensor::slot_changeBinning(int value)
 	double K = this->getKoefficient(value);
 	K = K + 0;
 
-	//m_kW = 4872 / ui.SpinB_binningVer->value() / 256;
-	//m_kH = 3248 / ui.SpinB_binningHor->value() / 256;
-
 	if (ui.SpinB_binningHor->value() - ui.SpinB_binningVer->value() < 0) //		H - W
 	{
-		//ui.widget->setGeometry(10, 10, 300.0 * K, 250 );
 		ui.setRoiWid->setFixedHeight(256 * K);  //H
 
 	}
 	else if (ui.SpinB_binningHor->value() - ui.SpinB_binningVer->value() > 0)
 	{
-		//.widget->setGeometry(10, 10, 300 , 250 * K);
 		ui.setRoiWid->setFixedWidth(256 * K);  //W
 	}
 	else
@@ -227,9 +221,6 @@ void QtGuiSetupSensor::slot_pushFull()
 	ui.PB_oneEighth->setDown(false);//1/4
 	ui.PB_oneQuarter->setDown(false);//1/8
 
-	//ui.spinBox_5->setValue(ui.widget->height() * (3248 / ui.spinBox_2->value() / 250));
-	//ui.spinBox_6->setValue(ui.widget->width() * (4872 / ui.spinBox->value() / 300));
-
 	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value());
 	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value());
 
@@ -248,9 +239,6 @@ void QtGuiSetupSensor::slot_pushOneQuarter()
 	ui.PB_oneQuarter->setDown(true);//1/4
 	ui.PB_oneEighth->setDown(false);//1/8
 
-	//ui.spinBox_5->setValue(ui.widget->height()/4 * (3248 / ui.spinBox_2->value() / 250));
-	//ui.spinBox_6->setValue(ui.widget->width()/4 * (4872 / ui.spinBox->value() / 300));
-
 	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() / 4);
 	ui.SpinB_width->setMaximum((maxFrameSize.width() / ui.SpinB_binningHor->value() / 4));
 	chagheROI = false;
@@ -268,8 +256,6 @@ void QtGuiSetupSensor::slot_pushOneEighth()
 	ui.PB_oneQuarter->setDown(false);//1/4
 	ui.PB_oneEighth->setDown(true);//1/8
 
-	/*ui.spinBox_5->setValue(ui.widget->height() / 8 * (3248 / ui.spinBox_2->value() / 250));
-	ui.spinBox_6->setValue(ui.widget->width() / 8 * (4872 / ui.spinBox->value() / 300));*/
 
 	ui.SpinB_height->setMaximum(maxFrameSize.height() / ui.SpinB_binningVer->value() / 8);
 	ui.SpinB_width->setMaximum(maxFrameSize.width() / ui.SpinB_binningHor->value() / 8);
@@ -287,6 +273,7 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 {
 
 	LOG.logMessege("Start changing camera settings", _INFO_);
+	//camera->SaveCameraSettings("camera.xml");
 	camera->GetFeatureByName("AcquisitionStop", pFeature);
 	pFeature->RunCommand();
 
@@ -330,7 +317,7 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 	VmbInt64_t oldNPLS{ nPLS };
 	pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
 
-
+	FramePtrVector frames{ 3 }; // Frame array
 	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
 	{
 		if (oldNPLS!=nPLS)
@@ -339,7 +326,7 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay,sensorObject)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
 		camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
 	}
-	makePhoto = false;
+	//makePhoto = false;
 	// Start the capture engine (API)											Запуск механизма захвата кадров
 	camera->StartCapture();
 	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
@@ -386,7 +373,7 @@ void QtGuiSetupSensor::slot_pushOff()
 	pFeature->SetValue(temp);
 }
 
-void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObject* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(*sensorObj);
 	masterObjct = *masterObj;

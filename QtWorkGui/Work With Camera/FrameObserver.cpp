@@ -9,8 +9,10 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 		if (VmbFrameStatusComplete == eReceiveStatus)
 		{
 			// Put your code here to react on a successfully received frame
+			VmbUchar_t* pbuffer;
+			VmbUint32_t w, h;
+
 			pFrame->GetImage(pbuffer);
-			
 			pFrame->GetHeight(h);
 			pFrame->GetWidth(w);
 
@@ -19,28 +21,10 @@ void FrameObserver::FrameReceived(const FramePtr pFrame)
 
 			cv::Mat bufer(h, w, CV_8UC1, pbuffer);
 			cv::cvtColor(bufer, bufer, CV_GRAY2BGR);
-			newFrame = &ProcessedObject("sensor live.jpg", "", bufer, m_img, "sensor");
-			//newFrame->SetObjParams("sensor live.jpg", "", bufer, m_img, false);
+			newFrame->updateMat(bufer, m_img);
+			newFrame->setFlagImageIsNull(false);
 			display->updateFrame();
 			LOG.logMessege("new frame craded", _DEBUG_);
-			/*if (m_gewidget)
-			{*/
-				//m_ui_ge.label->setPixmap(m_img); //вывод кадра в лэйбл
-				//if (m_makePhoto)//установка фона для сцены
-				//{
-				//	//img.save("background.jpg");
-				//	m_ui_ge.widget->setSceneBackground(m_img);
-				//	m_makePhoto = false;
-				//	//qDebug() << "hello";
-				//}
-			/*}
-			else
-			{*/
-				//m_ui.label_3->setPixmap(m_img);
-				
-				/*m_ui.linEdit_fileName->setText("Camera Vido");
-				m_ui.comboBox_program->setItemIcon(1, QPixmap());*/
-			//}
 		}
 		else
 		{

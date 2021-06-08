@@ -209,6 +209,9 @@
     <ClCompile Include="Processing Object\ImageProcessedObject.cpp">
       <Filter>Processing Object\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Processing Object\ProcessedObjectSensor.cpp">
+      <Filter>Processing Object\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Form File\Form For Camera\QtConnect.ui">
@@ -351,6 +354,9 @@
       <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Processing Object\ImageProcessedObject.h">
+      <Filter>Processing Object\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing Object\ProcessedObjectSensor.h">
       <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

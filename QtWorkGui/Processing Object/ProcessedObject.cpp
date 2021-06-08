@@ -96,6 +96,8 @@ void ProcessedObject::updateMat(cv::Mat newMat, QPixmap newPixmap)
 {
 	originalMat_ = newMat;
 	originalPixmap_ = newPixmap;
+	correctMat_ = newMat;
+	correctPixmap_ = newPixmap;
 }
 
 ProcessedObject& ProcessedObject::operator=(const ProcessedObject& drop)

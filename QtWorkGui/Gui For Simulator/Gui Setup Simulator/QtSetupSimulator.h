@@ -83,7 +83,7 @@ protected slots:
 	void slot_getActivProcesAreaTowidgetMasterImg();
 	void slot_registImageFromFile();
 signals:
-	void dataToGUISim(ProcessedObject& changedObj);
+	void dataToGUISim(ProcessedObject* changedObj);
 	void brightnesCorrectAreaDel();
 	void clic_pb();
 	void resetRectAngel(int activRect);

@@ -87,7 +87,7 @@ void QtGuiSimulator::slot_openSetupSimulator()
 		LOG.logMessege("SetupSimulator creation error",_ERROR_);
 	}
 	SetupSimulator->show();
-	connect(this, SIGNAL(dataToSetingSim(ProcessedObject*)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObject*)));
+	connect(this, SIGNAL(dataToSetingSim(ProcessedObject&)), SetupSimulator, SLOT(slot_dataFromGUISim(ProcessedObject&)));
 	connect(SetupSimulator, SIGNAL(dataToGUISim(ProcessedObject*)), this, SLOT(slot_dataFromSetupSim(ProcessedObject*)));
 	emit dataToSetingSim(loadObj[activLoadObj]);
 }

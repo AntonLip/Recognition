@@ -50,7 +50,7 @@ void QtGuiDisplay::setCursor_àorChangesTopLeft_BottonRight(double rotAngel)
 
 QtGuiDisplay::QtGuiDisplay(QWidget *parent)
 	: QWidget(parent),
-	delayUpdateFrame(25),
+	delayUpdateFrame(100),
 	updateImageTime(nullptr),
 	isZoomNow(false),
 	activProcesArea(1)
@@ -780,7 +780,7 @@ void QtGuiDisplay::setActiv(bool activ)
 	if (activ)
 	{
 		ui.label_for_TempImg->setStyleSheet("");
-		//this->setActivProcessObj(activProcessedObj);        !!!!!!!!!!!!!!!!!!!!SAV
+		this->setActivProcessObj(*activProcessedObj);      
 	}
 	else
 	{

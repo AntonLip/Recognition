@@ -2,7 +2,7 @@
 
 QtGuiWorkWithCamera::QtGuiWorkWithCamera(QWidget* parent)
 	: QtGuiSimulator(parent),
-	cameraLife("sensor life", "", cv::Mat(), QPixmap(), false),
+	sensorLife("sensor life", "", cv::Mat(), QPixmap(), true),
 	isPlay(false)
 {
 	LOG.logMessege("QtGuiWorkWithCamera constructor started", _DEBUG_);
@@ -51,9 +51,9 @@ void QtGuiWorkWithCamera::closeEvent(QCloseEvent* event)
 void QtGuiWorkWithCamera::slot_play()
 {
 	isPlay = true;
-	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(cameraLife);
+	QtGuiSimulator::ui.widget_DisplayImg->setActivProcessObj(sensorLife);
 	QtGuiSimulator::ui.widget_DisplayImg->setProcessObjStatus(false);
-	QtGuiSimulator::ui.linEdit_fileName->setText(cameraLife.getFileName());
+	QtGuiSimulator::ui.linEdit_fileName->setText(sensorLife.getFileName());
 }
 
 void QtGuiWorkWithCamera::slot_stop()
@@ -68,23 +68,23 @@ void QtGuiWorkWithCamera::slot_openSetupCamera()
 {
 	sensorSetup = new QtGuiSetupSensor();
 	sensorSetup->show();
-	connect(this, SIGNAL(dataToSetingSensor(ProcessedObject*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObject*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)));
-	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObject*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObject*)));
+	connect(this, SIGNAL(dataToSetingSensor(ProcessedObjectSensor*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)), sensorSetup, SLOT(slot_dataFromWorkWithSensor(ProcessedObjectSensor*, ProcessedObject*, CameraPtr&, int,QtGuiDisplay*)));
+	connect(this, SIGNAL(updateFrameInSetupSensor(ProcessedObjectSensor*)), sensorSetup, SLOT(slot_updateSensorObject(ProcessedObjectSensor*)));
 	connect(QtGuiSimulator::ui.widget_DisplayImg, SIGNAL(signal_updateFrame()), this, SLOT(slot_updateFrameInSetupSensor()));
 	connect(sensorSetup, SIGNAL(dataToGUISim(ProcessedObject*)), this, SLOT(slot_dataFromSetupSim(ProcessedObject*)));
-	emit dataToSetingSensor(cameraLife, loadObj[activLoadObj], camera, QtGuiSimulator::ui.widget_DisplayImg->getDelayUpdateFrame(), QtGuiSimulator::ui.widget_DisplayImg);
+	emit dataToSetingSensor(&sensorLife, &loadObj[activLoadObj], camera, QtGuiSimulator::ui.widget_DisplayImg->getDelayUpdateFrame(), QtGuiSimulator::ui.widget_DisplayImg);
 }
 
 void QtGuiWorkWithCamera::slot_updateFrameInSetupSensor()
 {
-	emit updateFrameInSetupSensor(&cameraLife);
+	emit updateFrameInSetupSensor(&sensorLife);
 }
 
 void QtGuiWorkWithCamera::slot_updateFrame()
 {
 	if (isPlay)
 	{
-		QtGuiSimulator::ui.widget_DisplayImg->updateProcessObj(cameraLife);
+		QtGuiSimulator::ui.widget_DisplayImg->updateProcessObj(sensorLife);
 	}
 }
 
@@ -100,54 +100,43 @@ void QtGuiWorkWithCamera::slot_setNewActivObj(int newActivObject)
 void QtGuiWorkWithCamera::slot_dataFromSetupSim(ProcessedObject* new_pocessObject)
 {
 	QtGuiSimulator::slot_dataFromSetupSim(new_pocessObject);
-	cameraLife.setProcessedArears(new_pocessObject->getProcesArears());
+	//sensorLife.setProcessedArears(new_pocessObject->getProcesArears());
 }
 
-void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtrVector& cams, int index)
+void QtGuiWorkWithCamera::slot_getCameraInformation(CameraPtr newSensor)
 {
-	cameras = cams;
-	m_index = index;
 	LOG.logMessege("start conect with in QtGuiWorkWithCamera", _INFO_);
 	try {
-		if (cameras.size() >= 1)
+
+		if (Str == "AcquisitionStop")
 		{
-			if (Str == "AcquisitionStop")
+			camera = newSensor;															//первую из списка камеру присваиваем
+			camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
+
+			camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+			pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
+
+			for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
 			{
-				//ui.stackedWidget->setCurrentIndex(1);
-				//system.Startup();  // Процесс запускаем в QtConnect
-				//system.GetCameras(cameras);
-
-				camera = cameras[m_index];													//первую из списка камеру присваиваем
-				camera->Open(VmbAccessModeFull);											//открываем камеру в режиме "доступ для чтения и записи". Используйте этот режим для настройки функций камеры и получения изображений
-
-				camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
-				pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
-
-				//cv::Mat df(0, 0, CV_8UC1);
-				for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
-				{
-					(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
-					//obs = 
-
-					//(*iter)->RegisterObserver(IFrameObserverPtr(new FirstFrameObserver(camera, &ui, &df)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
-					(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, &cameraLife)));
-					camera->AnnounceFrame(*iter);
-					//Предоставляем кадр из camera API
-				}
-				makePhoto = false;
-				// Start the capture engine (API)											Запуск механизма захвата кадров
-				camera->StartCapture();
-				for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
-				{
-					// Put frame into the frame queue										Поместить кадр в очередь кадров
-					camera->QueueFrame(*iter);
-				}
-				// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
-				camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
-				pFeature->RunCommand();
-				Str = "AcquisitionStart";
+				(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+				(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, QtGuiSimulator::ui.widget_DisplayImg, &sensorLife)));
+				camera->AnnounceFrame(*iter);
+				//Предоставляем кадр из camera API
 			}
+			makePhoto = false;
+			// Start the capture engine (API)											Запуск механизма захвата кадров
+			camera->StartCapture();
+			for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
+			{
+				// Put frame into the frame queue										Поместить кадр в очередь кадров
+				camera->QueueFrame(*iter);
+			}
+			// Start the acquisition engine (camera)									Запустите механизм сбора данных (камеру)
+			camera->GetFeatureByName("AcquisitionStart", pFeature);						//AcquisitionStart начать получение изображения
+			pFeature->RunCommand();
+			Str = "AcquisitionStart";
 		}
+
 	}
 	catch (...)
 	{

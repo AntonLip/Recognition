@@ -8,7 +8,7 @@
 #include "qspinbox.h"
 #include "Work With Camera/FrameObserver.h"
 #include "Loger/simplLoger.h"
-
+#include "Processing Object/ProcessedObjectSensor.h"
 
 using namespace AVT;
 using namespace VmbAPI;
@@ -29,31 +29,33 @@ public:
 
 private:
 	Ui::QtGuiSetupSensor ui;
-	QPixmap img;
+	//QPixmap img;
 	QHBoxLayout* HL_forFirstStep;
-	CameraPtrVector cameras;
+	//CameraPtrVector cameras;
 	void setUpGui();
-	ProcessedObject* sensorObject;
-	//ProcessedObj* sensorObject;
+	ProcessedObjectSensor* sensorObject;
 	bool masterIsActivObject;
+
+
+
 	VmbInt64_t nPLS;// Payload size value
 	FeaturePtr pFeature; // Generic feature pointer
 	CameraPtr camera;
-	FramePtr frame_ptr;
+	//FramePtr frame_ptr;
 
-	VimbaSystem& system = VimbaSystem::GetInstance();
-	FramePtrVector frames{ 3 }; // Frame array
-	FeaturePtr m_ExposureAutoTargetFeature;
-	FeaturePtr feature;
-	bool makePhoto = true;
+	//VimbaSystem& system = VimbaSystem::GetInstance();
+	
+	//FeaturePtr m_ExposureAutoTargetFeature;
+	//FeaturePtr feature;
+	//bool makePhoto = true;
 	QtGuiDisplay* videoDisplay;
-	QSizeF maxFrameSize;
+	QSizeF const maxFrameSize;
 	bool chagheROI;
 	void setCameraParamsInGui();
 	
 public slots:
-	void slot_dataFromWorkWithSensor(ProcessedObject* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
-	void slot_updateSensorObject(ProcessedObject& sensorObj);
+	void slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
+	void slot_updateSensorObject(ProcessedObjectSensor* sensorObj);
 	void slot_pushStep1();
 	void slot_pushStep2();
 	void slot_pushStep3();
