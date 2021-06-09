@@ -19,7 +19,7 @@ QtConnect::QtConnect(QWidget *parent)
 		this->show();
 		std::string strIp;
 		//Заносим в комбобокс доступные камеры (их МАС адреса)
-		for (CameraPtrVector::iterator iter = cameras.begin(); cameras.end() != iter; ++iter)
+		for (AVT::VmbAPI::CameraPtrVector::iterator iter = cameras.begin(); cameras.end() != iter; ++iter)
 		{
 			(*iter)->GetID(strIp);
 			ui.comboBox->addItem(QString::fromStdString(strIp));
@@ -50,7 +50,7 @@ void QtConnect::on_pushButton_clicked()
 	{
 		LOG.logMessege("simulatorMenu with camer creat error", _ERROR_);
 	}
-	connect(this, SIGNAL(moveCameraInformation(CameraPtr)), simulatorMenu, SLOT(slot_getCameraInformation(CameraPtr)));
+	connect(this, SIGNAL(moveCameraInformation(AVT::VmbAPI::CameraPtr)), simulatorMenu, SLOT(slot_getCameraInformation(AVT::VmbAPI::CameraPtr)));
 	connect(simulatorMenu, SIGNAL(workWithCamera_close()), this, SLOT(slot_shutdownCamera()));
 	simulatorMenu->show();
 	emit closeMainForm();

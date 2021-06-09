@@ -7,8 +7,8 @@
 #include "QtGuiWorkWithCamera.h"
 #include "Loger/simplLoger.h"
 
-using namespace AVT;
-using namespace VmbAPI;
+//using namespace AVT;
+//using namespace VmbAPI;
 
 class QtConnect : public QWidget
 {
@@ -23,11 +23,11 @@ public slots:
 
 private:
 	Ui::QtConnect ui;
-	VimbaSystem& system = VimbaSystem::GetInstance();
-	CameraPtrVector cameras;
+	AVT::VmbAPI::VimbaSystem& system = AVT::VmbAPI::VimbaSystem::GetInstance();
+	AVT::VmbAPI::CameraPtrVector cameras;
 	QtGuiWorkWithCamera* simulatorMenu;
 signals:
-	void moveCameraInformation(CameraPtr activSensor);
+	void moveCameraInformation(AVT::VmbAPI::CameraPtr activSensor);
 	void closeMainForm();
 private slots:
 	void slot_shutdownCamera();

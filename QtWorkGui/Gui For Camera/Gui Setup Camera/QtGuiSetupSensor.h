@@ -10,8 +10,8 @@
 #include "Loger/simplLoger.h"
 #include "Processing Object/ProcessedObjectSensor.h"
 
-using namespace AVT;
-using namespace VmbAPI;
+//using namespace AVT;
+//using namespace VmbAPI;
 using namespace cv;
 
 class QtGuiSetupSensor : public QtSetupSimulator
@@ -21,40 +21,23 @@ class QtGuiSetupSensor : public QtSetupSimulator
 public:
 	QtGuiSetupSensor(QWidget *parent = Q_NULLPTR);
 	~QtGuiSetupSensor();
-	//int m_kW = 4872, m_kH = 3248;
 	friend class FrameObserver;
-	//void scaledImages(double factor);
 	double getKoefficient(int value);  //коэффициент уменьшения окна в зависимости от спинбоксов
-
 
 private:
 	Ui::QtGuiSetupSensor ui;
-	//QPixmap img;
 	QHBoxLayout* HL_forFirstStep;
-	//CameraPtrVector cameras;
 	void setUpGui();
 	ProcessedObjectSensor* sensorObject;
 	bool masterIsActivObject;
-
-
-
-	VmbInt64_t nPLS;// Payload size value
-	FeaturePtr pFeature; // Generic feature pointer
-	CameraPtr camera;
-	//FramePtr frame_ptr;
-
-	//VimbaSystem& system = VimbaSystem::GetInstance();
-	
-	//FeaturePtr m_ExposureAutoTargetFeature;
-	//FeaturePtr feature;
-	//bool makePhoto = true;
+//	CameraPtr camera;
 	QtGuiDisplay* videoDisplay;
 	QSizeF const maxFrameSize;
 	bool chagheROI;
 	void setCameraParamsInGui();
 	
 public slots:
-	void slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int index, QtGuiDisplay* videoDisplay);
+	void slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObjectSensor* sensorObj);
 	void slot_pushStep1();
 	void slot_pushStep2();

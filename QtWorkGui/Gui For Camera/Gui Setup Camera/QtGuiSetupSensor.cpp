@@ -60,6 +60,8 @@ void QtGuiSetupSensor::setUpGui()
 void QtGuiSetupSensor::setCameraParamsInGui()
 {
 	VmbInt64_t buferForAnyParams{ 0 };
+	AVT::VmbAPI::FeaturePtr pFeature;
+	AVT::VmbAPI::CameraPtr camera{ sensorObject->getCameraPtr() };
 	camera->GetFeatureByName("BinningHorizontal", pFeature);
 	pFeature->GetValue(buferForAnyParams);
 	ui.SpinB_binningHor->setValue(static_cast<int>(buferForAnyParams));
@@ -274,6 +276,8 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 
 	LOG.logMessege("Start changing camera settings", _INFO_);
 	//camera->SaveCameraSettings("camera.xml");
+	AVT::VmbAPI::FeaturePtr pFeature;
+	AVT::VmbAPI::CameraPtr camera{ sensorObject->getCameraPtr() };
 	camera->GetFeatureByName("AcquisitionStop", pFeature);
 	pFeature->RunCommand();
 
@@ -314,22 +318,23 @@ void QtGuiSetupSensor::slot_pushSetRoi()
 
 
 	camera->GetFeatureByName("PayloadSize", pFeature);							//Получить функцию по имени "Размер полезной нагрузки"(Размер кадра камеры). Полученную функцию возвращаем в pFeature  Feature-характеристика, функция
+	VmbInt64_t nPLS;// Payload size value
 	VmbInt64_t oldNPLS{ nPLS };
 	pFeature->GetValue(nPLS);													//Запрос значения размера полезной нагрузки
 
-	FramePtrVector frames{ 3 }; // Frame array
-	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
+	AVT::VmbAPI::FramePtrVector frames{ 3 }; // Frame array
+	for (AVT::VmbAPI::FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)		//FramePtrVector - вектор указателей на кадры, frames.begin()- первый кадр, frames.end()- последний кадр. Цикл прохождения по каждому кадру
 	{
 		if (oldNPLS!=nPLS)
-			(*iter).reset(new Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
+			(*iter).reset(new AVT::VmbAPI::Frame(nPLS));											//сброс предыдущих настроек. Указываем новый размер для ,буффера кадра ( теперь он будет равен величине nPLS)
 		//obs = 
-		(*iter)->RegisterObserver(IFrameObserverPtr(new FrameObserver(camera, videoDisplay,sensorObject)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
+		(*iter)->RegisterObserver(AVT::VmbAPI::IFrameObserverPtr(new FrameObserver(camera, videoDisplay,sensorObject)));//Зарегистрировать наблюдателя camera(уже ссылается на нашу камеру,которую мы присвоили по ID)
 		camera->AnnounceFrame(*iter);											//Предоставляем кадр из camera API
 	}
 	//makePhoto = false;
 	// Start the capture engine (API)											Запуск механизма захвата кадров
 	camera->StartCapture();
-	for (FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
+	for (AVT::VmbAPI::FramePtrVector::iterator iter = frames.begin(); frames.end() != iter; ++iter)
 	{
 		// Put frame into the frame queue										Поместить кадр в очередь кадров
 		camera->QueueFrame(*iter);
@@ -346,7 +351,8 @@ void QtGuiSetupSensor::slot_pushContinous()
 	ui.PB_once->setDown(false);
 	ui.PB_continuous->setDown(true);
 
-	camera->GetFeatureByName("ExposureAuto", pFeature);
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Continuous";
 	pFeature->SetValue(temp);
 }
@@ -357,7 +363,8 @@ void QtGuiSetupSensor::slot_pushOnce()
 	ui.PB_once->setDown(true);
 	ui.PB_continuous->setDown(false);
 
-	camera->GetFeatureByName("ExposureAuto", pFeature);
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Once";
 	pFeature->SetValue(temp);
 }
@@ -368,21 +375,20 @@ void QtGuiSetupSensor::slot_pushOff()
 	ui.PB_once->setDown(false);
 	ui.PB_continuous->setDown(false);
 
-	camera->GetFeatureByName("ExposureAuto", pFeature);
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Off";
 	pFeature->SetValue(temp);
 }
 
-void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, CameraPtr& cams, int delay, QtGuiDisplay* videoDisplay_)
+void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay_)
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(*sensorObj);
 	masterObjct = *masterObj;
 	sensorObject = sensorObj;
 	masterIsActivObject = false;
-	camera = cams;
 	videoDisplay = videoDisplay_;
-	ui.spinB_trigerDelay->setValue(delay);
-	//setCameraParamsInGui();
+	ui.spinB_trigerDelay->setValue(sensorObject->getFrameDelay());
 	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
 	connect(ui.PB_setRoi, SIGNAL(clicked()), videoDisplay, SLOT(slot_delUpdateImageTime()));
 }

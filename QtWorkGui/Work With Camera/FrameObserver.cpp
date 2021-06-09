@@ -1,7 +1,7 @@
 #include "FrameObserver.h"
 
 
-void FrameObserver::FrameReceived(const FramePtr pFrame)
+void FrameObserver::FrameReceived(const AVT::VmbAPI::FramePtr pFrame)
 {
 	VmbFrameStatusType eReceiveStatus;
 	if (VmbErrorSuccess == pFrame->GetReceiveStatus(eReceiveStatus))

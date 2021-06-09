@@ -19,23 +19,18 @@ public:
 
 private:
 	Ui::QtGuiWorkWithCamera ui;
-	std::string Str = "AcquisitionStop"; // проверка Play/Stop
-	CameraPtr camera;
-	FeaturePtr pFeature; // Generic feature pointer
-	VmbInt64_t nPLS;// Payload size value
-	FramePtrVector frames{ 3 }; // Frame array
-	//QPixmap img;
-	bool makePhoto = true;
-	VimbaSystem& system = VimbaSystem::GetInstance();
-	void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
+	std::string acquisitionMode; // проверка Play/Stop
 	QtGuiSetupSensor* sensorSetup;
-	void setupGui();
 	ProcessedObjectSensor sensorLife;
-	void closeEvent(QCloseEvent* event);
 	bool isPlay;
+	
+
+	void setupGui();
+	void closeEvent(QCloseEvent* event);
+	//void readVideo(cv::Mat* newFrameMat, QPixmap* newFramePixmap);
 
 private slots:
-	void slot_getCameraInformation(CameraPtr sensor);
+	void slot_getCameraInformation(AVT::VmbAPI::CameraPtr sensor);
 	void slot_play();
 	void slot_stop();
 	void slot_openSetupCamera();
@@ -44,7 +39,7 @@ private slots:
 	void slot_setNewActivObj(int newActivObject);
 	void slot_dataFromSetupSim(ProcessedObject* new_pocessObject);
 signals:
-	void dataToSetingSensor(ProcessedObjectSensor* sensorObj,ProcessedObject* masterObject, CameraPtr& cams, int index, QtGuiDisplay *videoDisplay);
+	void dataToSetingSensor(ProcessedObjectSensor* sensorObj,ProcessedObject* masterObject, QtGuiDisplay *videoDisplay);
 	void updateFrameInSetupSensor(ProcessedObjectSensor* sensorObj);
 	void workWithCamera_close();
 };

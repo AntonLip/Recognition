@@ -1,6 +1,5 @@
 #pragma once
 #include "VimbaCPP.h"
-//#include "D:\soft\VimbaCPP\VimbaCPP\Include\IFrameObserver.h"
 #include <VimbaCPP/Include/IFrameObserver.h>
 #include "iostream"
 #include <opencv2/opencv.hpp>
@@ -12,11 +11,9 @@
 //#include "ui_GE_Widget.h"
 #include "Loger/simplLoger.h"
 
-using namespace AVT;
-using namespace VmbAPI;
 using namespace cv;
 
-class FrameObserver : public IFrameObserver
+class FrameObserver : public AVT::VmbAPI::IFrameObserver
 {
 private:
 	 QtGuiDisplay *display;
@@ -24,7 +21,7 @@ private:
 
 
 public:
-	FrameObserver(CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObjectSensor *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
+	FrameObserver(AVT::VmbAPI::CameraPtr pCamera, QtGuiDisplay* videaDisplay, ProcessedObjectSensor *loadObj0) : IFrameObserver(pCamera), display(videaDisplay), newFrame(loadObj0)
 	{
 
 	};
@@ -38,7 +35,7 @@ public:
 
 	};
 
-	 void FrameReceived(const FramePtr pFrame) override;
+	 void FrameReceived(const AVT::VmbAPI::FramePtr pFrame) override;
 
 	 ~FrameObserver()
 	 {

@@ -1,13 +1,15 @@
 #include "ProcessedObjectSensor.h"
 
 ProcessedObjectSensor::ProcessedObjectSensor():
-	frameDelay_{0}
+	frameDelay_{0},
+	camera_{}
 {
 }
 
 ProcessedObjectSensor::ProcessedObjectSensor(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, bool imageIsNull, int frameDelay):
 	ProcessedObject{ inputFileName,inputDirName,inputMat,inputPixmap,"sensor",imageIsNull },
-	frameDelay_{ frameDelay }
+	frameDelay_{ frameDelay },
+	camera_{}
 {
 }
 
@@ -26,6 +28,16 @@ int ProcessedObjectSensor::getFrameDelay() const
 	return frameDelay_;
 }
 
+AVT::VmbAPI::CameraPtr ProcessedObjectSensor::getCameraPtr() const
+{
+	return camera_;
+}
+
+void ProcessedObjectSensor::setCameraPtr(AVT::VmbAPI::CameraPtr newCameraPtr)
+{
+	camera_ = newCameraPtr;
+}
+
 ProcessedObjectSensor& ProcessedObjectSensor::operator=(const ProcessedObjectSensor& drop)
 {
 	fileName_ = drop.fileName_;
@@ -39,5 +51,6 @@ ProcessedObjectSensor& ProcessedObjectSensor::operator=(const ProcessedObjectSen
 	imageIsNull_ = drop.imageIsNull_;
 	programName_ = drop.programName_;
 	frameDelay_ = drop.frameDelay_;
+	camera_ = drop.camera_;
 	return *this;
 }
