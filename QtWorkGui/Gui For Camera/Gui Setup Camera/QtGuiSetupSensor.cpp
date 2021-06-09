@@ -3,8 +3,10 @@
 
 QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	: QtSetupSimulator(parent),
-	maxFrameSize(QSizeF(4872.0, 3248.0)),
-	chagheROI(false)
+	maxFrameSize{ QSizeF(4872.0, 3248.0) },
+	chagheROI{ false },
+	updateCameraParams{ false },
+	oldFrameDelay{ 0 }
 {
 	ui.setupUi(this);
 	setUpGui();
@@ -86,6 +88,7 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 	pFeature->GetValue(buferForAnyParams);
 	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForAnyParams));
 }
+
 
 void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObjectSensor* sensorObj)
 {
@@ -381,14 +384,36 @@ void QtGuiSetupSensor::slot_pushOff()
 	pFeature->SetValue(temp);
 }
 
+void QtGuiSetupSensor::slot_dataToGuiWorkWithCamera()
+{
+	updateCameraParams = true;
+}
+
 void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay_)
 {
 	QtSetupSimulator::ui.widget_getMasterImg->setActivProcessObj(*sensorObj);
-	masterObjct = *masterObj;
+	slot_dataFromGUISim(*masterObj);
 	sensorObject = sensorObj;
+	sensorObject->getCameraPtr()->SaveCameraSettings("oldCameraParams.xml");
 	masterIsActivObject = false;
 	videoDisplay = videoDisplay_;
+	oldFrameDelay = sensorObj->getFrameDelay();
 	ui.spinB_trigerDelay->setValue(sensorObject->getFrameDelay());
+	setCameraParamsInGui();
 	connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), videoDisplay, SLOT(slot_updateTrigerDelay(int)));
 	connect(ui.PB_setRoi, SIGNAL(clicked()), videoDisplay, SLOT(slot_delUpdateImageTime()));
+}
+
+void QtGuiSetupSensor::closeEvent(QCloseEvent* event)
+{
+	if (isClose)
+	{
+		if (!changes)
+		{
+			sensorObject->getCameraPtr()->LoadCameraSettings("oldCameraParams.xml");
+			sensorObject->setFrameDelay(oldFrameDelay);
+		}
+		this->close();
+	}
+	QtSetupSimulator::closeEvent(event);
 }

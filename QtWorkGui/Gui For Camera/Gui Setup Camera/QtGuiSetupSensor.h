@@ -34,8 +34,11 @@ private:
 	QtGuiDisplay* videoDisplay;
 	QSizeF const maxFrameSize;
 	bool chagheROI;
+	bool updateCameraParams;
+	int oldFrameDelay;
 	void setCameraParamsInGui();
-	
+	void closeEvent(QCloseEvent* event);
+
 public slots:
 	void slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObjectSensor* sensorObj);
@@ -66,7 +69,7 @@ public slots:
 	void slot_pushContinous();//continous
 	void slot_pushOnce();//once
 	void slot_pushOff();//off
-
+	void slot_dataToGuiWorkWithCamera();
 signals:
 	void sl_BinningChange(int value);
 	void sl_buttonChangeSizeClicked(double changeKoef);

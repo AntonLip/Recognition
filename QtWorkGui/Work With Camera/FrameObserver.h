@@ -8,7 +8,6 @@
 #include "Processing Object/ProcessedObjectSensor.h"
 
 #include "Gui For Simulator/Gui Display/QtGuiDisplay.h"
-//#include "ui_GE_Widget.h"
 #include "Loger/simplLoger.h"
 
 using namespace cv;
