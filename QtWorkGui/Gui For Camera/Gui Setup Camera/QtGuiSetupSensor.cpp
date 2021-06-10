@@ -36,6 +36,13 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	connect(this, SIGNAL(signal_getNewOffsetY(int)), ui.setRoiWid, SLOT(slot_setNewOffsetY(int)));
 	connect(this, SIGNAL(signal_getNewHeigth(int)), ui.setRoiWid, SLOT(slot_setNewHeigth(int)));
 	connect(this, SIGNAL(signal_getNewWidth(int)), ui.setRoiWid, SLOT(slot_setNewWidth(int)));
+
+	connect(ui.horSlider_exprosureSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosureSeconds(int)));
+	connect(ui.horSlider_exprosureMilSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosureMilSeconds(int)));
+	connect(ui.horSlider_exprosureMicSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosureMicSeconds(int)));
+	connect(ui.horSlider_exprosureSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
+	connect(ui.horSlider_exprosureMilSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
+	connect(ui.horSlider_exprosureMicSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
 	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
 
 }
@@ -61,40 +68,85 @@ void QtGuiSetupSensor::setUpGui()
 
 void QtGuiSetupSensor::setCameraParamsInGui()
 {
-	VmbInt64_t buferForAnyParams{ 0 };
+	VmbInt64_t buferForIntParams{ 0 };
 	AVT::VmbAPI::FeaturePtr pFeature;
 	AVT::VmbAPI::CameraPtr camera{ sensorObject->getCameraPtr() };
 	camera->GetFeatureByName("BinningHorizontal", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_binningHor->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_binningHor->setValue(static_cast<int>(buferForIntParams));
 
 	camera->GetFeatureByName("BinningVertical", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_binningVer->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_binningVer->setValue(static_cast<int>(buferForIntParams));
 
 	camera->GetFeatureByName("Height", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_height->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_height->setValue(static_cast<int>(buferForIntParams));
 
 	camera->GetFeatureByName("Width", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_width->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_width->setValue(static_cast<int>(buferForIntParams));
 
 	camera->GetFeatureByName("OffsetX", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_ofsetX->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_ofsetX->setValue(static_cast<int>(buferForIntParams));
 
 	camera->GetFeatureByName("OffsetY", pFeature);
-	pFeature->GetValue(buferForAnyParams);
-	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForAnyParams));
+	pFeature->GetValue(buferForIntParams);
+	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForIntParams));
+
+	setExprosureValue();
+
+	std::string buferForStringParams{};
+	camera->GetFeatureByName("ExposureAuto", pFeature);
+	pFeature->GetValue(buferForStringParams);
+	if (buferForStringParams == "Continuous")
+	{
+		ui.PB_off->setDown(false);
+		ui.PB_once->setDown(false);
+		ui.PB_continuous->setDown(true);
+		ui.LE_exprosureMilSeconds->setEnabled(false);
+		ui.LE_exprosureMicSecods->setEnabled(false);
+		ui.LE_exprosureSeconds->setEnabled(false);
+		ui.horSlider_exprosureMicSeconds->setEnabled(false);
+		ui.horSlider_exprosureMilSeconds->setEnabled(false);
+		ui.horSlider_exprosureSeconds->setEnabled(false);
+	}
+	else if (buferForStringParams == "Once")
+	{
+		ui.PB_off->setDown(false);
+		ui.PB_once->setDown(true);
+		ui.PB_continuous->setDown(false);
+		ui.LE_exprosureMilSeconds->setEnabled(false);
+		ui.LE_exprosureMicSecods->setEnabled(false);
+		ui.LE_exprosureSeconds->setEnabled(false);
+		ui.horSlider_exprosureMicSeconds->setEnabled(false);
+		ui.horSlider_exprosureMilSeconds->setEnabled(false);
+		ui.horSlider_exprosureSeconds->setEnabled(false);
+	}
+	else if (buferForStringParams == "Off")
+	{
+		ui.PB_off->setDown(true);
+		ui.PB_once->setDown(false);
+		ui.PB_continuous->setDown(false);
+
+		ui.LE_exprosureMilSeconds->setEnabled(true);
+		ui.LE_exprosureMicSecods->setEnabled(true);
+		ui.LE_exprosureSeconds->setEnabled(true);
+		ui.horSlider_exprosureMicSeconds->setEnabled(true);
+		ui.horSlider_exprosureMilSeconds->setEnabled(true);
+		ui.horSlider_exprosureSeconds->setEnabled(true);
+	}
 }
 
 
 void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObjectSensor* sensorObj)
 {
 	sensorObject->updateMat(sensorObj->getOriginalMat(),sensorObj->getCorrectPixmap());
+	setExprosureValue();
 	if (!masterIsActivObject)
 	{
+		
 		QtSetupSimulator::ui.widget_getMasterImg->updateProcessObj(*sensorObj); 
 	}
 }
@@ -358,6 +410,13 @@ void QtGuiSetupSensor::slot_pushContinous()
 	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Continuous";
 	pFeature->SetValue(temp);
+
+	ui.LE_exprosureMilSeconds->setEnabled(false);
+	ui.LE_exprosureMicSecods->setEnabled(false);
+	ui.LE_exprosureSeconds->setEnabled(false);
+	ui.horSlider_exprosureMicSeconds->setEnabled(false);
+	ui.horSlider_exprosureMilSeconds->setEnabled(false);
+	ui.horSlider_exprosureSeconds->setEnabled(false);
 }
 
 void QtGuiSetupSensor::slot_pushOnce()
@@ -370,6 +429,13 @@ void QtGuiSetupSensor::slot_pushOnce()
 	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Once";
 	pFeature->SetValue(temp);
+
+	ui.LE_exprosureMilSeconds->setEnabled(false);
+	ui.LE_exprosureMicSecods->setEnabled(false);
+	ui.LE_exprosureSeconds->setEnabled(false);
+	ui.horSlider_exprosureMicSeconds->setEnabled(false);
+	ui.horSlider_exprosureMilSeconds->setEnabled(false);
+	ui.horSlider_exprosureSeconds->setEnabled(false);
 }
 
 void QtGuiSetupSensor::slot_pushOff()
@@ -382,11 +448,47 @@ void QtGuiSetupSensor::slot_pushOff()
 	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAuto", pFeature);
 	char* temp = "Off";
 	pFeature->SetValue(temp);
+
+	ui.LE_exprosureMilSeconds->setEnabled(true);
+	ui.LE_exprosureMicSecods->setEnabled(true);
+	ui.LE_exprosureSeconds->setEnabled(true);
+	ui.horSlider_exprosureMicSeconds->setEnabled(true);
+	ui.horSlider_exprosureMilSeconds->setEnabled(true);
+	ui.horSlider_exprosureSeconds->setEnabled(true);
 }
 
 void QtGuiSetupSensor::slot_dataToGuiWorkWithCamera()
 {
 	updateCameraParams = true;
+}
+
+void QtGuiSetupSensor::slot_changeExprosureSeconds(int newValue)
+{
+	ui.LE_exprosureSeconds->setText(QString::number(newValue));
+	if (newValue == 60)
+	{
+		ui.LE_exprosureMilSeconds->setEnabled(false);
+		ui.LE_exprosureMicSecods->setEnabled(false);
+		ui.horSlider_exprosureMicSeconds->setEnabled(false);
+		ui.horSlider_exprosureMilSeconds->setEnabled(false);
+	}
+	else if (!ui.LE_exprosureMicSecods->isEnabled() && ui.LE_exprosureSeconds->isEnabled())
+	{
+		ui.LE_exprosureMilSeconds->setEnabled(true);
+		ui.LE_exprosureMicSecods->setEnabled(true);
+		ui.horSlider_exprosureMicSeconds->setEnabled(true);
+		ui.horSlider_exprosureMilSeconds->setEnabled(true);
+	}
+}
+
+void QtGuiSetupSensor::slot_changeExprosureMilSeconds(int newValue)
+{
+	ui.LE_exprosureMilSeconds->setText(QString::number(newValue));
+}
+
+void QtGuiSetupSensor::slot_changeExprosureMicSeconds(int newValue)
+{
+	ui.LE_exprosureMicSecods->setText(QString::number(newValue));
 }
 
 void QtGuiSetupSensor::slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay_)
@@ -416,4 +518,30 @@ void QtGuiSetupSensor::closeEvent(QCloseEvent* event)
 		this->close();
 	}
 	QtSetupSimulator::closeEvent(event);
+}
+
+void QtGuiSetupSensor::setExprosureValue()
+{
+	double buferForDoubleParams{ 0.0 };
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("ExposureTimeAbs", pFeature);
+	pFeature->GetValue(buferForDoubleParams);
+	ui.horSlider_exprosureSeconds->setValue(static_cast<int>(buferForDoubleParams) / 1000000);
+	ui.horSlider_exprosureMilSeconds->setValue((static_cast<int>(buferForDoubleParams) % 1000000) / 1000);
+	ui.horSlider_exprosureMicSeconds->setValue(static_cast<int>(buferForDoubleParams) % 1000000000);
+}
+
+void QtGuiSetupSensor::slot_changeExprosure()
+{
+	if (ui.horSlider_exprosureSeconds->value() != 60)
+		ui.LE_exprosureSumm->setText(QString::number(ui.horSlider_exprosureSeconds->value() * 1000000 + ui.horSlider_exprosureMilSeconds->value() * 1000 + ui.horSlider_exprosureMicSeconds->value()));
+	else
+		ui.LE_exprosureSumm->setText(QString::number(ui.horSlider_exprosureSeconds->value() * 1000000));
+	
+	if (ui.horSlider_exprosureSeconds->isEnabled())
+	{
+		AVT::VmbAPI::FeaturePtr pFeature;
+		sensorObject->getCameraPtr()->GetFeatureByName("ExposureTimeAbs", pFeature);
+		pFeature->SetValue(ui.LE_exprosureSumm->text().toDouble());
+	}
 }

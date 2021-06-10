@@ -10,14 +10,14 @@
 <CameraSettings CameraID="DEV_000F310229ED" CameraModel="GE4900 (02-2095C)" FeatureCount="183">
     <FeatureGroup Count="56">
         <Feature Name="AcquisitionFrameCount" Type="Integer" Access="R/W">1</Feature>
-        <Feature Name="AcquisitionFrameRateAbs" Type="Float" Access="R/W">0.736001</Feature>
+        <Feature Name="AcquisitionFrameRateAbs" Type="Float" Access="R/W">3.351330</Feature>
         <Feature Name="AcquisitionMode" Type="Enumeration" Access="R/W">Continuous</Feature>
         <Feature Name="BandwidthControlMode" Type="Enumeration" Access="R/W">StreamBytesPerSecond</Feature>
         <Feature Name="BinningHorizontal" Type="Integer" Access="R/W">6</Feature>
         <Feature Name="BinningVertical" Type="Integer" Access="R/W">6</Feature>
-        <Feature Name="DSPSubregionBottom" Type="Integer" Access="R/W">480</Feature>
+        <Feature Name="DSPSubregionBottom" Type="Integer" Access="R/W">541</Feature>
         <Feature Name="DSPSubregionLeft" Type="Integer" Access="R/W">0</Feature>
-        <Feature Name="DSPSubregionRight" Type="Integer" Access="R/W">640</Feature>
+        <Feature Name="DSPSubregionRight" Type="Integer" Access="R/W">812</Feature>
         <Feature Name="DSPSubregionTop" Type="Integer" Access="R/W">0</Feature>
         <Feature Name="DefectMaskColumnEnable" Type="Enumeration" Access="R/W">Enabled</Feature>
         <Feature Name="ExposureAuto" Type="Enumeration" Access="R/W">Continuous</Feature>
@@ -29,7 +29,7 @@
         <Feature Name="ExposureAutoRate" Type="Integer" Access="R/W">100</Feature>
         <Feature Name="ExposureAutoTarget" Type="Integer" Access="R/W">50</Feature>
         <Feature Name="ExposureMode" Type="Enumeration" Access="R/W">Timed</Feature>
-        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">100690.000000</Feature>
+        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">103715.000000</Feature>
         <Feature Name="GVCPCmdRetries" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="GVCPCmdTimeout" Type="Integer" Access="R/W">250</Feature>
         <Feature Name="GVSPBurstSize" Type="Integer" Access="R/W">1</Feature>
