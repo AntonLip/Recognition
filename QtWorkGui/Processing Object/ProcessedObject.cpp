@@ -139,3 +139,26 @@ void ProcessedObject::setProgramName(QString newProgramName)
 {
 	programName_ = newProgramName;
 }
+
+int ProcessedObject::loadImage()
+{
+	QString qstr_bufer{ QFileDialog::getOpenFileName(nullptr, "Images", "D:/", ("Images files (*.png *.jpg *.bmp)")) };
+	cv::Mat img_bufer;
+	img_bufer = cv::imread(qstr_bufer.toStdString());
+	if (!img_bufer.empty())// checking that image has loaded 
+	{
+		std::size_t found = qstr_bufer.toStdString().find_last_of("/\\");
+		fileName_ = QString::fromStdString(qstr_bufer.toStdString().substr(found + 1));
+		dirName_ = QString::fromStdString(qstr_bufer.toStdString().substr(0, found));
+		originalMat_ = img_bufer;
+		correctMat_ = img_bufer;
+		originalPixmap_ = QPixmap(qstr_bufer);
+		correctPixmap_ = QPixmap(qstr_bufer);
+		imageIsNull_ = false;
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}

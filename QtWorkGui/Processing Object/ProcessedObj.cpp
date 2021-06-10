@@ -1,5 +1,5 @@
 #include "ProcessedObj.h"
-
+#include "qfiledialog.h"
 
 ProcessedObj::ProcessedObj()
 {

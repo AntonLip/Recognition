@@ -15,9 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,3,1,1,1,1,1,1,1,2,2,2,2,2,2,2">
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="PB_batchreset">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>2</horstretch>
@@ -25,12 +25,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Batch reset</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="PB_reset">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>2</horstretch>
@@ -38,22 +38,25 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Reset</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QPushButton" name="PB_start">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-         <horstretch>1</horstretch>
+         <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="text">
+        <string>Start</string>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="PB_stop">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -61,12 +64,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Stop</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="PB_back">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -74,12 +77,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Back</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="PB_next">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -87,12 +90,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Next</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="PB_repeat">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -100,12 +103,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Repeat</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_8">
+      <widget class="QPushButton" name="PBnextOk">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -113,12 +116,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Next OK</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_9">
+      <widget class="QPushButton" name="PB_nexkNeg">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -126,7 +129,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Next Neg</string>
        </property>
       </widget>
      </item>
@@ -144,27 +147,57 @@
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="comboBox_loadImege">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <item>
+        <property name="text">
+         <string>Load from local machine</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Load from image histori</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="comboBox_deleteImage">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <item>
+        <property name="text">
+         <string>Delete selescted</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Delete all OK</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Delete all NEG</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Delete all</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_10">
+      <widget class="QPushButton" name="PB_canel">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -172,12 +205,18 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Canel</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLineEdit" name="LE_okNumber"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LE_negNumber"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_imageNumber">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
          <horstretch>1</horstretch>
@@ -185,40 +224,14 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
+        <string>1</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QScrollArea" name="scrollArea_forTestImg">
+    <widget class="QScrollArea" name="scrollArea_forTestImage">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -256,19 +269,6 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="labl_OK_Neg">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QtGuiDisplay" name="wid_forTestImg" native="true">
          <property name="sizePolicy">

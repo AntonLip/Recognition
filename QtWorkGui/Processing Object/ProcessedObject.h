@@ -4,6 +4,7 @@
 
 #include "qpixmap.h"
 #include "QtProcessedArea.h"
+#include "qfiledialog.h"
 
 #ifndef  processedObject_h
 #define  processedObject_h
@@ -43,6 +44,7 @@ public:
 	void setFlagImageIsNull(bool imageIsNull);
 	QString getProgramName();
 	void setProgramName(QString newProgramName);
+	int loadImage();
 };
 
 #endif

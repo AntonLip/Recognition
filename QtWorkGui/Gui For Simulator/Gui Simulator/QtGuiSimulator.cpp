@@ -42,9 +42,9 @@ QtGuiSimulator::~QtGuiSimulator()
 void QtGuiSimulator::dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in)
 {
 	std::size_t found = fileName_in.toStdString().find_last_of("/\\");
-	loadObj[0] = ProcessedObject(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found)), tempImg_out, QPixmap(fileName_in),loadObj[0].getProgramName());
-	//loadObj[0].SetObjParams(QString::fromStdString(fileName_in.toStdString().substr(found + 1)), QString::fromStdString(fileName_in.toStdString().substr(0, found))
-	//	, tempImg_out, QPixmap(fileName_in), false);
+	loadObj[0].setFileName(QString::fromStdString(fileName_in.toStdString().substr(found + 1)));
+	loadObj[0].setDirName(QString::fromStdString(fileName_in.toStdString().substr(0, found)));
+	loadObj[0].updateMat(tempImg_out, QPixmap(fileName_in));
 	ui.widget_DisplayImg->setActivProcessObj(loadObj[0]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 	ui.comboBox_program->setItemIcon(activLoadObj, QPixmap(fileName_in));
@@ -127,23 +127,8 @@ void QtGuiSimulator::slot_changeActivProcArea(int newActiv)
 void QtGuiSimulator::slot_openSensorSim()
 {
 	SensorSimulator = new QtGUISensorSim();
-	QString qstr_bufer{ QFileDialog::getOpenFileName(this, "Images", "D:/", tr("Images files (*.png *.jpg *.bmp)")) };
-	cv::Mat img_bufer;
-	img_bufer = cv::imread(qstr_bufer.toStdString());
-	if (!img_bufer.empty())// checking that image has loaded 
-	{
-		//loadObj[activLoadObj].addTestImg(qstr_bufer);
-		SensorSimulator->show();
-		connect(this, SIGNAL(dataToSensorSim(ProcessedObject&)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObject&)));
-		emit dataToSensorSim(loadObj[activLoadObj]);
-		//this->close();
-	}
-	else
-	{
-		QMessageBox::critical(nullptr, QObject::tr("Warning"), QObject::tr("Image not loaded")); //massage about error download
-	}
-	//SensorSimulator->show();
-	/*connect(this, SIGNAL(dataToSensorSim(ProcessedObj*)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObj*)));
-	emit dataToSensorSim(loadObj[activLoadObj]);*/
+	SensorSimulator->show();
+	connect(this, SIGNAL(dataToSensorSim(ProcessedObject&)), SensorSimulator, SLOT(slot_dataFromGuiSimulator(ProcessedObject&)));
+	emit dataToSensorSim(loadObj[activLoadObj]);
 }
 

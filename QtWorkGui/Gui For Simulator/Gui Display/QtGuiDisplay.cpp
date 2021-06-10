@@ -681,19 +681,19 @@ void QtGuiDisplay::setActivProcessObj(ProcessedObject &activObj, bool master, in
 	this->updateGeometry();
 	activProcessedObj = &activObj;                  
  	ui.label_for_TempImg->setAlignment(Qt::AlignCenter);
-	if (master)
+	if (activProcessedObj->imageIsNull())
+	{
+		ui.label_for_TempImg->set_myPixmap(&QPixmap("NoImg.png"));
+	}
+	else if (master)
 	{
 		ui.label_for_TempImg->set_myPixmap(&activObj.getCorrectPixmap());
 	}
-	/*else
-	if (number < activObj.getTestVecSize())
-	{
-		ui.label_for_TempImg->set_myPixmap(activObj.getTestPixmap(number));
-	}
 	else
 	{
-		ui.label_for_TempImg->set_myPixmap(&QPixmap("NoImg.png"));
-	}*/
+		ui.label_for_TempImg->set_myPixmap(&activObj.getCorrectPixmap());
+		ui.label_status->setText(" ");
+	}
 	this->slot_ZoomImg_AllLabl();
 	if (!activProcessedObj->imageIsNull())
 	{
