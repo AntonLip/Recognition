@@ -79,6 +79,7 @@ public slots:
 	void slot_changeExprosureMicSeconds(int newValue);
 	void slot_changeExprosure();
 	void slot_changeGain(int newValue);
+	void slot_changeExprosureAutoTarget(int newValue);
 signals:
 	void sl_BinningChange(int value);
 	void sl_buttonChangeSizeClicked(double changeKoef);

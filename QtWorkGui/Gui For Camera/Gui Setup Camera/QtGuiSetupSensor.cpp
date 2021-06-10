@@ -48,6 +48,7 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	connect(ui.PB_GainOonce, SIGNAL(clicked()), this, SLOT(slot_pushGainOnce()));
 	connect(ui.PB_GainOff, SIGNAL(clicked()), this, SLOT(slot_pushGainOff()));
 	connect(ui.horSlider_gain, SIGNAL(valueChanged(int)), this, SLOT(slot_changeGain(int)));
+	connect(ui.horSlider_exprosureAutoTarget, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosureAutoTarget(int)));
 	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
 
 }
@@ -56,8 +57,6 @@ QtGuiSetupSensor::~QtGuiSetupSensor()
 {
 
 }
-
-
 
 double QtGuiSetupSensor::getKoefficient(int value)
 {
@@ -99,6 +98,10 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 	camera->GetFeatureByName("OffsetY", pFeature);
 	pFeature->GetValue(buferForIntParams);
 	ui.SpinB_ofsetY->setValue(static_cast<int>(buferForIntParams));
+
+	camera->GetFeatureByName("ExposureAutoTarget", pFeature);
+	pFeature->GetValue(buferForIntParams);
+	ui.horSlider_exprosureAutoTarget->setValue(static_cast<int>(buferForIntParams));
 
 	setExprosureValue();
 
@@ -174,7 +177,6 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 		ui.horSlider_gain->setEnabled(true);
 	}
 }
-
 
 void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObjectSensor* sensorObj)
 {
@@ -575,6 +577,8 @@ void QtGuiSetupSensor::setGainValue()
 	sensorObject->getCameraPtr()->GetFeatureByName("GainAutoMin", pFeature);
 	pFeature->GetValue(buferForIntParams);
 	ui.horSlider_gain->setMinimum(buferForIntParams);
+
+	ui.horSlider_gain->setTickInterval((ui.horSlider_gain->maximum()- ui.horSlider_gain->minimum())/6);
 }
 
 void QtGuiSetupSensor::setExprosureValue()
@@ -655,6 +659,14 @@ void QtGuiSetupSensor::slot_changeGain(int newValue)
 	{
 		AVT::VmbAPI::FeaturePtr pFeature;
 		sensorObject->getCameraPtr()->GetFeatureByName("GainRaw", pFeature);
-		pFeature->SetValue(ui.LE_gain->text().toInt());
+		pFeature->SetValue(newValue);
 	}
+}
+
+void QtGuiSetupSensor::slot_changeExprosureAutoTarget(int newValue)
+{
+	ui.LE_exprosureAutoTarget->setText(QString::number(newValue));
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("ExposureAutoTarget", pFeature);
+	pFeature->SetValue(newValue);
 }

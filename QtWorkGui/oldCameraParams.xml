@@ -27,9 +27,9 @@
         <Feature Name="ExposureAutoMin" Type="Integer" Access="R/W">625</Feature>
         <Feature Name="ExposureAutoOutliers" Type="Integer" Access="R/W">0</Feature>
         <Feature Name="ExposureAutoRate" Type="Integer" Access="R/W">100</Feature>
-        <Feature Name="ExposureAutoTarget" Type="Integer" Access="R/W">50</Feature>
+        <Feature Name="ExposureAutoTarget" Type="Integer" Access="R/W">48</Feature>
         <Feature Name="ExposureMode" Type="Enumeration" Access="R/W">Timed</Feature>
-        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">99037.000000</Feature>
+        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">101675.000000</Feature>
         <Feature Name="GVCPCmdRetries" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="GVCPCmdTimeout" Type="Integer" Access="R/W">250</Feature>
         <Feature Name="GVSPBurstSize" Type="Integer" Access="R/W">1</Feature>
