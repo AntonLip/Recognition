@@ -29,7 +29,7 @@
         <Feature Name="ExposureAutoRate" Type="Integer" Access="R/W">100</Feature>
         <Feature Name="ExposureAutoTarget" Type="Integer" Access="R/W">50</Feature>
         <Feature Name="ExposureMode" Type="Enumeration" Access="R/W">Timed</Feature>
-        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">103715.000000</Feature>
+        <Feature Name="ExposureTimeAbs" Type="Float" Access="R/W">99037.000000</Feature>
         <Feature Name="GVCPCmdRetries" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="GVCPCmdTimeout" Type="Integer" Access="R/W">250</Feature>
         <Feature Name="GVSPBurstSize" Type="Integer" Access="R/W">1</Feature>
@@ -40,7 +40,7 @@
         <Feature Name="GVSPMissingSize" Type="Integer" Access="R/W">256</Feature>
         <Feature Name="GVSPTiltingSize" Type="Integer" Access="R/W">100</Feature>
         <Feature Name="GVSPTimeout" Type="Integer" Access="R/W">70</Feature>
-        <Feature Name="GainAuto" Type="Enumeration" Access="R/W">Continuous</Feature>
+        <Feature Name="GainAuto" Type="Enumeration" Access="R/W">Off</Feature>
         <Feature Name="GainAutoAdjustTol" Type="Integer" Access="R/W">5</Feature>
         <Feature Name="GainAutoMax" Type="Integer" Access="R/W">32</Feature>
         <Feature Name="GainAutoMin" Type="Integer" Access="R/W">0</Feature>

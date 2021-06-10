@@ -43,6 +43,11 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	connect(ui.horSlider_exprosureSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
 	connect(ui.horSlider_exprosureMilSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
 	connect(ui.horSlider_exprosureMicSeconds, SIGNAL(valueChanged(int)), this, SLOT(slot_changeExprosure()));
+
+	connect(ui.PB_GainContinuous, SIGNAL(clicked()), this, SLOT(slot_pushGainContinous()));
+	connect(ui.PB_GainOonce, SIGNAL(clicked()), this, SLOT(slot_pushGainOnce()));
+	connect(ui.PB_GainOff, SIGNAL(clicked()), this, SLOT(slot_pushGainOff()));
+	connect(ui.horSlider_gain, SIGNAL(valueChanged(int)), this, SLOT(slot_changeGain(int)));
 	//connect(ui.spinB_trigerDelay, SIGNAL(valueChanged(int)), QtSetupSimulator::ui.widget_getMasterImg, SLOT(slot_updateTrigerDelay(int)));
 
 }
@@ -137,13 +142,48 @@ void QtGuiSetupSensor::setCameraParamsInGui()
 		ui.horSlider_exprosureMilSeconds->setEnabled(true);
 		ui.horSlider_exprosureSeconds->setEnabled(true);
 	}
+
+	setGainValue();
+	camera->GetFeatureByName("GainAuto", pFeature);
+	pFeature->GetValue(buferForStringParams);
+	if (buferForStringParams == "Continuous")
+	{
+		ui.PB_GainOff->setDown(false);
+		ui.PB_GainOonce->setDown(false);
+		ui.PB_GainContinuous->setDown(true);
+
+		ui.LE_gain->setEnabled(false);
+		ui.horSlider_gain->setEnabled(false);
+	}
+	else if (buferForStringParams == "Once")
+	{
+		ui.PB_GainOff->setDown(false);
+		ui.PB_GainOonce->setDown(true);
+		ui.PB_GainContinuous->setDown(false);
+
+		ui.LE_gain->setEnabled(false);
+		ui.horSlider_gain->setEnabled(false);
+	}
+	else if (buferForStringParams == "Off")
+	{
+		ui.PB_GainOff->setDown(true);
+		ui.PB_GainOonce->setDown(false);
+		ui.PB_GainContinuous->setDown(false);
+
+		ui.LE_gain->setEnabled(true);
+		ui.horSlider_gain->setEnabled(true);
+	}
 }
 
 
 void QtGuiSetupSensor::slot_updateSensorObject(ProcessedObjectSensor* sensorObj)
 {
 	sensorObject->updateMat(sensorObj->getOriginalMat(),sensorObj->getCorrectPixmap());
-	setExprosureValue();
+	if (QtSetupSimulator::ui.stackWid_steps->currentIndex() == 0 && ui.setupSensorParams->currentIndex() == 0)
+	{
+		setExprosureValue();
+		setGainValue();
+	}
 	if (!masterIsActivObject)
 	{
 		
@@ -520,6 +560,23 @@ void QtGuiSetupSensor::closeEvent(QCloseEvent* event)
 	QtSetupSimulator::closeEvent(event);
 }
 
+void QtGuiSetupSensor::setGainValue()
+{
+	VmbInt64_t buferForIntParams{ 0 };
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("GainRaw", pFeature);
+	pFeature->GetValue(buferForIntParams);
+	ui.horSlider_gain->setValue(buferForIntParams);
+
+	sensorObject->getCameraPtr()->GetFeatureByName("GainAutoMax", pFeature);
+	pFeature->GetValue(buferForIntParams);
+	ui.horSlider_gain->setMaximum(buferForIntParams);
+
+	sensorObject->getCameraPtr()->GetFeatureByName("GainAutoMin", pFeature);
+	pFeature->GetValue(buferForIntParams);
+	ui.horSlider_gain->setMinimum(buferForIntParams);
+}
+
 void QtGuiSetupSensor::setExprosureValue()
 {
 	double buferForDoubleParams{ 0.0 };
@@ -543,5 +600,61 @@ void QtGuiSetupSensor::slot_changeExprosure()
 		AVT::VmbAPI::FeaturePtr pFeature;
 		sensorObject->getCameraPtr()->GetFeatureByName("ExposureTimeAbs", pFeature);
 		pFeature->SetValue(ui.LE_exprosureSumm->text().toDouble());
+	}
+}
+
+void QtGuiSetupSensor::slot_pushGainContinous()
+{
+	ui.PB_GainOff->setDown(false);
+	ui.PB_GainOonce->setDown(false);
+	ui.PB_GainContinuous->setDown(true);
+
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("GainAuto", pFeature);
+	char* temp = "Continuous";
+	pFeature->SetValue(temp);
+
+	ui.LE_gain->setEnabled(false);
+	ui.horSlider_gain->setEnabled(false);
+}
+
+void QtGuiSetupSensor::slot_pushGainOnce()
+{
+	ui.PB_GainOff->setDown(false);
+	ui.PB_GainOonce->setDown(true);
+	ui.PB_GainContinuous->setDown(false);
+
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("GainAuto", pFeature);
+	char* temp = "Once";
+	pFeature->SetValue(temp);
+
+	ui.LE_gain->setEnabled(false);
+	ui.horSlider_gain->setEnabled(false);
+}
+
+void QtGuiSetupSensor::slot_pushGainOff()
+{
+	ui.PB_GainOff->setDown(true);
+	ui.PB_GainOonce->setDown(false);
+	ui.PB_GainContinuous->setDown(false);
+
+	AVT::VmbAPI::FeaturePtr pFeature;
+	sensorObject->getCameraPtr()->GetFeatureByName("GainAuto", pFeature);
+	char* temp = "Off";
+	pFeature->SetValue(temp);
+
+	ui.LE_gain->setEnabled(true);
+	ui.horSlider_gain->setEnabled(true);
+}
+
+void QtGuiSetupSensor::slot_changeGain(int newValue)
+{
+	ui.LE_gain->setText(QString::number(newValue));
+	if (ui.horSlider_gain->isEnabled())
+	{
+		AVT::VmbAPI::FeaturePtr pFeature;
+		sensorObject->getCameraPtr()->GetFeatureByName("GainRaw", pFeature);
+		pFeature->SetValue(ui.LE_gain->text().toInt());
 	}
 }

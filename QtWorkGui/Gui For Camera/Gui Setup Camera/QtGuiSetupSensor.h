@@ -39,6 +39,7 @@ private:
 	void setCameraParamsInGui();
 	void closeEvent(QCloseEvent* event);
 	void setExprosureValue();
+	void setGainValue();
 public slots:
 	void slot_dataFromWorkWithSensor(ProcessedObjectSensor* sensorObj, ProcessedObject* masterObj, QtGuiDisplay* videoDisplay);
 	void slot_updateSensorObject(ProcessedObjectSensor* sensorObj);
@@ -69,11 +70,15 @@ public slots:
 	void slot_pushContinous();//continous
 	void slot_pushOnce();//once
 	void slot_pushOff();//off
+	void slot_pushGainContinous();//continous
+	void slot_pushGainOnce();//once
+	void slot_pushGainOff();//off
 	void slot_dataToGuiWorkWithCamera();
 	void slot_changeExprosureSeconds(int newValue);
 	void slot_changeExprosureMilSeconds(int newValue);
 	void slot_changeExprosureMicSeconds(int newValue);
 	void slot_changeExprosure();
+	void slot_changeGain(int newValue);
 signals:
 	void sl_BinningChange(int value);
 	void sl_buttonChangeSizeClicked(double changeKoef);
