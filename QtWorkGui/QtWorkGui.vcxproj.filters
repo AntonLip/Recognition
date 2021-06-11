@@ -212,6 +212,9 @@
     <ClCompile Include="Processing Object\ProcessedObjectSensor.cpp">
       <Filter>Processing Object\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gui For Simulator\QtImgWidgetsForTesting.cpp">
+      <Filter>Gui For Simulator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Form File\Form For Camera\QtConnect.ui">
@@ -263,6 +266,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Form File\Form For Simulator\QtGUISensorSim.ui">
+      <Filter>Form Files\Form For Simulator</Filter>
+    </QtUic>
+    <QtUic Include="Form File\Form For Simulator\QtImgWidgetsForTesting.ui">
       <Filter>Form Files\Form For Simulator</Filter>
     </QtUic>
   </ItemGroup>
@@ -328,6 +334,9 @@
       <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Gui For Simulator\QtGUISensorSim.h">
+      <Filter>Gui For Simulator</Filter>
+    </QtMoc>
+    <QtMoc Include="Gui For Simulator\QtImgWidgetsForTesting.h">
       <Filter>Gui For Simulator</Filter>
     </QtMoc>
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
 	void setId(int id_in);
 	void mousePressEvent(QMouseEvent *evnt);
 	void setImg(QPixmap newImg);
-private:
+protected:
 	Ui::QtImgWidgets ui;
 	int id;
 signals:

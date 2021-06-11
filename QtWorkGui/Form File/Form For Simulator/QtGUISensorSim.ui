@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>996</width>
+    <width>984</width>
     <height>811</height>
    </rect>
   </property>
@@ -233,7 +233,7 @@
    <item>
     <widget class="QScrollArea" name="scrollArea_forTestImage">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -250,6 +250,12 @@
        <height>233</height>
       </size>
      </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -258,10 +264,47 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>976</width>
-        <height>231</height>
+        <width>964</width>
+        <height>214</height>
        </rect>
       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetMinAndMaxSize</enum>
+         </property>
+         <property name="leftMargin">
+          <number>1</number>
+         </property>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>1</number>
+         </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Ignored</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -305,7 +348,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>481</width>
+            <width>475</width>
             <height>119</height>
            </rect>
           </property>

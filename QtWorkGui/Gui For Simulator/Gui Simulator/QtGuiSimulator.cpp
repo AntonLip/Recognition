@@ -45,6 +45,7 @@ void QtGuiSimulator::dataFromMainMenu(cv::Mat tempImg_out, QString fileName_in)
 	loadObj[0].setFileName(QString::fromStdString(fileName_in.toStdString().substr(found + 1)));
 	loadObj[0].setDirName(QString::fromStdString(fileName_in.toStdString().substr(0, found)));
 	loadObj[0].updateMat(tempImg_out, QPixmap(fileName_in));
+	loadObj[0].setFlagImageIsNull(false);
 	ui.widget_DisplayImg->setActivProcessObj(loadObj[0]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 	ui.comboBox_program->setItemIcon(activLoadObj, QPixmap(fileName_in));

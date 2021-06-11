@@ -675,7 +675,6 @@ void QtGuiDisplay::slot_saveImg()
 	emit clic_pb();
 }
 
-//void QtGuiDisplay::setActivProcessObj(ProcessedObj& activObj, bool master, int number)
 void QtGuiDisplay::setActivProcessObj(ProcessedObject &activObj, bool master, int number)
 {
 	this->updateGeometry();

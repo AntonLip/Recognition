@@ -16,11 +16,11 @@ QtGuiSetupSensor::QtGuiSetupSensor(QWidget* parent)
 	connect(QtSetupSimulator::ui.pushButton_step2, SIGNAL(clicked()), this, SLOT(slot_pushStep2()));
 	connect(QtSetupSimulator::ui.pushButton_step3, SIGNAL(clicked()), this, SLOT(slot_pushStep3()));
 	connect(QtSetupSimulator::ui.pushButton_step4, SIGNAL(clicked()), this, SLOT(slot_pushStep4()));
-	connect(ui.setRoiWid, SIGNAL(CoordItemChange(QRectF&)), this, SLOT(slot_setOffset(QRectF&)));		    //при изменении положения РОИ меняются значения спинбоксов
+	connect(ui.setRoiWid, SIGNAL(CoordItemChange(QRectF&)), this, SLOT(slot_setOffset(QRectF&)));							//при изменении положения РОИ меняются значения спинбоксов
 	connect(ui.setRoiWid, SIGNAL(ItemFromWidgetSizeChange(QSizeF&)), this, SLOT(slot_setSizeItemInSpinBox(QSizeF&)));		//при изменении width ,height ROI изменяется значение в спинбоксах
 	connect(this, SIGNAL(sl_buttonChangeSizeClicked(double)), ui.setRoiWid, SLOT(st_buttonChangeSizeClicked(double)));
-	connect(ui.SpinB_binningHor, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning horizontal
-	connect(ui.SpinB_binningVer, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));		//binning vertical
+	connect(ui.SpinB_binningHor, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));							//binning horizontal
+	connect(ui.SpinB_binningVer, SIGNAL(valueChanged(int)), this, SLOT(slot_changeBinning(int)));							//binning vertical
 	connect(ui.PB_setRoi,SIGNAL(clicked()),this,SLOT(slot_pushSetRoi()));
 	connect(ui.PB_full,SIGNAL(clicked()),this,SLOT(slot_pushFull()));
 	connect(ui.PB_oneQuarter,SIGNAL(clicked()),this,SLOT(slot_pushOneQuarter()));
