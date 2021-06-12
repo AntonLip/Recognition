@@ -5,6 +5,7 @@
 #include "qmessagebox.h"
 #include "QtImgWidgetsForTesting.h"
 #include "ProcessingObject/ProcessedObj.h"
+#include "QtWidProcesAreaForTesting.h"
 #include <iostream>
 
 class QtGUISensorSim : public QWidget
@@ -15,6 +16,8 @@ class QtGUISensorSim : public QWidget
 	int activTestObject;
 	std::vector<QtImgWidgetsForTesting*> imgWidgetsVector;
 	std::vector<QSpacerItem*> imgWidgetsSpaser;
+	std::vector<QtWidProcesAreaForTesting*> testArearsStatus;
+	int activTestArear;
 public:
 	QtGUISensorSim(QWidget *parent = Q_NULLPTR);
 	~QtGUISensorSim();
@@ -25,4 +28,5 @@ private slots:
 	void slot_dataFromGuiSimulator(ProcessedObject& data);
 	void slot_loadImageFromLocalMachine(int loadType);
 	void slot_newActivObject(int newActiv);
+	void slot_setActivProcesArea(int newActivArea);
 };

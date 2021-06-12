@@ -109,7 +109,7 @@
     <ClCompile Include="GuiForSimulator\GuiDisplay\QtGuiDisplay.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtGUISensorSim.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.cpp" />
-    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtAddToolGUI.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtMySliderWid.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtSetupSimulator.cpp" />
@@ -147,10 +147,10 @@
     <QtUic Include="FormFile\FormForSimulator\QtImgWidgets.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtImgWidgetsForTesting.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtMySliderWid.ui" />
-    <QtUic Include="FormFile\FormForSimulator\QtMySliderWidForTesting.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtProgramCopyProcesObj.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtSetupSimulator.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtWidProcesArea.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtWidProcesAreaForTesting.ui" />
     <QtUic Include="FormFile\QtMyDialog.ui" />
     <QtUic Include="FormFile\QtWorkGui.ui" />
   </ItemGroup>
@@ -158,6 +158,7 @@
     <QtMoc Include="Dialog\QtMyDialog.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.h" />
     <ClInclude Include="WorkWithCamera\FrameObserver.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\mysquare.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\QtGuiSetupSensor.h" />
@@ -179,7 +180,6 @@
     <QtMoc Include="GuiForSimulator\GuiSimulator\QtProgramCopyProcesObj.h" />
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtGUISensorSim.h" />
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.h" />
-    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.h" />
     <ClInclude Include="Loger\simplLoger.h" />
     <ClInclude Include="ProcessingObject\ImageProcessedObject.h" />
     <ClInclude Include="ProcessingObject\MyCircle.h" />

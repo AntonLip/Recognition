@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>984</width>
+    <width>958</width>
     <height>811</height>
    </rect>
   </property>
@@ -264,7 +264,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>964</width>
+        <width>938</width>
         <height>214</height>
        </rect>
       </property>
@@ -348,10 +348,15 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>475</width>
+            <width>462</width>
             <height>119</height>
            </rect>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_forProcessArea"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

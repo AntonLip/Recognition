@@ -8,6 +8,16 @@ void QtWidProcesArea::mousePressEvent(QMouseEvent* event)
 	}
 }
 
+QtWidProcesArea::QtWidProcesArea(QWidget* parent):
+	QWidget(parent),
+	idWid{ 0 }
+{
+	ui.setupUi(this);
+	ui.widget_slider->getSlider()->setActivSlider(false);
+	setAttribute(Qt::WA_DeleteOnClose);
+	connect(ui.widget_slider, SIGNAL(clicSlider()), this, SLOT(slot_clicInslider()));
+}
+
 QtWidProcesArea::QtWidProcesArea(QString newName, bool isSingelThres, int f_thres, int s_thres, int id, QWidget* parent)
 	: QWidget(parent), idWid(id)
 {

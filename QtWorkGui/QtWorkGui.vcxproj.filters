@@ -200,9 +200,6 @@
     <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.cpp">
       <Filter>Gui For Simulator\Gui Sensor Simulator\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.cpp">
-      <Filter>Gui For Simulator\Gui Sensor Simulator\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProcessingObject\ImageProcessedObject.cpp">
       <Filter>Processing Object\Source Files</Filter>
     </ClCompile>
@@ -226,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="WorkWithCamera\FrameObserver.cpp">
       <Filter>Work With Camera\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.cpp">
+      <Filter>Gui For Simulator\Gui Sensor Simulator\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,9 +268,6 @@
     <QtUic Include="FormFile\FormForSimulator\QtMySliderWid.ui">
       <Filter>FormFiles\Form For Simulator</Filter>
     </QtUic>
-    <QtUic Include="FormFile\FormForSimulator\QtMySliderWidForTesting.ui">
-      <Filter>FormFiles\Form For Simulator</Filter>
-    </QtUic>
     <QtUic Include="FormFile\FormForSimulator\QtProgramCopyProcesObj.ui">
       <Filter>FormFiles\Form For Simulator</Filter>
     </QtUic>
@@ -285,6 +282,9 @@
     </QtUic>
     <QtUic Include="FormFile\QtWorkGui.ui">
       <Filter>FormFiles</Filter>
+    </QtUic>
+    <QtUic Include="FormFile\FormForSimulator\QtWidProcesAreaForTesting.ui">
+      <Filter>FormFiles\Form For Simulator</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -339,9 +339,6 @@
     <QtMoc Include="GuiForSimulator\GuiSimulator\QtProgramCopyProcesObj.h">
       <Filter>Gui For Simulator\Gui Simulator\Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.h">
-      <Filter>Gui For Simulator\Gui Sensor Simulator\Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="ProcessingObject\QtProcessedArea.h">
       <Filter>Processing Object\Header Files</Filter>
     </QtMoc>
@@ -356,6 +353,9 @@
     </QtMoc>
     <QtMoc Include="GuiForCamera\QtConnect.h">
       <Filter>Gui For Camera\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.h">
+      <Filter>Gui For Simulator\Gui Sensor Simulator\Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

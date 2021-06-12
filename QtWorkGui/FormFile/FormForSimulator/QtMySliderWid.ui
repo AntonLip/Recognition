@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>218</width>
-    <height>45</height>
+    <width>236</width>
+    <height>49</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -38,22 +38,6 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QxtSpanSlider" name="horizontalSlider">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>201</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="invertedControls">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_min">
    <property name="geometry">
     <rect>
@@ -71,6 +55,22 @@
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QxtSpanSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>209</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="invertedControls">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>

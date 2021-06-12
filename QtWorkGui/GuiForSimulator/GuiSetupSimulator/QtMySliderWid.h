@@ -14,7 +14,7 @@ public:
     void setOneSlider(bool isOne);
     void setRenge(int min, int max);
     QxtSpanSlider* getSlider();
-private:
+protected:
     Ui::QtMySliderWidClass ui;
 protected slots:
     void slot_changeRange(int min, int max);
