@@ -1,5 +1,5 @@
 #pragma once
-#include "Processing Object/ProcessedObject.h"
+#include "ProcessingObject/ProcessedObject.h"
 #include "VimbaCPP.h"
 #include <VimbaCPP/Include/IFrameObserver.h>
 

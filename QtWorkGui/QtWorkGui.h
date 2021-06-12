@@ -4,8 +4,8 @@
 #include <qfiledialog.h>
 #include <qmessagebox.h>
 #include "ui_QtWorkGui.h"
-#include "Gui For Simulator/Gui Simulator/QtGuiSimulator.h"
-#include "Gui For Camera/QtConnect.h"
+#include "GuiForSimulator/GuiSimulator/QtGuiSimulator.h"
+#include "GuiForCamera/QtConnect.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>

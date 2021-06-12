@@ -4,7 +4,7 @@
 #include "ui_QtGUISensorSim.h"
 #include "qmessagebox.h"
 #include "QtImgWidgetsForTesting.h"
-#include "Processing Object/ProcessedObj.h"
+#include "ProcessingObject/ProcessedObj.h"
 #include <iostream>
 
 class QtGUISensorSim : public QWidget

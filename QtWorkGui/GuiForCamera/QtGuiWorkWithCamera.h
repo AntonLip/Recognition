@@ -2,12 +2,12 @@
 
 #include <QWidget>
 #include "ui_QtGuiWorkWithCamera.h"
-#include "Gui For Simulator/Gui Simulator/QtGuiSimulator.h"
-#include "Gui For Simulator/Gui Setup Simulator/QtSetupSimulator.h"
+#include "GuiForSimulator/GuiSimulator/QtGuiSimulator.h"
+#include "GuiForSimulator/GuiSetupSimulator/QtSetupSimulator.h"
 #include "qstandarditemmodel.h"
-#include "Work With Camera/FrameObserver.h"
-#include "Gui For Camera/Gui Setup Camera/QtGuiSetupSensor.h"
-#include "Processing Object/ProcessedObjectSensor.h"
+#include "WorkWithCamera/FrameObserver.h"
+#include "GuiForCamera/GuiSetupCamera/QtGuiSetupSensor.h"
+#include "ProcessingObject/ProcessedObjectSensor.h"
 
 class QtGuiWorkWithCamera : public QtGuiSimulator
 {

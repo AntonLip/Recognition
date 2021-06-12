@@ -4,7 +4,7 @@
 #include <qevent.h>
 #include "ui_QtImgInScrolBar.h"
 #include "QtImgWidgets.h"
-#include "Processing Object/ProcessedObject.h"
+#include "ProcessingObject/ProcessedObject.h"
 
 class QtImgInScrolBar : public QWidget
 {

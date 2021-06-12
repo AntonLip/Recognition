@@ -28,8 +28,9 @@ void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 			ui.wid_forTestImg->setActivProcessObj(testingObjects[activTestObject], false, 0);
 			imgWidgetsVector.push_back(new QtImgWidgetsForTesting());
 			imgWidgetsSpaser.push_back(new QSpacerItem(10, 10));
-			ui.horizontalLayout_4->insertWidget(0, imgWidgetsVector[activTestObject]);
 			ui.horizontalLayout_4->insertSpacerItem(0, imgWidgetsSpaser[activTestObject]);
+			ui.horizontalLayout_4->insertWidget(0, imgWidgetsVector[activTestObject]);
+			
 
 			imgWidgetsVector[activTestObject]->show();
 			imgWidgetsVector[activTestObject]->setImg(testingObjects[activTestObject].getOriginalPixmap());

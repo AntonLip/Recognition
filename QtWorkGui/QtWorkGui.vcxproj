@@ -100,126 +100,95 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dialog\QtMyDialog.cpp" />
-    <ClCompile Include="Gui For Camera\Gui Setup Camera\mysquare.cpp" />
-    <ClCompile Include="Gui For Camera\Gui Setup Camera\QtGuiSetupSensor.cpp" />
-    <ClCompile Include="Gui For Camera\Gui Setup Camera\widget.cpp" />
-    <ClCompile Include="Gui For Camera\QtConnect.cpp" />
-    <ClCompile Include="Gui For Camera\QtGuiWorkWithCamera.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Display\myLabel.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Display\QtGuiDisplay.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtAddToolGUI.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtMySliderWid.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtSetupSimulator.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\QtWidProcesArea.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Simulator\QtGuiProgramDetails.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Simulator\QtGuiSimulator.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgInScrolBar.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Simulator\QtImgWidgets.cpp" />
-    <ClCompile Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.cpp" />
-    <ClCompile Include="Gui For Simulator\QtGUISensorSim.cpp" />
-    <ClCompile Include="Gui For Simulator\QtImgWidgetsForTesting.cpp" />
+    <ClCompile Include="GuiForCamera\GuiSetupCamera\mysquare.cpp" />
+    <ClCompile Include="GuiForCamera\GuiSetupCamera\QtGuiSetupSensor.cpp" />
+    <ClCompile Include="GuiForCamera\GuiSetupCamera\widget.cpp" />
+    <ClCompile Include="GuiForCamera\QtConnect.cpp" />
+    <ClCompile Include="GuiForCamera\QtGuiWorkWithCamera.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiDisplay\myLabel.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiDisplay\QtGuiDisplay.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtGUISensorSim.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtAddToolGUI.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtMySliderWid.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtSetupSimulator.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidProcesArea.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\qxtspanslider.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSimulator\QtGuiProgramDetails.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSimulator\QtGuiSimulator.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSimulator\QtImgInScrolBar.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSimulator\QtImgWidgets.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSimulator\QtProgramCopyProcesObj.cpp" />
     <ClCompile Include="Loger\simplLoger.cpp" />
-    <ClCompile Include="Processing Object\ImageProcessedObject.cpp" />
-    <ClCompile Include="Processing Object\MyCircle.cpp" />
-    <ClCompile Include="Processing Object\ProcessedObj.cpp" />
-    <ClCompile Include="Processing Object\ProcessedObject.cpp" />
-    <ClCompile Include="Processing Object\ProcessedObjectSensor.cpp" />
-    <ClCompile Include="Processing Object\QtProcessedArea.cpp" />
-    <ClCompile Include="Processing Object\QtRotateRect.cpp" />
+    <ClCompile Include="ProcessingObject\ImageProcessedObject.cpp" />
+    <ClCompile Include="ProcessingObject\MyCircle.cpp" />
+    <ClCompile Include="ProcessingObject\ProcessedObj.cpp" />
+    <ClCompile Include="ProcessingObject\ProcessedObject.cpp" />
+    <ClCompile Include="ProcessingObject\ProcessedObjectSensor.cpp" />
+    <ClCompile Include="ProcessingObject\QtProcessedArea.cpp" />
+    <ClCompile Include="ProcessingObject\QtRotateRect.cpp" />
     <ClCompile Include="Processing\CountoursProcessing.cpp" />
-    <ClCompile Include="Work With Camera\FrameObserver.cpp" />
+    <ClCompile Include="WorkWithCamera\FrameObserver.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
-    <QtUic Include="Form File\Form For Camera\QtConnect.ui" />
-    <QtUic Include="Form File\Form For Camera\QtGuiSetupSensor.ui" />
-    <QtUic Include="Form File\Form For Camera\QtGuiWorkWithCamera.ui" />
-    <QtUic Include="Form File\Form For Camera\widget.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtAddToolGUI.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtGuiDisplay.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtGuiProgramDetails.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtGUISensorSim.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtGuiSimulator.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtImgInScrolBar.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtImgWidgets.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtImgWidgetsForTesting.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtMySliderWid.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtProgramCopyProcesObj.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtSetupSimulator.ui" />
-    <QtUic Include="Form File\Form For Simulator\QtWidProcesArea.ui" />
-    <QtUic Include="Form File\QtMyDialog.ui" />
-    <QtUic Include="Form File\QtWorkGui.ui" />
     <QtMoc Include="QtWorkGui.h" />
     <ClCompile Include="QtWorkGui.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="FormFile\FormForCamera\QtConnect.ui" />
+    <QtUic Include="FormFile\FormForCamera\QtGuiSetupSensor.ui" />
+    <QtUic Include="FormFile\FormForCamera\QtGuiWorkWithCamera.ui" />
+    <QtUic Include="FormFile\FormForCamera\widget.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtAddToolGUI.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtGuiDisplay.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtGuiProgramDetails.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtGUISensorSim.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtGuiSimulator.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtImgInScrolBar.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtImgWidgets.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtImgWidgetsForTesting.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtMySliderWid.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtMySliderWidForTesting.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtProgramCopyProcesObj.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtSetupSimulator.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtWidProcesArea.ui" />
+    <QtUic Include="FormFile\QtMyDialog.ui" />
+    <QtUic Include="FormFile\QtWorkGui.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Dialog\QtMyDialog.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Gui For Camera\Gui Setup Camera\mysquare.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Camera\Gui Setup Camera\QtGuiSetupSensor.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Camera\Gui Setup Camera\widget.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Camera\QtConnect.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Camera\QtGuiWorkWithCamera.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Display\myLabel.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Display\QtGuiDisplay.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtAddToolGUI.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtMySliderWid.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtSetupSimulator.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\QtWidProcesArea.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Setup Simulator\qxtspanslider_p.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Simulator\QtGuiProgramDetails.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Simulator\QtGuiSimulator.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Simulator\QtImgInScrolBar.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\Gui Simulator\QtImgWidgets.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Gui For Simulator\QtGUISensorSim.h" />
-    <QtMoc Include="Gui For Simulator\Gui Simulator\QtProgramCopyProcesObj.h" />
-    <QtMoc Include="Gui For Simulator\QtImgWidgetsForTesting.h" />
+    <ClInclude Include="WorkWithCamera\FrameObserver.h" />
+    <QtMoc Include="GuiForCamera\GuiSetupCamera\mysquare.h" />
+    <QtMoc Include="GuiForCamera\GuiSetupCamera\QtGuiSetupSensor.h" />
+    <QtMoc Include="GuiForCamera\GuiSetupCamera\widget.h" />
+    <QtMoc Include="GuiForCamera\QtConnect.h" />
+    <QtMoc Include="GuiForCamera\QtGuiWorkWithCamera.h" />
+    <QtMoc Include="GuiForSimulator\GuiDisplay\myLabel.h" />
+    <QtMoc Include="GuiForSimulator\GuiDisplay\QtGuiDisplay.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtAddToolGUI.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtMySliderWid.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtSetupSimulator.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidProcesArea.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\qxtspanslider.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\qxtspanslider_p.h" />
+    <QtMoc Include="GuiForSimulator\GuiSimulator\QtGuiProgramDetails.h" />
+    <QtMoc Include="GuiForSimulator\GuiSimulator\QtGuiSimulator.h" />
+    <QtMoc Include="GuiForSimulator\GuiSimulator\QtImgInScrolBar.h" />
+    <QtMoc Include="GuiForSimulator\GuiSimulator\QtImgWidgets.h" />
+    <QtMoc Include="GuiForSimulator\GuiSimulator\QtProgramCopyProcesObj.h" />
+    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtGUISensorSim.h" />
+    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.h" />
+    <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtMySliderWidForTesting.h" />
     <ClInclude Include="Loger\simplLoger.h" />
-    <ClInclude Include="Processing Object\ImageProcessedObject.h" />
-    <ClInclude Include="Processing Object\MyCircle.h" />
-    <ClInclude Include="Processing Object\ProcessedObj.h" />
-    <ClInclude Include="Processing Object\ProcessedObject.h" />
-    <ClInclude Include="Processing Object\ProcessedObjectSensor.h" />
-    <ClInclude Include="Processing Object\QtRotateRect.h" />
+    <ClInclude Include="ProcessingObject\ImageProcessedObject.h" />
+    <ClInclude Include="ProcessingObject\MyCircle.h" />
+    <ClInclude Include="ProcessingObject\ProcessedObj.h" />
+    <ClInclude Include="ProcessingObject\ProcessedObject.h" />
+    <ClInclude Include="ProcessingObject\ProcessedObjectSensor.h" />
+    <QtMoc Include="ProcessingObject\QtProcessedArea.h" />
+    <ClInclude Include="ProcessingObject\QtRotateRect.h" />
     <ClInclude Include="Processing\CountoursProcessing.h" />
-    <ClInclude Include="Work With Camera\FrameObserver.h" />
-    <QtMoc Include="Processing Object\QtProcessedArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

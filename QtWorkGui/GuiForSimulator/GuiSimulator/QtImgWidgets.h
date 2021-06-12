@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_QtImgWidgets.h"
-#include "Processing Object/ProcessedObj.h"
+#include "ProcessingObject/ProcessedObj.h"
 #include <qevent.h>
 class QtImgWidgets : public QWidget
 {

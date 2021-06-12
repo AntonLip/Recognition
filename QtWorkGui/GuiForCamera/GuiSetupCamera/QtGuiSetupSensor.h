@@ -2,13 +2,13 @@
 
 #include <QWidget>
 #include "ui_QtGuiSetupSensor.h"
-#include "Gui For Simulator/Gui Setup Simulator/QtSetupSimulator.h"
+#include "GuiForSimulator/GuiSetupSimulator/QtSetupSimulator.h"
 //#include "myscrollarea.h"
 #include "widget.h"
 #include "qspinbox.h"
-#include "Work With Camera/FrameObserver.h"
+#include "WorkWithCamera/FrameObserver.h"
 #include "Loger/simplLoger.h"
-#include "Processing Object/ProcessedObjectSensor.h"
+#include "ProcessingObject/ProcessedObjectSensor.h"
 
 //using namespace AVT;
 //using namespace VmbAPI;

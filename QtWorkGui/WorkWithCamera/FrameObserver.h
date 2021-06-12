@@ -5,9 +5,9 @@
 #include <opencv2/opencv.hpp>
 #include <qimage.h>
 
-#include "Processing Object/ProcessedObjectSensor.h"
+#include "ProcessingObject/ProcessedObjectSensor.h"
 
-#include "Gui For Simulator/Gui Display/QtGuiDisplay.h"
+#include "GuiForSimulator/GuiDisplay/QtGuiDisplay.h"
 #include "Loger/simplLoger.h"
 
 using namespace cv;

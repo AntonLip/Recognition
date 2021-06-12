@@ -9,7 +9,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-#include "Processing Object/ProcessedObj.h"
+#include "ProcessingObject/ProcessedObj.h"
 
 class myLabel :
 	public QLabel

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gui For Simulator/Gui Simulator/QtImgWidgets.h>
+#include <GuiForSimulator/GuiSimulator/QtImgWidgets.h>
 #include "ui_QtImgWidgetsForTesting.h"
 
 class QtImgWidgetsForTesting : public QtImgWidgets

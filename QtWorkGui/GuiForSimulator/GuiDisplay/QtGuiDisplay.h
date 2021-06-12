@@ -5,7 +5,7 @@
 #include <QTime>
 #include "qfiledialog.h"
 #include "myLabel.h"
-#include "Processing Object/ProcessedObject.h"
+#include "ProcessingObject/ProcessedObject.h"
 //#include "QtAreaToProcessed.h"
 
 #include <opencv2/core/core.hpp>

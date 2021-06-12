@@ -11,9 +11,9 @@
 #include "Loger/simplLoger.h"
 
 //#include "Processing Object/ProcessedObj.h"
-#include "Gui For Simulator/Gui Setup Simulator/QtSetupSimulator.h"
+#include "GuiForSimulator/GuiSetupSimulator/QtSetupSimulator.h"
 #include "QtGuiProgramDetails.h"
-#include "Gui For Simulator/QtGUISensorSim.h"
+#include "GuiForSimulator/GuiSensorSimulator/QtGUISensorSim.h"
 
 class QtGuiSimulator : public QMainWindow
 {

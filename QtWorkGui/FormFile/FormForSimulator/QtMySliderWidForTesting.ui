@@ -1,0 +1,23 @@
+<UI version="4.0" >
+ <class>QtMySliderWidForTesting</class>
+ <widget class="QtMySliderWid" name="QtMySliderWidForTesting" >
+  <property name="objectName" >
+   <string notr="true">QtMySliderWidForTesting</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>400</width>
+	<height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>QtMySliderWidForTesting</string>
+  </property>
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</UI>
