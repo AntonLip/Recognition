@@ -13,10 +13,9 @@ QtProcessedArea::QtProcessedArea(QObject* parent)
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr),
-	qw(false)
+	counterProc(nullptr)
 {
-	//std::cout << qw << std::endl;
+	
 }
 
 QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect newRect, QObject* parent)
@@ -32,14 +31,11 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect 
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr),
-	qw(false)
+	counterProc(nullptr)
 {
 	if (processedType == 1)
 	{
-		/*counterProc = new CountoursProcessing();
-		qw = true;
-		std::cout << qw << std::endl;*/
+		
 	}
 }
 
@@ -56,14 +52,11 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr),
-	qw(false)
+	counterProc(nullptr)
 {
 	if (processedType == 1)
 	{
-		/*counterProc = new CountoursProcessing();
-		qw = true;
-		std::cout << qw << std::endl;*/
+
 	}
 }
 
@@ -79,21 +72,15 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	counterProc(drop.counterProc),
-	qw(drop.qw)
+	counterProc(nullptr)
 {
-	//std::cout << qw << std::endl;
+	if (drop.counterProc != nullptr)
+		counterProc = new CountoursProcessing(*drop.counterProc);
 }
 
 QtProcessedArea::~QtProcessedArea()
 {
-	//std::cout << "des";
-	//std::cout << qw << std::endl;
-	if (processedAreaType == 1 && qw)
-	{
-		//delete counterProc;
-		//counterProc = nullptr;
-	}
+	
 }
 
 void QtProcessedArea::createMaster(cv::Mat const* inputImg)
@@ -320,7 +307,6 @@ void QtProcessedArea::setProcessing(int typeProcessing)
 	if (typeProcessing == 1)
 	{
 		counterProc = new CountoursProcessing();
-		qw = true;
 	}
 }
 
@@ -337,8 +323,8 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	doubleTreshS = drop.doubleTreshS;
 	singlTresActiv = drop.singlTresActiv;
 	circle = drop.circle;
-	qw = drop.qw;
-	counterProc = drop.counterProc;
+	if(drop.counterProc!=nullptr)
+		counterProc = new CountoursProcessing(*drop.counterProc);
 	std::cout << "=" << std::endl;
 	return *this;
 }
@@ -353,6 +339,11 @@ QRect QtProcessedArea::getOriginalLimitRect()
 	{
 		return QRect(circle.getCenterPoint().x() - circle.getRadius(), circle.getCenterPoint().y() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
 	}
+}
+
+void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
+{
+	counterProc->findAndSetMasterContours(&newOriginImeg);
 }
 
 //QRect QtProcessedArea::getScaledLimitRect()

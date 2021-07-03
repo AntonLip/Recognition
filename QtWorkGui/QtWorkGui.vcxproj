@@ -121,7 +121,6 @@
     <ClCompile Include="GuiForSimulator\GuiSimulator\QtImgWidgets.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSimulator\QtProgramCopyProcesObj.cpp" />
     <ClCompile Include="Loger\simplLoger.cpp" />
-    <ClCompile Include="ProcessingObject\ImageProcessedObject.cpp" />
     <ClCompile Include="ProcessingObject\MyCircle.cpp" />
     <ClCompile Include="ProcessingObject\ProcessedObj.cpp" />
     <ClCompile Include="ProcessingObject\ProcessedObject.cpp" />
@@ -181,7 +180,6 @@
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtGUISensorSim.h" />
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.h" />
     <ClInclude Include="Loger\simplLoger.h" />
-    <ClInclude Include="ProcessingObject\ImageProcessedObject.h" />
     <ClInclude Include="ProcessingObject\MyCircle.h" />
     <ClInclude Include="ProcessingObject\ProcessedObj.h" />
     <ClInclude Include="ProcessingObject\ProcessedObject.h" />

@@ -7,6 +7,14 @@ CountoursProcessing::CountoursProcessing() :
     std::cout << "constr"<<std::endl;
 }
 
+CountoursProcessing::CountoursProcessing(const CountoursProcessing& drop):
+    threshold(drop.threshold),
+    originalImgWithCounter(drop.originalImgWithCounter)
+{
+    master_contours.assign(drop.master_contours.begin(), drop.master_contours.end());
+    master_hiararchy.assign(drop.master_hiararchy.begin(), drop.master_hiararchy.end());
+}
+
 CountoursProcessing::~CountoursProcessing()
 {
     std::cout << "desConter" << std::endl;

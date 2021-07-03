@@ -200,9 +200,6 @@
     <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtImgWidgetsForTesting.cpp">
       <Filter>Gui For Simulator\Gui Sensor Simulator\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProcessingObject\ImageProcessedObject.cpp">
-      <Filter>Processing Object\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProcessingObject\MyCircle.cpp">
       <Filter>Processing Object\Source Files</Filter>
     </ClCompile>
@@ -364,9 +361,6 @@
     </ClInclude>
     <ClInclude Include="Processing\CountoursProcessing.h">
       <Filter>Processing\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessingObject\ImageProcessedObject.h">
-      <Filter>Processing Object\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProcessingObject\MyCircle.h">
       <Filter>Processing Object\Header Files</Filter>

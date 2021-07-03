@@ -16,6 +16,7 @@ class CountoursProcessing
 	cv::Mat originalImgWithCounter;
 public:
 	CountoursProcessing();
+	CountoursProcessing(const CountoursProcessing& drop);
 	~CountoursProcessing();
 	//CountoursProcessing(const CountoursProcessing &drop);
 	void setThreshold(int const newThreshold);

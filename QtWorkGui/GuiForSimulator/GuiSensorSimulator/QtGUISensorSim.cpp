@@ -62,7 +62,7 @@ void QtGUISensorSim::slot_newActivObject(int newActiv)
 	
 	imgWidgetsVector[newActiv]->setStyleSheet("border : 1px solid red;");
 	ui.wid_forTestImg->setActivProcessObj(testingObjects[newActiv], false, 0);
-	
+	testingObjects[newActiv].setProcessedArears(masterObject->getProcesArears());
 	activTestObject = newActiv;
 }
 

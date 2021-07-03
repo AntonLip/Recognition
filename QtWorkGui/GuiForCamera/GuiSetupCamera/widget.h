@@ -31,8 +31,7 @@ private:
 
 
 protected:
-  bool eventFilter(QObject *, QEvent *event);
-
+    bool eventFilter(QObject *, QEvent *event);
 
 private slots:
     void resizeEvent(QResizeEvent *event);
@@ -40,17 +39,11 @@ private slots:
     void slot_setNewOffsetY(int newOffsetY);
     void slot_setNewHeigth(int newHeigth);
     void slot_setNewWidth(int newWidth);
+
 public slots:
     void st_CoordItemChange(QRectF& itemCoord);
     void st_ItemFromWidgetSizeChange(QSizeF& itemSize);
-
     void st_buttonChangeSizeClicked(double changeKoefficient);
-    
-   /* void st_ItemHeightChange(int height, int m_kH);
-    void st_ItemWidthChange(int width, int m_kW);
-    void st_SpinBoxChangeOff_Y(int offsetY, int m_kH);
-    void st_SpinBoxChangeOff_X(int offsetX, int m_kW);*/
-
 
 signals:
     void CoordItemChange(QRectF& itemCoord);
@@ -61,11 +54,5 @@ signals:
     void signal_new_heigth(int newHeigth);
     void signal_new_width(int newWidth);
     void signal_newSizeScene(QSizeF newSize);
-   /* void ItemHeightChange(int height,int m_kH);
-    void ItemWidthChange(int width, int m_kW);
-    void SpinBoxChangeOff_Y(int width, int m_kH);
-    void SpinBoxChangeOff_X(int width, int m_kW);*/
-
-
 };
 #endif // WIDGET_H
