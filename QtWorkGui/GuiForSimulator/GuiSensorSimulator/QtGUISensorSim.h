@@ -7,6 +7,7 @@
 #include "ProcessingObject/ProcessedObj.h"
 #include "QtWidProcesAreaForTesting.h"
 #include <iostream>
+#include "Loger/simplLoger.h"
 
 class QtGUISensorSim : public QWidget
 {

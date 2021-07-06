@@ -22,6 +22,7 @@ QtGUISensorSim::~QtGUISensorSim()
 
 void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 {
+	LOG.logMessege("slot_loadImageFromLocalMachine started", LogLevel::_INFO_);
 	if (loadType == 0)
 	{
 		int buferActivOblect{ activTestObject };
@@ -36,7 +37,6 @@ void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 			imgWidgetsSpaser.push_back(new QSpacerItem(10, 10));
 			ui.horizontalLayout_4->insertSpacerItem(0, imgWidgetsSpaser[activTestObject]);
 			ui.horizontalLayout_4->insertWidget(0, imgWidgetsVector[activTestObject]);
-			
 
 			imgWidgetsVector[activTestObject]->show();
 			imgWidgetsVector[activTestObject]->setImg(testingObjects[activTestObject].getOriginalPixmap());
@@ -45,6 +45,7 @@ void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 			connect(imgWidgetsVector[activTestObject], SIGNAL(mousePres(int)), this, SLOT(slot_newActivObject(int)));
 			imgWidgetsVector[buferActivOblect]->setStyleSheet("");
 			imgWidgetsVector[activTestObject]->setStyleSheet("border : 1px solid red;");
+			LOG.logMessege("image loaded", LogLevel::_INFO_);
 		}
 		else
 		{
@@ -82,7 +83,7 @@ void QtGUISensorSim::slot_setActivProcesArea(int newActivArea)
 
 void QtGUISensorSim::slot_dataFromGuiSimulator(ProcessedObject& data)
 {
-	masterObject = &data;
+	masterObject = new ProcessedObject(data,false);
 
 	if(testingObjects.size() >= 1)
 		ui.wid_forTestImg->setActivProcessObj(testingObjects[0],false,0);

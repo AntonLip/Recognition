@@ -5,6 +5,7 @@
 #include "MyCircle.h"
 #include "QtRotateRect.h"
 #include "Processing/CountoursProcessing.h"
+#include "Processing/ProcessingCountours.h"
 #include "qimage.h"
 
 class QtProcessedArea : public QObject
@@ -21,12 +22,14 @@ class QtProcessedArea : public QObject
 	int doubleTreshF;
 	int doubleTreshS;
 	bool singlTresActiv;
-	CountoursProcessing *counterProc;
+	//CountoursProcessing *counterProc;
+	ProcessingCountours* counterProcessed;
 public:
 	QtProcessedArea(QObject *parent=Q_NULLPTR );
 	QtProcessedArea(int processedType, int areaType, QtRotateRect newRect, QObject* parent = Q_NULLPTR);
 	QtProcessedArea(int processedType, int areaType, MyCircle newCircle, QObject* parent = Q_NULLPTR);
-	QtProcessedArea(const QtProcessedArea& drop);
+	QtProcessedArea(const QtProcessedArea& drop, bool copyProcessingResult = true);
+	QtProcessedArea(QtProcessedArea&& drop);
 	~QtProcessedArea();
 	void createMaster(cv::Mat const *inputImg);
 	void setRect(QtRotateRect* newRect);

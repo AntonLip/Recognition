@@ -28,18 +28,20 @@ ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv
 {
 }
 
-ProcessedObject::ProcessedObject(const ProcessedObject& dep):
+ProcessedObject::ProcessedObject(const ProcessedObject& dep, bool copyProcessingResult):
 	fileName_{ dep.fileName_ },
 	dirName_{dep.dirName_},
 	originalPixmap_{dep.originalPixmap_},
 	originalMat_{dep.originalMat_},
 	correctPixmap_{dep.correctPixmap_},
 	correctMat_{dep.correctMat_},
-	processedArears_{dep.processedArears_},
+	processedArears_{ },
 	imageCorrected_{dep.imageCorrected_},
 	imageIsNull_{dep.imageIsNull_},
 	programName_{dep.programName_}
 {
+	for (size_t i{ 0 }; i < dep.processedArears_.size(); ++i)
+		processedArears_.push_back(QtProcessedArea(dep.processedArears_[i], copyProcessingResult));
 }
 
 QString ProcessedObject::getFileName()
@@ -120,6 +122,22 @@ ProcessedObject& ProcessedObject::operator=(const ProcessedObject& drop)
 	return *this;
 }
 
+ProcessedObject& ProcessedObject::operator=(ProcessedObject&& drop)
+{
+	fileName_ = drop.fileName_;
+	dirName_ = drop.dirName_;
+	originalPixmap_ = drop.originalPixmap_;
+	originalMat_ = drop.originalMat_;
+	correctPixmap_ = drop.originalPixmap_;
+	correctMat_ = drop.correctMat_;
+	processedArears_.assign(drop.processedArears_.begin(), drop.processedArears_.end());
+	drop.processedArears_.clear();
+	imageCorrected_ = drop.imageCorrected_;
+	imageIsNull_ = drop.imageIsNull_;
+	programName_ = drop.programName_;
+	return *this;
+}
+
 bool ProcessedObject::imageCorrected()
 {
 	return imageCorrected_;
@@ -165,5 +183,14 @@ int ProcessedObject::loadImage()
 	else
 	{
 		return 1;
+	}
+}
+
+void ProcessedObject::updateProcessedArears()
+{
+	for (size_t i{ 0 }; i < processedArears_.size(); ++i)
+	{
+		if (processedArears_[i].getProcesseedType() == 1)
+			processedArears_[i].updateProcessing(correctMat_);
 	}
 }

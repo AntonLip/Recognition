@@ -224,6 +224,12 @@
     <ClCompile Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.cpp">
       <Filter>Gui For Simulator\Gui Sensor Simulator\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Processing\IProcessing.cpp">
+      <Filter>Processing\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processing\ProcessingCountours.cpp">
+      <Filter>Processing\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FormFile\FormForCamera\QtConnect.ui">
@@ -379,6 +385,12 @@
     </ClInclude>
     <ClInclude Include="WorkWithCamera\FrameObserver.h">
       <Filter>Work With Camera\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing\IProcessing.h">
+      <Filter>Processing\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing\ProcessingCountours.h">
+      <Filter>Processing\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,7 +7,8 @@ class ProcessingCountours : public IProcessing
 	int threshold_;
 public:
 	ProcessingCountours();
-	ProcessingCountours(const ProcessingCountours& drop);
+	ProcessingCountours(const ProcessingCountours& drop, bool copyCounter = true);
+	ProcessingCountours(ProcessingCountours&& drop, bool copyCounter = true);
 	virtual void performProcessing(cv::Mat const* inputImage) override;
 	virtual void drawProcessing(cv::Mat& inOutPutImage) override;
 };

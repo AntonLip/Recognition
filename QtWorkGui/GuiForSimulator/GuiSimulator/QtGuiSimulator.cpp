@@ -95,12 +95,13 @@ void QtGuiSimulator::slot_openSetupSimulator()
 
 void QtGuiSimulator::slot_dataFromSetupSim(ProcessedObject* changedObj)
 {
-	for (int i{ 0 }; i < changedObj->getProcesArears()->size(); ++i)
+	loadObj[activLoadObj] = ProcessedObject(*changedObj);
+	for (int i{ 0 }; i < loadObj[activLoadObj].getProcesArears()->size(); ++i)
 	{
-		changedObj->getProcesArears()[0][i].setDraw(true);
+		loadObj[activLoadObj].getProcesArears()[0][i].setDraw(true);
 		//ui.widget_DisplayImg->processedAreaScale(changedObj->getProcesArears()[0][i]);
 	}
-	loadObj[activLoadObj] = *changedObj;
+	
 	ui.widget_DisplayImg->updateProcessObj(loadObj[activLoadObj]);
 	ui.linEdit_fileName->setText(loadObj[activLoadObj].getFileName());
 	ui.comboBox_program->setItemIcon(activLoadObj, loadObj[activLoadObj].getOriginalPixmap());

@@ -380,6 +380,7 @@ void QtGuiDisplay::slot_mouseCurrentPos()
 						activProcessedObj->getProcesArears()[0][activ_roi].getRect()->changeAngel(ui.label_for_TempImg->getImageCoordinate(),
 																								 *ui.label_for_TempImg->getOriginalImgSize());
 				}
+				activProcessedObj->getProcesArears()[0][activ_roi].updateProcessing(activProcessedObj->getMat());
 				draw_proceseArears();
 				int x, y;
 				ui.label_for_TempImg->getDrPoint(x, y);
@@ -818,6 +819,7 @@ void QtGuiDisplay::draw_proceseArears()
 	if (penSize < 1)
 		penSize = 1;
 	emit getActivProcessArea();
+	
 	if (activProcesArea == 0)
 	{
 		if (activProcessedObj->getProcesArears()[0][0].isDraw())

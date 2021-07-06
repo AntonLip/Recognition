@@ -128,6 +128,8 @@
     <ClCompile Include="ProcessingObject\QtProcessedArea.cpp" />
     <ClCompile Include="ProcessingObject\QtRotateRect.cpp" />
     <ClCompile Include="Processing\CountoursProcessing.cpp" />
+    <ClCompile Include="Processing\IProcessing.cpp" />
+    <ClCompile Include="Processing\ProcessingCountours.cpp" />
     <ClCompile Include="WorkWithCamera\FrameObserver.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
     <QtMoc Include="QtWorkGui.h" />
@@ -158,6 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.h" />
+    <ClInclude Include="Processing\IProcessing.h" />
+    <ClInclude Include="Processing\ProcessingCountours.h" />
     <ClInclude Include="WorkWithCamera\FrameObserver.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\mysquare.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\QtGuiSetupSensor.h" />

@@ -13,7 +13,8 @@ QtProcessedArea::QtProcessedArea(QObject* parent)
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr)
+	counterProcessed{ new ProcessingCountours{} }
+	//counterProc(nullptr)
 {
 	
 }
@@ -31,7 +32,9 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect 
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr)
+	counterProcessed{ new ProcessingCountours{} }
+	
+	//counterProc(nullptr)
 {
 	if (processedType == 1)
 	{
@@ -52,7 +55,8 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProc(nullptr)
+	counterProcessed{ new ProcessingCountours{} }
+	//counterProc(nullptr)
 {
 	if (processedType == 1)
 	{
@@ -60,7 +64,7 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	}
 }
 
-QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
+QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop, bool copyProcessingResult)
 	:processedAreaType(drop.processedAreaType),
 	areaType(drop.areaType),
 	rect(drop.rect),
@@ -72,10 +76,26 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	counterProc(nullptr)
+	counterProcessed{ new ProcessingCountours(*drop.counterProcessed, copyProcessingResult) }
 {
-	if (drop.counterProc != nullptr)
-		counterProc = new CountoursProcessing(*drop.counterProc);
+	
+}
+
+QtProcessedArea::QtProcessedArea(QtProcessedArea&& drop):
+	processedAreaType(drop.processedAreaType),
+	areaType(drop.areaType),
+	rect(drop.rect),
+	activ(drop.activ),
+	draw(drop.draw),
+	systemName(drop.systemName),
+	userName(drop.userName),
+	doubleTreshF(drop.doubleTreshF),
+	doubleTreshS(drop.doubleTreshS),
+	singlTresActiv(drop.singlTresActiv),
+	circle(drop.circle),
+	counterProcessed{ drop.counterProcessed }
+{
+	drop.counterProcessed = nullptr;
 }
 
 QtProcessedArea::~QtProcessedArea()
@@ -85,11 +105,21 @@ QtProcessedArea::~QtProcessedArea()
 
 void QtProcessedArea::createMaster(cv::Mat const* inputImg)
 {
+	cv::Rect roi(0, 0, 0, 0);
+	if (areaType == 0)
+	{
+		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width(), rect.getRotateRectSize().height());
+	}
+	else if (areaType == 1)
+	{
+		roi = cv::Rect(circle.getCenterPoint().x() - circle.getRadius(), circle.getCenterPoint().y() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
+	}
 	if (processedAreaType == 1)
 	{
-		cv::Mat procImg(*inputImg);
+		//cv::Mat procImg(*inputImg);
 		//cv::cvtColor(*inputImg, procImg, cv::COLOR_RGB2GRAY);
-		counterProc->findAndSetMasterContours(&procImg);
+		//counterProc->findAndSetMasterContours(&procImg);
+		counterProcessed->performProcessing(&(*inputImg)(roi));
 	}
 }
 
@@ -123,8 +153,12 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 		roi = cv::Rect(circle.getCenterPoint().x() - circle.getRadius(), circle.getCenterPoint().y() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
 	}
 	mask = mask(roi);
-	cv::Mat drawImg;
-	cv::Mat(counterProc->getDrawContours(roi)).copyTo(drawImg);
+	cv::Mat procesingImgPart(*inputImg);
+	procesingImgPart = procesingImgPart(roi);
+	if (processedAreaType == 1)
+	{
+		counterProcessed->drawProcessing(procesingImgPart);
+	}
 	cv::Mat backGround;
 	if(inputImg->type()==CV_8U)
 		cv::cvtColor(mask, mask, cv::COLOR_RGB2GRAY);
@@ -132,11 +166,11 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	cv::bitwise_not(mask, mask);
 	if (inputImg->type() == CV_8U)
 		cv::cvtColor(mask, mask, cv::COLOR_GRAY2BGR);
-	cv::bitwise_and(drawImg, mask, drawImg);
+	cv::bitwise_and(procesingImgPart, mask, procesingImgPart);
 	/*if (inputImg->type() == CV_8U)
 		cv::cvtColor(backGround, backGround, cv::COLOR_BGR2GRAY);*/
-	cv::bitwise_or(drawImg, backGround, drawImg);
-	return drawImg;
+	cv::bitwise_or(procesingImgPart, backGround, procesingImgPart);
+	return procesingImgPart;
 }
 
 void QtProcessedArea::setCircle(MyCircle* newCircle)
@@ -306,7 +340,8 @@ void QtProcessedArea::setProcessing(int typeProcessing)
 	}
 	if (typeProcessing == 1)
 	{
-		counterProc = new CountoursProcessing();
+		typeProcessing = processedAreaType;
+		counterProcessed = new ProcessingCountours();
 	}
 }
 
@@ -323,8 +358,7 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	doubleTreshS = drop.doubleTreshS;
 	singlTresActiv = drop.singlTresActiv;
 	circle = drop.circle;
-	if(drop.counterProc!=nullptr)
-		counterProc = new CountoursProcessing(*drop.counterProc);
+	counterProcessed = new ProcessingCountours(*drop.counterProcessed);
 	std::cout << "=" << std::endl;
 	return *this;
 }
@@ -343,7 +377,20 @@ QRect QtProcessedArea::getOriginalLimitRect()
 
 void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 {
-	counterProc->findAndSetMasterContours(&newOriginImeg);
+	cv::Rect roi(0, 0, 0, 0);
+	if (areaType == 0)
+	{
+		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width(), rect.getRotateRectSize().height());
+	}
+	else if (areaType == 1)
+	{
+		roi = cv::Rect(circle.getCenterPoint().x() - circle.getRadius(), circle.getCenterPoint().y() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
+	}
+	if (processedAreaType == 1)
+	{
+		counterProcessed->performProcessing(&newOriginImeg(roi));
+	}
+	//counterProc->findAndSetMasterContours(&newOriginImeg);
 }
 
 //QRect QtProcessedArea::getScaledLimitRect()
