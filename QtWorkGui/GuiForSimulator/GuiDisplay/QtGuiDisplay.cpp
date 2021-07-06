@@ -1053,8 +1053,9 @@ void QtGuiDisplay::updateImg()
 
 void QtGuiDisplay::slot_resetAngel(int activRect)
 {
-	activProcessedObj->getProcesArears()[0][activRect].getRect()->resetAngel(ui.label_for_TempImg->getScaledImgSize());
+	activProcessedObj->getProcesArears()[0][activRect].getRect()->resetAngel(ui.label_for_TempImg->getOriginalImgSize());
 	//processedAreaScale(activProcessedObj->getProcesArears()[0][activRect], true);
+	activProcessedObj->getProcesArears()[0][activRect].updateProcessing(activProcessedObj->getMat());
 	draw_proceseArears();
 	int x, y;
 	ui.label_for_TempImg->getDrPoint(x, y);
