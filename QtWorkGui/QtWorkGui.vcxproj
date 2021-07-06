@@ -113,7 +113,9 @@
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtAddToolGUI.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtMySliderWid.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtSetupSimulator.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidProcesArea.cpp" />
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidSetupColor.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\qxtspanslider.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSimulator\QtGuiProgramDetails.cpp" />
     <ClCompile Include="GuiForSimulator\GuiSimulator\QtGuiSimulator.cpp" />
@@ -150,8 +152,10 @@
     <QtUic Include="FormFile\FormForSimulator\QtMySliderWid.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtProgramCopyProcesObj.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtSetupSimulator.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtWidDoubelSlider.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtWidProcesArea.ui" />
     <QtUic Include="FormFile\FormForSimulator\QtWidProcesAreaForTesting.ui" />
+    <QtUic Include="FormFile\FormForSimulator\QtWidSetupColor.ui" />
     <QtUic Include="FormFile\QtMyDialog.ui" />
     <QtUic Include="FormFile\QtWorkGui.ui" />
   </ItemGroup>
@@ -160,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidSetupColor.h" />
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.h" />
     <ClInclude Include="Processing\IProcessing.h" />
     <ClInclude Include="Processing\ProcessingCountours.h" />
     <ClInclude Include="WorkWithCamera\FrameObserver.h" />

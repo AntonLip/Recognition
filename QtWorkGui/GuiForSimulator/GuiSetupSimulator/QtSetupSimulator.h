@@ -8,6 +8,7 @@
 #include "QtWidProcesArea.h"
 #include "Loger/simplLoger.h"
 #include "qmessagebox.h"
+#include "GuiForSimulator/GuiSetupSimulator/QtWidSetupColor.h"
 
 class QtSetupSimulator : public QWidget
 {
@@ -82,6 +83,7 @@ protected slots:
 	void slot_resetAngelRect();
 	void slot_getActivProcesAreaTowidgetMasterImg();
 	void slot_registImageFromFile();
+	void slot_openColorSetup();
 signals:
 	void dataToGUISim(ProcessedObject* changedObj);
 	void brightnesCorrectAreaDel();

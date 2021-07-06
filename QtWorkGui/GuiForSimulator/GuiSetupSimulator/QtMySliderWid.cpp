@@ -12,6 +12,8 @@ QtMySliderWid::QtMySliderWid(QWidget *parent)
     startX1 = ui.label_min->x();
     startX2 = ui.label_max->x();
     oneSlider = false;
+    ui.label_max->setGeometry(startX2 + floor(mul * 0), ui.label_max->y(), ui.label_max->size().width(), ui.label_max->size().height());
+    ui.label_min->setGeometry(startX1 + floor(mul * 0), ui.label_max->y(), ui.label_max->size().width(), ui.label_max->size().height());
 }
 
 void QtMySliderWid::setOneSlider(bool isOne)
@@ -31,7 +33,6 @@ void QtMySliderWid::setOneSlider(bool isOne)
         startX2 = startX2 + 8;
         slot_changeRange(ui.horizontalSlider->lowerValue(), ui.horizontalSlider->upperValue());
     }
-   // oneSlider = isOne;
 }
 
 void QtMySliderWid::setRenge(int min, int max)

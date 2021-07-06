@@ -230,6 +230,12 @@
     <ClCompile Include="Processing\ProcessingCountours.cpp">
       <Filter>Processing\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidSetupColor.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.cpp">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FormFile\FormForCamera\QtConnect.ui">
@@ -287,6 +293,12 @@
       <Filter>FormFiles</Filter>
     </QtUic>
     <QtUic Include="FormFile\FormForSimulator\QtWidProcesAreaForTesting.ui">
+      <Filter>FormFiles\Form For Simulator</Filter>
+    </QtUic>
+    <QtUic Include="FormFile\FormForSimulator\QtWidSetupColor.ui">
+      <Filter>FormFiles\Form For Simulator</Filter>
+    </QtUic>
+    <QtUic Include="FormFile\FormForSimulator\QtWidDoubelSlider.ui">
       <Filter>FormFiles\Form For Simulator</Filter>
     </QtUic>
   </ItemGroup>
@@ -359,6 +371,12 @@
     </QtMoc>
     <QtMoc Include="GuiForSimulator\GuiSensorSimulator\QtWidProcesAreaForTesting.h">
       <Filter>Gui For Simulator\Gui Sensor Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidSetupColor.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.h">
+      <Filter>Gui For Simulator\Gui Setup Simulator\Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

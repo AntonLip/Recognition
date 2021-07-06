@@ -52,6 +52,7 @@ QtSetupSimulator::QtSetupSimulator(QWidget *parent)
 	connect(ui.tabWid_setMasterImg, SIGNAL(currentChanged(int)), this, SLOT(slot_changeWidSteps(int)));
 	connect(ui.widget_getMasterImg, SIGNAL(getActivProcessArea()), this, SLOT(slot_getActivProcesAreaTowidgetMasterImg()));
 	connect(ui.PB_registrImgFromFile, SIGNAL(clicked()), this, SLOT(slot_registImageFromFile()));
+	connect(ui.PButn_removeOutline, SIGNAL(clicked()), this, SLOT(slot_openColorSetup()));
 	setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
@@ -266,6 +267,15 @@ void QtSetupSimulator::slot_registImageFromFile()
 	{
 		LOG.logMessege("image not loaded", _DEBUG_);
 		QMessageBox::critical(nullptr, QObject::tr("Warning"), QObject::tr("Image not loaded")); //massage about error download
+	}
+}
+
+void QtSetupSimulator::slot_openColorSetup()
+{
+	if (masterObjct.getProcesArears()[0][activProcesArea].getProcesseedType() == 2)
+	{
+		QtWidSetupColor* setupColot(new QtWidSetupColor());
+		setupColot->show();
 	}
 }
 
