@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>252</width>
-    <height>92</height>
+    <width>232</width>
+    <height>95</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>218</width>
+    <width>232</width>
     <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>232</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -29,7 +35,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,20,1">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,10,1">
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
@@ -47,8 +53,14 @@
         <widget class="QxtSpanSlider" name="horizontalSlider">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>182</width>
            <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>198</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="orientation">
@@ -78,14 +90,20 @@
       <widget class="QWidget" name="widget" native="true">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>212</width>
          <height>16</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>232</width>
+         <height>16777215</height>
         </size>
        </property>
        <widget class="QLabel" name="label_max">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>20</x>
           <y>0</y>
           <width>18</width>
           <height>16</height>
@@ -96,6 +114,11 @@
           <width>31</width>
           <height>16</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -116,8 +139,16 @@
           <height>16</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </widget>

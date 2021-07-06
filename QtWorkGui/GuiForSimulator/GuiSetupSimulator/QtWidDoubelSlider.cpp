@@ -8,6 +8,7 @@ QtWidDoubelSlider::QtWidDoubelSlider(QWidget *parent)
 	connect(ui.PB_leftIncrease, SIGNAL(clicked(bool)), this, SLOT(slot_leftSliderIncrease()));
 	connect(ui.PB_rightDecrease, SIGNAL(clicked(bool)), this, SLOT(slot_rightSliderDecrease()));
 	connect(ui.PB_rightIncrease, SIGNAL(clicked(bool)), this, SLOT(slot_rightSliderIncrease()));
+	ui.doubelSlider->setRenge(0, 255);
 }
 
 QtWidDoubelSlider::~QtWidDoubelSlider()
@@ -26,12 +27,12 @@ void QtWidDoubelSlider::slot_rightSliderIncrease()
 
 void QtWidDoubelSlider::slot_leftSliderDecrease()
 {
-	ui.doubelSlider->getSlider()->setUpperValue(ui.doubelSlider->getSlider()->lowerValue() - 1);
+	ui.doubelSlider->getSlider()->setLowerValue(ui.doubelSlider->getSlider()->lowerValue() - 1);
 }
 
 void QtWidDoubelSlider::slot_leftSliderIncrease()
 {
-	ui.doubelSlider->getSlider()->setUpperValue(ui.doubelSlider->getSlider()->lowerValue() + 1);
+	ui.doubelSlider->getSlider()->setLowerValue(ui.doubelSlider->getSlider()->lowerValue() + 1);
 }
 
 void QtWidDoubelSlider::slot_rightSliderDecrease()

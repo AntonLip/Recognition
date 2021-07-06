@@ -8,12 +8,10 @@ QtMySliderWid::QtMySliderWid(QWidget *parent)
     ui.horizontalSlider->setHandleMovementMode(QxtSpanSlider::NoCrossing);
     connect(ui.horizontalSlider, SIGNAL(spanChanged(int, int)), this, SLOT(slot_changeRange(int, int)));
     connect(ui.horizontalSlider, SIGNAL(moseClicked_()), this, SLOT(slot_clickMouse()));
-    mul = (ui.horizontalSlider->size().width() - 10) / 99.0;
+    mul = (ui.horizontalSlider->size().width() - 12) / 100.0;
     startX1 = ui.label_min->x();
     startX2 = ui.label_max->x();
     oneSlider = false;
-    ui.label_max->setGeometry(startX2 + floor(mul * 0), ui.label_max->y(), ui.label_max->size().width(), ui.label_max->size().height());
-    ui.label_min->setGeometry(startX1 + floor(mul * 0), ui.label_max->y(), ui.label_max->size().width(), ui.label_max->size().height());
 }
 
 void QtMySliderWid::setOneSlider(bool isOne)
@@ -37,7 +35,7 @@ void QtMySliderWid::setOneSlider(bool isOne)
 
 void QtMySliderWid::setRenge(int min, int max)
 {
-    mul = (ui.horizontalSlider->size().width() - 10) / static_cast<double>(max-min);
+    mul = (ui.horizontalSlider->size().width() - 12) / static_cast<double>(max-min);
     ui.horizontalSlider->setRange(min, max);
     if (ui.horizontalSlider->lowerValue() < max)
     {
