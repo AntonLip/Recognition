@@ -11,6 +11,7 @@ public:
 	QtWidDoubelSlider(QWidget *parent = Q_NULLPTR);
 	~QtWidDoubelSlider();
 	void setRenge(int min, int max);
+	void setSliderPosition(int min, int max);
 private:
 	Ui::QtWidDoubelSlider ui;
 

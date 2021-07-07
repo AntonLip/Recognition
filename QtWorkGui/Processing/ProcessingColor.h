@@ -12,4 +12,5 @@ public:
 	void performProcessing(cv::Mat const* inputImage) override;
 	void drawProcessing(cv::Mat& inOutPutImage) override;
 	void setThreshold(std::vector<int> newThreshold) override;
+	void getThreshold(std::vector<int>& outThreshold) override;
 };

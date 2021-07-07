@@ -84,9 +84,12 @@ protected slots:
 	void slot_getActivProcesAreaTowidgetMasterImg();
 	void slot_registImageFromFile();
 	void slot_openColorSetup();
+	void slot_updateActivProcessingArea();
+	void slot_closeColorSetup();
 signals:
 	void dataToGUISim(ProcessedObject* changedObj);
 	void brightnesCorrectAreaDel();
 	void clic_pb();
 	void resetRectAngel(int activRect);
+	void dataToSetupColor(QtProcessedArea* colorProcessing);
 };

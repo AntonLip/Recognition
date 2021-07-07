@@ -55,6 +55,12 @@ void ProcessingCountours::setThreshold(std::vector<int> newThreshold)
     threshold_ = newThreshold[0];
 }
 
+void ProcessingCountours::getThreshold(std::vector<int>& outThreshold)
+{
+    outThreshold.clear();
+    outThreshold.push_back(threshold_);
+}
+
 void ProcessingCountours::drawCountours(cv::Mat const* inputImage, std::vector<std::vector<cv::Point>>& contours)
 {
     cv::cvtColor(*inputImage, resultImage_, CV_RGB2GRAY);

@@ -21,6 +21,12 @@ void QtWidDoubelSlider::setRenge(int min, int max)
 	ui.doubelSlider->setRenge(min, max);
 }
 
+void QtWidDoubelSlider::setSliderPosition(int min, int max)
+{
+	ui.doubelSlider->getSlider()->setUpperValue(max);
+	ui.doubelSlider->getSlider()->setLowerValue(min);
+}
+
 void QtWidDoubelSlider::slot_rightSliderIncrease()
 {
 	ui.doubelSlider->getSlider()->setUpperValue(ui.doubelSlider->getSlider()->upperValue() + 1);

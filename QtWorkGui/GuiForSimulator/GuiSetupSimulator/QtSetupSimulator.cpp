@@ -274,9 +274,24 @@ void QtSetupSimulator::slot_openColorSetup()
 {
 	if (masterObjct.getProcesArears()[0][activProcesArea].getProcesseedType() == 2)
 	{
-		QtWidSetupColor* setupColot(new QtWidSetupColor());
-		setupColot->show();
+		//QtWidSetupColor* setupColor(new QtWidSetupColor());
+		ui.stackWid_customTools->setCurrentIndex(2);
+		connect(this, SIGNAL(dataToSetupColor(QtProcessedArea*)), ui.wid_setupColor, SLOT(slot_dataFromSetupSimulator(QtProcessedArea*)));
+		connect(ui.wid_setupColor, SIGNAL(signal_changeThreshold()), this, SLOT(slot_updateActivProcessingArea()));
+		connect(ui.wid_setupColor, SIGNAL(signal_endSetup()), this, SLOT(slot_closeColorSetup()));
+		emit dataToSetupColor(&masterObjct.getProcesArears()[0][activProcesArea]);
 	}
+}
+
+void QtSetupSimulator::slot_updateActivProcessingArea()
+{
+	masterObjct.getProcesArears()[0][activProcesArea].updateProcessing(masterObjct.getMat());
+	ui.widget_getMasterImg->updateImg();
+}
+
+void QtSetupSimulator::slot_closeColorSetup()
+{
+	ui.stackWid_customTools->setCurrentIndex(1);
 }
 
 

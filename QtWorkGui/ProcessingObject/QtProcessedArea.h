@@ -64,4 +64,6 @@ public:
 	QtProcessedArea& operator=(const QtProcessedArea& drop);
 	QRect getOriginalLimitRect();
 	void updateProcessing(cv::Mat newOriginImeg);
+	void getProcessedThreshold(std::vector<int>& threshold);
+	void setProcessedThreshold(std::vector<int>& const threshold);
 };

@@ -2,9 +2,9 @@
 
 ProcessingColor::ProcessingColor():
 	resultImage_{cv::Mat()},
-	h_threshelds_{20,100},
-	s_threshelds_{0,255},
-	v_threshelds_{0,255}
+	h_threshelds_{0,0},
+	s_threshelds_{0,0},
+	v_threshelds_{0,0}
 {
 }
 
@@ -45,4 +45,15 @@ void ProcessingColor::setThreshold(std::vector<int> newThreshold)
 	s_threshelds_[1] = newThreshold[3];
 	v_threshelds_[0] = newThreshold[4];
 	v_threshelds_[1] = newThreshold[5];
+}
+
+void ProcessingColor::getThreshold(std::vector<int>& outThreshold)
+{
+	outThreshold.clear();
+	outThreshold.push_back(h_threshelds_[0]);
+	outThreshold.push_back(h_threshelds_[1]);
+	outThreshold.push_back(s_threshelds_[0]);
+	outThreshold.push_back(s_threshelds_[1]);
+	outThreshold.push_back(v_threshelds_[0]);
+	outThreshold.push_back(v_threshelds_[1]);
 }

@@ -353,8 +353,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>98</width>
-                    <height>28</height>
+                    <width>343</width>
+                    <height>589</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_17">
@@ -869,6 +869,13 @@
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="page_setupColor">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QtWidSetupColor" name="wid_setupColor" native="true"/>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -965,6 +972,12 @@
    <class>QtMySliderWid</class>
    <extends>QWidget</extends>
    <header>qtmysliderwid.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QtWidSetupColor</class>
+   <extends>QWidget</extends>
+   <header>qtwidsetupcolor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

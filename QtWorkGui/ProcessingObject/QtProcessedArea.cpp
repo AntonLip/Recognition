@@ -413,6 +413,22 @@ void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 	//counterProc->findAndSetMasterContours(&newOriginImeg);
 }
 
+void QtProcessedArea::getProcessedThreshold(std::vector<int>& threshold)
+{
+	if (processedAreaType == 1)
+		counterProcessed->getThreshold(threshold);
+	else if (processedAreaType = 2)
+		colorProcessed->getThreshold(threshold);
+}
+
+void QtProcessedArea::setProcessedThreshold(std::vector<int>& const threshold)
+{
+	if (processedAreaType == 1)
+		counterProcessed->setThreshold(threshold);
+	else if (processedAreaType = 2)
+		colorProcessed->setThreshold(threshold);
+}
+
 //QRect QtProcessedArea::getScaledLimitRect()
 //{
 //	if (areaType == 0)
