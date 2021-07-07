@@ -19,4 +19,7 @@ private slots:
 	void slot_rightSliderIncrease();
 	void slot_leftSliderDecrease();
 	void slot_leftSliderIncrease();
+	void slot_chageSliderPosition();
+signals:
+	void signal_changeSliderPosition(int minValue, int maxValue);
 };

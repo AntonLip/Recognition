@@ -9,7 +9,8 @@ public:
 	ProcessingCountours();
 	ProcessingCountours(const ProcessingCountours& drop, bool copyCounter = true);
 	ProcessingCountours(ProcessingCountours&& drop, bool copyCounter = true);
-	virtual void performProcessing(cv::Mat const* inputImage) override;
-	virtual void drawProcessing(cv::Mat& inOutPutImage) override;
+	void performProcessing(cv::Mat const* inputImage) override;
+	void drawProcessing(cv::Mat& inOutPutImage) override;
+	void setThreshold(std::vector<int> newThreshold) override;
 };
 

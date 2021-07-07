@@ -10,6 +10,7 @@ class IProcessing
 public:
 	virtual void performProcessing(cv::Mat const* inputImage) = 0;
 	virtual void drawProcessing(cv::Mat& inOutPutImage) = 0;
+	virtual void setThreshold(std::vector<int> newThreshold) = 0;
 	virtual ~IProcessing() {};
 };
 

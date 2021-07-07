@@ -63,3 +63,8 @@ void ProcessingCountours::drawProcessing(cv::Mat& inOutPutImage)
         cv::drawContours(inOutPutImage, masterContours_, int(i),cv::Scalar(0,255,0) , 2);
     }
 }
+
+void ProcessingCountours::setThreshold(std::vector<int> newThreshold)
+{
+    threshold_ = newThreshold[0];
+}

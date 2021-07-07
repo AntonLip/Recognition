@@ -236,6 +236,9 @@
     <ClCompile Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.cpp">
       <Filter>Gui For Simulator\Gui Setup Simulator\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Processing\ProcessingColor.cpp">
+      <Filter>Processing\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FormFile\FormForCamera\QtConnect.ui">
@@ -408,6 +411,9 @@
       <Filter>Processing\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Processing\ProcessingCountours.h">
+      <Filter>Processing\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing\ProcessingColor.h">
       <Filter>Processing\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

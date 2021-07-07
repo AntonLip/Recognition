@@ -12,6 +12,7 @@ QtMySliderWid::QtMySliderWid(QWidget *parent)
     startX1 = ui.label_min->x();
     startX2 = ui.label_max->x();
     oneSlider = false;
+    setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 void QtMySliderWid::setOneSlider(bool isOne)

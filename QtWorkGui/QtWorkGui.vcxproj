@@ -131,6 +131,7 @@
     <ClCompile Include="ProcessingObject\QtRotateRect.cpp" />
     <ClCompile Include="Processing\CountoursProcessing.cpp" />
     <ClCompile Include="Processing\IProcessing.cpp" />
+    <ClCompile Include="Processing\ProcessingColor.cpp" />
     <ClCompile Include="Processing\ProcessingCountours.cpp" />
     <ClCompile Include="WorkWithCamera\FrameObserver.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
@@ -167,6 +168,7 @@
     <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidSetupColor.h" />
     <QtMoc Include="GuiForSimulator\GuiSetupSimulator\QtWidDoubelSlider.h" />
     <ClInclude Include="Processing\IProcessing.h" />
+    <ClInclude Include="Processing\ProcessingColor.h" />
     <ClInclude Include="Processing\ProcessingCountours.h" />
     <ClInclude Include="WorkWithCamera\FrameObserver.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\mysquare.h" />

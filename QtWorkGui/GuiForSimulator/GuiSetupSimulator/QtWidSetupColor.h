@@ -13,4 +13,7 @@ public:
 
 private:
 	Ui::QtWidSetupColor ui;
+private slots:
+	void slot_OK();
+	void slot_canel();
 };

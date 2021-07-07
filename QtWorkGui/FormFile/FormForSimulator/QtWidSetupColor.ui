@@ -6,28 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>315</height>
+    <width>272</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>QtWidSetupColor</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1,5,1,5,1,5">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetMinimumSize</enum>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1,5,1,5,1,5,1">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>TextLabel</string>
+      <string>The sliders can be used to adjust the extraction level</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>TextLabel</string>
+      <string>Hue</string>
      </property>
     </widget>
    </item>
@@ -37,7 +34,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>TextLabel</string>
+      <string>Saturation</string>
      </property>
     </widget>
    </item>
@@ -47,12 +44,69 @@
    <item>
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>TextLabel</string>
+      <string>Value</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QtWidDoubelSlider" name="V_lavel" native="true"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,3,0,1">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PB_ok">
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PB_canel">
+       <property name="text">
+        <string>Canel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

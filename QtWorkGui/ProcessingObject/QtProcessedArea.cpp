@@ -13,7 +13,8 @@ QtProcessedArea::QtProcessedArea(QObject* parent)
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProcessed{ new ProcessingCountours{} }
+	counterProcessed{ new ProcessingCountours{} },
+	colorProcessed{ new ProcessingColor{} }
 	//counterProc(nullptr)
 {
 	
@@ -32,7 +33,8 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect 
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProcessed{ new ProcessingCountours{} }
+	counterProcessed{ new ProcessingCountours{} },
+	colorProcessed{ new ProcessingColor{} }
 	
 	//counterProc(nullptr)
 {
@@ -55,7 +57,8 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	doubleTreshF(0),
 	doubleTreshS(0),
 	singlTresActiv(false),
-	counterProcessed{ new ProcessingCountours{} }
+	counterProcessed{ new ProcessingCountours{} },
+	colorProcessed{ new ProcessingColor{} }
 	//counterProc(nullptr)
 {
 	if (processedType == 1)
@@ -76,7 +79,8 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop, bool copyProcessin
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	counterProcessed{ new ProcessingCountours(*drop.counterProcessed, copyProcessingResult) }
+	counterProcessed{ new ProcessingCountours(*drop.counterProcessed, copyProcessingResult) },
+	colorProcessed{ new ProcessingColor{*drop.colorProcessed} }
 {
 	
 }
@@ -93,9 +97,11 @@ QtProcessedArea::QtProcessedArea(QtProcessedArea&& drop):
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	counterProcessed{ drop.counterProcessed }
+	counterProcessed{ drop.counterProcessed },
+	colorProcessed{ drop.colorProcessed }
 {
 	drop.counterProcessed = nullptr;
+	drop.colorProcessed = nullptr;
 }
 
 QtProcessedArea::~QtProcessedArea()
@@ -120,6 +126,10 @@ void QtProcessedArea::createMaster(cv::Mat const* inputImg)
 		//cv::cvtColor(*inputImg, procImg, cv::COLOR_RGB2GRAY);
 		//counterProc->findAndSetMasterContours(&procImg);
 		counterProcessed->performProcessing(&(*inputImg)(roi));
+	}
+	else if (processedAreaType == 2)
+	{
+		colorProcessed->performProcessing(&(*inputImg)(roi));
 	}
 }
 
@@ -158,6 +168,10 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	if (processedAreaType == 1)
 	{
 		counterProcessed->drawProcessing(procesingImgPart);
+	}
+	else if (processedAreaType == 2)
+	{
+		colorProcessed->drawProcessing(procesingImgPart);
 	}
 	cv::Mat backGround;
 	if(inputImg->type()==CV_8U)
@@ -334,15 +348,16 @@ void QtProcessedArea::getCircleParm(int &radius, QPoint &center)
 
 void QtProcessedArea::setProcessing(int typeProcessing)
 {
-	if (typeProcessing == 0)
-	{
-		typeProcessing = processedAreaType;
-	}
-	if (typeProcessing == 1)
-	{
-		typeProcessing = processedAreaType;
-		counterProcessed = new ProcessingCountours();
-	}
+	typeProcessing = processedAreaType;
+	//if (typeProcessing == 0)
+	//{
+	//	typeProcessing = processedAreaType;
+	//}
+	//else if (typeProcessing == 1)
+	//{
+	//	typeProcessing = processedAreaType;
+	//	//counterProcessed = new ProcessingCountours();
+	//}
 }
 
 QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
@@ -359,6 +374,7 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	singlTresActiv = drop.singlTresActiv;
 	circle = drop.circle;
 	counterProcessed = new ProcessingCountours(*drop.counterProcessed);
+	colorProcessed = new ProcessingColor(*drop.colorProcessed);
 	std::cout << "=" << std::endl;
 	return *this;
 }
@@ -389,6 +405,10 @@ void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 	if (processedAreaType == 1)
 	{
 		counterProcessed->performProcessing(&newOriginImeg(roi));
+	}
+	else if (processedAreaType == 2)
+	{
+		colorProcessed->performProcessing(&newOriginImeg(roi));
 	}
 	//counterProc->findAndSetMasterContours(&newOriginImeg);
 }
