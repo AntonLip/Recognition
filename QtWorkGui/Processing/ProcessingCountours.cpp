@@ -1,38 +1,26 @@
 #include "ProcessingCountours.h"
 
 ProcessingCountours::ProcessingCountours() :
-	masterContours_{ },
-	masterHiararchy_{ },
+    resultImage_{cv::Mat()},
 	threshold_{ 20 }
 {
 }
 
-ProcessingCountours::ProcessingCountours(const ProcessingCountours& drop, bool copyCounter):
-    masterContours_{ },
-    masterHiararchy_{ },
+ProcessingCountours::ProcessingCountours(const ProcessingCountours& drop):
+    resultImage_{drop.resultImage_ },
     threshold_{drop.threshold_}
 {
-    if (copyCounter)
-    {
-        masterContours_.assign(drop.masterContours_.begin(), drop.masterContours_.end());
-        masterHiararchy_.assign(drop.masterHiararchy_.begin(), drop.masterHiararchy_.end());
-    }
+
     //masterContours_ = drop.masterContours_;
     //masterHiararchy_ = drop.masterHiararchy_;
-    int a;
-    a = 12;
+
 }
 
-ProcessingCountours::ProcessingCountours(ProcessingCountours&& drop, bool copyCounter):
-    masterContours_ {  },
-    masterHiararchy_{  },
+ProcessingCountours::ProcessingCountours(ProcessingCountours&& drop):
+    resultImage_{ drop.resultImage_ },
     threshold_{ drop.threshold_ }
 {
-    if (copyCounter)
-    {
-        masterContours_.assign(drop.masterContours_.begin(), drop.masterContours_.end());
-        masterHiararchy_.assign(drop.masterHiararchy_.begin(), drop.masterHiararchy_.end());
-    }
+
 }
 
 void ProcessingCountours::performProcessing(cv::Mat const* inputImage)
@@ -47,24 +35,32 @@ void ProcessingCountours::performProcessing(cv::Mat const* inputImage)
     //masterContours_.resize(0);
     //masterHiararchy_.clear();
     //masterHiararchy_.resize(0);
-    cv::findContours(cannyOut, masterContours_, masterHiararchy_, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    int a;
-    a = 14;
-
-    //drawContours(inputImg, cv::Scalar(0, 255, 0));
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hiararchy;
+    cv::findContours(cannyOut, contours, hiararchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    drawCountours(inputImage, contours);
+    /*for (size_t i{ 0 }; i < contours.size(); ++i)
+    {
+        cv::drawContours(resultImage_, resultImage_, int(i), cv::Scalar(0, 255, 0), 2);
+    }*/
 }
 
 void ProcessingCountours::drawProcessing(cv::Mat& inOutPutImage)
 {
-    cv::cvtColor(inOutPutImage, inOutPutImage, CV_RGB2GRAY);
-    cv::cvtColor(inOutPutImage, inOutPutImage, CV_GRAY2RGB);
-    for (size_t i{ 0 }; i < masterContours_.size(); ++i)
-    {
-        cv::drawContours(inOutPutImage, masterContours_, int(i),cv::Scalar(0,255,0) , 2);
-    }
+    inOutPutImage = resultImage_;
 }
 
 void ProcessingCountours::setThreshold(std::vector<int> newThreshold)
 {
     threshold_ = newThreshold[0];
+}
+
+void ProcessingCountours::drawCountours(cv::Mat const* inputImage, std::vector<std::vector<cv::Point>>& contours)
+{
+    cv::cvtColor(*inputImage, resultImage_, CV_RGB2GRAY);
+    cv::cvtColor(resultImage_, resultImage_, CV_GRAY2RGB);
+    for (size_t i{ 0 }; i < contours.size(); ++i)
+    {
+        cv::drawContours(resultImage_, contours, int(i), cv::Scalar(0, 255, 0), 1);
+    }
 }

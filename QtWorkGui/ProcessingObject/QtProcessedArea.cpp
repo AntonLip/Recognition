@@ -79,7 +79,7 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop, bool copyProcessin
 	doubleTreshS(drop.doubleTreshS),
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
-	counterProcessed{ new ProcessingCountours(*drop.counterProcessed, copyProcessingResult) },
+	counterProcessed{ new ProcessingCountours(*drop.counterProcessed) },
 	colorProcessed{ new ProcessingColor{*drop.colorProcessed} }
 {
 	
