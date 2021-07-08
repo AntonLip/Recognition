@@ -30,7 +30,7 @@ public:
 	QtProcessedArea(QObject *parent=Q_NULLPTR );
 	QtProcessedArea(int processedType, int areaType, QtRotateRect newRect, QObject* parent = Q_NULLPTR);
 	QtProcessedArea(int processedType, int areaType, MyCircle newCircle, QObject* parent = Q_NULLPTR);
-	QtProcessedArea(const QtProcessedArea& drop, bool copyProcessingResult = true);
+	QtProcessedArea(const QtProcessedArea& drop);
 	QtProcessedArea(QtProcessedArea&& drop);
 	~QtProcessedArea();
 	void createMaster(cv::Mat const *inputImg);

@@ -26,7 +26,7 @@ protected:
 public:
 	ProcessedObject();
 	ProcessedObject(QString inputFileName, QString inputDirName, cv::Mat inputMat, QPixmap inputPixmap, QString programName, bool imageIsNull = false);
-	ProcessedObject(const ProcessedObject& dep, bool copyProcessingResult = true);
+	ProcessedObject(const ProcessedObject& dep);
 	QString getFileName();
 	void setFileName(QString newFileName);
 	QString getDirName();

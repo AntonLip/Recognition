@@ -28,20 +28,18 @@ ProcessedObject::ProcessedObject(QString inputFileName, QString inputDirName, cv
 {
 }
 
-ProcessedObject::ProcessedObject(const ProcessedObject& dep, bool copyProcessingResult):
+ProcessedObject::ProcessedObject(const ProcessedObject& dep):
 	fileName_{ dep.fileName_ },
 	dirName_{dep.dirName_},
 	originalPixmap_{dep.originalPixmap_},
 	originalMat_{dep.originalMat_},
 	correctPixmap_{dep.correctPixmap_},
 	correctMat_{dep.correctMat_},
-	processedArears_{ },
+	processedArears_{dep.processedArears_ },
 	imageCorrected_{dep.imageCorrected_},
 	imageIsNull_{dep.imageIsNull_},
 	programName_{dep.programName_}
 {
-	for (size_t i{ 0 }; i < dep.processedArears_.size(); ++i)
-		processedArears_.push_back(QtProcessedArea(dep.processedArears_[i], copyProcessingResult));
 }
 
 QString ProcessedObject::getFileName()

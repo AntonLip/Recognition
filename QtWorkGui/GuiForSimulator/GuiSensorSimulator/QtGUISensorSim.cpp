@@ -83,7 +83,7 @@ void QtGUISensorSim::slot_setActivProcesArea(int newActivArea)
 
 void QtGUISensorSim::slot_dataFromGuiSimulator(ProcessedObject& data)
 {
-	masterObject = new ProcessedObject(data,false);
+	masterObject = new ProcessedObject(data);
 
 	if(testingObjects.size() >= 1)
 		ui.wid_forTestImg->setActivProcessObj(testingObjects[0],false,0);

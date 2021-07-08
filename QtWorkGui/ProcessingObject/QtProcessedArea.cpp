@@ -67,7 +67,7 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	}
 }
 
-QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop, bool copyProcessingResult)
+QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	:processedAreaType(drop.processedAreaType),
 	areaType(drop.areaType),
 	rect(drop.rect),

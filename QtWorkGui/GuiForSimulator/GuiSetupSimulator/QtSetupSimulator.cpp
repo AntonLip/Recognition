@@ -274,7 +274,6 @@ void QtSetupSimulator::slot_openColorSetup()
 {
 	if (masterObjct.getProcesArears()[0][activProcesArea].getProcesseedType() == 2)
 	{
-		//QtWidSetupColor* setupColor(new QtWidSetupColor());
 		ui.stackWid_customTools->setCurrentIndex(2);
 		connect(this, SIGNAL(dataToSetupColor(QtProcessedArea*)), ui.wid_setupColor, SLOT(slot_dataFromSetupSimulator(QtProcessedArea*)));
 		connect(ui.wid_setupColor, SIGNAL(signal_changeThreshold()), this, SLOT(slot_updateActivProcessingArea()));
