@@ -66,4 +66,6 @@ public:
 	void updateProcessing(cv::Mat newOriginImeg);
 	void getProcessedThreshold(std::vector<int>& threshold);
 	void setProcessedThreshold(std::vector<int>& const threshold);
+	int computeComparsion(cv::Mat* const masterImage);
+	cv::Mat* getMasterImage();
 };

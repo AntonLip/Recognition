@@ -167,11 +167,11 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	procesingImgPart = procesingImgPart(roi);
 	if (processedAreaType == 1)
 	{
-		counterProcessed->drawProcessing(procesingImgPart);
+		counterProcessed->drawResultImage(procesingImgPart);
 	}
 	else if (processedAreaType == 2)
 	{
-		colorProcessed->drawProcessing(procesingImgPart);
+		colorProcessed->drawResultImage(procesingImgPart);
 	}
 	cv::Mat backGround;
 	if(inputImg->type()==CV_8U)
@@ -410,7 +410,6 @@ void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 	{
 		colorProcessed->performProcessing(&newOriginImeg(roi));
 	}
-	//counterProc->findAndSetMasterContours(&newOriginImeg);
 }
 
 void QtProcessedArea::getProcessedThreshold(std::vector<int>& threshold)
@@ -427,6 +426,31 @@ void QtProcessedArea::setProcessedThreshold(std::vector<int>& const threshold)
 		counterProcessed->setThreshold(threshold);
 	else if (processedAreaType = 2)
 		colorProcessed->setThreshold(threshold);
+}
+
+int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
+{
+	if (processedAreaType == 1)
+	{
+		counterProcessed->computeComparsion(true, std::vector<int>{1},masterImage );
+	}
+	else if (processedAreaType == 2)
+	{
+		//colorProcessed->performProcessing(&newOriginImeg(roi));
+	}
+	return 0;
+}
+
+cv::Mat* QtProcessedArea::getMasterImage()
+{
+	if (processedAreaType == 1)
+	{
+		return counterProcessed->getProcessingImage();
+	}
+	else if (processedAreaType == 2)
+	{
+		return colorProcessed->getProcessingImage();
+	}
 }
 
 //QRect QtProcessedArea::getScaledLimitRect()

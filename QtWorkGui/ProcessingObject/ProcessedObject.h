@@ -47,6 +47,7 @@ public:
 	void setProgramName(QString newProgramName);
 	int loadImage();
 	void updateProcessedArears();
+	int computeComparsion(std::vector<QtProcessedArea>* const masterProcessedAreas);
 };
 
 #endif

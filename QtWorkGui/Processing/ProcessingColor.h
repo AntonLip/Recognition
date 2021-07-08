@@ -10,7 +10,9 @@ public:
 	ProcessingColor();
 	ProcessingColor(const ProcessingColor& drop);
 	void performProcessing(cv::Mat const* inputImage) override;
-	void drawProcessing(cv::Mat& inOutPutImage) override;
+	void drawResultImage(cv::Mat& inOutPutImage) override;
 	void setThreshold(std::vector<int> newThreshold) override;
 	void getThreshold(std::vector<int>& outThreshold) override;
+	int computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages) override;
+	cv::Mat* getProcessingImage() override;
 };

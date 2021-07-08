@@ -32,6 +32,7 @@ void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 		{
 			testingObjects[activTestObject].setProgramName("test " + QString::number(activTestObject));
 			testingObjects[activTestObject].setProcessedArears(masterObject->getProcesArears());
+			testingObjects[activTestObject].computeComparsion(masterObject->getProcesArears());
 			ui.wid_forTestImg->setActivProcessObj(testingObjects[activTestObject], false, 0);
 			imgWidgetsVector.push_back(new QtImgWidgetsForTesting());
 			imgWidgetsSpaser.push_back(new QSpacerItem(10, 10));

@@ -23,7 +23,7 @@ void ProcessingColor::performProcessing(cv::Mat const* inputImage)
 				cv::Scalar(h_threshelds_[1], s_threshelds_[1], v_threshelds_[1]), resultImage_);
 }
 
-void ProcessingColor::drawProcessing(cv::Mat& inOutPutImage)
+void ProcessingColor::drawResultImage(cv::Mat& inOutPutImage)
 {
 	cv::cvtColor(inOutPutImage, inOutPutImage, CV_RGB2GRAY);
 	cv::cvtColor(inOutPutImage, inOutPutImage, CV_GRAY2RGB);
@@ -57,3 +57,15 @@ void ProcessingColor::getThreshold(std::vector<int>& outThreshold)
 	outThreshold.push_back(v_threshelds_[0]);
 	outThreshold.push_back(v_threshelds_[1]);
 }
+
+cv::Mat* ProcessingColor::getProcessingImage()
+{
+	return nullptr;
+}
+
+int ProcessingColor::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages)
+{
+	return 0;
+}
+
+
