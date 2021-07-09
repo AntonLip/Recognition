@@ -46,13 +46,27 @@ void ProcessingCountours::drawResultImage(cv::Mat& inOutPutImage)
 {
     cv::cvtColor(inOutPutImage, inOutPutImage, CV_RGB2GRAY);
     cv::cvtColor(inOutPutImage, inOutPutImage, CV_GRAY2RGB);
-    cv::Mat objectContour(inOutPutImage.size(), inOutPutImage.type(), cv::Scalar(0, 255, 0));
-    cv::Mat bufer(processingImage_);
-    cv::cvtColor(bufer, bufer, CV_GRAY2BGR);
-    cv::bitwise_and(bufer, objectContour, objectContour);
-    cv::bitwise_not(bufer, bufer);
-    cv::bitwise_and(inOutPutImage, bufer, inOutPutImage);
-    cv::bitwise_or(inOutPutImage, objectContour, inOutPutImage);
+    if (comparrisImage_.size().width == 0)
+    {
+        cv::Mat objectContour(inOutPutImage.size(), inOutPutImage.type(), cv::Scalar(0, 255, 0));
+        cv::Mat bufer(processingImage_);
+        cv::cvtColor(bufer, bufer, CV_GRAY2BGR);
+        cv::bitwise_and(bufer, objectContour, objectContour);
+        cv::bitwise_not(bufer, bufer);
+        cv::bitwise_and(inOutPutImage, bufer, inOutPutImage);
+        cv::bitwise_or(inOutPutImage, objectContour, inOutPutImage);
+    }
+    else
+    {
+        cv::Mat mask(comparrisImage_.size(),CV_8UC1);
+        cv::cvtColor(comparrisImage_, mask, CV_BGR2GRAY);
+        cv::threshold(mask, mask, 1, 255, CV_THRESH_BINARY);
+        cv::bitwise_not(mask, mask);
+        cv::cvtColor(mask, mask, CV_GRAY2BGR);
+        cv::bitwise_and(inOutPutImage, mask, inOutPutImage);
+        cv::bitwise_or(inOutPutImage, comparrisImage_, inOutPutImage);
+        cv::Mat bufer(inOutPutImage);
+    }
 }
 
 void ProcessingCountours::setThreshold(std::vector<int> newThreshold)
