@@ -2,7 +2,9 @@
 #include "IProcessing.h"
 class ProcessingColor : public IProcessing
 {
-	cv::Mat resultImage_;
+	cv::Mat comparrisImage_;
+	cv::Mat masterImage_;
+	cv::Mat processingImage_;
 	std::vector<int> h_threshelds_;
 	std::vector<int> s_threshelds_;
 	std::vector<int> v_threshelds_;

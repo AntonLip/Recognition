@@ -38,7 +38,7 @@ void ProcessingCountours::performProcessing(cv::Mat const* inputImage)
     processingImage_ = cv::Mat(inputImage->size(), CV_8UC1, cv::Scalar(0));
     for (size_t i{ 0 }; i < contours.size(); ++i)
     {
-        cv::drawContours(processingImage_, contours, int(i), cv::Scalar(255), 2);
+        cv::drawContours(processingImage_, contours, int(i), cv::Scalar(255), 1);
     }
 }
 

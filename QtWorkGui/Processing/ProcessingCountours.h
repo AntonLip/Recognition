@@ -1,5 +1,14 @@
 #pragma once
 #include "IProcessing.h"
+
+#include "opencv2\opencv.hpp"
+
+#include <stdio.h>
+#include <opencv2/legacy/legacy.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2/nonfree/features2d.hpp>
+
 class ProcessingCountours : public IProcessing
 {
 	cv::Mat comparrisImage_;
