@@ -56,7 +56,7 @@ void QtGUISensorSim::slot_loadImageFromLocalMachine(int loadType)
 		}
 	}
 }
-
+//test commit
 void QtGUISensorSim::slot_newActivObject(int newActiv)
 {
 
