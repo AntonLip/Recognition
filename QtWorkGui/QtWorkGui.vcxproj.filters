@@ -239,6 +239,9 @@
     <ClCompile Include="Processing\ProcessingColor.cpp">
       <Filter>Processing\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Processing\ProcessingPositionAdjustment.cpp">
+      <Filter>Processing\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="FormFile\FormForCamera\QtConnect.ui">
@@ -414,6 +417,9 @@
       <Filter>Processing\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Processing\ProcessingColor.h">
+      <Filter>Processing\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processing\ProcessingPositionAdjustment.h">
       <Filter>Processing\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

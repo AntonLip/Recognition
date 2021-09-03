@@ -133,6 +133,7 @@
     <ClCompile Include="Processing\IProcessing.cpp" />
     <ClCompile Include="Processing\ProcessingColor.cpp" />
     <ClCompile Include="Processing\ProcessingCountours.cpp" />
+    <ClCompile Include="Processing\ProcessingPositionAdjustment.cpp" />
     <ClCompile Include="WorkWithCamera\FrameObserver.cpp" />
     <QtRcc Include="QtWorkGui.qrc" />
     <QtMoc Include="QtWorkGui.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Processing\IProcessing.h" />
     <ClInclude Include="Processing\ProcessingColor.h" />
     <ClInclude Include="Processing\ProcessingCountours.h" />
+    <ClInclude Include="Processing\ProcessingPositionAdjustment.h" />
     <ClInclude Include="WorkWithCamera\FrameObserver.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\mysquare.h" />
     <QtMoc Include="GuiForCamera\GuiSetupCamera\QtGuiSetupSensor.h" />
