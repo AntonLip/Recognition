@@ -432,11 +432,11 @@ int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
 {
 	if (processedAreaType == 1)
 	{
-		counterProcessed->computeComparsion(true, std::vector<int>{1}, masterImage);
+		counterProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
 	}
 	else if (processedAreaType == 2)
 	{
-		colorProcessed->computeComparsion(true, std::vector<int>{1}, masterImage);
+		colorProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
 	}
 	return 0;
 }

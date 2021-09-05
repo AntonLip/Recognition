@@ -81,7 +81,7 @@ cv::Mat* ProcessingColor::getProcessingImage()
 	return &processingImage_;
 }
 
-int ProcessingColor::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages)
+int ProcessingColor::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	cv::Mat matchedPart(masterImages->size(), CV_8UC1);
 	cv::bitwise_and(*masterImages, processingImage_, matchedPart);

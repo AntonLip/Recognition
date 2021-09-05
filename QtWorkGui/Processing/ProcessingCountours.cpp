@@ -78,7 +78,7 @@ void ProcessingCountours::getThreshold(std::vector<int>& outThreshold)
     outThreshold.push_back(threshold_);
 }
 
-int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages)
+int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
     cv::Mat matchedPart(masterImages->size(),CV_8UC1);
     cv::bitwise_and(*masterImages, processingImage_, matchedPart);

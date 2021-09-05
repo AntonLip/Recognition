@@ -37,7 +37,7 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 	countorsProcessing_->getThreshold(outThreshold);
 }
 
-int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages)
+int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	return 0;
 }
