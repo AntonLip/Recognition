@@ -4,6 +4,8 @@ ProcessingCountours::ProcessingCountours() :
     comparrisImage_{cv::Mat()},
     masterImage_{cv::Mat()},
     processingImage_{cv::Mat()},
+    masterContours_{},
+    masterHiararchy_{},
 	threshold_{ 20 }
 {
 }
@@ -26,20 +28,16 @@ ProcessingCountours::ProcessingCountours(ProcessingCountours&& drop):
 
 void ProcessingCountours::performProcessing(cv::Mat const* inputImage)
 {
-    cv::Mat cannyOut;
-    //cv::blur(*inputImage, cannyOut, cv::Size(4, 4));
-    //cv::medianBlur(cannyOut, cannyOut, 3);
-    //cv::Mat coreMorfologis(cv::Size(5, 5), CV_8U);
-    //cv::morphologyEx(cannyOut, cannyOut, cv::MORPH_ERODE, coreMorfologis);
-    cv::Canny(*inputImage, cannyOut, threshold_, threshold_ * 2, 3, false);
-    std::vector<std::vector<cv::Point>> contours;
-    std::vector<cv::Vec4i> hiararchy;
-    cv::findContours(cannyOut, contours, hiararchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    cv::Mat *cannyOut=new cv::Mat();
+    inputImage->copyTo(*cannyOut);
+    cv::Canny(*cannyOut, *cannyOut, threshold_, threshold_ * 2, 3, false);
+    cv::findContours(*cannyOut, masterContours_, masterHiararchy_, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     processingImage_ = cv::Mat(inputImage->size(), CV_8UC1, cv::Scalar(0));
-    for (size_t i{ 0 }; i < contours.size(); ++i)
+    for (size_t i{ 0 }; i < masterContours_.size(); ++i)
     {
-        cv::drawContours(processingImage_, contours, int(i), cv::Scalar(255), 1);
+        cv::drawContours(processingImage_, masterContours_, int(i), cv::Scalar(255), 1);
     }
+    delete cannyOut;
 }
 
 void ProcessingCountours::drawResultImage(cv::Mat& inOutPutImage)
