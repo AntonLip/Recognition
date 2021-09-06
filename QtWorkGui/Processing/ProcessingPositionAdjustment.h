@@ -7,7 +7,6 @@ class ProcessingPositionAdjustment :
 {
     cv::Mat comparrisImage_{};
     cv::Mat masterImage_{};
-    cv::Mat processingImage_{};
     cv::Mat originalImage_{};
 
     ProcessingCountours *countorsProcessing_{nullptr};

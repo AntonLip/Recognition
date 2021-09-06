@@ -7,6 +7,7 @@
 #include "Processing/CountoursProcessing.h"
 #include "Processing/ProcessingCountours.h"
 #include "Processing/ProcessingColor.h"
+#include "Processing/ProcessingPositionAdjustment.h"
 #include "qimage.h"
 
 class QtProcessedArea : public QObject
@@ -26,6 +27,7 @@ class QtProcessedArea : public QObject
 	//CountoursProcessing *counterProc;
 	ProcessingCountours* counterProcessed;
 	ProcessingColor* colorProcessed;
+	ProcessingPositionAdjustment* positionAdjustmentProcessed;
 public:
 	QtProcessedArea(QObject *parent=Q_NULLPTR );
 	QtProcessedArea(int processedType, int areaType, QtRotateRect newRect, QObject* parent = Q_NULLPTR);

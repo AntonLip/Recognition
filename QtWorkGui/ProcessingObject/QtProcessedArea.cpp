@@ -14,7 +14,8 @@ QtProcessedArea::QtProcessedArea(QObject* parent)
 	doubleTreshS(0),
 	singlTresActiv(false),
 	counterProcessed{ new ProcessingCountours{} },
-	colorProcessed{ new ProcessingColor{} }
+	colorProcessed{ new ProcessingColor{} },
+	positionAdjustmentProcessed{ new ProcessingPositionAdjustment{} }
 	//counterProc(nullptr)
 {
 	
@@ -34,7 +35,8 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, QtRotateRect 
 	doubleTreshS(0),
 	singlTresActiv(false),
 	counterProcessed{ new ProcessingCountours{} },
-	colorProcessed{ new ProcessingColor{} }
+	colorProcessed{ new ProcessingColor{} },
+	positionAdjustmentProcessed{ new ProcessingPositionAdjustment{} }
 	
 	//counterProc(nullptr)
 {
@@ -58,7 +60,8 @@ QtProcessedArea::QtProcessedArea(int processedType, int areaType_, MyCircle newC
 	doubleTreshS(0),
 	singlTresActiv(false),
 	counterProcessed{ new ProcessingCountours{} },
-	colorProcessed{ new ProcessingColor{} }
+	colorProcessed{ new ProcessingColor{} },
+	positionAdjustmentProcessed{ new ProcessingPositionAdjustment{} }
 	//counterProc(nullptr)
 {
 	if (processedType == 1)
@@ -80,7 +83,8 @@ QtProcessedArea::QtProcessedArea(const QtProcessedArea& drop)
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
 	counterProcessed{ new ProcessingCountours(*drop.counterProcessed) },
-	colorProcessed{ new ProcessingColor{*drop.colorProcessed} }
+	colorProcessed{ new ProcessingColor{*drop.colorProcessed} },
+	positionAdjustmentProcessed{ new ProcessingPositionAdjustment{*drop.positionAdjustmentProcessed} }
 {
 	
 }
@@ -98,7 +102,8 @@ QtProcessedArea::QtProcessedArea(QtProcessedArea&& drop):
 	singlTresActiv(drop.singlTresActiv),
 	circle(drop.circle),
 	counterProcessed{ drop.counterProcessed },
-	colorProcessed{ drop.colorProcessed }
+	colorProcessed{ drop.colorProcessed },
+	positionAdjustmentProcessed{ drop.positionAdjustmentProcessed }
 {
 	drop.counterProcessed = nullptr;
 	drop.colorProcessed = nullptr;
@@ -130,6 +135,10 @@ void QtProcessedArea::createMaster(cv::Mat const* inputImg)
 	else if (processedAreaType == 2)
 	{
 		colorProcessed->performProcessing(&(*inputImg)(roi));
+	}
+	else if (processedAreaType == 4)
+	{
+		positionAdjustmentProcessed->performProcessing(inputImg, &roi);
 	}
 }
 
@@ -172,6 +181,10 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 	else if (processedAreaType == 2)
 	{
 		colorProcessed->drawResultImage(procesingImgPart);
+	}
+	else if (processedAreaType == 4)
+	{
+		positionAdjustmentProcessed->drawResultImage(procesingImgPart);
 	}
 	cv::Mat backGround;
 	if(inputImg->type()==CV_8U)
@@ -375,6 +388,7 @@ QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
 	circle = drop.circle;
 	counterProcessed = new ProcessingCountours(*drop.counterProcessed);
 	colorProcessed = new ProcessingColor(*drop.colorProcessed);
+	positionAdjustmentProcessed = new ProcessingPositionAdjustment(*drop.positionAdjustmentProcessed);
 	std::cout << "=" << std::endl;
 	return *this;
 }
@@ -410,6 +424,10 @@ void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 	{
 		colorProcessed->performProcessing(&newOriginImeg(roi));
 	}
+	else if (processedAreaType == 4)
+	{
+		positionAdjustmentProcessed->performProcessing(&newOriginImeg, &roi);
+	}
 }
 
 void QtProcessedArea::getProcessedThreshold(std::vector<int>& threshold)
@@ -418,6 +436,8 @@ void QtProcessedArea::getProcessedThreshold(std::vector<int>& threshold)
 		counterProcessed->getThreshold(threshold);
 	else if (processedAreaType = 2)
 		colorProcessed->getThreshold(threshold);
+	else if (processedAreaType = 4)
+		positionAdjustmentProcessed->getThreshold(threshold);
 }
 
 void QtProcessedArea::setProcessedThreshold(std::vector<int>& const threshold)
@@ -426,6 +446,8 @@ void QtProcessedArea::setProcessedThreshold(std::vector<int>& const threshold)
 		counterProcessed->setThreshold(threshold);
 	else if (processedAreaType = 2)
 		colorProcessed->setThreshold(threshold);
+	else if (processedAreaType = 4)
+		positionAdjustmentProcessed->setThreshold(threshold);
 }
 
 int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
@@ -437,6 +459,10 @@ int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
 	else if (processedAreaType == 2)
 	{
 		colorProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
+	}
+	else if (processedAreaType == 4)
+	{
+		positionAdjustmentProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
 	}
 	return 0;
 }
@@ -450,6 +476,10 @@ cv::Mat* QtProcessedArea::getMasterImage()
 	else if (processedAreaType == 2)
 	{
 		return colorProcessed->getProcessingImage();
+	}
+	else if (processedAreaType == 4)
+	{
+		return positionAdjustmentProcessed->getProcessingImage();
 	}
 }
 
