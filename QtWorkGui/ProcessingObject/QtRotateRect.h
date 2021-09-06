@@ -80,6 +80,7 @@ public:
 	int getRigthX(int y);
 	int getRigthY(int x);
 	int getLeftY(int x);
+	double getDiagonal();
 	void resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize *boundingSize);
 	void changePosition(QPoint const imgPoint, QPoint const firstPoint, QSize boundingSize);
 	void changeAngel(QPoint const imgPoint, QSize boundingSize);

@@ -87,6 +87,17 @@ int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vec
                           cv::Point(roi.getDownLeft_X() - roi.getMin_X(),roi.getDownLeft_Y() - roi.getMin_Y()) };
     cv::fillConvexPoly(matchedPart, vertices, 4, cv::Scalar(255), 8);
 
+    cv::Mat rotateImage{};
+    double a{ roi.getDiagonal() };
+    int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
+    int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
+    cv::copyMakeBorder(*masterImages, rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+    cv::Mat rotateMat{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.rows / 2.0, rotateImage.rows / 2.0), 20, 1.0) };
+    cv::warpAffine(rotateImage, rotateImage, rotateMat, rotateImage.size());
+    //cv::adaptiveThreshold(rotateImage, rotateImage, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 13, 1);
+    //cv::GaussianBlur(rotateImage, rotateImage, cv::Size(5, 5), 0);
+    cv::threshold(rotateImage, rotateImage, 0, 255,  cv::THRESH_OTSU);
+
     cv::bitwise_and(*masterImages, processingImage_, matchedPart);
     cv::Mat bufer_(processingImage_);
     cv::Mat mismatchedPart_1(masterImages->size(), CV_8UC1);

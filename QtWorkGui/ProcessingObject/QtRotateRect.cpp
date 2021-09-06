@@ -726,6 +726,11 @@ int QtRotateRect::getLeftY(int x)
 	return upLeftAngel_Y + ((x - upLeftAngel_X) * (downLeftAngel_Y - upLeftAngel_Y) / (downLeftAngel_X - upLeftAngel_X));
 }
 
+double QtRotateRect::getDiagonal()
+{
+	return sqrt(width() * width() + height() * height());
+}
+
 void QtRotateRect::resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize* boundingSize)
 {
 
@@ -1334,7 +1339,7 @@ void QtRotateRect::resizeRect(QPoint const imgPoint, QPoint const globalImgPoint
 
 QRect QtRotateRect::getRotateRectSize()
 {
-	return QRect(getMin_X(),getMin_Y(),getMax_X()-getMin_X(),getMax_Y()-getMin_Y());
+	return QRect(getMin_X(),getMin_Y(),getMax_X()-getMin_X()+1,getMax_Y()-getMin_Y()+1);
 }
 
 QPoint QtRotateRect::getUpLeftPoint()
