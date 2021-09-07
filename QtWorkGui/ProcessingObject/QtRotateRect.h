@@ -86,6 +86,7 @@ public:
 	void changeAngel(QPoint const imgPoint, QSize boundingSize);
 	QPointF getEdgePoint(int typePoint);
 	QRect getRotateRectSize();
+	QRect getOriginalRect() const;
 	QPoint getUpLeftPoint();
 	void setResizeType(int activType);
 	int getResizeType();

@@ -1342,6 +1342,11 @@ QRect QtRotateRect::getRotateRectSize()
 	return QRect(getMin_X(),getMin_Y(),getMax_X()-getMin_X()+1,getMax_Y()-getMin_Y()+1);
 }
 
+QRect QtRotateRect::getOriginalRect() const
+{
+	return QRect(x(),y(),width(),height());
+}
+
 QPoint QtRotateRect::getUpLeftPoint()
 {
 	return QPoint(getMin_X(), getMin_Y());
