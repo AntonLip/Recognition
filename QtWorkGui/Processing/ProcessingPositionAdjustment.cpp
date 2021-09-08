@@ -3,7 +3,8 @@
 cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterImage, QtRotateRect roi)
 {
 	std::vector<cv::Point2f> keyPoints{};
-	findKeyPoints(masterImage, keyPoints);
+	cv::Point2i bais{};
+	findKeyPoints(masterImage, keyPoints,bais);
 	int quantityPointInRoi[10]{};
 	QtRotateRect searchArears[10]{};
 	int numberBestRoi{ 0 };
@@ -33,11 +34,14 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 				downRigth.y = searchArears[i].getMax_Y();
 		}
 	}
-
+	/*upLefet.x += bais.x;
+	upLefet.y += bais.y;
+	downRigth.x += bais.x;
+	downRigth.y += bais.y;*/
 	return cv::Rect(upLefet,downRigth);
 }
 
-void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints)
+void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)
 {
 	cv::SURF orb;
 	//std::vector<cv::KeyPoint> keyPointMasterImage, keyPointTestImage;
@@ -77,11 +81,25 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 	}
 
 	std::vector<cv::Point2f> obj;
-
+	cv::Point2f upLeft{ keyPointMasterImage[mathesOut[0].queryIdx].pt }, downRigth{ keyPointMasterImage[mathesOut[0].queryIdx].pt };
 	for (size_t i{ 0 }; i < mathesOut.size() && i < 9; ++i)
 	{
 		keyPoints.push_back(keyPointTestImage[mathesOut[i].trainIdx].pt);
+		if (upLeft.x > keyPointMasterImage[mathesOut[i].queryIdx].pt.x)
+			upLeft.x = keyPointMasterImage[mathesOut[i].queryIdx].pt.x;
+		if (upLeft.y > keyPointMasterImage[mathesOut[i].queryIdx].pt.y)
+			upLeft.y = keyPointMasterImage[mathesOut[i].queryIdx].pt.y;
+		if (downRigth.x < keyPointMasterImage[mathesOut[i].queryIdx].pt.x)
+			downRigth.x = keyPointMasterImage[mathesOut[i].queryIdx].pt.x;
+		if (downRigth.y < keyPointMasterImage[mathesOut[i].queryIdx].pt.y)
+			downRigth.y = keyPointMasterImage[mathesOut[i].queryIdx].pt.y;
 	}
+
+	cv::Mat img3;
+	cv::drawMatches(*masterImage, keyPointMasterImage, originalImage_, keyPointTestImage, mathesOut, img3);
+	int ysdf{ static_cast<int>(masterImage->cols / 2 - (upLeft.x + (downRigth.x - upLeft.x) / 2)) };
+	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeft.x + (downRigth.x - upLeft.x) / 2));
+	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeft.y + (downRigth.y - upLeft.y) / 2));
 }
 
 ProcessingPositionAdjustment::ProcessingPositionAdjustment()
@@ -90,14 +108,14 @@ ProcessingPositionAdjustment::ProcessingPositionAdjustment()
 }
 
 ProcessingPositionAdjustment::ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop):
-	comparrisImage_{drop.comparrisImage_},
-	masterImage_{ drop.masterImage_ },
-	originalImage_{drop.originalImage_},
-	procesingImage_{drop.procesingImage_},
 	deltaAngel_{drop.deltaAngel_},
 	deltsX_{drop.deltsX_},
 	deltaY_{drop.deltaY_}
 {
+	drop.comparrisImage_.copyTo(comparrisImage_);
+	drop.masterImage_.copyTo(masterImage_);
+	drop.originalImage_.copyTo(originalImage_);
+	drop.procesingImage_.copyTo(procesingImage_);
 	if(drop.countorsProcessing_!=nullptr)
 		countorsProcessing_ = new ProcessingCountours(*drop.countorsProcessing_);
 }
@@ -138,7 +156,8 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 
 int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
-	cv::Rect test{ findLimitRectangel(masterImages, roi) };
+	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
+
 	cv::Mat rotateImage{};
 	int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
 	int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
@@ -152,7 +171,7 @@ int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold,
 		for (int c{ 0 }; c < originalImage_.cols - rotateImage.rows; c+=5)
 		{
 			searchRoi.x = c;
-			for (int i{ 5 }; i < 20;)
+			for (int i{ 5 }; i < 20; i+=5)
 			{
 				
 				cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.rows / 2.0, rotateImage.rows / 2.0), i, 1.0) };
@@ -161,7 +180,6 @@ int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold,
 				countorsProcessing_->performProcessing(&originalImage_(searchRoi));
 				roi.setRotateAngel(360.0 - i);
 				countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi);
-				i += 5;
 			}
 		}
 	}

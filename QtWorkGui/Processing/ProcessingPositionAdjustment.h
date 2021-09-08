@@ -15,14 +15,13 @@ class ProcessingPositionAdjustment :
     cv::Mat procesingImage_{};
 
     ProcessingCountours *countorsProcessing_{nullptr};
-    std::vector<std::vector<cv::DMatch>> mathes;
-    //cv::Mat descriptMaster, descriptTest;
-    std::vector<cv::KeyPoint> keyPointMasterImage, keyPointTestImage;
+    std::vector<std::vector<cv::DMatch>> mathes{};
+    std::vector<cv::KeyPoint> keyPointMasterImage{}, keyPointTestImage{};
     int deltaAngel_{0};
     int deltsX_{0};
     int deltaY_{0};
     cv::Rect findLimitRectangel(cv::Mat* const masterImage, QtRotateRect const roi);
-    void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f> &keyPoints);
+    void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f> &keyPoints, cv::Point2i &bais);
 public:
     ProcessingPositionAdjustment();
     ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop);

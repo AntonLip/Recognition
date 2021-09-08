@@ -196,6 +196,13 @@ void ProcessedObject::updateProcessedArears()
 int ProcessedObject::computeComparsion(std::vector<QtProcessedArea>* const masterProcessedAreas)
 {
 	for (size_t i{ 0 }; i < processedArears_.size(); ++i)
+	{
+		if (processedArears_[i].getProcesseedType() == 4)
+		{
+			processedArears_[i].updateProcessing(originalMat_);
+		}
 		processedArears_[i].computeComparsion((*masterProcessedAreas)[i].getMasterImage());
+		
+	}
 	return 0;
 }

@@ -107,11 +107,12 @@ QtProcessedArea::QtProcessedArea(QtProcessedArea&& drop):
 {
 	drop.counterProcessed = nullptr;
 	drop.colorProcessed = nullptr;
+	drop.positionAdjustmentProcessed = nullptr;
 }
 
 QtProcessedArea::~QtProcessedArea()
 {
-	
+
 }
 
 void QtProcessedArea::createMaster(cv::Mat const* inputImg)

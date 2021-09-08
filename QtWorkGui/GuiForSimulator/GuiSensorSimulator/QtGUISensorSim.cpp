@@ -91,13 +91,11 @@ void QtGUISensorSim::slot_dataFromGuiSimulator(ProcessedObject& data)
 	else
 		ui.wid_forTestImg->setActivProcessObj(ProcessedObject(), false, 0);
 
-	//ui.wid_forTestImg->setActiv(false);
 	ui.wid_forTestImg->setChangesProcessedArears(false);
 	ui.wid_forTestImg->setEnableWidtsGrouBox(false);
 	ui.wid_forTestImg->setChangeActivArea(true);
 	if (data.getProcesArears()->size() > 1)
 	{
-		//ui.stackWid_customTools->setCurrentIndex(0);
 		
 		for (size_t i{ 1 }; i < data.getProcesArears()->size(); ++i)
 		{
