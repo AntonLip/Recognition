@@ -1372,6 +1372,11 @@ void QtRotateRect::changePosition(QPoint const imgPoint, QPoint const firstPoint
 	{
 		step_Y = 0;
 	}
+	int buferW{ width() }, buferH{ height() };
+	QRect::setX(x() + step_X);
+	QRect::setY(y() + step_Y);
+	QRect::setWidth(buferW);
+	QRect::setHeight(buferH);
 	upLeftAngel_X += step_X;
 	upLeftAngel_Y += step_Y;
 	upRigAngel_X += step_X;

@@ -87,7 +87,7 @@ void ProcessedObject::setProcessedArears(std::vector<QtProcessedArea> *newProces
 	processedArears_.assign(newProcessedAreas->begin(), newProcessedAreas->end());
 	for (size_t i{ 0 }; i < processedArears_.size(); ++i)
 	{
-		if(processedArears_[i].getProcesseedType()==1 || processedArears_[i].getProcesseedType() == 2)
+		if(processedArears_[i].getProcesseedType()==1 || processedArears_[i].getProcesseedType() == 2 || processedArears_[i].getProcesseedType() == 4)
 			processedArears_[i].updateProcessing(originalMat_);
 	}
 }

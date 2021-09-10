@@ -34,23 +34,23 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 				downRigth.y = searchArears[i].getMax_Y();
 		}
 	}
-	/*upLefet.x += bais.x;
+	upLefet.x += bais.x;
 	upLefet.y += bais.y;
 	downRigth.x += bais.x;
-	downRigth.y += bais.y;*/
-	return cv::Rect(upLefet,downRigth);
+	downRigth.y += bais.y;
+	upLefet.x = upLefet.x + (downRigth.x - upLefet.x) / 2 - masterImage->cols / 8;
+	upLefet.y = upLefet.y + (downRigth.y - upLefet.y) / 2 - masterImage->rows / 8;
+	return cv::Rect(upLefet.x,upLefet.y, masterImage->cols / 4, masterImage->rows / 4);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)
 {
 	cv::SURF orb;
-	//std::vector<cv::KeyPoint> keyPointMasterImage, keyPointTestImage;
 	orb.detect(*masterImage, keyPointMasterImage);
 	orb.detect(originalImage_, keyPointTestImage);
 	cv::Mat descriptMaster, descriptTest;
 	orb.compute(*masterImage, keyPointMasterImage, descriptMaster);
 	orb.compute(originalImage_, keyPointTestImage, descriptTest);
-	//std::vector<std::vector<cv::DMatch>> mathes;
 	
 	cv::FlannBasedMatcher flan;
 	cv::BFMatcher bf(cv::NORM_HAMMING, true);
@@ -95,9 +95,8 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 			downRigth.y = keyPointMasterImage[mathesOut[i].queryIdx].pt.y;
 	}
 
-	cv::Mat img3;
-	cv::drawMatches(*masterImage, keyPointMasterImage, originalImage_, keyPointTestImage, mathesOut, img3);
-	int ysdf{ static_cast<int>(masterImage->cols / 2 - (upLeft.x + (downRigth.x - upLeft.x) / 2)) };
+	cv::Mat img3;//delet!!
+	cv::drawMatches(*masterImage, keyPointMasterImage, originalImage_, keyPointTestImage, mathesOut, img3);//delet!!!!!
 	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeft.x + (downRigth.x - upLeft.x) / 2));
 	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeft.y + (downRigth.y - upLeft.y) / 2));
 }
@@ -157,23 +156,27 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
-
+	countorsProcessing_->performProcessing(masterImages);
 	cv::Mat rotateImage{};
 	int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
 	int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
-	cv::copyMakeBorder(*masterImages, rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
-	roi.setX(roi.x() + leftAndRigthBorder);
-	roi.setY(roi.y() + topAndBottonBorder);
-	cv::Rect searchRoi{ 0,0,rotateImage.size().width, rotateImage.size().height };
-	for (int r{ 0 }; r < originalImage_.rows - rotateImage.cols; r+=5)
+	cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+	roi.setX(leftAndRigthBorder);
+	roi.setY(topAndBottonBorder);
+	cv::Rect searchRoi{ 0, 0, rotateImage.size().width, rotateImage.size().height };
+	for (int r{ limitRect.y }; r - searchRoi.height / 2 + rotateImage.rows <  originalImage_.rows; r += 2)
 	{
-		searchRoi.y = r;
-		for (int c{ 0 }; c < originalImage_.cols - rotateImage.rows; c+=5)
+		searchRoi.y = r - searchRoi.height / 2;
+		if (searchRoi.y < 0)
+			searchRoi.y = 0;
+		for (int c{ limitRect.x }; c - searchRoi.width / 2 + rotateImage.cols <  originalImage_.cols; c += 5)
 		{
-			searchRoi.x = c;
-			for (int i{ 5 }; i < 20; i+=5)
+			searchRoi.x = c - searchRoi.width / 2;
+			if (searchRoi.x < 0)
+				searchRoi.x = 0;
+			for (int i{ 5 }; i < 20; i += 5)
 			{
-				
+
 				cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.rows / 2.0, rotateImage.rows / 2.0), i, 1.0) };
 				cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
 				cv::threshold(rotateImage, rotateImage, 0, 255, cv::THRESH_OTSU);
