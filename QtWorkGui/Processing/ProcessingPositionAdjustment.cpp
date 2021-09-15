@@ -161,8 +161,11 @@ int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold,
 	int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
 	int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
 	cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+	int buferH{ roi.height() }, buferW{ roi.width() };
 	roi.setX(leftAndRigthBorder);
 	roi.setY(topAndBottonBorder);
+	roi.setWidth(buferW);
+	roi.setHeight(buferH);
 	cv::Rect searchRoi{ 0, 0, rotateImage.size().width, rotateImage.size().height };
 	for (int r{ limitRect.y }; r - searchRoi.height / 2 + rotateImage.rows <  originalImage_.rows; r += 2)
 	{

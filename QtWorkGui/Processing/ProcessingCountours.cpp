@@ -84,10 +84,10 @@ void ProcessingCountours::getThreshold(std::vector<int>& outThreshold)
 int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
     cv::Mat matchedPart(masterImages->size(),CV_8UC1, cv::Scalar(0));
-    cv::Point vertices[4]{cv::Point(roi.getUpLeft_X() - roi.getMin_X(),roi.getUpLeft_Y() - roi.getMin_Y()),
-                          cv::Point(roi.getUpRigth_X() - roi.getMin_X(),roi.getUpRigth_Y() - roi.getMin_Y()) ,
-                          cv::Point(roi.getDownRigth_X() - roi.getMin_X(),roi.getDownRigth_Y() - roi.getMin_Y()) ,
-                          cv::Point(roi.getDownLeft_X() - roi.getMin_X(),roi.getDownLeft_Y() - roi.getMin_Y()) };
+    cv::Point vertices[4]{cv::Point(roi.getUpLeft_X(), roi.getUpLeft_Y()),
+                          cv::Point(roi.getUpRigth_X(), roi.getUpRigth_Y()) ,
+                          cv::Point(roi.getDownRigth_X(), roi.getDownRigth_Y()) ,
+                          cv::Point(roi.getDownLeft_X(), roi.getDownLeft_Y()) };
     cv::fillConvexPoly(matchedPart, vertices, 4, cv::Scalar(255), 8);
 
     
