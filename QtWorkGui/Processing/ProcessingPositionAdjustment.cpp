@@ -156,36 +156,57 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
-	countorsProcessing_->performProcessing(masterImages);
-	cv::Mat rotateImage{};
-	int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
-	int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
-	cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
-	int buferH{ roi.height() }, buferW{ roi.width() };
+	//countorsProcessing_->performProcessing(masterImages);
+
+	//cv::Mat rotateImage{};
+	//int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
+	//int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
+	//cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+	/*int buferH{ roi.height() }, buferW{ roi.width() };
 	roi.setX(leftAndRigthBorder);
 	roi.setY(topAndBottonBorder);
 	roi.setWidth(buferW);
-	roi.setHeight(buferH);
-	cv::Rect searchRoi{ 0, 0, rotateImage.size().width, rotateImage.size().height };
-	for (int r{ limitRect.y }; r - searchRoi.height / 2 + rotateImage.rows <  originalImage_.rows; r += 2)
+	roi.setHeight(buferH);*/
+	
+	for (int i{ -20 }; i < 20; i += 5)
 	{
-		searchRoi.y = r - searchRoi.height / 2;
-		if (searchRoi.y < 0)
-			searchRoi.y = 0;
-		for (int c{ limitRect.x }; c - searchRoi.width / 2 + rotateImage.cols <  originalImage_.cols; c += 5)
+		roi.setRotateAngel(360.0 - i);
+		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
+		cv::Mat rotateImage{};
+		int topAndBottonBorder{ 0 };
+		if (searchRoi.height > roi.height())
+			topAndBottonBorder = static_cast<int>(searchRoi.height - roi.height()) / 2;
+		int leftAndRigthBorder{ 0 };
+		if (searchRoi.width > roi.width())
+			leftAndRigthBorder = static_cast<int>(searchRoi.width - roi.width()) / 2;
+		cv::Mat buf{ *countorsProcessing_->getProcessingImage() };
+		cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), i, 1.0) };
+		cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
+		int topAndBottonRetreat{ 0 };
+		if (topAndBottonBorder == 0)
+			topAndBottonRetreat = (rotateImage.rows - (roi.getMax_Y() - roi.getMin_Y())) / 2;
+		int leftAndRigthRetreat{ 0 };
+		if (leftAndRigthBorder == 0)
+			leftAndRigthRetreat = (rotateImage.cols - (roi.getMax_X() - roi.getMin_X())) / 2;
+		rotateImage = rotateImage(cv::Rect(leftAndRigthRetreat, topAndBottonRetreat, rotateImage.cols - leftAndRigthRetreat * 2, rotateImage.rows - topAndBottonRetreat * 2));
+		cv::threshold(rotateImage, rotateImage, 0, 255, cv::THRESH_OTSU);
+		searchRoi.width = rotateImage.cols;
+		searchRoi.height = rotateImage.rows;
+		for (int r{ limitRect.y }; r - searchRoi.height * 1.5 < originalImage_.rows; r += 2)
 		{
-			searchRoi.x = c - searchRoi.width / 2;
-			if (searchRoi.x < 0)
-				searchRoi.x = 0;
-			for (int i{ 5 }; i < 20; i += 5)
+			searchRoi.y = r - searchRoi.height / 2;
+			if (searchRoi.y < 0)
+				searchRoi.y = 0;
+			for (int c{ limitRect.x }; c - searchRoi.width * 1.5 < originalImage_.cols; c += 5)
 			{
+				searchRoi.x = c - searchRoi.width / 2;
+				if (searchRoi.x < 0)
+					searchRoi.x = 0;
 
-				cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.rows / 2.0, rotateImage.rows / 2.0), i, 1.0) };
-				cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
-				cv::threshold(rotateImage, rotateImage, 0, 255, cv::THRESH_OTSU);
 				countorsProcessing_->performProcessing(&originalImage_(searchRoi));
-				roi.setRotateAngel(360.0 - i);
 				countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi);
+				
 			}
 		}
 	}
