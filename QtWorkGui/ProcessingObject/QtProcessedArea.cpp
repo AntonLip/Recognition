@@ -120,7 +120,7 @@ void QtProcessedArea::createMaster(cv::Mat const* inputImg)
 	cv::Rect roi(0, 0, 0, 0);
 	if (areaType == 0)
 	{
-		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width() + 1, rect.getRotateRectSize().height() + 1);
+		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width(), rect.getRotateRectSize().height());
 	}
 	else if (areaType == 1)
 	{
@@ -165,7 +165,7 @@ cv::Mat QtProcessedArea::getDrawImage(cv::Mat const* inputImg)
 		vertices[2] = cv::Point(rect.getDownRigth_X(), rect.getDownRigth_Y());
 		vertices[3] = cv::Point(rect.getDownLeft_X() + 1, rect.getDownLeft_Y());
 		cv::fillConvexPoly(mask, vertices, 4, cv::Scalar(0, 0, 0));
-		roi=cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width() + 1, rect.getRotateRectSize().height() + 1);
+		roi=cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width() , rect.getRotateRectSize().height() );
 	}
 	else if(areaType == 1)
 	{
@@ -411,7 +411,7 @@ void QtProcessedArea::updateProcessing(cv::Mat newOriginImeg)
 	cv::Rect roi(0, 0, 0, 0);
 	if (areaType == 0)
 	{
-		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width() + 1, rect.getRotateRectSize().height() + 1);
+		roi = cv::Rect(rect.getRotateRectSize().x(), rect.getRotateRectSize().y(), rect.getRotateRectSize().width() , rect.getRotateRectSize().height() );
 	}
 	else if (areaType == 1)
 	{

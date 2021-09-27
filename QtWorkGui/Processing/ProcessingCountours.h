@@ -17,7 +17,7 @@ public:
 	void drawResultImage(cv::Mat& inOutPutImage) override;
 	void setThreshold(std::vector<int> newThreshold) override;
 	void getThreshold(std::vector<int>& outThreshold) override;
-	int computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi) override;
+	float computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi) override;
 	cv::Mat* getProcessingImage() override;
 	void drawCountours(cv::Mat const* inputImage, std::vector<std::vector<cv::Point>> &contours);
 };

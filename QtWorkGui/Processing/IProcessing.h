@@ -14,7 +14,7 @@ public:
 	virtual void drawResultImage(cv::Mat& inOutPutImage) = 0;
 	virtual void setThreshold(std::vector<int> newThreshold) = 0;
 	virtual void getThreshold(std::vector<int>& outThreshold) = 0;
-	virtual int computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi) = 0;
+	virtual float computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi) = 0;
 	virtual cv::Mat* getProcessingImage() = 0;
 	virtual ~IProcessing() {};
 };

@@ -45,7 +45,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)
 {
-	cv::SURF orb;
+	cv::SIFT orb;
 	orb.detect(*masterImage, keyPointMasterImage);
 	orb.detect(originalImage_, keyPointTestImage);
 	cv::Mat descriptMaster, descriptTest;
@@ -153,24 +153,17 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 	countorsProcessing_->getThreshold(outThreshold);
 }
 
-int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
+float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
-	//countorsProcessing_->performProcessing(masterImages);
-
-	//cv::Mat rotateImage{};
-	//int topAndBottonBorder{ static_cast<int>(roi.getDiagonal() - roi.height()) / 2 };
-	//int leftAndRigthBorder{ static_cast<int>(roi.getDiagonal() - roi.width()) / 2 };
-	//cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
-	/*int buferH{ roi.height() }, buferW{ roi.width() };
-	roi.setX(leftAndRigthBorder);
-	roi.setY(topAndBottonBorder);
-	roi.setWidth(buferW);
-	roi.setHeight(buferH);*/
-	
+	int iter{};//del!!!!!
+	float best{ 0.0 };
 	for (int i{ -20 }; i < 20; i += 5)
 	{
-		roi.setRotateAngel(360.0 - i);
+		if (i > 0)
+			roi.setRotateAngel(360.0 - i);
+		else
+			roi.setRotateAngel(i);
 		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
 		cv::Mat rotateImage{};
 		int topAndBottonBorder{ 0 };
@@ -193,20 +186,22 @@ int ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold,
 		cv::threshold(rotateImage, rotateImage, 0, 255, cv::THRESH_OTSU);
 		searchRoi.width = rotateImage.cols;
 		searchRoi.height = rotateImage.rows;
-		for (int r{ limitRect.y }; r - searchRoi.height * 1.5 < originalImage_.rows; r += 2)
+		for (int r{ limitRect.y }; r + searchRoi.height * 0.5 < originalImage_.rows; r += 2)
 		{
 			searchRoi.y = r - searchRoi.height / 2;
 			if (searchRoi.y < 0)
 				searchRoi.y = 0;
-			for (int c{ limitRect.x }; c - searchRoi.width * 1.5 < originalImage_.cols; c += 5)
+			for (int c{ limitRect.x }; c + searchRoi.width * 0.5 < originalImage_.cols; c += 5)
 			{
 				searchRoi.x = c - searchRoi.width / 2;
 				if (searchRoi.x < 0)
 					searchRoi.x = 0;
 
 				countorsProcessing_->performProcessing(&originalImage_(searchRoi));
-				countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi);
-				
+				float bufBest{ countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi) };
+				if (bufBest > best)
+					best = bufBest;
+				++iter;//del!!!
 			}
 		}
 	}

@@ -81,7 +81,7 @@ void ProcessingCountours::getThreshold(std::vector<int>& outThreshold)
     outThreshold.push_back(threshold_);
 }
 
-int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
+float ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
     cv::Mat matchedPart(masterImages->size(),CV_8UC1, cv::Scalar(0));
     cv::Point vertices[4]{cv::Point(roi.getUpLeft_X() - roi.getMin_X(), roi.getUpLeft_Y() - roi.getMin_Y()),
@@ -90,8 +90,9 @@ int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vec
                           cv::Point(roi.getDownLeft_X() - roi.getMin_X(), roi.getDownLeft_Y() - roi.getMin_Y()) };
     cv::fillConvexPoly(matchedPart, vertices, 4, cv::Scalar(255), 8);
 
-    
+    int masterPixel{ cv::countNonZero(*masterImages) };
     cv::bitwise_and(*masterImages, processingImage_, matchedPart);
+    int matchedPixel{ cv::countNonZero(matchedPart) };
     cv::Mat bufer_(processingImage_);
     cv::Mat mismatchedPart_1(masterImages->size(), CV_8UC1);
     cv::bitwise_xor(processingImage_, matchedPart, mismatchedPart_1);
@@ -105,7 +106,7 @@ int ProcessingCountours::computeComparsion(bool const isSingelThresold, std::vec
     comparrisImage_ = cv::Mat(cv::Mat(masterImages->size(), CV_8UC3, cv::Scalar(0, 0, 0)));
     cv::bitwise_or(mismatchedPart_2, matchedPart, comparrisImage_);
     cv::Mat bufer(comparrisImage_);
-    return 0;
+    return static_cast<float>(matchedPixel) / masterPixel;
 }
 
 cv::Mat* ProcessingCountours::getProcessingImage()
