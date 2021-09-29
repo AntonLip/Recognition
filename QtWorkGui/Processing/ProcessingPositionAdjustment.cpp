@@ -107,15 +107,14 @@ ProcessingPositionAdjustment::ProcessingPositionAdjustment()
 }
 
 ProcessingPositionAdjustment::ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop):
-	deltaAngel_{drop.deltaAngel_},
-	deltsX_{drop.deltsX_},
-	deltaY_{drop.deltaY_}
+	newCenter_{drop.newCenter_},
+	newRotateAngel_{ drop.newRotateAngel_ }
 {
 	drop.comparrisImage_.copyTo(comparrisImage_);
 	drop.masterImage_.copyTo(masterImage_);
 	drop.originalImage_.copyTo(originalImage_);
 	drop.procesingImage_.copyTo(procesingImage_);
-	if(drop.countorsProcessing_!=nullptr)
+	if (drop.countorsProcessing_ != nullptr)
 		countorsProcessing_ = new ProcessingCountours(*drop.countorsProcessing_);
 }
 
@@ -158,9 +157,6 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
 	int iter{};//del!!!!!
 	float best{ 0.0 };
-	int bestX{ 0 };
-	int bestY{ 0 };
-	float bestAngel{ 0.0 };
 	for (int i{ -20 }; i < 20; i += 2)
 	{
 		if (i > 0)
@@ -218,10 +214,10 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 				float bufBest{ countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi) };
 				if (bufBest > best)
 				{
+					newCenter_.x = searchRoi.x + (searchRoi.width / 2);
+					newCenter_.y = searchRoi.y + (searchRoi.height / 2);
+					newRotateAngel_ = roi.getRotateAngel();
 					best = bufBest;
-					bestX = searchRoi.x;
-					bestY = searchRoi.y;
-					bestAngel = roi.getRotateAngel();
 				}
 				++iter;//del!!!
 			}
@@ -233,6 +229,16 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 cv::Mat* ProcessingPositionAdjustment::getProcessingImage()
 {
 	return &procesingImage_;
+}
+
+cv::Point ProcessingPositionAdjustment::getNewCenter() const
+{
+	return newCenter_;
+}
+
+float ProcessingPositionAdjustment::getNewRotateAngel() const
+{
+	return newRotateAngel_;
 }
 
 

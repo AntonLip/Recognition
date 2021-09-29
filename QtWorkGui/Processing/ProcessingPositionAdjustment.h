@@ -17,9 +17,8 @@ class ProcessingPositionAdjustment :
     ProcessingCountours *countorsProcessing_{nullptr};
     std::vector<std::vector<cv::DMatch>> mathes{};
     std::vector<cv::KeyPoint> keyPointMasterImage{}, keyPointTestImage{};
-    int deltaAngel_{0};
-    int deltsX_{0};
-    int deltaY_{0};
+    float newRotateAngel_{ 0.0 };
+    cv::Point newCenter_{ 0,0 };
     cv::Rect findLimitRectangel(cv::Mat* const masterImage, QtRotateRect const roi);
     void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f> &keyPoints, cv::Point2i &bais);
 public:
@@ -32,5 +31,7 @@ public:
     void getThreshold(std::vector<int>& outThreshold) override;
     float computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi) override;
     cv::Mat* getProcessingImage() override;
+    cv::Point getNewCenter() const;
+    float getNewRotateAngel() const;
 };
 

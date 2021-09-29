@@ -464,6 +464,7 @@ int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
 	else if (processedAreaType == 4)
 	{
 		positionAdjustmentProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
+
 	}
 	return 0;
 }
@@ -481,6 +482,18 @@ cv::Mat* QtProcessedArea::getMasterImage()
 	else if (processedAreaType == 4)
 	{
 		return positionAdjustmentProcessed->getProcessingImage();
+	}
+}
+
+void QtProcessedArea::updateCoordinate(cv::Point const newCenter, float const newRotateAngel)
+{
+	if (areaType == 0)
+	{
+		rect.setRotateAngel(newRotateAngel, &QPoint(newCenter.x, newCenter.y));
+	}
+	else if (areaType == 1)
+	{
+		circle.setCenter(QPoint(newCenter.x, newCenter.y));
 	}
 }
 
