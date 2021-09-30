@@ -72,5 +72,4 @@ public:
 	cv::Mat* getMasterImage();
 	void setCenter(cv::Point const newCenter);
 	void setRotateAngel(float const newRotateAngel);
-	
 };

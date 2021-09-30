@@ -34,13 +34,14 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 				downRigth.y = searchArears[i].getMax_Y();
 		}
 	}
-	upLefet.x += bais.x;
+	/*upLefet.x += bais.x;
 	upLefet.y += bais.y;
 	downRigth.x += bais.x;
-	downRigth.y += bais.y;
+	downRigth.y += bais.y;*/
 	upLefet.x = upLefet.x + (downRigth.x - upLefet.x) / 2 - masterImage->cols / 8;
 	upLefet.y = upLefet.y + (downRigth.y - upLefet.y) / 2 - masterImage->rows / 8;
-	return cv::Rect(upLefet.x,upLefet.y, masterImage->cols / 4, masterImage->rows / 4);
+	//return cv::Rect(upLefet.x, upLefet.y, masterImage->cols / 4, masterImage->rows / 4);
+	return cv::Rect(upLefet, downRigth);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)
@@ -155,7 +156,6 @@ void ProcessingPositionAdjustment::getThreshold(std::vector<int>& outThreshold)
 float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresold, std::vector<int>& const comparsionThreshold, cv::Mat* const masterImages, QtRotateRect roi)
 {
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
-	int iter{};//del!!!!!
 	float best{ 0.0 };
 	for (int i{ -20 }; i < 20; i += 2)
 	{
@@ -164,18 +164,21 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 		else
 			roi.setRotateAngel(-i);
 		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
-		cv::Mat rotateImage{};
+		cv::Mat rotateImage{ *masterImages };
+		cv::Mat mask{ rotateImage.size(), CV_8UC1, cv::Scalar{255} };
 		int topAndBottonBorder{ 0 };
 		if (searchRoi.height > roi.height())
 			topAndBottonBorder = static_cast<int>(searchRoi.height - roi.height()) / 2;
 		int leftAndRigthBorder{ 0 };
 		if (searchRoi.width > roi.width())
 			leftAndRigthBorder = static_cast<int>(searchRoi.width - roi.width()) / 2;
-		countorsProcessing_->performProcessing(masterImages);
-		cv::Mat buf{ *countorsProcessing_->getProcessingImage() }; //delet !!!!!!!
-		cv::copyMakeBorder(*countorsProcessing_->getProcessingImage(), rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+		//countorsProcessing_->performProcessing(masterImages);
+		//cv::Mat buf{ *countorsProcessing_->getProcessingImage() }; //delet !!!!!!!
+		cv::copyMakeBorder(rotateImage, rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
+		cv::copyMakeBorder(mask, mask, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
 		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), i, 1.0) };
 		cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
+		cv::warpAffine(mask, mask, rotateMatrix, rotateImage.size());
 		int topAndBottonRetreat{ 0 };
 		if (topAndBottonBorder == 0)
 			topAndBottonRetreat = (rotateImage.rows - (roi.getMax_Y() - roi.getMin_Y())) / 2;
@@ -183,7 +186,12 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 		if (leftAndRigthBorder == 0)
 			leftAndRigthRetreat = (rotateImage.cols - (roi.getMax_X() - roi.getMin_X())) / 2;
 		rotateImage = rotateImage(cv::Rect(leftAndRigthRetreat, topAndBottonRetreat, rotateImage.cols - leftAndRigthRetreat * 2, rotateImage.rows - topAndBottonRetreat * 2));
-		cv::threshold(rotateImage, rotateImage, 0, 255, cv::THRESH_OTSU);
+		mask = mask(cv::Rect(leftAndRigthRetreat, topAndBottonRetreat, mask.cols - leftAndRigthRetreat * 2, mask.rows - topAndBottonRetreat * 2));
+		countorsProcessing_->performProcessing(&rotateImage);
+		rotateImage = *countorsProcessing_->getProcessingImage();
+		cv::bitwise_and(rotateImage, mask, rotateImage);
+		cv::threshold(rotateImage, rotateImage, 254, 255, cv::THRESH_BINARY);
+
 		//searchRoi.width = rotateImage.cols;
 		//searchRoi.height = rotateImage.rows;
 		for (int r{ limitRect.y }; r + searchRoi.height * 0.5 < originalImage_.rows && r < limitRect.y + limitRect.height; r += 1)
@@ -219,7 +227,6 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 					newRotateAngel_ = roi.getRotateAngel();
 					best = bufBest;
 				}
-				++iter;//del!!!
 			}
 		}
 	}

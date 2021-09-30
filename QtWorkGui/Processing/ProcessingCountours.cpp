@@ -34,7 +34,7 @@ void ProcessingCountours::performProcessing(cv::Mat const* inputImage)
     cv::Mat *cannyOut=new cv::Mat();
     inputImage->copyTo(*cannyOut);
     cv::Canny(*cannyOut, *cannyOut, threshold_, threshold_ * 2, 3, false);
-    cv::findContours(*cannyOut, masterContours_, masterHiararchy_, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    cv::findContours(*cannyOut, masterContours_, masterHiararchy_, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_TC89_L1);
     processingImage_ = cv::Mat(inputImage->size(), CV_8UC1, cv::Scalar(0));
     for (size_t i{ 0 }; i < masterContours_.size(); ++i)
     {

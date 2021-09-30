@@ -444,7 +444,8 @@ int QtProcessedArea::computeComparsion(cv::Mat* const masterImage)
 	else if (processedAreaType == 4)
 	{
 		positionAdjustmentProcessed->computeComparsion(true, std::vector<int>{1}, masterImage, rect);
-
+		setCenter(positionAdjustmentProcessed->getNewCenter());
+		setRotateAngel(positionAdjustmentProcessed->getNewRotateAngel());
 	}
 	return 0;
 }
