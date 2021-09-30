@@ -40,6 +40,7 @@ public:
 	void setRotateAngel(double newAngel, QPoint* center_start=nullptr);
 	int setRotateAngel(double newAngel, QSize *limitSize, QPoint* center_start = nullptr);
 	int resetAngel(QSize* limitSize);
+	void setCenter(QPoint *center);
 	double getRotateAngel(bool inRad=false);
 	void setDrowPoint(QPoint drPoint);
 	QPoint getDrawPoint();

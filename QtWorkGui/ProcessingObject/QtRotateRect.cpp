@@ -271,6 +271,18 @@ int QtRotateRect::resetAngel(QSize* limitSize)
 	return 0;
 }
 
+void QtRotateRect::setCenter(QPoint* center)
+{
+	int buferH{ height() };
+	int buferW{ width() };
+	int deltaX{ QRect::center().x() - center->x() };
+	int deltaY{ QRect::center().y() - center->y() };
+	setX(QRect::x() - deltaX);
+	setY(QRect::y() - deltaY);
+	setWidth(buferW);
+	setHeight(buferH);
+}
+
 double QtRotateRect::getRotateAngel(bool inRad )
 {
 	if (!inRad)
