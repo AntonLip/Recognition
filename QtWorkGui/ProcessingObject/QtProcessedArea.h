@@ -70,5 +70,7 @@ public:
 	void setProcessedThreshold(std::vector<int>& const threshold);
 	int computeComparsion(cv::Mat* const masterImage);
 	cv::Mat* getMasterImage();
-	void setNewCenterPoint(cv::Point const newCenter);
+	void setCenter(cv::Point const newCenter);
+	void setRotateAngel(float const newRotateAngel);
+	
 };

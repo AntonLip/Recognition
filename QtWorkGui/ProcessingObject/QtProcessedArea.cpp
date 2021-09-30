@@ -343,35 +343,15 @@ MyCircle* QtProcessedArea::getCircle()
 	return &circle;
 }
 
-//MyCircle* QtProcessedArea::getScalCircle()
-//{
-//	return &scalCircle;
-//}
-
 void QtProcessedArea::getCircleParm(int &radius, QPoint &center)
 {
 	radius = circle.getRadius();
 	center = circle.getCenterPoint();
 }
 
-//void QtProcessedArea::getScalCircleParam(int& radius, QPoint& center)
-//{
-//	radius = scalCircle.getRadius();
-//	center = scalCircle.getCenterPoint();
-//}
-
 void QtProcessedArea::setProcessing(int typeProcessing)
 {
 	typeProcessing = processedAreaType;
-	//if (typeProcessing == 0)
-	//{
-	//	typeProcessing = processedAreaType;
-	//}
-	//else if (typeProcessing == 1)
-	//{
-	//	typeProcessing = processedAreaType;
-	//	//counterProcessed = new ProcessingCountours();
-	//}
 }
 
 QtProcessedArea& QtProcessedArea::operator=(const QtProcessedArea& drop)
@@ -485,11 +465,11 @@ cv::Mat* QtProcessedArea::getMasterImage()
 	}
 }
 
-void QtProcessedArea::updateCoordinate(cv::Point const newCenter, float const newRotateAngel)
+void QtProcessedArea::setCenter(cv::Point const newCenter)
 {
 	if (areaType == 0)
 	{
-		rect.setRotateAngel(newRotateAngel, &QPoint(newCenter.x, newCenter.y));
+		rect.setCenter(&QPoint(newCenter.x, newCenter.y));
 	}
 	else if (areaType == 1)
 	{
@@ -497,32 +477,20 @@ void QtProcessedArea::updateCoordinate(cv::Point const newCenter, float const ne
 	}
 }
 
-//QRect QtProcessedArea::getScaledLimitRect()
-//{
-//	if (areaType == 0)
-//	{
-//		return QRect(scalRect.getMin_X(), scalRect.getMin_Y(), scalRect.getMax_X() - scalRect.getMin_X(), scalRect.getMax_Y() - scalRect.getMin_Y());
-//	}
-//	else if (areaType == 1)
-//	{
-//		return QRect(scalCircle.getCenterPoint().x() - scalCircle.getRadius(), scalCircle.getCenterPoint().y() - scalCircle.getRadius(), scalCircle.getRadius() * 2, scalCircle.getRadius() * 2);
-//	}
-//}
+void QtProcessedArea::setRotateAngel(float const newRotateAngel)
+{
+	if (areaType == 0)
+	{
+		rect.setRotateAngel(newRotateAngel);
+	}
+}
+
 
 double QtProcessedArea::getArea(bool scaled)
 {
-	/*if (scaled)
-	{
-		if (areaType == 0)
-			return scalRect.height() * scalRect.width();
-		else if (areaType == 1)
-			return scalCircle.getArea();
-	}
-	else*/
-	//{
-		if (areaType == 0)
-			return rect.height() * rect.width();
-		else if (areaType == 1)
-			return circle.getArea();
-	//}
+
+	if (areaType == 0)
+		return rect.height() * rect.width();
+	else if (areaType == 1)
+		return circle.getArea();
 }
