@@ -34,14 +34,14 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 				downRigth.y = searchArears[i].getMax_Y();
 		}
 	}
-	/*upLefet.x += bais.x;
+	upLefet.x += bais.x;
 	upLefet.y += bais.y;
 	downRigth.x += bais.x;
-	downRigth.y += bais.y;*/
+	downRigth.y += bais.y;
 	upLefet.x = upLefet.x + (downRigth.x - upLefet.x) / 2 - masterImage->cols / 8;
-	upLefet.y = upLefet.y + (downRigth.y - upLefet.y) / 2 - masterImage->rows / 8;
-	//return cv::Rect(upLefet.x, upLefet.y, masterImage->cols / 4, masterImage->rows / 4);
-	return cv::Rect(upLefet, downRigth);
+	upLefet.y = upLefet.y + (downRigth.y - upLefet.y) / 2 - masterImage->cols / 8;
+	return cv::Rect(upLefet.x, upLefet.y, masterImage->cols / 4, masterImage->cols / 4);
+	//return cv::Rect(upLefet, downRigth);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)

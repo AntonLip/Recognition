@@ -90,7 +90,7 @@ float ProcessingCountours::computeComparsion(bool const isSingelThresold, std::v
                           cv::Point(roi.getDownLeft_X() - roi.getMin_X(), roi.getDownLeft_Y() - roi.getMin_Y()) };
     cv::fillConvexPoly(matchedPart, vertices, 4, cv::Scalar(255), 8);
     cv::Mat asd{ processingImage_ };
-    int masterPixel{ cv::countNonZero(*masterImages) };
+    int masterPixel{ cv::countNonZero(processingImage_) };
     cv::bitwise_and(*masterImages, processingImage_, matchedPart);
     int matchedPixel{ cv::countNonZero(matchedPart) };
     cv::Mat bufer_(processingImage_);
