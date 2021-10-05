@@ -20,7 +20,7 @@ class ProcessingPositionAdjustment :
     float newRotateAngel_{ 0.0 };
     cv::Point newCenter_{ 0,0 };
     cv::Rect findLimitRectangel(cv::Mat* const masterImage, QtRotateRect const roi);
-    void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f> &keyPoints, cv::Point2i &bais);
+    void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& maychOut, cv::Point2i &bais);
 public:
     ProcessingPositionAdjustment();
     ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop);

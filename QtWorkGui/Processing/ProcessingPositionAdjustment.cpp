@@ -2,49 +2,103 @@
 
 cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterImage, QtRotateRect roi)
 {
-	std::vector<cv::Point2f> keyPoints{};
+	//std::vector<cv::Point2f> keyPoints{};
 	cv::Point2i bais{};
-	findKeyPoints(masterImage, keyPoints,bais);
-	int quantityPointInRoi[10]{};
-	QtRotateRect searchArears[10]{};
-	int numberBestRoi{ 0 };
-	for (size_t i{ 0 }; i < keyPoints.size(); ++i)
+	std::vector<cv::DMatch> match;
+	findKeyPoints(masterImage, match,bais);
+	
+	cv::Point2i upLeftToFindBestArea{ keyPointTestImage[match[0].trainIdx].pt }, downRigthToFindBestArea{ keyPointTestImage[match[0].trainIdx].pt };
+	for (size_t i{ 1 }; i < match.size() ; ++i)
 	{
-		searchArears[i]=QtRotateRect(roi.getOriginalRect(), roi.getRotateAngel(), QPoint(keyPoints[i].x, keyPoints[i].y));
-		for (size_t j{ 0 }; j < keyPoints.size(); ++j)
-		{
-			if (searchArears[i].contains(keyPoints[j].x, keyPoints[j].y))
-				++quantityPointInRoi[i];
-		}
-		if (quantityPointInRoi[i] > quantityPointInRoi[numberBestRoi])
-			numberBestRoi = i;
+		if (upLeftToFindBestArea.x > keyPointTestImage[match[i].trainIdx].pt.x)
+			upLeftToFindBestArea.x = keyPointTestImage[match[i].trainIdx].pt.x;
+		if (upLeftToFindBestArea.y > keyPointTestImage[match[i].trainIdx].pt.y)
+			upLeftToFindBestArea.y = keyPointTestImage[match[i].trainIdx].pt.y;
+		if (downRigthToFindBestArea.x < keyPointTestImage[match[i].trainIdx].pt.x)
+			downRigthToFindBestArea.x = keyPointTestImage[match[i].trainIdx].pt.x;
+		if (downRigthToFindBestArea.y < keyPointTestImage[match[i].trainIdx].pt.y)
+			downRigthToFindBestArea.y = keyPointTestImage[match[i].trainIdx].pt.y;
 	}
-	cv::Point upLefet{ searchArears[0].getMin_X(), searchArears[0].getMin_Y() }, downRigth{ searchArears[0].getMax_X(), searchArears[0].getMax_Y() };
-	for (size_t i{ 1 }; i < keyPoints.size(); ++i)
+	upLeftToFindBestArea.x -= masterImage->cols / 2;
+	upLeftToFindBestArea.y -= masterImage->rows / 2;
+	downRigthToFindBestArea.x += masterImage->cols / 2;
+	downRigthToFindBestArea.y += masterImage->rows / 2;
+
+	size_t bestQuantityPointInRoi{0};
+	cv::Point upLeftBestArea{ }, downRigthBestArea{ };
+	cv::Rect limitRect{ cv::Point2i(upLeftToFindBestArea), cv::Size2i(masterImage->cols,masterImage->rows) };
+	for (int i{ upLeftToFindBestArea.y }; i + limitRect.height <= downRigthToFindBestArea.y; ++i)
 	{
-		if (static_cast<float>(quantityPointInRoi[i]) / quantityPointInRoi[numberBestRoi] >= 0.75)
+		limitRect.y = i;
+		for (int j{ upLeftToFindBestArea.x }; j + limitRect.width <= downRigthToFindBestArea.x; ++j)
 		{
-			if (upLefet.x > searchArears[i].getMin_X())
-				upLefet.x = searchArears[i].getMin_X();
-			if (upLefet.y > searchArears[i].getMin_Y())
-				upLefet.y = searchArears[i].getMin_Y();
-			if (downRigth.x < searchArears[i].getMax_X())
-				downRigth.x = searchArears[i].getMax_X();
-			if (downRigth.y < searchArears[i].getMax_Y())
-				downRigth.y = searchArears[i].getMax_Y();
+			limitRect.x = j;
+			size_t quantityPointInRoi{0};
+			for (size_t p{ 0 }; p < match.size(); ++p)
+			{
+				if (limitRect.contains(keyPointTestImage[match[p].trainIdx].pt))
+					++quantityPointInRoi;
+			}
+			if (quantityPointInRoi > bestQuantityPointInRoi)
+			{
+				bestQuantityPointInRoi = quantityPointInRoi;
+				upLeftBestArea = cv::Point(j, i);
+				downRigthBestArea = cv::Point(j + limitRect.width, i + limitRect.height);
+			}
+			else if (quantityPointInRoi == bestQuantityPointInRoi)
+			{
+				if (upLeftBestArea.x > j)
+					upLeftBestArea.x =j;
+				if (upLeftBestArea.y > i)
+					upLeftBestArea.y = i;
+				if (downRigthBestArea.x < j + limitRect.width)
+					downRigthBestArea.x = j + limitRect.width;
+				if (downRigthBestArea.y < i + limitRect.height)
+					downRigthBestArea.y = i + limitRect.height;
+			}
 		}
 	}
-	/*upLefet.x += bais.x;
-	upLefet.y += bais.y;
-	downRigth.x += bais.x;
-	downRigth.y += bais.y;*/
-	upLefet.x = upLefet.x + (downRigth.x - upLefet.x) / 2 - masterImage->cols / 8;
-	upLefet.y = upLefet.y + (downRigth.y - upLefet.y) / 2 - masterImage->rows / 8;
-	//return cv::Rect(upLefet.x, upLefet.y, masterImage->cols / 4, masterImage->rows / 4);
-	return cv::Rect(upLefet, downRigth);
+	std::vector<int> numberPointsContainsInBestArea{};
+	for (int p{ 0 }; p < match.size(); ++p)
+	{
+		if (cv::Rect(upLeftBestArea, downRigthBestArea).contains(keyPointTestImage[match[p].trainIdx].pt))
+			numberPointsContainsInBestArea.push_back(p);
+	}
+	cv::Point upLeftBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt }, downRigthBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt };
+	for (size_t i{ 1 }; i < numberPointsContainsInBestArea.size(); ++i)
+	{
+		//keyPoints.push_back(keyPointTestImage[mathesOut[i].trainIdx].pt);
+		if (upLeftBaisRect.x > keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x)
+			upLeftBaisRect.x = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x;
+		if (upLeftBaisRect.y > keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y)
+			upLeftBaisRect.y = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y;
+		if (downRigthBaisRect.x < keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x)
+			downRigthBaisRect.x = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x;
+		if (downRigthBaisRect.y < keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y)
+			downRigthBaisRect.y = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y;
+	}
+	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeftBaisRect.x + (downRigthBaisRect.x - upLeftBaisRect.x) / 2));
+	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeftBaisRect.y + (downRigthBaisRect.y - upLeftBaisRect.y) / 2));
+	
+	if (upLeftBestArea.y < 0)
+		upLeftBestArea.y = 0;
+	if (upLeftBestArea.x < 0)
+		upLeftBestArea.x = 0;
+
+	upLeftBestArea.x += bais.x;
+	upLeftBestArea.y += bais.y;
+	downRigthBestArea.x += bais.x;
+	downRigthBestArea.y += bais.y;
+
+	int limitSide{ masterImage->cols };
+	if (masterImage->cols < masterImage->rows)
+		limitSide = masterImage->rows;
+	upLeftBestArea.x = upLeftBestArea.x + (downRigthBestArea.x - upLeftBestArea.x) / 2 - limitSide / 4;
+	upLeftBestArea.y = upLeftBestArea.y + (downRigthBestArea.y - upLeftBestArea.y) / 2 - limitSide / 4;
+	return cv::Rect(upLeftBestArea.x, upLeftBestArea.y, limitSide / 2, limitSide / 2);
 }
 
-void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::Point2f>& keyPoints, cv::Point2i& bais)
+void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& mathesOut, cv::Point2i& bais)
 {
 	cv::SIFT orb;
 	orb.detect(*masterImage, keyPointMasterImage);
@@ -56,14 +110,14 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 	cv::FlannBasedMatcher flan;
 	cv::BFMatcher bf(cv::NORM_HAMMING, true);
 	flan.knnMatch(descriptMaster, descriptTest, mathes, 2);
-	std::vector<cv::DMatch> mathesOut;
+	//std::vector<cv::DMatch> mathesOut;
 	for (size_t i{ 0 }; i < mathes.size(); ++i)
 	{
 		if (mathes[i][0].distance < 0.75 * mathes[i][1].distance)
 			mathesOut.push_back(mathes[i][0]);
 	}
 
-	for (size_t i{ 0 }; i < mathesOut.size() && i < 9; ++i)
+	for (size_t i{ 0 }; i < mathesOut.size() ; ++i)
 	{
 		float bestDistance = mathesOut[i].distance;
 		int numberBestDistance = i;
@@ -83,9 +137,9 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 
 	std::vector<cv::Point2f> obj;
 	cv::Point2f upLeft{ keyPointMasterImage[mathesOut[0].queryIdx].pt }, downRigth{ keyPointMasterImage[mathesOut[0].queryIdx].pt };
-	for (size_t i{ 0 }; i < mathesOut.size() && i < 9; ++i)
+	for (size_t i{ 0 }; i < mathesOut.size() ; ++i)
 	{
-		keyPoints.push_back(keyPointTestImage[mathesOut[i].trainIdx].pt);
+		//keyPoints.push_back(keyPointTestImage[mathesOut[i].trainIdx].pt);
 		if (upLeft.x > keyPointMasterImage[mathesOut[i].queryIdx].pt.x)
 			upLeft.x = keyPointMasterImage[mathesOut[i].queryIdx].pt.x;
 		if (upLeft.y > keyPointMasterImage[mathesOut[i].queryIdx].pt.y)
@@ -165,7 +219,7 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 			roi.setRotateAngel(-i);
 		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
 		cv::Mat rotateImage{ *masterImages };
-		cv::Mat mask{ rotateImage.size(), CV_8UC1, cv::Scalar{255} };
+		cv::Mat mask{ cv::Size(masterImages->cols,masterImages->rows), CV_8UC1, cv::Scalar{255} };
 		int topAndBottonBorder{ 0 };
 		if (searchRoi.height > roi.height())
 			topAndBottonBorder = static_cast<int>(searchRoi.height - roi.height()) / 2;
