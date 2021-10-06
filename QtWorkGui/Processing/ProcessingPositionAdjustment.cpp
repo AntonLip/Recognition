@@ -211,6 +211,7 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 {
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
 	float best{ 0.0 };
+	int X{}, Y{};
 	for (int i{ -20 }; i < 20; i += 2)
 	{
 		if (i > 0)
@@ -270,12 +271,18 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 						break;
 						//searchRoi.width = originalImage_.cols;
 				}
-
+				if (searchRoi.x == 55 && searchRoi.y == 27)
+				{
+					int asad;
+					asad = 1;
+				}
 				countorsProcessing_->performProcessing(&originalImage_(searchRoi));
 				cv::Mat qwe{ originalImage_(searchRoi) };//del!!!!!!
 				float bufBest{ countorsProcessing_->computeComparsion(isSingelThresold, comparsionThreshold, &rotateImage, roi) };
 				if (bufBest > best)
 				{
+					X = searchRoi.x;
+					Y = searchRoi.y;
 					newCenter_.x = searchRoi.x + (searchRoi.width / 2);
 					newCenter_.y = searchRoi.y + (searchRoi.height / 2);
 					newRotateAngel_ = roi.getRotateAngel();
