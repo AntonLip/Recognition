@@ -65,6 +65,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 			numberPointsContainsInBestArea.push_back(p);
 	}
 	cv::Point upLeftBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt }, downRigthBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt };
+	cv::Point upLeftSearchRect{ keyPointTestImage[match[numberPointsContainsInBestArea[0]].trainIdx].pt }, downRigthSearchRect{ keyPointTestImage[match[numberPointsContainsInBestArea[0]].trainIdx].pt };
 	for (size_t i{ 1 }; i < numberPointsContainsInBestArea.size(); ++i)
 	{
 		//keyPoints.push_back(keyPointTestImage[mathesOut[i].trainIdx].pt);
@@ -76,26 +77,35 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 			downRigthBaisRect.x = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x;
 		if (downRigthBaisRect.y < keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y)
 			downRigthBaisRect.y = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y;
+
+		if (upLeftSearchRect.x > keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x)
+			upLeftSearchRect.x = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x;
+		if (upLeftSearchRect.y > keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y)
+			upLeftSearchRect.y = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y;
+		if (downRigthSearchRect.x < keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x)
+			downRigthSearchRect.x = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x;
+		if (downRigthSearchRect.y < keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y)
+			downRigthSearchRect.y = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y;
 	}
 	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeftBaisRect.x + (downRigthBaisRect.x - upLeftBaisRect.x) / 2));
 	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeftBaisRect.y + (downRigthBaisRect.y - upLeftBaisRect.y) / 2));
 	
-	if (upLeftBestArea.y < 0)
+	/*if (upLeftBestArea.y < 0)
 		upLeftBestArea.y = 0;
 	if (upLeftBestArea.x < 0)
-		upLeftBestArea.x = 0;
+		upLeftBestArea.x = 0;*/
 
-	upLeftBestArea.x += bais.x;
+	/*upLeftBestArea.x += bais.x;
 	upLeftBestArea.y += bais.y;
 	downRigthBestArea.x += bais.x;
-	downRigthBestArea.y += bais.y;
+	downRigthBestArea.y += bais.y;*/
 
 	int limitSide{ masterImage->cols };
 	if (masterImage->cols < masterImage->rows)
 		limitSide = masterImage->rows;
-	upLeftBestArea.x = upLeftBestArea.x + (downRigthBestArea.x - upLeftBestArea.x) / 2 - limitSide / 4;
-	upLeftBestArea.y = upLeftBestArea.y + (downRigthBestArea.y - upLeftBestArea.y) / 2 - limitSide / 4;
-	return cv::Rect(upLeftBestArea.x, upLeftBestArea.y, limitSide / 2, limitSide / 2);
+	upLeftSearchRect.x = upLeftSearchRect.x + (downRigthSearchRect.x - upLeftSearchRect.x) / 2 - limitSide/8;
+	upLeftSearchRect.y = upLeftSearchRect.y + (downRigthSearchRect.y - upLeftSearchRect.y) / 2 - limitSide/8;
+	return cv::Rect(upLeftSearchRect.x , upLeftSearchRect.y , limitSide/4, limitSide/4);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& mathesOut, cv::Point2i& bais)
@@ -271,7 +281,7 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 						break;
 						//searchRoi.width = originalImage_.cols;
 				}
-				if (searchRoi.x == 55 && searchRoi.y == 27)
+				if (searchRoi.x == 55 && searchRoi.y == 27 && roi.getRotateAngel()== 4.0)
 				{
 					int asad;
 					asad = 1;
