@@ -102,9 +102,9 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 	int limitSide{ masterImage->cols };
 	if (masterImage->cols < masterImage->rows)
 		limitSide = masterImage->rows;
-	upLeftSearchRect.x = upLeftSearchRect.x + (downRigthSearchRect.x - upLeftSearchRect.x) / 2 - limitSide/4;
-	upLeftSearchRect.y = upLeftSearchRect.y + (downRigthSearchRect.y - upLeftSearchRect.y) / 2 - limitSide/4;
-	return cv::Rect(upLeftSearchRect.x , upLeftSearchRect.y , limitSide/2, limitSide/2);
+	upLeftSearchRect.x = upLeftSearchRect.x + (downRigthSearchRect.x - upLeftSearchRect.x) / 2 - limitSide/8;
+	upLeftSearchRect.y = upLeftSearchRect.y + (downRigthSearchRect.y - upLeftSearchRect.y) / 2 - limitSide/8;
+	return cv::Rect(upLeftSearchRect.x , upLeftSearchRect.y , limitSide/4, limitSide/4);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& mathesOut)
@@ -330,10 +330,10 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);*/
 
 
-	limitRect.x = newCenter_.x * (scaled ) - 5;
-	limitRect.y = newCenter_.y * (scaled ) - 5;
-	limitRect.width = 10;
-	limitRect.height = 10;
+	limitRect.x = newCenter_.x * (scaled ) - 2;
+	limitRect.y = newCenter_.y * (scaled ) - 2;
+	limitRect.width = 4;
+	limitRect.height = 4;
 
 	findNewCenterPointAndRotateAngel(roi, masterImages, originalImage_, limitRect);
 
