@@ -94,18 +94,18 @@ float ProcessingCountours::computeComparsion(bool const isSingelThresold, std::v
     cv::bitwise_and(*masterImages, processingImage_, matchedPart);
     int matchedPixel{ cv::countNonZero(matchedPart) };
     cv::Mat bufer_(processingImage_);
-    cv::Mat mismatchedPart_1(masterImages->size(), CV_8UC1);
-    cv::bitwise_xor(processingImage_, matchedPart, mismatchedPart_1);
-    cv::Mat mismatchedPart_2(masterImages->size(), CV_8UC1);
-    cv::bitwise_xor(*masterImages, matchedPart, mismatchedPart_2);
+    //cv::Mat mismatchedPart_1(masterImages->size(), CV_8UC1);
+    //cv::bitwise_xor(processingImage_, matchedPart, mismatchedPart_1);
+    //cv::Mat mismatchedPart_2(masterImages->size(), CV_8UC1);
+    //cv::bitwise_xor(*masterImages, matchedPart, mismatchedPart_2);
     cv::cvtColor(matchedPart, matchedPart, CV_GRAY2BGR);
     cv::bitwise_and(matchedPart, cv::Mat(masterImages->size(), CV_8UC3, cv::Scalar(0, 255, 0)), matchedPart);
-    cv::bitwise_or(mismatchedPart_1, mismatchedPart_2, mismatchedPart_2);
-    int mismatchedPixel{ cv::countNonZero(mismatchedPart_2) };
-    cv::cvtColor(mismatchedPart_2, mismatchedPart_2, CV_GRAY2BGR);
-    cv::bitwise_and(mismatchedPart_2, cv::Mat(masterImages->size(), CV_8UC3, cv::Scalar(0, 0, 255)), mismatchedPart_2);
+    //cv::bitwise_or(mismatchedPart_1, mismatchedPart_2, mismatchedPart_2);
+    //int mismatchedPixel{ cv::countNonZero(mismatchedPart_2) };
+    //cv::cvtColor(mismatchedPart_2, mismatchedPart_2, CV_GRAY2BGR);
+    //cv::bitwise_and(mismatchedPart_2, cv::Mat(masterImages->size(), CV_8UC3, cv::Scalar(0, 0, 255)), mismatchedPart_2);
     comparrisImage_ = cv::Mat(cv::Mat(masterImages->size(), CV_8UC3, cv::Scalar(0, 0, 0)));
-    cv::bitwise_or(mismatchedPart_2, matchedPart, comparrisImage_);
+    cv::bitwise_or(comparrisImage_, matchedPart, comparrisImage_);
     cv::Mat bufer(comparrisImage_);
     return static_cast<float>(matchedPixel) / masterPixel;
 }

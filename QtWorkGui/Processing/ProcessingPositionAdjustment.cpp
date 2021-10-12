@@ -90,10 +90,10 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeftBaisRect.x + (downRigthBaisRect.x - upLeftBaisRect.x) / 2));
 	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeftBaisRect.y + (downRigthBaisRect.y - upLeftBaisRect.y) / 2));
 	
-	/*if (upLeftBestArea.y < 0)
+	if (upLeftBestArea.y < 0)
 		upLeftBestArea.y = 0;
 	if (upLeftBestArea.x < 0)
-		upLeftBestArea.x = 0;*/
+		upLeftBestArea.x = 0;
 
 	/*upLeftBestArea.x += bais.x;
 	upLeftBestArea.y += bais.y;
@@ -103,9 +103,9 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 	int limitSide{ masterImage->cols };
 	if (masterImage->cols < masterImage->rows)
 		limitSide = masterImage->rows;
-	upLeftSearchRect.x = upLeftSearchRect.x + (downRigthSearchRect.x - upLeftSearchRect.x) / 2 - limitSide/8;
-	upLeftSearchRect.y = upLeftSearchRect.y + (downRigthSearchRect.y - upLeftSearchRect.y) / 2 - limitSide/8;
-	return cv::Rect(upLeftSearchRect.x , upLeftSearchRect.y , limitSide/4, limitSide/4);
+	upLeftSearchRect.x = upLeftSearchRect.x + (downRigthSearchRect.x - upLeftSearchRect.x) / 2 - limitSide/4;
+	upLeftSearchRect.y = upLeftSearchRect.y + (downRigthSearchRect.y - upLeftSearchRect.y) / 2 - limitSide/4;
+	return cv::Rect(upLeftSearchRect.x , upLeftSearchRect.y , limitSide/2, limitSide/2);
 }
 
 void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& mathesOut, cv::Point2i& bais)
@@ -311,7 +311,7 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	cv::Mat scaledImage{};
 	cv::Rect limitRect{ findLimitRectangel(masterImages, roi) };
 	float scaled{1.0};
-	if (limitRect.width > 40)
+	if (limitRect.width > 20)
 	{
 		scaled = limitRect.width / 20;
 	}
@@ -329,8 +329,23 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 
 	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);
 
-	limitRect.x = newCenter_.x * scaled - 7;
-	limitRect.y = newCenter_.y * scaled - 7;
+	limitRect.width *= (scaled / 2);
+	limitRect.height *= (scaled / 2);
+	limitRect.x = newCenter_.x * (scaled / 2) - limitRect.width / 2;
+	limitRect.y = newCenter_.y * (scaled / 2) - limitRect.height / 2;
+	
+	
+	roiScaled = roi;
+	roiScaled.setWidth(roi.width() / (scaled / 2));
+	roiScaled.setHeight(roi.height() / (scaled / 2));
+	cv::resize(*masterImages, scaledImage, cv::Size(masterImages->size().width / (scaled / 2), masterImages->size().height / (scaled / 2)));
+	cv::resize(originalImage_, testImage, cv::Size(originalImage_.size().width / (scaled / 2), originalImage_.size().height / (scaled / 2)));
+
+	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);
+
+
+	limitRect.x = newCenter_.x * (scaled / 2) - 7;
+	limitRect.y = newCenter_.y * (scaled / 2) - 7;
 	limitRect.width = 15;
 	limitRect.height = 15;
 
