@@ -144,12 +144,13 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect roi, cv::Mat* masterImage, cv::Mat &testImage, cv::Rect limitRect)
 {
 	float best{ 0.0 };
-	for (int i{ -20 }; i < 20; i += 2)
+	for (float i{ minRotateAngel_ }; i < maxRotateAngel_; i += 2)
 	{
-		if (i > 0)
+		roi.setRotateAngel(i);
+		/*if (i > 0)
 			roi.setRotateAngel(360.0 - i);
 		else
-			roi.setRotateAngel(-i);
+			roi.setRotateAngel(-i);*/
 
 		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
 		cv::Mat rotateImage{ *masterImage };
@@ -163,7 +164,7 @@ void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect
 
 		cv::copyMakeBorder(rotateImage, rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
 		cv::copyMakeBorder(mask, mask, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
-		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), i, 1.0) };
+		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), 360-i, 1.0) };
 		cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
 		cv::warpAffine(mask, mask, rotateMatrix, rotateImage.size());
 		int topAndBottonRetreat{ 0 };
@@ -309,6 +310,8 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	limitRect.width = 4;
 	limitRect.height = 4;
 
+	minRotateAngel_ = newRotateAngel_ - 2;
+	maxRotateAngel_ = newRotateAngel_ + 2;
 	findNewCenterPointAndRotateAngel(roi, masterImages, originalImage_, limitRect);
 
 	return 0;

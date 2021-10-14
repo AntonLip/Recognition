@@ -17,6 +17,7 @@ class ProcessingPositionAdjustment :
     ProcessingCountours *countorsProcessing_{nullptr};
     std::vector<std::vector<cv::DMatch>> mathes{};
     std::vector<cv::KeyPoint> keyPointMasterImage{}, keyPointTestImage{};
+    float minRotateAngel_{ 0.0 }, maxRotateAngel_{ 0.0 };
     float newRotateAngel_{ 0.0 };
     cv::Point newCenter_{ 0,0 };
     cv::Rect findLimitRectangel(cv::Mat* const masterImage, QtRotateRect const roi);

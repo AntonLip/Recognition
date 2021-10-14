@@ -130,7 +130,10 @@ int QtRotateRect::setRotateAngel(double newAngel, QSize *limitSize, QPoint* cent
 	}
 	double buferAngel{ rotationAngle };
 	if (newAngel >= 360)
-		rotationAngle = 0;
+	{
+		int fullPart{ static_cast<int>(newAngel) / 360 };
+		rotationAngle = newAngel - 360 * fullPart;
+	}
 	else
 		if (newAngel < 0)
 		{
