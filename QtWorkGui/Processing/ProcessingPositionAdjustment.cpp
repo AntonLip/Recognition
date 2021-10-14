@@ -26,8 +26,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 	size_t bestQuantityPointInRoi{0};
 	cv::Point upLeftBestArea{ }, downRigthBestArea{ };
 	QtRotateRect limitRect{ upLeftToFindBestArea.x, upLeftToFindBestArea.y, masterImage->cols, masterImage->rows, 0.0 };
-	float minAngel{ 0.0 }, maxAngel{ 0.0 };
-	for (float rotateAngel{0.0}; rotateAngel < 180.0; rotateAngel += 5)
+	for (double rotateAngel{roi.getRotateAngel()}; rotateAngel < 180.0 + roi.getRotateAngel(); rotateAngel += 5)
 	{
 		limitRect.setRotateAngel(rotateAngel);
 		for (int i{ upLeftToFindBestArea.y }; i + masterImage->rows <= downRigthToFindBestArea.y; i+=5)
@@ -49,8 +48,8 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 					bestQuantityPointInRoi = quantityPointInRoi;
 					upLeftBestArea = cv::Point(limitRect.getMin_X(), limitRect.getMin_Y());
 					downRigthBestArea = cv::Point(limitRect.getMax_X(), limitRect.getMax_Y());
-					minAngel = rotateAngel;
-					maxAngel = rotateAngel;
+					minRotateAngel_ = rotateAngel;
+					maxRotateAngel_ = rotateAngel;
 				}
 				else if (quantityPointInRoi == bestQuantityPointInRoi)
 				{
@@ -62,7 +61,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 						downRigthBestArea.x = limitRect.getMax_X();
 					if (downRigthBestArea.y < limitRect.getMax_Y())
 						downRigthBestArea.y = limitRect.getMax_Y();
-					maxAngel = rotateAngel;
+					maxRotateAngel_ = rotateAngel;
 				}
 			}
 		}
@@ -73,19 +72,9 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 		if (cv::Rect(upLeftBestArea, downRigthBestArea).contains(keyPointTestImage[match[p].trainIdx].pt))
 			numberPointsContainsInBestArea.push_back(p);
 	}
-	//cv::Point upLeftBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt }, downRigthBaisRect{ keyPointMasterImage[match[numberPointsContainsInBestArea[0]].queryIdx].pt };
 	cv::Point upLeftSearchRect{ keyPointTestImage[match[numberPointsContainsInBestArea[0]].trainIdx].pt }, downRigthSearchRect{ keyPointTestImage[match[numberPointsContainsInBestArea[0]].trainIdx].pt };
 	for (size_t i{ 1 }; i < numberPointsContainsInBestArea.size(); ++i)
 	{
-		/*if (upLeftBaisRect.x > keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x)
-			upLeftBaisRect.x = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x;
-		if (upLeftBaisRect.y > keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y)
-			upLeftBaisRect.y = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y;
-		if (downRigthBaisRect.x < keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x)
-			downRigthBaisRect.x = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.x;
-		if (downRigthBaisRect.y < keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y)
-			downRigthBaisRect.y = keyPointMasterImage[match[numberPointsContainsInBestArea[i]].queryIdx].pt.y;*/
-
 		if (upLeftSearchRect.x > keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x)
 			upLeftSearchRect.x = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.x;
 		if (upLeftSearchRect.y > keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y)
@@ -95,19 +84,11 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 		if (downRigthSearchRect.y < keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y)
 			downRigthSearchRect.y = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y;
 	}
-	/*cv::Point bais{};
-	bais.x = static_cast<int>(masterImage->cols / 2 - (upLeftBaisRect.x + (downRigthBaisRect.x - upLeftBaisRect.x) / 2));
-	bais.y = static_cast<int>(masterImage->rows / 2 - (upLeftBaisRect.y + (downRigthBaisRect.y - upLeftBaisRect.y) / 2));*/
 	
 	if (upLeftBestArea.y < 0)
 		upLeftBestArea.y = 0;
 	if (upLeftBestArea.x < 0)
 		upLeftBestArea.x = 0;
-
-	/*upLeftBestArea.x += bais.x;
-	upLeftBestArea.y += bais.y;
-	downRigthBestArea.x += bais.x;
-	downRigthBestArea.y += bais.y;*/
 
 	int limitSide{ masterImage->cols };
 	if (masterImage->cols < masterImage->rows)
@@ -153,7 +134,6 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 		mathesOut[numberBestDistance] = mathesOut[i];
 		mathesOut[i] = bufer;
 	}
-
 
 	cv::Mat img3;//delet!!
 	cv::drawMatches(*masterImage, keyPointMasterImage, originalImage_, keyPointTestImage, mathesOut, img3);//delet!!!!!
@@ -233,13 +213,10 @@ void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect
 					sdf = 0;
 				}
 				countorsProcessing_->performProcessing(&testImage(searchRoi));
-				//cv::Mat qwe{ testImage(searchRoi) };//del!!!!!!
 				std::vector<int> q{};
 				float bufBest{ countorsProcessing_->computeComparsion(true, q, &rotateImage, roi) };
 				if (bufBest > best)
 				{
-					//X = searchRoi.x * scaled;
-					//Y = searchRoi.y * scaled;
 					newCenter_.x = searchRoi.x + (searchRoi.width / 2);
 					newCenter_.y = searchRoi.y + (searchRoi.height / 2);
 					newRotateAngel_ = roi.getRotateAngel();
@@ -319,28 +296,13 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	roiScaled.setWidth(roi.width() / scaled);
 	roiScaled.setHeight(roi.height() / scaled);
 	cv::Mat scaledImage{};
-	//cv::medianBlur(*masterImages, scaledImage, 3);
+
 	cv::resize(*masterImages, scaledImage, cv::Size(masterImages->size().width / scaled, masterImages->size().height / scaled));
 	cv::Mat testImage{};
-	//cv::medianBlur(originalImage_, testImage, 3);
+
 	cv::resize(originalImage_, testImage, cv::Size(originalImage_.size().width / scaled, originalImage_.size().height / scaled));
 
 	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);
-
-	/*limitRect.width = 30;
-	limitRect.height = 30;
-	limitRect.x = newCenter_.x * (scaled / 2) - 15;
-	limitRect.y = newCenter_.y * (scaled / 2) - 15;*/
-	
-	
-	/*roiScaled = roi;
-	roiScaled.setWidth(roi.width() / (scaled / 2));
-	roiScaled.setHeight(roi.height() / (scaled / 2));
-	cv::resize(*masterImages, scaledImage, cv::Size(masterImages->size().width / (scaled / 2), masterImages->size().height / (scaled / 2)));
-	cv::resize(originalImage_, testImage, cv::Size(originalImage_.size().width / (scaled / 2), originalImage_.size().height / (scaled / 2)));
-
-	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);*/
-
 
 	limitRect.x = newCenter_.x * (scaled ) - 2;
 	limitRect.y = newCenter_.y * (scaled ) - 2;
