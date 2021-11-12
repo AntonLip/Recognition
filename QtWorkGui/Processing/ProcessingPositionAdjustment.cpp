@@ -66,6 +66,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 			}
 		}
 	}
+
 	std::vector<int> numberPointsContainsInBestArea{};
 	for (int p{ 0 }; p < match.size(); ++p)
 	{
@@ -110,7 +111,7 @@ void ProcessingPositionAdjustment::findKeyPoints(cv::Mat* const masterImage, std
 	cv::FlannBasedMatcher flan;
 	cv::BFMatcher bf(cv::NORM_HAMMING, true);
 	flan.knnMatch(descriptMaster, descriptTest, mathes, 2);
-	//std::vector<cv::DMatch> mathesOut;
+
 	for (size_t i{ 0 }; i < mathes.size(); ++i)
 	{
 		if (mathes[i][0].distance < 0.75 * mathes[i][1].distance)
@@ -147,12 +148,8 @@ void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect
 	for (float i{ minRotateAngel_ }; i < maxRotateAngel_; i += 2)
 	{
 		roi.setRotateAngel(i);
-		/*if (i > 0)
-			roi.setRotateAngel(360.0 - i);
-		else
-			roi.setRotateAngel(-i);*/
-
 		cv::Rect searchRoi{ 0, 0, roi.getMax_X() - roi.getMin_X(), roi.getMax_Y() - roi.getMin_Y() };
+		
 		cv::Mat rotateImage{ *masterImage };
 		cv::Mat mask{ cv::Size(masterImage->cols, masterImage->rows), CV_8UC1, cv::Scalar{255} };
 		int topAndBottonBorder{ 0 };
@@ -164,7 +161,7 @@ void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect
 
 		cv::copyMakeBorder(rotateImage, rotateImage, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
 		cv::copyMakeBorder(mask, mask, topAndBottonBorder, topAndBottonBorder, leftAndRigthBorder, leftAndRigthBorder, cv::BORDER_CONSTANT, cv::Scalar(0));
-		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), 360-i, 1.0) };
+		cv::Mat rotateMatrix{ cv::getRotationMatrix2D(cv::Point2f(rotateImage.cols / 2.0, rotateImage.rows / 2.0), 360 - i, 1.0) };
 		cv::warpAffine(rotateImage, rotateImage, rotateMatrix, rotateImage.size());
 		cv::warpAffine(mask, mask, rotateMatrix, rotateImage.size());
 		int topAndBottonRetreat{ 0 };
@@ -228,6 +225,19 @@ void ProcessingPositionAdjustment::findNewCenterPointAndRotateAngel(QtRotateRect
 	}
 }
 
+void ProcessingPositionAdjustment::setLimitsRotateAngel(float const rotateAngelOriginalRoi)
+{
+	if (minRotateAngel_ < rotateAngelOriginalRoi - rotateRange_)
+		minRotateAngel_ = rotateAngelOriginalRoi - rotateRange_;
+	if (maxRotateAngel_ > rotateAngelOriginalRoi + rotateRange_)
+		maxRotateAngel_ = rotateAngelOriginalRoi + rotateRange_;
+	////
+	////
+	////добавь проверку на поворот!!!!!
+	////
+	////
+}
+
 ProcessingPositionAdjustment::ProcessingPositionAdjustment()
 {
 	countorsProcessing_ = new ProcessingCountours();
@@ -241,6 +251,7 @@ ProcessingPositionAdjustment::ProcessingPositionAdjustment(const ProcessingPosit
 	drop.masterImage_.copyTo(masterImage_);
 	drop.originalImage_.copyTo(originalImage_);
 	drop.procesingImage_.copyTo(procesingImage_);
+	rotateRange_ = drop.rotateRange_;
 	if (drop.countorsProcessing_ != nullptr)
 		countorsProcessing_ = new ProcessingCountours(*drop.countorsProcessing_);
 }
@@ -302,7 +313,7 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	cv::Mat testImage{};
 
 	cv::resize(originalImage_, testImage, cv::Size(originalImage_.size().width / scaled, originalImage_.size().height / scaled));
-
+	setLimitsRotateAngel(roi.getRotateAngel());
 	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);
 
 	limitRect.x = newCenter_.x * (scaled ) - 2;
@@ -330,6 +341,11 @@ cv::Point ProcessingPositionAdjustment::getNewCenter() const
 float ProcessingPositionAdjustment::getNewRotateAngel() const
 {
 	return newRotateAngel_;
+}
+
+void ProcessingPositionAdjustment::setRotateRange(int const rotateRange)
+{
+	rotateRange_ = rotateRange;
 }
 
 

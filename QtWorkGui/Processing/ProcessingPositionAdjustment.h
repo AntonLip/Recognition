@@ -20,9 +20,11 @@ class ProcessingPositionAdjustment :
     float minRotateAngel_{ 0.0 }, maxRotateAngel_{ 0.0 };
     float newRotateAngel_{ 0.0 };
     cv::Point newCenter_{ 0,0 };
+    int rotateRange_{ 0 };
     cv::Rect findLimitRectangel(cv::Mat* const masterImage, QtRotateRect const roi);
     void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& maychOut);
     void findNewCenterPointAndRotateAngel(QtRotateRect roi, cv::Mat* masterImage, cv::Mat &testImage, cv::Rect limitRect);
+    void setLimitsRotateAngel(float const rotateAngelOriginalRoi);
 public:
     ProcessingPositionAdjustment();
     ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop);
@@ -35,5 +37,6 @@ public:
     cv::Mat* getProcessingImage() override;
     cv::Point getNewCenter() const;
     float getNewRotateAngel() const;
+    void setRotateRange(int const rotateRange = 20);
 };
 
