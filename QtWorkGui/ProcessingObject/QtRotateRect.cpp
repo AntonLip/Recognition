@@ -49,7 +49,7 @@ QtRotateRect::QtRotateRect(QRect parent, double rotateAngel, QPoint centerPoint)
 }
 
 QtRotateRect::QtRotateRect(int upLeft_X, int upLeft_Y, int width, int height, double rotAngel):
-	QRect(0,0,width,height),
+	QRect(upLeft_X, upLeft_Y,width,height),
 	rotationAngle(rotAngel),
 	drawPoint(QPoint(0,0)),
 	translatePoint(QPoint(0,0)),
@@ -96,11 +96,11 @@ void QtRotateRect::setRotateAngel(double newAngel, QPoint *center_start)
 		rotationAngle = newAngel - 360 * fullPart;
 	}
 	else 
-	if (newAngel <= 0)
+	if (newAngel < 0)
 	{
 		rotationAngle = 360 + newAngel;
 	}
-	else if(newAngel>0)
+	else if(newAngel>=0)
 		rotationAngle = newAngel;
 	
 	double radius{ sqrt(width() * width() + height() * height()) / 2 };
@@ -1390,6 +1390,25 @@ void QtRotateRect::changePosition(QPoint const imgPoint, QPoint const firstPoint
 	{
 		step_Y = 0;
 	}
+	int buferW{ width() }, buferH{ height() };
+	QRect::setX(x() + step_X);
+	QRect::setY(y() + step_Y);
+	QRect::setWidth(buferW);
+	QRect::setHeight(buferH);
+	upLeftAngel_X += step_X;
+	upLeftAngel_Y += step_Y;
+	upRigAngel_X += step_X;
+	upRigAngel_Y += step_Y;
+	downLeftAngel_X += step_X;
+	downLeftAngel_Y += step_Y;
+	downRigAngel_X += step_X;
+	downRigAngel_Y += step_Y;
+}
+
+void QtRotateRect::setPosition(QPoint const secondPoint, QPoint const firstPoint)
+{
+	int step_X{ secondPoint.x() - firstPoint.x() };
+	int step_Y{ secondPoint.y() - firstPoint.y() };
 	int buferW{ width() }, buferH{ height() };
 	QRect::setX(x() + step_X);
 	QRect::setY(y() + step_Y);

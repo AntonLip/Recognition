@@ -25,18 +25,25 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 
 	size_t bestQuantityPointInRoi{0};
 	cv::Point upLeftBestArea{ }, downRigthBestArea{ };
-	QtRotateRect limitRect{ upLeftToFindBestArea.x, upLeftToFindBestArea.y, masterImage->cols, masterImage->rows, 0.0 };
-	for (double rotateAngel{roi.getRotateAngel()}; rotateAngel < 180.0 + roi.getRotateAngel(); rotateAngel += 5)
+	
+	for (double rotateAngel{roi.getRotateAngel()}; rotateAngel <= 180.0 + roi.getRotateAngel(); rotateAngel += 5)
 	{
+		QtRotateRect limitRect{ upLeftToFindBestArea.x, upLeftToFindBestArea.y, masterImage->cols, masterImage->rows, 0.0 };
+		if (rotateAngel == 180.0)
+		{
+			int s;
+			s = 23;
+		}
 		limitRect.setRotateAngel(rotateAngel);
 		for (int i{ upLeftToFindBestArea.y }; i + masterImage->rows <= downRigthToFindBestArea.y; i+=5)
 		{
-			limitRect.setY(i);
-			limitRect.setHeight(masterImage->rows);
+			//limitRect.setY(i);
+			//limitRect.setHeight(masterImage->rows);
 			for (int j{ upLeftToFindBestArea.x }; j + masterImage->cols <= downRigthToFindBestArea.x; j+=5)
 			{
-				limitRect.setX(j);
-				limitRect.setWidth(masterImage->cols);
+				//limitRect.setX(j);
+				//limitRect.setWidth(masterImage->cols);
+				limitRect.setPosition(QPoint(j, i), QPoint(limitRect.x(), limitRect.y()));
 				size_t quantityPointInRoi{ 0 };
 				for (size_t p{ 0 }; p < match.size(); ++p)
 				{
@@ -66,7 +73,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 			}
 		}
 	}
-
+	
 	std::vector<int> numberPointsContainsInBestArea{};
 	for (int p{ 0 }; p < match.size(); ++p)
 	{
@@ -85,7 +92,7 @@ cv::Rect ProcessingPositionAdjustment::findLimitRectangel(cv::Mat* const masterI
 		if (downRigthSearchRect.y < keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y)
 			downRigthSearchRect.y = keyPointTestImage[match[numberPointsContainsInBestArea[i]].trainIdx].pt.y;
 	}
-	
+	limitRectangelIsInverted(numberPointsContainsInBestArea, match, QPoint(roi.width()/2,roi.height()/2));
 	if (upLeftBestArea.y < 0)
 		upLeftBestArea.y = 0;
 	if (upLeftBestArea.x < 0)
@@ -238,6 +245,62 @@ void ProcessingPositionAdjustment::setLimitsRotateAngel(float const rotateAngelO
 	////
 }
 
+bool ProcessingPositionAdjustment::limitRectangelIsInverted(std::vector<int> const& pointsContainsInLimitRectangel, std::vector<cv::DMatch>const& matchIn, QPoint const& originalCenter)
+{
+	if (pointsContainsInLimitRectangel.size() < 3)
+		return false;
+
+	std::vector<int> indexPointWhereXLeftOfCenter{};
+	std::vector<int> indexPointWhereXRightOfCenter{};
+	std::vector<int> indexPointWhereYHigherOfCenter{};
+	std::vector<int> indexPointWhereYBelowOfCenter{};
+
+	for (size_t i{ 0 }; i < pointsContainsInLimitRectangel.size(); ++i)
+	{
+		if (originalCenter.x() < keyPointMasterImage[matchIn[pointsContainsInLimitRectangel[i]].queryIdx].pt.x)
+		{
+			indexPointWhereXRightOfCenter.push_back(i);
+		}
+		else
+		{
+			indexPointWhereXLeftOfCenter.push_back(i);
+		}
+		if (originalCenter.y() < keyPointMasterImage[matchIn[pointsContainsInLimitRectangel[i]].queryIdx].pt.y)
+		{
+			indexPointWhereYBelowOfCenter.push_back(i);
+		}
+		else
+		{
+			indexPointWhereYHigherOfCenter.push_back(i);
+		}
+	}
+
+	if (indexPointWhereXLeftOfCenter.size() < 2 && indexPointWhereXRightOfCenter.size() < 2 &&
+		indexPointWhereYBelowOfCenter.size() < 2 && indexPointWhereYHigherOfCenter.size() < 2)
+		return false;
+
+	float sumX{ 0 }; 
+	for (size_t i{ 0 }; i < indexPointWhereXRightOfCenter.size(); ++i)
+	{
+		for (size_t j{ 0 }; j < indexPointWhereXLeftOfCenter.size(); ++j)
+		{
+			sumX += keyPointTestImage[matchIn[pointsContainsInLimitRectangel[indexPointWhereXRightOfCenter[i]]].trainIdx].pt.x - keyPointTestImage[matchIn[pointsContainsInLimitRectangel[indexPointWhereXLeftOfCenter[j]]].trainIdx].pt.x;
+		}
+	}
+	float sumY{ 0 };
+	for (size_t i{ 0 }; i < indexPointWhereYBelowOfCenter.size(); ++i)
+	{
+		for (size_t j{ 0 }; j < indexPointWhereYHigherOfCenter.size(); ++j)
+		{
+			sumY += keyPointTestImage[matchIn[pointsContainsInLimitRectangel[indexPointWhereYBelowOfCenter[i]]].trainIdx].pt.y - keyPointTestImage[matchIn[pointsContainsInLimitRectangel[indexPointWhereYHigherOfCenter[j]]].trainIdx].pt.y;
+		}
+	}
+	if (sumX < 0.0 || sumY < 0.0)
+		return true;
+	else
+		return false;
+}
+
 ProcessingPositionAdjustment::ProcessingPositionAdjustment()
 {
 	countorsProcessing_ = new ProcessingCountours();
@@ -305,15 +368,15 @@ float ProcessingPositionAdjustment::computeComparsion(bool const isSingelThresol
 	limitRect.width /= scaled;
 	limitRect.height /= scaled;
 	QtRotateRect roiScaled{roi};
-	roiScaled.setWidth(roi.width() / scaled);
-	roiScaled.setHeight(roi.height() / scaled);
+	roiScaled.QRect::setWidth(roi.width() / scaled);
+	roiScaled.QRect::setHeight(roi.height() / scaled);
 	cv::Mat scaledImage{};
 
 	cv::resize(*masterImages, scaledImage, cv::Size(masterImages->size().width / scaled, masterImages->size().height / scaled));
 	cv::Mat testImage{};
 
 	cv::resize(originalImage_, testImage, cv::Size(originalImage_.size().width / scaled, originalImage_.size().height / scaled));
-	setLimitsRotateAngel(roi.getRotateAngel());
+	//setLimitsRotateAngel(roi.getRotateAngel());
 	findNewCenterPointAndRotateAngel(roiScaled, &scaledImage, testImage, limitRect);
 
 	limitRect.x = newCenter_.x * (scaled ) - 2;

@@ -32,6 +32,14 @@ class QtRotateRect : public QRect
 	double downRigAngel_X;
 	double downRigAngel_Y;
 	int activResizeType_;
+	int setX(int newX, QSize* limitSize);
+	void setX(int newX);
+	int setY(int newY, QSize* limitSize);
+	void setY(int newY);
+	int setWidth(int newWidth, QSize* limitSize);
+	void setWidth(int newWidth);
+	int setHeight(int newHeigth, QSize* limitSize);
+	void setHeight(int newHeigth);
 public:
 	QtRotateRect(QRect parent = QRect(0, 0, 0, 0), double rotateAngl = 0.0);
 	QtRotateRect(QRect parent, double rotateAngel, QPoint centerPoint);
@@ -65,14 +73,7 @@ public:
 	int getLowAngel();
 	int getLeftAngel();
 	int getRigthAngel();
-	int setX(int newX, QSize* limitSize);
-	void setX(int newX);
-	int setY(int newY, QSize* limitSize);
-	void setY(int newY);
-	int setWidth(int newWidth, QSize* limitSize);
-	void setWidth(int newWidth);
-	int setHeight(int newHeigth, QSize* limitSize);
-	void setHeight(int newHeigth);
+	
 	int getUpY(int x,int y=0);
 	int getDownY(int x);
 	int getUpX(int y,int x=0);
@@ -84,6 +85,7 @@ public:
 	double getDiagonal();
 	void resizeRect(QPoint const imgPoint, QPoint const globalImgPoint, QPoint const firstPoint, QSize *boundingSize);
 	void changePosition(QPoint const imgPoint, QPoint const firstPoint, QSize boundingSize);
+	void setPosition(QPoint const secondPoint, QPoint const firstPoint);
 	void changeAngel(QPoint const imgPoint, QSize boundingSize);
 	QPointF getEdgePoint(int typePoint);
 	QRect getRotateRectSize();

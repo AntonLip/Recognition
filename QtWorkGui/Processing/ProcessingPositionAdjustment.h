@@ -25,6 +25,7 @@ class ProcessingPositionAdjustment :
     void findKeyPoints(cv::Mat* const masterImage, std::vector<cv::DMatch>& maychOut);
     void findNewCenterPointAndRotateAngel(QtRotateRect roi, cv::Mat* masterImage, cv::Mat &testImage, cv::Rect limitRect);
     void setLimitsRotateAngel(float const rotateAngelOriginalRoi);
+    bool limitRectangelIsInverted(std::vector<int> const& pointsContainsInLimitRectangel, std::vector<cv::DMatch>const& matchIn, QPoint const& originalCenter);
 public:
     ProcessingPositionAdjustment();
     ProcessingPositionAdjustment(const ProcessingPositionAdjustment& drop);
